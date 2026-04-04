@@ -471,7 +471,7 @@ body {
     </div>
     <div class="en-cours-list" id="enCoursList">
       <!-- Rempli dynamiquement par JS -->
-      <div class="en-cours-card" onclick="window.location.href='formation-codage.html'">
+      <div class="en-cours-card" id="enCoursCard" style="cursor:pointer">
         <div class="ec-left">
           <div class="ec-icon" style="background:linear-gradient(135deg,#1A1A2E,#16213E)">⌨️</div>
           <div class="ec-info">
@@ -705,7 +705,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // Navigation vers formation
 function goFormation(id) {
-  window.location.href = 'formation-codage.html';
+  var next = nextModule();
+  window.location.href = next ? next.file : 'formation-codage.html';
 }
 </script>
 
@@ -878,6 +879,11 @@ function initAcademy() {
   }
 
   // Bouton continuer
+  // Wire en-cours card
+  var enCoursCard = document.getElementById('enCoursCard');
+  if(enCoursCard && next) {
+    enCoursCard.onclick = function() { window.location.href = next.file; };
+  }
   var btn = document.getElementById('btnContinue');
   if(btn && next) {
     btn.textContent = pct === 0 ? 'Commencer la formation' : 'Continuer — ' + next.name;
@@ -903,7 +909,7 @@ function initAcademy() {
   if(pctEl2) pctEl2.textContent = pctCodage + '%';
   if(metaEl) metaEl.textContent = 'Module ' + (doneModules+1) + ' sur ' + totalModules + ' · HTML';
   if(btnCard && next) {
-    btnCard.textContent = pct === 0 ? 'Commencer →' : 'Continuer →';
+    btnCard.textContent = pct === 0 ? 'Commencer' : 'Continuer';
     btnCard.onclick = function(e) { e.stopPropagation(); window.location.href = next.file; };
   }
 
