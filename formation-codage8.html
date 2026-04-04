@@ -211,20 +211,35 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <!-- VALIDATION -->
     <div class="validation-zone">
       <div class="vz-title">Criteres de validation</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px">20 criteres — 15/20 minimum pour la certification et <strong style="color:var(--b2)">+5 KRT</strong></div>
       <div class="criteria" id="criteriaList">
-        <div class="crit" id="c1"><div class="crit-dot"></div><div class="crit-text">Structure complete : DOCTYPE, html, head (charset + viewport + title), body</div></div>
-        <div class="crit" id="c2"><div class="crit-dot"></div><div class="crit-text">Balises semantiques : header, main, footer</div></div>
-        <div class="crit" id="c3"><div class="crit-dot"></div><div class="crit-text">Ton nom en h1 et une description en h2</div></div>
-        <div class="crit" id="c4"><div class="crit-dot"></div><div class="crit-text">Au moins un paragraphe p avec du contenu reel</div></div>
-        <div class="crit" id="c5"><div class="crit-dot"></div><div class="crit-text">Une liste ul avec des liens a vers tes reseaux</div></div>
-        <div class="crit" id="c6"><div class="crit-dot"></div><div class="crit-text">Une image img avec src et alt</div></div>
-        <div class="crit" id="c7"><div class="crit-dot"></div><div class="crit-text">Un lien mailto pour le contact</div></div>
+        <div class="crit" id="c1"><div class="crit-dot"></div><div class="crit-text">DOCTYPE correct en premiere ligne</div></div>
+        <div class="crit" id="c2"><div class="crit-dot"></div><div class="crit-text">Balise html avec lang="fr"</div></div>
+        <div class="crit" id="c3"><div class="crit-dot"></div><div class="crit-text">meta charset UTF-8 dans le head</div></div>
+        <div class="crit" id="c4"><div class="crit-dot"></div><div class="crit-text">meta viewport pour le mobile</div></div>
+        <div class="crit" id="c5"><div class="crit-dot"></div><div class="crit-text">Balise title avec un titre pertinent</div></div>
+        <div class="crit" id="c6"><div class="crit-dot"></div><div class="crit-text">Balise header presente</div></div>
+        <div class="crit" id="c7"><div class="crit-dot"></div><div class="crit-text">Balise main presente</div></div>
+        <div class="crit" id="c8"><div class="crit-dot"></div><div class="crit-text">Balise footer presente</div></div>
+        <div class="crit" id="c9"><div class="crit-dot"></div><div class="crit-text">Ton prenom ou nom en h1</div></div>
+        <div class="crit" id="c10"><div class="crit-dot"></div><div class="crit-text">Une description ou metier en h2</div></div>
+        <div class="crit" id="c11"><div class="crit-dot"></div><div class="crit-text">Au moins 2 paragraphes p avec du vrai contenu</div></div>
+        <div class="crit" id="c12"><div class="crit-dot"></div><div class="crit-text">Au moins un mot en strong ou em</div></div>
+        <div class="crit" id="c13"><div class="crit-dot"></div><div class="crit-text">Une liste ul avec minimum 3 elements li</div></div>
+        <div class="crit" id="c14"><div class="crit-dot"></div><div class="crit-text">Au moins 2 liens a href vers des sites externes</div></div>
+        <div class="crit" id="c15"><div class="crit-dot"></div><div class="crit-text">target="_blank" sur les liens externes</div></div>
+        <div class="crit" id="c16"><div class="crit-dot"></div><div class="crit-text">Un lien mailto pour le contact</div></div>
+        <div class="crit" id="c17"><div class="crit-dot"></div><div class="crit-text">Une image img avec src et alt</div></div>
+        <div class="crit" id="c18"><div class="crit-dot"></div><div class="crit-text">Une balise nav dans le header</div></div>
+        <div class="crit" id="c19"><div class="crit-dot"></div><div class="crit-text">Au moins une section ou article dans main</div></div>
+        <div class="crit" id="c20"><div class="crit-dot"></div><div class="crit-text">Page suffisamment complete (plus de 500 caracteres)</div></div>
       </div>
 
       <div class="score-display" id="scoreDisplay">
-        <div class="score-num" id="scoreNum">0/7</div>
+        <div class="score-num" id="scoreNum">0/20</div>
         <div class="score-label" id="scoreLabel">Continue !</div>
         <div class="score-sub" id="scoreSub">Regarde les criteres en rouge et complete ta page.</div>
+        <div id="krtBonus" style="display:none;margin:12px 0;padding:10px 16px;border-radius:10px;background:rgba(107,31,42,0.08);border:1px solid rgba(107,31,42,0.2);font-size:14px;color:var(--b1);font-weight:500">◈ +5 KRT credited — Score superieur a 15/20 !</div>
         <button class="btn-certif" id="btnCertif" onclick="obtenirCertification()">Obtenir ma certification</button>
       </div>
     </div>
@@ -283,16 +298,30 @@ function previewCode() {
 
 function validerCode() {
   var code = document.getElementById('codeInput').value.toLowerCase();
+  var raw = document.getElementById('codeInput').value;
   var sd = document.getElementById('scoreDisplay');
 
   var checks = [
-    code.includes('<!doctype html') && code.includes('charset') && code.includes('viewport') && code.includes('<title') && code.includes('<body'),
-    code.includes('<header') && code.includes('<main') && code.includes('<footer'),
-    code.includes('<h1') && code.includes('<h2'),
-    (code.match(/<p>/g)||[]).length >= 1 && code.length > 200,
-    code.includes('<ul') && code.includes('<li') && code.includes('<a '),
-    code.includes('<img ') && code.includes('src=') && code.includes('alt='),
-    code.includes('mailto:')
+    code.includes('<!doctype html'),
+    code.includes('lang='),
+    code.includes('charset'),
+    code.includes('viewport'),
+    code.includes('<title') && code.includes('<\/title>'),
+    code.includes('<header'),
+    code.includes('<main'),
+    code.includes('<footer'),
+    code.includes('<h1'),
+    code.includes('<h2'),
+    (code.match(/<p>/g)||[]).length >= 2,
+    code.includes('<strong') || code.includes('<em'),
+    code.includes('<ul') && (code.match(/<li>/g)||[]).length >= 3,
+    (code.match(/<a /g)||[]).length >= 2,
+    code.includes('target='),
+    code.includes('mailto:'),
+    code.includes('<img ') && code.includes('alt='),
+    code.includes('<nav'),
+    code.includes('<section') || code.includes('<article'),
+    raw.length > 500
   ];
 
   score = checks.filter(Boolean).length;
@@ -306,25 +335,29 @@ function validerCode() {
   });
 
   sd.classList.add('show');
-  document.getElementById('scoreNum').textContent = score + '/7';
+  document.getElementById('scoreNum').textContent = score + '/20';
 
-  if(score === 7) {
+  if(score >= 15) {
     sd.classList.remove('good');sd.classList.add('perfect');
-    document.getElementById('scoreLabel').textContent = 'Parfait !';
-    document.getElementById('scoreSub').textContent = 'Tu as reussi tous les criteres. Ta page profil est complete et bien structuree.';
+    document.getElementById('scoreLabel').textContent = score === 20 ? 'Score parfait !' : 'Excellent ! ' + score + '/20';
+    document.getElementById('scoreSub').textContent = 'Tu as depasse 15/20. Ta page profil est complete et bien structuree.';
     document.getElementById('btnCertif').style.display = 'inline-block';
     document.getElementById('btnTerminer').style.display = 'block';
     document.getElementById('globalFill').style.width = '100%';
-  } else if(score >= 5) {
+    document.getElementById('krtBonus').style.display = 'block';
+    try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['krt']=(d['krt']||248)+5;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+  } else if(score >= 10) {
     sd.classList.remove('perfect');sd.classList.add('good');
-    document.getElementById('scoreLabel').textContent = 'Presque !';
-    document.getElementById('scoreSub').textContent = 'Regarde les criteres en rouge — il en reste ' + (7-score) + ' a completer.';
+    document.getElementById('scoreLabel').textContent = 'Bien ! ' + score + '/20';
+    document.getElementById('scoreSub').textContent = 'Il te faut 15/20 pour la certification. Il manque encore ' + (15-score) + ' criteres.';
     document.getElementById('btnCertif').style.display = 'none';
+    document.getElementById('krtBonus').style.display = 'none';
   } else {
     sd.classList.remove('perfect');sd.classList.add('good');
-    document.getElementById('scoreLabel').textContent = 'Continue !';
+    document.getElementById('scoreLabel').textContent = score + '/20 — Continue !';
     document.getElementById('scoreSub').textContent = 'Regarde les criteres en rouge et complete ta page.';
     document.getElementById('btnCertif').style.display = 'none';
+    document.getElementById('krtBonus').style.display = 'none';
   }
   sd.scrollIntoView({behavior:'smooth'});
 }
