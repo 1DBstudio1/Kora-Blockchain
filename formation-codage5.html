@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Code — Module 5 — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--code:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.sidebar{display:none!important}.layout{display:block!important}.main{width:100%!important;max-width:740px;margin:0 auto}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{flex:1;min-width:0;padding:0 0 100px}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;color:var(--text);margin-bottom:8px;line-height:1.2}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.12);color:var(--b1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--b2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
+.content{padding:36px 28px;max-width:740px}
+.bloc p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;color:var(--text);margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7;color:var(--text)}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(107,31,42,0.04),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--b1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;color:var(--text);line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#252540}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#E0E0FF}
+.tag{color:#79B8FF}.attr{color:#FFAB70}.val{color:#9ECE6A}.com{color:#637777;font-style:italic}.txt{color:#E0E0FF}
+.resultat{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:0 0 24px}
+.res-head{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.res-head::before{content:'◎';color:var(--b2)}
+.res-body{padding:22px;background:var(--w);font-size:14px;line-height:1.7}
+.res-body label{display:block;font-size:13px;margin-bottom:4px;color:#555}
+.res-body input,.res-body textarea,.res-body select{width:100%;max-width:300px;padding:8px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;margin-bottom:10px;box-sizing:border-box;font-family:sans-serif}
+.res-body input[type="submit"],.res-body button{width:auto;padding:8px 20px;background:#6B1F2A;color:white;border:none;border-radius:6px;cursor:pointer}
+.res-body input[type="checkbox"],.res-body input[type="radio"]{width:auto;margin-right:6px}
+.inputs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+@media(max-width:580px){.inputs-grid{grid-template-columns:1fr}}
+.input-card{padding:16px;border-radius:12px;border:1px solid var(--line);background:var(--w)}
+.input-card-head{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:500}
+.input-demo{font-family:'JetBrains Mono',monospace;font-size:12px;color:#79B8FF;background:var(--code);padding:8px 10px;border-radius:8px;margin-bottom:10px;display:block}
+.input-preview{padding:8px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;color:#333;background:#fafafa}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(107,31,42,0.08);color:var(--b2);border:1px solid rgba(107,31,42,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--b2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:180px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--b2)}
+.exo-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(107,31,42,0.25);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(107,31,42,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px;color:var(--text)}.ia-ctx{font-size:11px;color:var(--b2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(107,31,42,0.05);color:var(--text);border-radius:10px 10px 10px 3px;border:1px solid rgba(107,31,42,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--b2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">Le Code — de zero a independant</div>
+    <div class="header-meta">Module 5 · Les formulaires</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--b2)">◈</span><span class="krt-val">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:49%"></div></div>
+
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">Module 5 — HTML</div>
+    <div class="mod-header-title">Les <em>formulaires.</em></div>
+    <div class="mod-header-sub">Tout ce qui permet a l'utilisateur d'interagir avec un site — s'inscrire, se connecter, rechercher, envoyer un message — c'est un formulaire HTML. C'est le pont entre l'utilisateur et le serveur.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span></div>
+    </div>
+  </div>
+
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">La balise &lt;form&gt;</div>
+    <div class="partie-tab" onclick="switchPartie(2)">Les inputs</div>
+    <div class="partie-tab" onclick="switchPartie(3)">Select, textarea, boutons</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Accessibilite &amp; labels</div>
+    <div class="partie-tab" onclick="switchPartie(5)">Exercice 🎯</div>
+  </div>
+
+  <!-- PARTIE 1 -->
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">Le formulaire de connexion de Kora, <em>c'est du HTML.</em></span>
+      <p>Chaque fois que tu tapes ton email et ton mot de passe quelque part, il y a une balise &lt;form&gt; derriere. La balise form regroupe tous les champs et definit ou et comment envoyer les donnees.</p>
+      <p>En HTML, un formulaire c'est simple : une balise &lt;form&gt; qui contient des champs &lt;input&gt;, des labels &lt;label&gt;, et un bouton &lt;button&gt; ou &lt;input type="submit"&gt; pour envoyer.</p>
+    </div>
+    <div class="code-bloc">
+      <div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">HTML — Formulaire de connexion basique</div></div>
+      <div class="code-body"><pre><span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="val">"/login"</span> <span class="attr">method</span>=<span class="val">"post"</span><span class="tag">&gt;</span>
+
+  <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="val">"email"</span><span class="tag">&gt;</span><span class="txt">Email</span><span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"email"</span> <span class="attr">id</span>=<span class="val">"email"</span> <span class="attr">name</span>=<span class="val">"email"</span>
+         <span class="attr">placeholder</span>=<span class="val">"votre@email.com"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+
+  <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="val">"password"</span><span class="tag">&gt;</span><span class="txt">Mot de passe</span><span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"password"</span> <span class="attr">id</span>=<span class="val">"password"</span> <span class="attr">name</span>=<span class="val">"password"</span>
+         <span class="attr">required</span><span class="tag">&gt;</span>
+
+  <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="tag">&gt;</span><span class="txt">Se connecter</span><span class="tag">&lt;/button&gt;</span>
+
+<span class="tag">&lt;/form&gt;</span></pre></div>
+    </div>
+    <div class="resultat">
+      <div class="res-head">Rendu dans le navigateur</div>
+      <div class="res-body">
+        <label>Email</label>
+        <input type="email" placeholder="votre@email.com">
+        <label>Mot de passe</label>
+        <input type="password" placeholder="••••••••">
+        <input type="submit" value="Se connecter">
+      </div>
+    </div>
+    <div class="hl"><span class="hlt">action et method</span>L'attribut action dit ou envoyer les donnees (une URL de ton serveur). L'attribut method dit comment — GET (donnees dans l'URL, pour les recherches) ou POST (donnees dans le corps, pour les mots de passe et donnees sensibles). En HTML pur, sans backend, les formulaires ne "font" rien — c'est JavaScript ou un serveur qui traite les donnees.</div>
+    <div class="fun-fact">
+      <div class="ff-icon">🔐</div>
+      <div><div class="ff-title">Le formulaire de connexion de Kora</div><div class="ff-text">La page de connexion que tu as vue sur academy.html est un formulaire HTML — exactement comme celui qu'on vient de voir. Les inputs de type "text" et "password", le bouton. La difference c'est qu'on a ajoute du JavaScript pour verifier les identifiants. Sur un vrai backend, les donnees iraient sur un serveur qui verifie dans une base de donnees.</div></div>
+    </div>
+  </div>
+
+  <!-- PARTIE 2 -->
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">La balise &lt;input&gt; a <em>une dizaine de types differents.</em></span>
+      <p>C'est la balise la plus versatile du HTML. Selon l'attribut type, elle change completement de comportement — champ texte, email, mot de passe, case a cocher, bouton radio, nombre, date...</p>
+    </div>
+    <div class="inputs-grid">
+      <div class="input-card">
+        <div class="input-card-head">type="text"</div>
+        <code class="input-demo">&lt;input type="text"&gt;</code>
+        <input type="text" placeholder="Texte libre" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px">
+      </div>
+      <div class="input-card">
+        <div class="input-card-head">type="email"</div>
+        <code class="input-demo">&lt;input type="email"&gt;</code>
+        <input type="email" placeholder="email@exemple.com" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px">
+      </div>
+      <div class="input-card">
+        <div class="input-card-head">type="password"</div>
+        <code class="input-demo">&lt;input type="password"&gt;</code>
+        <input type="password" placeholder="Masque le texte" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px">
+      </div>
+      <div class="input-card">
+        <div class="input-card-head">type="number"</div>
+        <code class="input-demo">&lt;input type="number"&gt;</code>
+        <input type="number" placeholder="42" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px">
+      </div>
+      <div class="input-card">
+        <div class="input-card-head">type="checkbox"</div>
+        <code class="input-demo">&lt;input type="checkbox"&gt;</code>
+        <div style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="cb1"><label for="cb1" style="font-size:13px">J'accepte</label></div>
+      </div>
+      <div class="input-card">
+        <div class="input-card-head">type="radio"</div>
+        <code class="input-demo">&lt;input type="radio"&gt;</code>
+        <div style="display:flex;gap:12px">
+          <div style="display:flex;align-items:center;gap:4px"><input type="radio" name="r1" id="r1"><label for="r1" style="font-size:13px">Oui</label></div>
+          <div style="display:flex;align-items:center;gap:4px"><input type="radio" name="r1" id="r2"><label for="r2" style="font-size:13px">Non</label></div>
+        </div>
+      </div>
+      <div class="input-card">
+        <div class="input-card-head">type="date"</div>
+        <code class="input-demo">&lt;input type="date"&gt;</code>
+        <input type="date" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px">
+      </div>
+      <div class="input-card">
+        <div class="input-card-head">type="range"</div>
+        <code class="input-demo">&lt;input type="range"&gt;</code>
+        <input type="range" style="width:100%">
+      </div>
+    </div>
+    <div class="hl"><span class="hlt">placeholder vs value</span>placeholder est le texte gris qu'on voit dans le champ vide — il disparait quand l'utilisateur tape. C'est indicatif, pas une vraie valeur. value c'est la valeur par defaut deja remplie dans le champ que l'utilisateur peut modifier. required rend le champ obligatoire — le navigateur bloque l'envoi du formulaire si le champ est vide.</div>
+  </div>
+
+  <!-- PARTIE 3 -->
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">Trois autres elements <em>indispensables.</em></span>
+      <p>En plus des inputs, tu as besoin de &lt;textarea&gt; pour les longs textes, &lt;select&gt; pour les menus deroulants, et &lt;button&gt; pour les actions.</p>
+    </div>
+    <div class="code-bloc">
+      <div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">HTML — textarea, select, button</div></div>
+      <div class="code-body"><pre><span class="com">&lt;!-- Zone de texte multi-lignes --&gt;</span>
+<span class="tag">&lt;textarea</span> <span class="attr">name</span>=<span class="val">"message"</span> <span class="attr">rows</span>=<span class="val">"4"</span>
+           <span class="attr">placeholder</span>=<span class="val">"Votre message..."</span><span class="tag">&gt;&lt;/textarea&gt;</span>
+
+<span class="com">&lt;!-- Menu deroulant --&gt;</span>
+<span class="tag">&lt;select</span> <span class="attr">name</span>=<span class="val">"domaine"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="val">""</span><span class="tag">&gt;</span><span class="txt">Choisir un domaine</span><span class="tag">&lt;/option&gt;</span>
+  <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="val">"crypto"</span><span class="tag">&gt;</span><span class="txt">Crypto &amp; Web3</span><span class="tag">&lt;/option&gt;</span>
+  <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="val">"trading"</span><span class="tag">&gt;</span><span class="txt">Trading</span><span class="tag">&lt;/option&gt;</span>
+  <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="val">"code"</span><span class="tag">&gt;</span><span class="txt">Code</span><span class="tag">&lt;/option&gt;</span>
+<span class="tag">&lt;/select&gt;</span>
+
+<span class="com">&lt;!-- Boutons --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="tag">&gt;</span><span class="txt">Envoyer</span><span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"reset"</span><span class="tag">&gt;</span><span class="txt">Effacer</span><span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"button"</span><span class="tag">&gt;</span><span class="txt">Action JS</span><span class="tag">&lt;/button&gt;</span></pre></div>
+    </div>
+    <div class="resultat">
+      <div class="res-head">Rendu dans le navigateur</div>
+      <div class="res-body">
+        <label>Votre message</label>
+        <textarea rows="3" placeholder="Votre message..." style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px;resize:vertical;font-family:sans-serif"></textarea>
+        <label>Domaine d'interet</label>
+        <select style="width:100%;max-width:300px;padding:8px;border:1px solid #ddd;border-radius:6px;font-size:13px;margin-bottom:10px">
+          <option>Choisir un domaine</option>
+          <option>Crypto et Web3</option>
+          <option>Trading</option>
+          <option>Code</option>
+        </select><br>
+        <button style="padding:8px 20px;background:#6B1F2A;color:white;border:none;border-radius:6px;cursor:pointer;margin-right:8px">Envoyer</button>
+        <button style="padding:8px 20px;background:transparent;color:#6B1F2A;border:1px solid #6B1F2A;border-radius:6px;cursor:pointer">Effacer</button>
+      </div>
+    </div>
+    <div class="fun-fact">
+      <div class="ff-icon">🔍</div>
+      <div><div class="ff-title">La barre de recherche de Google</div><div class="ff-text">La barre de recherche de Google — la plus utilisee du monde, des milliards de fois par jour — c'est un input type="text" dans un form avec method="get". Quand tu cherches "Bitcoin", le formulaire envoie les donnees a google.com/search?q=Bitcoin. Tu peux voir le ?q= dans l'URL — c'est la valeur de l'input qui a ete envoyee via GET.</div></div>
+    </div>
+  </div>
+
+  <!-- PARTIE 4 -->
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">Le label — le detail qui change <em>tout pour l'accessibilite.</em></span>
+      <p>La balise &lt;label&gt; est souvent negligee mais elle est cruciale. Elle lie visuellement et semantiquement un texte descriptif a son champ. Quand c'est bien fait, cliquer sur le label active automatiquement le champ correspondant.</p>
+      <p>La connexion se fait via l'attribut for du label et l'id du champ — ils doivent etre identiques.</p>
+    </div>
+    <div class="code-bloc">
+      <div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">HTML — Labels corrects</div></div>
+      <div class="code-body"><pre><span class="com">&lt;!-- BIEN — label lie au champ --&gt;</span>
+<span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="val">"username"</span><span class="tag">&gt;</span><span class="txt">Identifiant</span><span class="tag">&lt;/label&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"username"</span> <span class="attr">name</span>=<span class="val">"username"</span><span class="tag">&gt;</span>
+<span class="com">&lt;!-- Cliquer sur "Identifiant" active le champ --&gt;</span>
+
+<span class="com">&lt;!-- BIEN — label englobe le champ --&gt;</span>
+<span class="tag">&lt;label&gt;</span>
+  <span class="txt">Identifiant</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"username"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/label&gt;</span>
+
+<span class="com">&lt;!-- MAL — pas de lien label/champ --&gt;</span>
+<span class="txt">Identifiant</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span><span class="tag">&gt;</span>
+<span class="com">&lt;!-- Lecteurs d'ecran ne savent pas a quoi sert ce champ --&gt;</span></pre></div>
+    </div>
+    <div class="hl"><span class="hlt">Les attributs importants</span>required — champ obligatoire. disabled — champ desactive. readonly — visible mais non modifiable. autocomplete="off" — desactive la suggestion du navigateur. maxlength="100" — limite le nombre de caracteres. min et max — pour les inputs numeriques et dates. pattern — expression reguliere pour valider le format.</div>
+  </div>
+
+  <!-- PARTIE 5 -->
+  <div class="content" id="partie5" style="display:none">
+    <div class="bloc">
+      <span class="big">Construis le formulaire <em>d'inscription de Kora.</em></span>
+    </div>
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Formulaire d'inscription complet</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Tu dois creer le formulaire d'inscription de Kora. Il collecte les informations de base de l'utilisateur avec tous les bons types de champs et les labels corrects.</div>
+        <div class="exo-mission">
+          <div class="exo-mission-title">Le formulaire doit contenir</div>
+          <ul>
+            <li>Une balise &lt;form&gt;</li>
+            <li>Un champ texte pour le prenom avec label</li>
+            <li>Un champ email avec label et required</li>
+            <li>Un champ password avec label et required</li>
+            <li>Un select pour choisir le domaine d'interet</li>
+            <li>Une case a cocher pour accepter les CGU</li>
+            <li>Un bouton submit</li>
+          </ul>
+        </div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="Ecris ton formulaire HTML ici..."></textarea>
+        <div class="exo-actions">
+          <button class="btn-valider" onclick="validerExo()">Valider</button>
+          <button class="btn-indice" onclick="showIndice()">Indice</button>
+        </div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">Module 5 · Formulaires</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur les formulaires ? Je suis la.</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=5;
+function switchPartie(n){
+  for(var i=1;i<=tp;i++){
+    var el=document.getElementById('partie'+i);if(el)el.style.display='none';
+    var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');
+  }
+  var t=document.getElementById('partie'+n);if(t)t.style.display='block';
+  var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');
+  cp=n;updateNav();window.scrollTo(0,0);
+}
+function terminerModule(){
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage5']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+  window.location.href='academy.html';
+}
+function nextPartie(){
+  if(cp<tp){
+    try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage5']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+    switchPartie(cp+1);
+  }else{terminerModule();}
+}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){
+  document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';
+  document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';
+  document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;
+  document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;
+  document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';
+  document.getElementById('globalFill').style.width=(49+Math.round((cp/tp)*12))+'%';
+}
+var speaking=false;
+function toggleListen(){
+  var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');
+  if(!speaking){
+    var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);
+    u.lang='fr-FR';u.rate=0.88;
+    u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};
+    speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';
+  }else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}
+}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){
+  var t=iaInp.value.trim();if(!t)return;
+  var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  setTimeout(function(){
+    var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  },600);
+}
+function getR(q){
+  var q2=q.toLowerCase();
+  if(q2.includes('action'))return 'L\'attribut action de form dit ou envoyer les donnees — une URL de ton serveur. Sans action, le formulaire recharge juste la page. method="post" envoie les donnees dans le corps de la requete (pour les mots de passe). method="get" les met dans l\'URL (pour les recherches).';
+  if(q2.includes('required'))return 'required est un attribut booleen — tu l\'ecris juste comme ca sans valeur. Le navigateur bloque l\'envoi du formulaire si le champ requis est vide et affiche un message d\'erreur natif. C\'est la validation HTML cote client — cote serveur il faut toujours re-verifier.';
+  if(q2.includes('label')&&q2.includes('for'))return 'Le for du label doit correspondre exactement a l\'id de l\'input. Si label for="email" et input id="email-champ", ca ne marche pas. Les valeurs doivent etre identiques. Quand c\'est bien fait, cliquer sur le label active le champ — tres utile sur mobile.';
+  if(q2.includes('select')&&q2.includes('option'))return 'Le select cree un menu deroulant. Chaque option dans le select a une value (ce qui est envoye au serveur) et un texte (ce qui s\'affiche). La premiere option est souvent vide avec un texte indicatif comme "Choisir...". Ajoute selected a une option pour la pre-selectionner.';
+  return 'Bonne question sur les formulaires. form contient tout, input pour les champs, label pour les descriptions, button pour envoyer. Tu veux que je detail un point precis ?';
+}
+iaSend.addEventListener('click',sendIa);
+iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){
+  var input=document.getElementById('exoInput').value.toLowerCase();
+  var fb=document.getElementById('exoFeedback');
+  var hasForm=input.includes('<form');
+  var hasText=input.includes('type="text"')||input.includes("type='text'");
+  var hasEmail=input.includes('type="email"')||input.includes("type='email'");
+  var hasPass=input.includes('type="password"')||input.includes("type='password'");
+  var hasSelect=input.includes('<select')&&input.includes('<option');
+  var hasCb=input.includes('type="checkbox"')||input.includes("type='checkbox'");
+  var hasSubmit=input.includes('type="submit"')||input.includes('type="submit"')||input.includes('<button');
+  var hasLabel=input.includes('<label');
+  var score=[hasForm,hasText,hasEmail,hasPass,hasSelect,hasCb,hasSubmit,hasLabel].filter(Boolean).length;
+  if(score>=7){fb.className='exo-feedback ok';fb.innerHTML='Parfait ! Formulaire complet avec tous les elements demandes. C\'est exactement ce dont Kora a besoin pour son inscription.';}
+  else if(score>=5){
+    var m=[];
+    if(!hasForm)m.push('balise form');if(!hasText)m.push('input text');if(!hasEmail)m.push('input email');
+    if(!hasPass)m.push('input password');if(!hasSelect)m.push('select');if(!hasCb)m.push('checkbox');
+    if(!hasSubmit)m.push('bouton submit');if(!hasLabel)m.push('label');
+    fb.className='exo-feedback ok';fb.innerHTML='Bien ! Il manque : '+m.join(', ')+'.';}
+  else{fb.className='exo-feedback ko';fb.innerHTML='Continue ! Il faut une balise form, des inputs de differents types, un select, une checkbox, un bouton submit, et des labels.';}
+  fb.style.display='block';
+}
+function showIndice(){
+  var fb=document.getElementById('exoFeedback');
+  fb.className='exo-feedback ko';
+  fb.innerHTML='Indice :'
+    +'<br>&lt;form action="/register" method="post"&gt;'
+    +'<br>&nbsp;&nbsp;&lt;label for="prenom"&gt;Prenom&lt;/label&gt;'
+    +'<br>&nbsp;&nbsp;&lt;input type="text" id="prenom" name="prenom"&gt;'
+    +'<br>&nbsp;&nbsp;&lt;label for="email"&gt;Email&lt;/label&gt;'
+    +'<br>&nbsp;&nbsp;&lt;input type="email" id="email" required&gt;'
+    +'<br>&nbsp;&nbsp;&lt;select name="domaine"&gt;&lt;option&gt;Crypto&lt;/option&gt;&lt;/select&gt;'
+    +'<br>&nbsp;&nbsp;&lt;input type="checkbox" id="cgu"&gt;&lt;label for="cgu"&gt;J\'accepte&lt;/label&gt;'
+    +'<br>&nbsp;&nbsp;&lt;button type="submit"&gt;S\'inscrire&lt;/button&gt;'
+    +'<br>&lt;/form&gt;';
+  fb.style.display='block';
+}
+updateNav();
+</script>
+</body>
+</html>

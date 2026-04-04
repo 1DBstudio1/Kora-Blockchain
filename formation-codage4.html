@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Code — Module 4 — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--code:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.sidebar{display:none!important}.layout{display:block!important}.main{width:100%!important;max-width:740px;margin:0 auto}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.15s;flex-shrink:0}
+.header-back:hover{border-color:var(--b2);color:var(--b1)}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{flex:1;min-width:0;padding:0 0 100px}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;color:var(--text);margin-bottom:8px;line-height:1.2}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.12);color:var(--b1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.18s}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--b2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
+.content{padding:36px 28px;max-width:740px}
+.bloc p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;color:var(--text);margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7;color:var(--text)}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(107,31,42,0.04),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--b1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;color:var(--text);line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#252540}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#E0E0FF}
+.tag{color:#79B8FF}.attr{color:#FFAB70}.val{color:#9ECE6A}.com{color:#637777;font-style:italic}.txt{color:#E0E0FF}
+.resultat{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:0 0 24px}
+.res-head{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.res-head::before{content:'◎';color:var(--b2)}
+.res-body{padding:22px;background:var(--w);font-size:14px;line-height:1.7}
+.res-body a{color:#0070F3;text-decoration:underline}
+.res-body img{max-width:100%;border-radius:8px;margin:4px 0}
+.res-body p{margin-bottom:8px;color:#333}
+.lignes{margin:24px 0;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.ligne-row{display:flex;gap:0;align-items:stretch;border-bottom:1px solid var(--line)}
+.ligne-row:last-child{border-bottom:none}
+.ligne-code{font-family:'JetBrains Mono',monospace;font-size:11px;color:#79B8FF;background:var(--code);padding:12px 14px;min-width:180px;flex-shrink:0;display:flex;align-items:center;border-right:1px solid rgba(255,255,255,0.05)}
+.ligne-expl{font-size:13px;color:var(--text);line-height:1.6;padding:12px 16px;background:var(--w)}
+@media(max-width:580px){.ligne-row{flex-direction:column}.ligne-code{min-width:auto}}
+.attrs-table{margin:24px 0;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.at-head{display:grid;grid-template-columns:140px 1fr 1fr;background:var(--code);padding:10px 16px;gap:14px}
+.at-head span{font-size:11px;font-weight:500;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.at-row{display:grid;grid-template-columns:140px 1fr 1fr;padding:12px 16px;gap:14px;border-bottom:1px solid var(--line);background:var(--w);align-items:start}
+.at-row:last-child{border-bottom:none}
+.at-row:hover{background:rgba(107,31,42,0.02)}
+.at-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:#79B8FF;background:var(--code);padding:4px 7px;border-radius:5px;display:inline-block}
+.at-ex{font-size:13px;color:var(--muted);line-height:1.5}
+.at-note{font-size:12px;color:var(--muted);line-height:1.5}
+@media(max-width:600px){.at-head,.at-row{grid-template-columns:120px 1fr}}
+.demo-interactive{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.demo-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.demo-head::before{content:'⚡';font-size:14px}
+.demo-body{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:600px){.demo-body{grid-template-columns:1fr}}
+.demo-left{background:var(--code);padding:16px}
+.demo-left textarea{width:100%;min-height:140px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0E0FF;resize:none;line-height:1.7}
+.demo-right{background:var(--w);padding:16px;border-left:1px solid var(--line)}
+.demo-label{font-size:11px;color:var(--light);margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase}
+.demo-result{font-size:14px;line-height:1.7;color:var(--text);min-height:100px}
+.demo-result a{color:#0070F3;text-decoration:underline;cursor:pointer}
+.demo-result img{max-width:100%;border-radius:6px;display:block;margin:4px 0}
+.quiz{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.quiz-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.quiz-icon{font-size:20px}.quiz-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.quiz-body{padding:20px;background:var(--w)}
+.quiz-q{font-size:15px;font-weight:500;color:var(--text);margin-bottom:16px;line-height:1.5}
+.quiz-options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.quiz-opt{padding:12px 16px;border-radius:10px;border:1px solid var(--line);font-size:14px;color:var(--text);cursor:pointer;transition:all 0.15s;background:var(--w);font-family:'DM Sans',sans-serif;text-align:left}
+.quiz-opt:hover{border-color:rgba(107,31,42,0.2);background:rgba(107,31,42,0.03)}
+.quiz-opt.correct{border-color:#28CA41;background:rgba(40,202,65,0.08);color:#1A6B3A}
+.quiz-opt.wrong{border-color:#FF5F57;background:rgba(255,95,87,0.08);color:#8B1A1A}
+.quiz-feedback{display:none;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.6}
+.quiz-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.quiz-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(107,31,42,0.08);color:var(--b2);border:1px solid rgba(107,31,42,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--b2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:160px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--b2)}
+.exo-textarea::placeholder{color:var(--light);font-family:'DM Sans',sans-serif}
+.exo-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s}
+.btn-indice:hover{border-color:var(--b2);color:var(--b1)}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(107,31,42,0.25);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(107,31,42,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px;color:var(--text)}.ia-ctx{font-size:11px;color:var(--b2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(107,31,42,0.05);color:var(--text);border-radius:10px 10px 10px 3px;border:1px solid rgba(107,31,42,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--b2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">Le Code — de zero a independant</div>
+    <div class="header-meta">Module 4 · Liens et images</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--b2)">◈</span><span class="krt-val">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:37%"></div></div>
+
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">Module 4 — HTML</div>
+    <div class="mod-header-title">Liens et <em>images.</em></div>
+    <div class="mod-header-sub">Le web sans liens c'est juste des documents isoles. Sans images c'est du texte brut. Dans ce module tu apprends a connecter des pages entre elles et a integrer des visuels — les deux fondations du web tel qu'on le connait.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter ce module</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:25%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/4</span></div>
+    </div>
+  </div>
+
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">Les liens &lt;a&gt;</div>
+    <div class="partie-tab" onclick="switchPartie(2)">Types de liens</div>
+    <div class="partie-tab" onclick="switchPartie(3)">Les images &lt;img&gt;</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Exercice 🎯</div>
+  </div>
+
+  <!-- PARTIE 1 -->
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">Le web c'est des milliards de pages <em>connectees entre elles.</em></span>
+      <p>La balise qui rend ca possible c'est <strong>&lt;a&gt;</strong> — anchor, ancre. Elle transforme n'importe quel texte ou image en lien cliquable. C'est l'invention qui a cree internet tel qu'on le connait.</p>
+      <p>Tim Berners-Lee, l'inventeur du web, a dit que les hyperliens sont la caracteristique la plus importante du HTML. Avant les liens, les documents informatiques etaient isoles. Les liens les ont tous connectes.</p>
+    </div>
+    <div class="code-bloc">
+      <div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">HTML — Anatomie d'un lien</div></div>
+      <div class="code-body"><pre><span class="com">&lt;!-- Structure de base --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://kora.io"</span><span class="tag">&gt;</span><span class="txt">Visiter Kora</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="com">&lt;!-- href = la destination (Hypertext REFerence) --&gt;</span>
+<span class="com">&lt;!-- Le texte entre les balises = ce qui s'affiche --&gt;</span>
+
+<span class="com">&lt;!-- Exemples reels --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://google.com"</span><span class="tag">&gt;</span><span class="txt">Rechercher</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://instagram.com"</span><span class="tag">&gt;</span><span class="txt">Instagram</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://bitcoin.org"</span><span class="tag">&gt;</span><span class="txt">Bitcoin.org</span><span class="tag">&lt;/a&gt;</span></pre></div>
+    </div>
+    <div class="resultat">
+      <div class="res-head">Rendu dans le navigateur</div>
+      <div class="res-body">
+        <p><a href="#">Visiter Kora</a></p>
+        <p><a href="#">Rechercher</a> &nbsp; <a href="#">Instagram</a> &nbsp; <a href="#">Bitcoin.org</a></p>
+      </div>
+    </div>
+    <div class="lignes">
+      <div class="ligne-row"><div class="ligne-code">&lt;a&gt;</div><div class="ligne-expl"><strong>Anchor</strong> — la balise de lien. Elle a toujours besoin d'un attribut href pour savoir ou pointer.</div></div>
+      <div class="ligne-row"><div class="ligne-code">href="..."</div><div class="ligne-expl"><strong>Hypertext REFerence</strong> — la destination. Peut etre une URL complete, un fichier local, une section de la meme page, ou un email.</div></div>
+      <div class="ligne-row"><div class="ligne-code">Texte du lien</div><div class="ligne-expl">Ce qui s'affiche et sur quoi l'utilisateur clique. Doit etre descriptif — pas "cliquez ici" mais "lire l'article complet".</div></div>
+    </div>
+    <div class="fun-fact">
+      <div class="ff-icon">🌐</div>
+      <div><div class="ff-title">Chiffre</div><div class="ff-text">Il y a plus de 130 trillions de liens sur internet selon Google. Chacun d'eux est une balise &lt;a href="..."&gt;. La personne qui a invente la balise &lt;a&gt; en 1991 ne pensait pas que ca allait creer l'economie numerique mondiale qu'on connait aujourd'hui.</div></div>
+    </div>
+    <div class="quiz">
+      <div class="quiz-head"><span class="quiz-icon">🎯</span><span class="quiz-title">Verification rapide</span></div>
+      <div class="quiz-body">
+        <div class="quiz-q">Tu veux creer un lien vers le site de Kora. Laquelle de ces syntaxes est correcte ?</div>
+        <div class="quiz-options" id="q1opts">
+          <button class="quiz-opt" onclick="cq(this,'q1',false)">&lt;link url="https://kora.io"&gt;Kora&lt;/link&gt;</button>
+          <button class="quiz-opt" onclick="cq(this,'q1',true)">&lt;a href="https://kora.io"&gt;Kora&lt;/a&gt;</button>
+          <button class="quiz-opt" onclick="cq(this,'q1',false)">&lt;a src="https://kora.io"&gt;Kora&lt;/a&gt;</button>
+        </div>
+        <div class="quiz-feedback" id="q1fb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTIE 2 -->
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">Un lien peut pointer vers <em>quatre types de destinations.</em></span>
+      <p>Pas seulement vers d'autres sites — vers des pages locales, des sections de la meme page, des emails, des fichiers. Chaque cas a sa syntaxe propre.</p>
+    </div>
+    <div class="attrs-table">
+      <div class="at-head"><span>Type</span><span>Syntaxe</span><span>Utilisation</span></div>
+      <div class="at-row">
+        <div><span class="at-tag">Externe</span></div>
+        <div class="at-ex"><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg);padding:2px 5px;border-radius:4px">href="https://..."</code></div>
+        <div class="at-note">Autre site web. Toujours avec https://. Ajouter target="_blank" pour ouvrir dans un nouvel onglet.</div>
+      </div>
+      <div class="at-row">
+        <div><span class="at-tag">Interne</span></div>
+        <div class="at-ex"><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg);padding:2px 5px;border-radius:4px">href="about.html"</code></div>
+        <div class="at-note">Autre page de ton propre site. Juste le nom du fichier — pas besoin d'URL complete.</div>
+      </div>
+      <div class="at-row">
+        <div><span class="at-tag">Ancre</span></div>
+        <div class="at-ex"><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg);padding:2px 5px;border-radius:4px">href="#section"</code></div>
+        <div class="at-note">Section de la meme page. L'element cible doit avoir id="section".</div>
+      </div>
+      <div class="at-row">
+        <div><span class="at-tag">Email</span></div>
+        <div class="at-ex"><code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg);padding:2px 5px;border-radius:4px">href="mailto:..."</code></div>
+        <div class="at-note">Ouvre le client email de l'utilisateur avec l'adresse pre-remplie.</div>
+      </div>
+    </div>
+    <div class="code-bloc">
+      <div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">HTML — Les 4 types en pratique</div></div>
+      <div class="code-body"><pre><span class="com">&lt;!-- Lien externe — ouvre dans nouvel onglet --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://kora.io"</span> <span class="attr">target</span>=<span class="val">"_blank"</span> <span class="attr">rel</span>=<span class="val">"noopener"</span><span class="tag">&gt;</span>
+  Visiter Kora
+<span class="tag">&lt;/a&gt;</span>
+
+<span class="com">&lt;!-- Lien interne — autre page du meme site --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"academy.html"</span><span class="tag">&gt;</span><span class="txt">Aller a l'Academy</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="com">&lt;!-- Ancre — section de la meme page --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#contact"</span><span class="tag">&gt;</span><span class="txt">Aller au contact</span><span class="tag">&lt;/a&gt;</span>
+<span class="com">&lt;!-- ... plus bas dans la page : --&gt;</span>
+<span class="tag">&lt;section</span> <span class="attr">id</span>=<span class="val">"contact"</span><span class="tag">&gt;</span><span class="txt">Formulaire ici</span><span class="tag">&lt;/section&gt;</span>
+
+<span class="com">&lt;!-- Email --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"mailto:contact@kora.io"</span><span class="tag">&gt;</span><span class="txt">Nous contacter</span><span class="tag">&lt;/a&gt;</span></pre></div>
+    </div>
+    <div class="hl"><span class="hlt">target="_blank" et rel="noopener"</span>Quand tu ouvres un lien externe dans un nouvel onglet avec target="_blank", ajoute toujours rel="noopener noreferrer". Sans ca, le site cible peut acceder a la fenetre parente de ton site via JavaScript — c'est une faille de securite connue. Tous les developpeurs serieux le font systematiquement.</div>
+    <div class="fun-fact">
+      <div class="ff-icon">🔗</div>
+      <div><div class="ff-title">Le menu de navigation de Kora</div><div class="ff-text">Tous les liens de navigation de Kora — "Pour toi", "Journal", "Formation", "Profil" — sont des balises &lt;a&gt; ou des elements avec des onclick JavaScript. La difference c'est que les vrais liens &lt;a&gt; sont meilleurs pour le SEO et l'accessibilite. Un robot Google peut suivre un &lt;a href&gt; mais pas forcement un onclick.</div></div>
+    </div>
+  </div>
+
+  <!-- PARTIE 3 -->
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">Les images avec <em>&lt;img&gt; — la balise auto-fermante.</em></span>
+      <p>La balise &lt;img&gt; est speciale — elle n'a pas de balise fermante. On dit qu'elle est <strong>auto-fermante</strong> ou "void element". Elle affiche directement une image sans contenu a entourer.</p>
+      <p>Deux attributs sont obligatoires : <strong>src</strong> (la source de l'image) et <strong>alt</strong> (le texte alternatif pour l'accessibilite et le SEO).</p>
+    </div>
+    <div class="code-bloc">
+      <div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">HTML — Images</div></div>
+      <div class="code-body"><pre><span class="com">&lt;!-- Image locale (dans le meme dossier) --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"logo.jpg"</span> <span class="attr">alt</span>=<span class="val">"Logo Kora"</span><span class="tag">&gt;</span>
+
+<span class="com">&lt;!-- Image avec dimensions --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"photo.jpg"</span> <span class="attr">alt</span>=<span class="val">"Photo de profil"</span>
+     <span class="attr">width</span>=<span class="val">"300"</span> <span class="attr">height</span>=<span class="val">"200"</span><span class="tag">&gt;</span>
+
+<span class="com">&lt;!-- Image depuis une URL externe --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"https://site.com/image.jpg"</span>
+     <span class="attr">alt</span>=<span class="val">"Description de l'image"</span><span class="tag">&gt;</span>
+
+<span class="com">&lt;!-- Image cliquable = img dans un lien a --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://kora.io"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"logo.jpg"</span> <span class="attr">alt</span>=<span class="val">"Kora"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/a&gt;</span></pre></div>
+    </div>
+    <div class="lignes">
+      <div class="ligne-row"><div class="ligne-code">src="..."</div><div class="ligne-expl"><strong>Source</strong> — le chemin vers l'image. Peut etre relatif (dans le meme dossier), absolu (chemin complet), ou une URL externe.</div></div>
+      <div class="ligne-row"><div class="ligne-code">alt="..."</div><div class="ligne-expl"><strong>Texte alternatif</strong> — s'affiche si l'image ne charge pas. Lu par les lecteurs d'ecran. Indexe par Google Images. TOUJOURS le mettre.</div></div>
+      <div class="ligne-row"><div class="ligne-code">width / height</div><div class="ligne-expl">Dimensions en pixels. Important pour eviter le "layout shift" — la page qui saute quand l'image charge.</div></div>
+    </div>
+    <div class="hl"><span class="hlt">Formats d'images sur le web</span>JPG — photos, compresse bien, perd un peu de qualite. PNG — logos, screenshots, transparence. WebP — format moderne, meilleur compression que JPG et PNG. SVG — icones et logos vectoriels, infini zoom sans perte. GIF — animations simples. En 2024, privilegie WebP pour les photos et SVG pour les icones.</div>
+    <div class="demo-interactive">
+      <div class="demo-head">Editeur live — teste liens et images</div>
+      <div class="demo-body">
+        <div class="demo-left">
+          <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase">Modifie ici</div>
+          <textarea id="liveCode" oninput="updateLive()">&lt;a href="https://kora.io"&gt;Visiter Kora&lt;/a&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;a href="mailto:contact@kora.io"&gt;Nous ecrire&lt;/a&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;img src="https://via.placeholder.com/200x100/6B1F2A/white?text=Kora" alt="Logo Kora" width="200"&gt;</textarea>
+        </div>
+        <div class="demo-right">
+          <div class="demo-label">Resultat</div>
+          <div class="demo-result" id="liveResult">
+            <a href="#">Visiter Kora</a><br><br>
+            <a href="#">Nous ecrire</a><br><br>
+            <img src="https://via.placeholder.com/200x100/6B1F2A/white?text=Kora" alt="Logo Kora" width="200">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fun-fact">
+      <div class="ff-icon">📸</div>
+      <div><div class="ff-title">Instagram et les images HTML</div><div class="ff-text">Quand tu scrolles Instagram, chaque photo est une balise &lt;img&gt; avec un attribut src pointant vers les serveurs de Meta. La difference avec ton code c'est que l'URL src est generee dynamiquement par JavaScript selon ton profil et tes abonnements. Mais a la base, c'est exactement la meme balise &lt;img src="..." alt="..."&gt; que tu viens d'apprendre.</div></div>
+    </div>
+  </div>
+
+  <!-- PARTIE 4 — EXERCICE -->
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">Construis une page de <em>liens et d'images.</em></span>
+      <p>Tu connais maintenant tout ce qu'il faut pour creer une page avec des liens et des images. C'est le moment de tout assembler.</p>
+    </div>
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Page de ressources Kora</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Tu crees une page "Ressources" pour Kora avec des liens utiles et une image. Elle doit contenir des liens vers des sites externes, un lien email, et au moins une image.</div>
+        <div class="exo-mission">
+          <div class="exo-mission-title">Ta page doit contenir</div>
+          <ul>
+            <li>Un &lt;h1&gt; "Ressources"</li>
+            <li>Au moins 2 liens &lt;a href&gt; vers des sites externes avec target="_blank"</li>
+            <li>Un lien email avec href="mailto:..."</li>
+            <li>Une image &lt;img&gt; avec src et alt</li>
+            <li>Les liens groupes dans une liste &lt;ul&gt;&lt;li&gt;</li>
+          </ul>
+        </div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="Ecris ton code HTML ici..."></textarea>
+        <div class="exo-actions">
+          <button class="btn-valider" onclick="validerExo()">Valider</button>
+          <button class="btn-indice" onclick="showIndice()">Indice</button>
+        </div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">Module 4 · Liens et images</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Je suis la pour les questions sur les liens et les images.</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 4</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=4;
+function switchPartie(n){
+  for(var i=1;i<=tp;i++){
+    var el=document.getElementById('partie'+i);if(el)el.style.display='none';
+    var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');
+  }
+  var t=document.getElementById('partie'+n);if(t)t.style.display='block';
+  var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');
+  cp=n;updateNav();window.scrollTo(0,0);
+}
+function terminerModule(){
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage4']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+  window.location.href='academy.html';
+}
+function nextPartie(){
+  if(cp<tp){
+    try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage4']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+    switchPartie(cp+1);
+  }else{terminerModule();}
+}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){
+  document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';
+  document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';
+  document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;
+  document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;
+  document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';
+  document.getElementById('globalFill').style.width=(37+Math.round((cp/tp)*12))+'%';
+}
+var speaking=false;
+function toggleListen(){
+  var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');
+  if(!speaking){
+    var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);
+    u.lang='fr-FR';u.rate=0.88;
+    u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter ce module';};
+    speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';
+  }else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter ce module';}
+}
+function updateLive(){document.getElementById('liveResult').innerHTML=document.getElementById('liveCode').value;}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){
+  var t=iaInp.value.trim();if(!t)return;
+  var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  setTimeout(function(){
+    var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  },600);
+}
+function getR(q){
+  var q2=q.toLowerCase();
+  if(q2.includes('href'))return 'href signifie Hypertext REFerence. C\'est l\'attribut qui dit au lien ou pointer. Sans href, la balise <a> existe mais ne pointe nulle part. Tu peux mettre une URL complete (https://...), un fichier local (page.html), une ancre (#section), ou un email (mailto:...).';
+  if(q2.includes('target')&&q2.includes('blank'))return 'target="_blank" ouvre le lien dans un nouvel onglet. Ajoute toujours rel="noopener noreferrer" avec pour des raisons de securite. Sans ca, le site que tu ouvres peut acceder a ta page via JavaScript.';
+  if(q2.includes('alt'))return 'L\'attribut alt est le texte alternatif d\'une image. Il s\'affiche si l\'image ne charge pas. Il est lu par les lecteurs d\'ecran pour les malvoyants. Google l\'utilise pour indexer les images. Toujours le mettre, meme si tu n\'as pas de description parfaite.';
+  if(q2.includes('img')&&q2.includes('fermer')||q2.includes('auto-fermant'))return 'La balise <img> est auto-fermante — elle n\'a pas de balise </img>. On dit que c\'est un "void element". D\'autres balises auto-fermantes : <br>, <hr>, <input>, <meta>, <link>. Elles n\'ont pas de contenu a entourer.';
+  if(q2.includes('format')&&(q2.includes('image')||q2.includes('jpg')||q2.includes('png')))return 'JPG pour les photos (compresse bien). PNG pour les images avec transparence ou texte. SVG pour les icones et logos (vectoriel, scale infini). WebP est le meilleur format moderne — meilleure compression que JPG et PNG, supporte la transparence. En pratique : photos en WebP ou JPG, logos en SVG.';
+  return 'Bonne question sur les liens et images. La balise <a href="..."> pour les liens, <img src="..." alt="..."> pour les images. Tu veux que je detail un point precis ?';
+}
+iaSend.addEventListener('click',sendIa);
+iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function cq(btn,id,correct){
+  var opts=document.querySelectorAll('#'+id+'opts .quiz-opt');opts.forEach(function(o){o.disabled=true;});
+  var fb=document.getElementById(id+'fb');
+  if(correct){btn.classList.add('correct');fb.className='quiz-feedback ok';fb.innerHTML='Correct ! &lt;a href="url"&gt;texte&lt;/a&gt; c\'est la syntaxe standard. href pour la destination, le texte entre les balises pour ce qui s\'affiche.';}
+  else{btn.classList.add('wrong');opts[1].classList.add('correct');fb.className='quiz-feedback ko';fb.innerHTML='Pas tout a fait. La bonne syntaxe c\'est &lt;a href="..."&gt;. Pas &lt;link&gt; (c\'est pour le CSS) et pas src (c\'est pour les images).';}
+  fb.style.display='block';
+}
+function validerExo(){
+  var input=document.getElementById('exoInput').value.toLowerCase();
+  var fb=document.getElementById('exoFeedback');
+  var hasH1=input.includes('<h1>')&&input.includes('<\/h1>');
+  var hasLinks=(input.match(/<a /g)||[]).length>=2;
+  var hasTarget=input.includes('target=');
+  var hasMailto=input.includes('mailto:');
+  var hasImg=input.includes('<img ')&&input.includes('src=')&&input.includes('alt=');
+  var hasUl=input.includes('<ul>')&&input.includes('<li>');
+  var score=[hasH1,hasLinks,hasTarget,hasMailto,hasImg,hasUl].filter(Boolean).length;
+  if(score===6){fb.className='exo-feedback ok';fb.innerHTML='Parfait ! Tu as tous les elements : h1, liens avec target, mailto, image avec src et alt, liste. C\'est exactement ce que doit etre une page de ressources.';}
+  else if(score>=4){
+    var manquants=[];
+    if(!hasH1)manquants.push('h1');if(!hasLinks)manquants.push('2 liens minimum');if(!hasTarget)manquants.push('target="_blank"');
+    if(!hasMailto)manquants.push('lien mailto');if(!hasImg)manquants.push('img avec src et alt');if(!hasUl)manquants.push('liste ul');
+    fb.className='exo-feedback ok';fb.innerHTML='Bien ! Il manque : '+manquants.join(', ')+'.';}
+  else{fb.className='exo-feedback ko';fb.innerHTML='Continue ! Pense a inclure : h1, des liens &lt;a href&gt; avec target="_blank", un mailto, une image &lt;img src alt&gt;, et une liste &lt;ul&gt;&lt;li&gt;.';}
+  fb.style.display='block';
+}
+function showIndice(){
+  var fb=document.getElementById('exoFeedback');
+  fb.className='exo-feedback ko';
+  fb.innerHTML='Indice — structure :'
+    +'<br>&lt;h1&gt;Ressources&lt;/h1&gt;'
+    +'<br>&lt;ul&gt;'
+    +'<br>&nbsp;&nbsp;&lt;li&gt;&lt;a href="https://..." target="_blank" rel="noopener"&gt;Lien 1&lt;/a&gt;&lt;/li&gt;'
+    +'<br>&nbsp;&nbsp;&lt;li&gt;&lt;a href="mailto:contact@kora.io"&gt;Nous contacter&lt;/a&gt;&lt;/li&gt;'
+    +'<br>&lt;/ul&gt;'
+    +'<br>&lt;img src="image.jpg" alt="Description"&gt;';
+  fb.style.display='block';
+}
+updateNav();
+</script>
+</body>
+</html>

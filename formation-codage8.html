@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Code — Module 8 — Evaluation — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--code:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.sidebar{display:none!important}.layout{display:block!important}.main{width:100%!important;max-width:740px;margin:0 auto}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px}
+.module-header{padding:40px 28px 32px;border-bottom:1px solid var(--line);background:var(--w);text-align:center}
+.eval-badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:16px}
+.eval-badge::before,.eval-badge::after{content:'';width:20px;height:1.5px;background:var(--grad)}
+.eval-title{font-family:'Fraunces',serif;font-size:32px;font-weight:300;letter-spacing:-0.8px;color:var(--text);margin-bottom:12px;line-height:1.2}
+.eval-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.eval-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:520px;margin:0 auto 28px}
+.eval-modules{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:0}
+.eval-mod{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;background:rgba(107,31,42,0.06);color:var(--b1);border:1px solid rgba(107,31,42,0.1)}
+.content{padding:36px 28px;max-width:740px;margin:0 auto}
+.bloc p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:16px}
+.bloc strong{font-weight:500}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7;color:var(--text)}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.mission-card{border-radius:16px;overflow:hidden;border:2px solid rgba(107,31,42,0.2);margin:28px 0;background:var(--w)}
+.mc-head{padding:20px 24px;background:linear-gradient(135deg,rgba(107,31,42,0.06),rgba(196,98,45,0.04));border-bottom:1px solid rgba(107,31,42,0.1)}
+.mc-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.mc-label::before{content:'';width:12px;height:1.5px;background:var(--grad)}
+.mc-title{font-family:'Fraunces',serif;font-size:20px;font-weight:400;color:var(--text);margin-bottom:6px}
+.mc-sub{font-size:13px;color:var(--muted);line-height:1.6}
+.mc-body{padding:24px}
+.mc-section{margin-bottom:22px}
+.mc-section:last-child{margin-bottom:0}
+.mc-section-title{font-size:12px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.mc-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.mc-list li{font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.mc-list li::before{content:'→';color:var(--b2);flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11px;margin-top:2px}
+.mc-list li code{background:var(--bg);padding:1px 5px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#79B8FF;border:1px solid var(--line)}
+.examples-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+@media(max-width:500px){.examples-grid{grid-template-columns:1fr}}
+.example-card{padding:14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);cursor:pointer;transition:all 0.15s}
+.example-card:hover{border-color:rgba(107,31,42,0.2);background:rgba(107,31,42,0.02)}
+.example-icon{font-size:24px;margin-bottom:6px}
+.example-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.example-desc{font-size:12px;color:var(--muted)}
+.code-area{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:20px 0}
+.ca-head{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:space-between}
+.ca-head::before{content:'⌨️';margin-right:4px}
+.ca-copy{font-size:11px;color:var(--b2);cursor:pointer;font-weight:500}
+.ca-textarea{width:100%;min-height:300px;padding:20px;background:var(--code);border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0E0FF;resize:vertical;line-height:1.8;box-sizing:border-box}
+.preview-area{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:20px 0}
+.pa-head{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.pa-head::before{content:'◎';color:var(--b2)}
+.pa-body{padding:20px;background:var(--w);min-height:200px}
+.validation-zone{margin:28px 0}
+.vz-title{font-family:'Fraunces',serif;font-size:18px;font-weight:400;color:var(--text);margin-bottom:16px}
+.criteria{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.crit{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:var(--w);border:1px solid var(--line);transition:all 0.2s}
+.crit.pass{border-color:#28CA41;background:rgba(40,202,65,0.05)}
+.crit.fail{border-color:#FF5F57;background:rgba(255,95,87,0.05)}
+.crit-dot{width:10px;height:10px;border-radius:50%;background:var(--line);flex-shrink:0;transition:background 0.2s}
+.crit.pass .crit-dot{background:#28CA41}
+.crit.fail .crit-dot{background:#FF5F57}
+.crit-text{font-size:13px;color:var(--text)}
+.btn-check{padding:12px 28px;background:var(--grad);color:white;border:none;border-radius:22px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:opacity 0.2s;margin-right:10px}
+.btn-check:hover{opacity:0.88}
+.btn-preview{padding:12px 22px;background:transparent;color:var(--b1);border:1px solid rgba(107,31,42,0.2);border-radius:22px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all 0.15s}
+.btn-preview:hover{background:rgba(107,31,42,0.04)}
+.score-display{padding:20px 24px;border-radius:14px;margin-top:16px;display:none;text-align:center}
+.score-display.show{display:block}
+.score-display.perfect{background:linear-gradient(135deg,rgba(40,202,65,0.08),rgba(40,202,65,0.04));border:2px solid rgba(40,202,65,0.3)}
+.score-display.good{background:linear-gradient(135deg,rgba(107,31,42,0.06),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.15)}
+.score-num{font-family:'Fraunces',serif;font-size:48px;font-weight:300;letter-spacing:-2px;margin-bottom:8px}
+.score-label{font-size:16px;font-weight:400;margin-bottom:8px}
+.score-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.btn-certif{padding:14px 32px;background:var(--grad);color:white;border:none;border-radius:24px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.2s;display:none}
+.btn-certif:hover{opacity:0.88;transform:translateY(-1px)}
+.certif-card{margin:32px 0;padding:32px;border-radius:20px;background:linear-gradient(135deg,#1A0A10,#2A1020);border:2px solid rgba(232,149,109,0.3);text-align:center;display:none;position:relative;overflow:hidden}
+.certif-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(232,149,109,0.1),transparent 60%),radial-gradient(circle at 70% 60%,rgba(107,31,42,0.15),transparent 50%)}
+.certif-icon{font-size:48px;margin-bottom:16px;position:relative}
+.certif-title{font-family:'Fraunces',serif;font-size:22px;font-weight:400;color:#E8956D;margin-bottom:6px;position:relative}
+.certif-name{font-family:'Fraunces',serif;font-size:28px;font-weight:600;color:#FFD700;margin-bottom:8px;position:relative}
+.certif-module{font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:20px;position:relative}
+.certif-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:20px;background:rgba(232,149,109,0.15);border:1px solid rgba(232,149,109,0.3);color:#E8956D;font-size:13px;font-weight:500;position:relative}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:32px 16px 24px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">Le Code — de zero a independant</div>
+    <div class="header-meta">Module 8 · Evaluation finale</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--b2)">◈</span><span class="krt-val">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:88%"></div></div>
+
+<main class="main">
+
+  <!-- HEADER EVALUATION -->
+  <div class="module-header">
+    <div class="eval-badge">Evaluation finale</div>
+    <div class="eval-title">Construis ta propre <em>page de profil.</em></div>
+    <div class="eval-sub">Tu as appris tout le HTML. Maintenant tu l'utilises pour de vrai — creer ta propre page de profil/linktree. Une page qui te represente et que tu peux partager avec n'importe qui.</div>
+    <div class="eval-modules">
+      <span class="eval-mod">Structure HTML</span>
+      <span class="eval-mod">Titres et textes</span>
+      <span class="eval-mod">Liens et images</span>
+      <span class="eval-mod">Listes</span>
+      <span class="eval-mod">HTML semantique</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- MISSION -->
+    <div class="mission-card">
+      <div class="mc-head">
+        <div class="mc-label">La mission</div>
+        <div class="mc-title">Ta page profil personnelle</div>
+        <div class="mc-sub">Pas un exercice scolaire. Une vraie page que tu peux heberger sur GitHub Pages, partager sur Instagram, montrer a des clients potentiels. Ta premiere vraie page web.</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-section">
+          <div class="mc-section-title">Ce que ta page doit avoir</div>
+          <ul class="mc-list">
+            <li>Structure complete : <code>DOCTYPE</code>, <code>html</code>, <code>head</code> avec charset + viewport + title, <code>body</code></li>
+            <li>Balises semantiques : <code>header</code>, <code>main</code>, <code>footer</code></li>
+            <li>Ton nom en <code>h1</code> et une description en <code>h2</code></li>
+            <li>Un paragraphe qui te presente — qui tu es, ce que tu fais</li>
+            <li>Une section avec tes liens importants en <code>ul li a</code> (Instagram, GitHub, LinkedIn, WhatsApp, n'importe quoi)</li>
+            <li>Au moins une image <code>img</code> avec src et alt (photo de profil ou logo)</li>
+            <li>Un lien de contact <code>mailto:</code></li>
+          </ul>
+        </div>
+        <div class="mc-section">
+          <div class="mc-section-title">Bonus (pas obligatoire)</div>
+          <ul class="mc-list">
+            <li>Une section avec tes projets ou realisations</li>
+            <li>Un tableau de tes competences</li>
+            <li>Un formulaire de contact simple</li>
+            <li>Des balises <code>strong</code> et <code>em</code> bien utilisees</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSPIRATION -->
+    <div class="bloc">
+      <p style="font-size:14px;color:var(--muted)">Tu peux t'inspirer d'un de ces styles — ou faire completement le tien :</p>
+    </div>
+    <div class="examples-grid">
+      <div class="example-card" onclick="setTemplate('dev')">
+        <div class="example-icon">💻</div>
+        <div class="example-name">Dev / Tech</div>
+        <div class="example-desc">Liens GitHub, projets, stack technique</div>
+      </div>
+      <div class="example-card" onclick="setTemplate('business')">
+        <div class="example-icon">🚀</div>
+        <div class="example-name">Entrepreneur</div>
+        <div class="example-desc">Projets, reseaux, contact pro</div>
+      </div>
+      <div class="example-card" onclick="setTemplate('crypto')">
+        <div class="example-icon">₿</div>
+        <div class="example-name">Trader / Crypto</div>
+        <div class="example-desc">Profil, analyses, liens trading</div>
+      </div>
+      <div class="example-card" onclick="setTemplate('blank')">
+        <div class="example-icon">✦</div>
+        <div class="example-name">Partir de zero</div>
+        <div class="example-desc">Structure vide, tu remplis tout</div>
+      </div>
+    </div>
+
+    <!-- EDITEUR -->
+    <div class="code-area">
+      <div class="ca-head">
+        <span>Ton code HTML</span>
+        <span class="ca-copy" onclick="copyCode()">Copier</span>
+      </div>
+      <textarea class="ca-textarea" id="codeInput" placeholder="Clique sur un style ci-dessus ou commence a ecrire..."></textarea>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+      <button class="btn-check" onclick="validerCode()">Verifier mon code</button>
+      <button class="btn-preview" onclick="previewCode()">Apercu</button>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="preview-area" id="previewArea" style="display:none">
+      <div class="pa-head">Apercu de ta page</div>
+      <div class="pa-body" id="previewBody"></div>
+    </div>
+
+    <!-- VALIDATION -->
+    <div class="validation-zone">
+      <div class="vz-title">Criteres de validation</div>
+      <div class="criteria" id="criteriaList">
+        <div class="crit" id="c1"><div class="crit-dot"></div><div class="crit-text">Structure complete : DOCTYPE, html, head (charset + viewport + title), body</div></div>
+        <div class="crit" id="c2"><div class="crit-dot"></div><div class="crit-text">Balises semantiques : header, main, footer</div></div>
+        <div class="crit" id="c3"><div class="crit-dot"></div><div class="crit-text">Ton nom en h1 et une description en h2</div></div>
+        <div class="crit" id="c4"><div class="crit-dot"></div><div class="crit-text">Au moins un paragraphe p avec du contenu reel</div></div>
+        <div class="crit" id="c5"><div class="crit-dot"></div><div class="crit-text">Une liste ul avec des liens a vers tes reseaux</div></div>
+        <div class="crit" id="c6"><div class="crit-dot"></div><div class="crit-text">Une image img avec src et alt</div></div>
+        <div class="crit" id="c7"><div class="crit-dot"></div><div class="crit-text">Un lien mailto pour le contact</div></div>
+      </div>
+
+      <div class="score-display" id="scoreDisplay">
+        <div class="score-num" id="scoreNum">0/7</div>
+        <div class="score-label" id="scoreLabel">Continue !</div>
+        <div class="score-sub" id="scoreSub">Regarde les criteres en rouge et complete ta page.</div>
+        <button class="btn-certif" id="btnCertif" onclick="obtenirCertification()">Obtenir ma certification</button>
+      </div>
+    </div>
+
+    <!-- CERTIFICATION -->
+    <div class="certif-card" id="certifCard">
+      <div class="certif-icon">🏆</div>
+      <div class="certif-title">Certification Kora Academy</div>
+      <div class="certif-name" id="certifName">Ton Prenom</div>
+      <div class="certif-module">a complete la formation<br><strong style="color:white">Le Code — de zero a independant</strong><br>HTML complet</div>
+      <div class="certif-badge">◈ Certifie — Kora Academy 2026</div>
+    </div>
+
+  </div>
+</main>
+
+<div class="nav-bottom">
+  <button class="nav-prev" onclick="history.back()">← Retour</button>
+  <div class="nav-current" id="navCurrent">Evaluation finale</div>
+  <button class="nav-next" id="btnTerminer" onclick="terminerFormation()" style="display:none">Terminer la formation</button>
+</div>
+
+<script>
+var score = 0;
+
+var templates = {
+  dev: '<!DOCTYPE html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Ton Prenom — Dev</title>\n</head>\n<body>\n\n  <header>\n    <h1>Ton Prenom</h1>\n    <h2>Developpeur Web</h2>\n  </header>\n\n  <main>\n    <p>Salut ! Je code des <strong>sites web</strong> depuis que j\'ai decouvert le HTML.</p>\n    <img src="photo.jpg" alt="Photo de profil" width="150">\n\n    <section>\n      <h3>Mes liens</h3>\n      <ul>\n        <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>\n        <li><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a></li>\n        <li><a href="mailto:toi@email.com">Me contacter</a></li>\n      </ul>\n    </section>\n  </main>\n\n  <footer>\n    <p>2026 — Fait avec HTML</p>\n  </footer>\n\n</body>\n</html>',
+
+  business: '<!DOCTYPE html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Ton Prenom — Entrepreneur</title>\n</head>\n<body>\n\n  <header>\n    <h1>Ton Prenom</h1>\n    <h2>Entrepreneur</h2>\n  </header>\n\n  <main>\n    <p>Je construis des <strong>projets independants</strong> dans le web, la crypto et les services numeriques.</p>\n    <img src="logo.jpg" alt="Logo" width="120">\n\n    <section>\n      <h3>Mes projets</h3>\n      <ul>\n        <li><a href="https://kora.io" target="_blank" rel="noopener">Kora — Info verifiee</a></li>\n        <li><a href="https://dbstudio.fr" target="_blank" rel="noopener">DB Studio — Agence web</a></li>\n      </ul>\n    </section>\n\n    <section>\n      <h3>Me retrouver</h3>\n      <ul>\n        <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>\n        <li><a href="mailto:contact@toi.fr">Email</a></li>\n      </ul>\n    </section>\n  </main>\n\n  <footer>\n    <p>2026</p>\n  </footer>\n\n</body>\n</html>',
+
+  crypto: '<!DOCTYPE html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Ton Prenom — Trader</title>\n</head>\n<body>\n\n  <header>\n    <h1>Ton Prenom</h1>\n    <h2>Trader Crypto independant</h2>\n  </header>\n\n  <main>\n    <p>Trader independant avec <strong>2 ans d\'experience</strong> sur les marches crypto. Specialise en <em>analyse technique</em> et gestion du risque.</p>\n    <img src="profil.jpg" alt="Photo de profil" width="150">\n\n    <section>\n      <h3>Portfolio</h3>\n      <ul>\n        <li>BTC — Position principale</li>\n        <li>ETH — Position secondaire</li>\n        <li>SOL — Speculation</li>\n      </ul>\n    </section>\n\n    <section>\n      <h3>Contact</h3>\n      <ul>\n        <li><a href="https://twitter.com" target="_blank" rel="noopener">Twitter / X</a></li>\n        <li><a href="mailto:trader@email.com">Email pro</a></li>\n      </ul>\n    </section>\n  </main>\n\n  <footer>\n    <p>2026 — Trading = risque de perte en capital</p>\n  </footer>\n\n</body>\n</html>',
+
+  blank: '<!DOCTYPE html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Ton Prenom</title>\n</head>\n<body>\n\n  <header>\n    <!-- Ton nom et titre ici -->\n  </header>\n\n  <main>\n    <!-- Ton contenu ici -->\n  </main>\n\n  <footer>\n    <!-- Tes infos de bas de page -->\n  </footer>\n\n</body>\n</html>'
+};
+
+function setTemplate(type) {
+  document.getElementById('codeInput').value = templates[type];
+}
+
+function copyCode() {
+  var ta = document.getElementById('codeInput');
+  ta.select();
+  document.execCommand('copy');
+}
+
+function previewCode() {
+  var code = document.getElementById('codeInput').value;
+  var preview = document.getElementById('previewArea');
+  var body = document.getElementById('previewBody');
+  preview.style.display = 'block';
+  // Extract body content for safe preview
+  var bodyMatch = code.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+  body.innerHTML = bodyMatch ? bodyMatch[1] : code;
+  preview.scrollIntoView({behavior:'smooth'});
+}
+
+function validerCode() {
+  var code = document.getElementById('codeInput').value.toLowerCase();
+  var sd = document.getElementById('scoreDisplay');
+
+  var checks = [
+    code.includes('<!doctype html') && code.includes('charset') && code.includes('viewport') && code.includes('<title') && code.includes('<body'),
+    code.includes('<header') && code.includes('<main') && code.includes('<footer'),
+    code.includes('<h1') && code.includes('<h2'),
+    (code.match(/<p>/g)||[]).length >= 1 && code.length > 200,
+    code.includes('<ul') && code.includes('<li') && code.includes('<a '),
+    code.includes('<img ') && code.includes('src=') && code.includes('alt='),
+    code.includes('mailto:')
+  ];
+
+  score = checks.filter(Boolean).length;
+
+  checks.forEach(function(ok, i) {
+    var el = document.getElementById('c'+(i+1));
+    if(el) {
+      el.classList.toggle('pass', ok);
+      el.classList.toggle('fail', !ok);
+    }
+  });
+
+  sd.classList.add('show');
+  document.getElementById('scoreNum').textContent = score + '/7';
+
+  if(score === 7) {
+    sd.classList.remove('good');sd.classList.add('perfect');
+    document.getElementById('scoreLabel').textContent = 'Parfait !';
+    document.getElementById('scoreSub').textContent = 'Tu as reussi tous les criteres. Ta page profil est complete et bien structuree.';
+    document.getElementById('btnCertif').style.display = 'inline-block';
+    document.getElementById('btnTerminer').style.display = 'block';
+    document.getElementById('globalFill').style.width = '100%';
+  } else if(score >= 5) {
+    sd.classList.remove('perfect');sd.classList.add('good');
+    document.getElementById('scoreLabel').textContent = 'Presque !';
+    document.getElementById('scoreSub').textContent = 'Regarde les criteres en rouge — il en reste ' + (7-score) + ' a completer.';
+    document.getElementById('btnCertif').style.display = 'none';
+  } else {
+    sd.classList.remove('perfect');sd.classList.add('good');
+    document.getElementById('scoreLabel').textContent = 'Continue !';
+    document.getElementById('scoreSub').textContent = 'Regarde les criteres en rouge et complete ta page.';
+    document.getElementById('btnCertif').style.display = 'none';
+  }
+  sd.scrollIntoView({behavior:'smooth'});
+}
+
+function obtenirCertification() {
+  var code = document.getElementById('codeInput').value;
+  var h1Match = code.match(/<h1[^>]*>(.*?)<\/h1>/i);
+  var nom = h1Match ? h1Match[1].replace(/<[^>]*>/g,'').trim() : 'Kora Apprenants';
+  document.getElementById('certifName').textContent = nom;
+  var card = document.getElementById('certifCard');
+  card.style.display = 'block';
+  card.scrollIntoView({behavior:'smooth'});
+  // Save completion
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage8']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+}
+
+function terminerFormation() {
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage8']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+  window.location.href = 'academy.html';
+}
+</script>
+</body>
+</html>

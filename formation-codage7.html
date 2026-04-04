@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Code — Module 7 — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--code:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.sidebar{display:none!important}.layout{display:block!important}.main{width:100%!important;max-width:740px;margin:0 auto}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{flex:1;min-width:0;padding:0 0 100px}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;color:var(--text);margin-bottom:8px;line-height:1.2}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.12);color:var(--b1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--b2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
+.content{padding:36px 28px;max-width:740px}
+.bloc p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;color:var(--text);margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7;color:var(--text)}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(107,31,42,0.04),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--b1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;color:var(--text);line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#252540}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#E0E0FF}
+.tag{color:#79B8FF}.attr{color:#FFAB70}.val{color:#9ECE6A}.com{color:#637777;font-style:italic}.txt{color:#E0E0FF}
+.balises-semantiques{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+@media(max-width:540px){.balises-semantiques{grid-template-columns:1fr}}
+.sem-card{padding:16px;border-radius:12px;border:1px solid var(--line);background:var(--w)}
+.sem-tag{font-family:'JetBrains Mono',monospace;font-size:13px;color:#79B8FF;background:var(--code);padding:4px 9px;border-radius:7px;display:inline-block;margin-bottom:8px}
+.sem-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px}
+.sem-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.layout-visuel{margin:24px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.lv-label{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.lv-body{padding:20px;background:var(--w);display:flex;flex-direction:column;gap:6px}
+.lv-block{padding:10px 14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500}
+.lv-header{background:rgba(121,184,255,0.15);border:1px solid rgba(121,184,255,0.3);color:#4A90D9}
+.lv-nav{background:rgba(255,171,112,0.15);border:1px solid rgba(255,171,112,0.3);color:#C4622D}
+.lv-main{background:rgba(158,206,106,0.15);border:1px solid rgba(158,206,106,0.3);color:#4A8A2A;padding:10px 14px}
+.lv-article{background:rgba(158,206,106,0.08);border:1px solid rgba(158,206,106,0.15);color:#4A8A2A;margin-left:16px}
+.lv-aside{background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);color:#8A6A00}
+.lv-footer{background:rgba(150,150,150,0.15);border:1px solid rgba(150,150,150,0.3);color:#555}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(107,31,42,0.08);color:var(--b2);border:1px solid rgba(107,31,42,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--b2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:200px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--b2)}
+.exo-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(107,31,42,0.25);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(107,31,42,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px;color:var(--text)}.ia-ctx{font-size:11px;color:var(--b2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(107,31,42,0.05);color:var(--text);border-radius:10px 10px 10px 3px;border:1px solid rgba(107,31,42,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--b2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">Le Code — de zero a independant</div>
+    <div class="header-meta">Module 7 · HTML semantique</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--b2)">◈</span><span class="krt-val">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:73%"></div></div>
+
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">Module 7 — HTML</div>
+    <div class="mod-header-title">HTML <em>semantique.</em></div>
+    <div class="mod-header-sub">La difference entre du code qui marche et du code qui a du sens. Les balises semantiques disent ce que le contenu signifie — pas juste comment il s'affiche. Google, les lecteurs d'ecran et tes collegues developpeurs te remercieront.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:25%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/4</span></div>
+    </div>
+  </div>
+
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">Semantique vs generique</div>
+    <div class="partie-tab" onclick="switchPartie(2)">Les balises de structure</div>
+    <div class="partie-tab" onclick="switchPartie(3)">div et span — quand les utiliser</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Exercice 🎯</div>
+  </div>
+
+  <!-- PARTIE 1 -->
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">Deux codes qui font pareil. <em>Mais l'un est bien, l'autre est mauvais.</em></span>
+      <p>Compare ces deux codes. Ils s'affichent de la meme facon. Mais le premier n'a aucun sens — il utilise des div pour tout. Le second dit exactement ce que chaque element signifie.</p>
+    </div>
+    <div class="code-bloc">
+      <div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">Mauvais — tout en div</div></div>
+      <div class="code-body"><pre><span class="com">&lt;!-- Google ne comprend pas la structure --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"header"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span><span class="txt">Kora</span><span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"nav"</span><span class="tag">&gt;</span><span class="txt">Menu</span><span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"main"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"article"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"titre"</span><span class="tag">&gt;</span><span class="txt">Bitcoin a 85k</span><span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre></div>
+    </div>
+    <div class="code-bloc">
+      <div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">Bien — HTML semantique</div></div>
+      <div class="code-body"><pre><span class="com">&lt;!-- Google comprend exactement la structure --&gt;</span>
+<span class="tag">&lt;header&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span><span class="txt">Kora</span><span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;nav&gt;</span><span class="txt">Menu</span><span class="tag">&lt;/nav&gt;</span>
+<span class="tag">&lt;/header&gt;</span>
+<span class="tag">&lt;main&gt;</span>
+  <span class="tag">&lt;article&gt;</span>
+    <span class="tag">&lt;h1&gt;</span><span class="txt">Bitcoin a 85k</span><span class="tag">&lt;/h1&gt;</span>
+  <span class="tag">&lt;/article&gt;</span>
+<span class="tag">&lt;/main&gt;</span></pre></div>
+    </div>
+    <div class="hl"><span class="hlt">Pourquoi c'est important</span>Google lit ton HTML pour comprendre ton site. Quand il voit &lt;nav&gt; il sait que c'est la navigation. Quand il voit &lt;article&gt; il sait que c'est du contenu principal. Ca ameliore ton SEO directement. Un lecteur d'ecran utilise ces balises pour naviguer dans la page. Un dev qui lit ton code comprend la structure en 3 secondes.</div>
+  </div>
+
+  <!-- PARTIE 2 -->
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">Les balises semantiques <em>de structure.</em></span>
+      <p>HTML5 a introduit une dizaine de balises semantiques pour remplacer les divs generiques. Chacune a un role precis dans la structure d'une page.</p>
+    </div>
+    <div class="layout-visuel">
+      <div class="lv-label">Structure typique d'une page HTML semantique</div>
+      <div class="lv-body">
+        <div class="lv-block lv-header">&lt;header&gt; — Logo, titre du site, slogan</div>
+        <div class="lv-block lv-nav">&lt;nav&gt; — Menu de navigation principal</div>
+        <div class="lv-block lv-main">&lt;main&gt; — Contenu principal (un seul par page)
+          <div class="lv-block lv-article" style="margin-top:6px">&lt;article&gt; — Article independant, post de blog</div>
+          <div class="lv-block lv-article">&lt;section&gt; — Section thematique du contenu</div>
+        </div>
+        <div class="lv-block lv-aside">&lt;aside&gt; — Contenu secondaire, sidebar, publicite</div>
+        <div class="lv-block lv-footer">&lt;footer&gt; — Pied de page, liens, copyright</div>
+      </div>
+    </div>
+    <div class="balises-semantiques">
+      <div class="sem-card"><span class="sem-tag">&lt;header&gt;</span><div class="sem-title">En-tete</div><div class="sem-desc">Le haut de la page ou d'une section. Logo, titre, navigation. Peut apparaitre plusieurs fois dans une page (en-tete de l'article, du site...).</div></div>
+      <div class="sem-card"><span class="sem-tag">&lt;nav&gt;</span><div class="sem-title">Navigation</div><div class="sem-desc">Les liens de navigation principaux. Google lui donne une importance speciale pour comprendre la structure du site.</div></div>
+      <div class="sem-card"><span class="sem-tag">&lt;main&gt;</span><div class="sem-title">Contenu principal</div><div class="sem-desc">Le contenu unique de la page. Un seul par page. Tout ce qui n'est pas header, footer, nav, sidebar.</div></div>
+      <div class="sem-card"><span class="sem-tag">&lt;article&gt;</span><div class="sem-title">Article independant</div><div class="sem-desc">Contenu qui peut etre extrait de la page et reste comprehensible seul. Un article de blog, un tweet, une fiche produit.</div></div>
+      <div class="sem-card"><span class="sem-tag">&lt;section&gt;</span><div class="sem-title">Section thematique</div><div class="sem-desc">Un groupe thematique de contenu. Contrairement a div, section implique une relation semantique entre son contenu.</div></div>
+      <div class="sem-card"><span class="sem-tag">&lt;aside&gt;</span><div class="sem-title">Contenu secondaire</div><div class="sem-desc">Sidebar, publicite, liens relatifs, citations. Contenu lie mais pas essentiel au contenu principal.</div></div>
+      <div class="sem-card"><span class="sem-tag">&lt;footer&gt;</span><div class="sem-title">Pied de page</div><div class="sem-desc">Informations de bas de page : copyright, liens legaux, contact, reseaux sociaux. Peut aussi etre le footer d'un article.</div></div>
+      <div class="sem-card"><span class="sem-tag">&lt;time&gt;</span><div class="sem-title">Date et heure</div><div class="sem-desc">Represente une date ou heure. L'attribut datetime donne la valeur machine. Tres utile pour le SEO des articles.</div></div>
+    </div>
+    <div class="fun-fact">
+      <div class="ff-icon">🔍</div>
+      <div><div class="ff-title">Google et le HTML semantique</div><div class="ff-text">Google a confirme publiquement que les balises semantiques aident son algorithme a comprendre le contenu d'une page. Les sites bien structures avec header, nav, main, article ont en general de meilleures positions dans les resultats de recherche que les sites tout-en-div. C'est pas le facteur le plus important du SEO mais c'est gratuit et ca ne prend que quelques secondes a faire correctement.</div></div>
+    </div>
+  </div>
+
+  <!-- PARTIE 3 -->
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">div et span — <em>quand les utiliser quand meme.</em></span>
+      <p>Les balises semantiques ne remplacent pas tout. Il reste des cas ou div et span sont les bons choix — quand il n'y a pas de balise semantique adaptee.</p>
+      <p>&lt;div&gt; est un conteneur de bloc — il prend toute la largeur disponible. &lt;span&gt; est un conteneur inline — il s'insere dans le texte sans retour a la ligne. Tous les deux n'ont aucun sens semantique — ils sont juste des conteneurs pour le CSS et le JavaScript.</p>
+    </div>
+    <div class="code-bloc">
+      <div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">HTML — div et span en contexte</div></div>
+      <div class="code-body"><pre><span class="com">&lt;!-- div — conteneur de bloc pour le CSS --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;h2&gt;</span><span class="txt">Bitcoin</span><span class="tag">&lt;/h2&gt;</span>
+  <span class="tag">&lt;p&gt;</span><span class="txt">La premiere crypto-monnaie.</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+<span class="com">&lt;!-- Pas de balise semantique pour "card" --&gt;</span>
+
+<span class="com">&lt;!-- span — styler une partie de texte --&gt;</span>
+<span class="tag">&lt;p&gt;</span>
+  <span class="txt">Le prix est </span>
+  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"prix-hausse"</span><span class="tag">&gt;</span><span class="txt">+3.2%</span><span class="tag">&lt;/span&gt;</span>
+  <span class="txt"> ce matin.</span>
+<span class="tag">&lt;/p&gt;</span>
+<span class="com">&lt;!-- On ne peut pas utiliser strong ici --&gt;</span>
+<span class="com">&lt;!-- car +3.2% n'est pas "important" --&gt;</span>
+<span class="com">&lt;!-- c'est juste une donnee a colorer en vert --&gt;</span></pre></div>
+    </div>
+    <div class="hl"><span class="hlt">La regle simple</span>Avant d'ecrire un div, demande-toi s'il y a une balise semantique plus appropriee. Article independant ? &lt;article&gt;. Navigation ? &lt;nav&gt;. En-tete ? &lt;header&gt;. Section thematique ? &lt;section&gt;. Si rien ne correspond — alors utilise div. Meme question pour span — est-ce que c'est important ? &lt;strong&gt;. Une emphase ? &lt;em&gt;. Juste un style ? &lt;span&gt;.</div>
+  </div>
+
+  <!-- PARTIE 4 -->
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">Structure la page d'accueil <em>de Kora correctement.</em></span>
+    </div>
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Page d'accueil Kora — version semantique</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Tu dois creer la structure HTML semantique de la page d'accueil de Kora. Pas de contenu detaille — juste la structure correcte avec les bonnes balises semantiques.</div>
+        <div class="exo-mission">
+          <div class="exo-mission-title">La page doit contenir</div>
+          <ul>
+            <li>Un &lt;header&gt; avec le titre du site et une &lt;nav&gt;</li>
+            <li>Un &lt;main&gt; avec au moins 2 &lt;section&gt; ou &lt;article&gt;</li>
+            <li>Un &lt;aside&gt; pour le contenu secondaire</li>
+            <li>Un &lt;footer&gt; avec les informations de bas de page</li>
+            <li>Des titres &lt;h1&gt; et &lt;h2&gt; correctement places</li>
+          </ul>
+        </div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="Ecris la structure HTML semantique de Kora..."></textarea>
+        <div class="exo-actions">
+          <button class="btn-valider" onclick="validerExo()">Valider</button>
+          <button class="btn-indice" onclick="showIndice()">Indice</button>
+        </div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">Module 7 · HTML semantique</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur le HTML semantique ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 4</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=4;
+function switchPartie(n){
+  for(var i=1;i<=tp;i++){
+    var el=document.getElementById('partie'+i);if(el)el.style.display='none';
+    var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');
+  }
+  var t=document.getElementById('partie'+n);if(t)t.style.display='block';
+  var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');
+  cp=n;updateNav();window.scrollTo(0,0);
+}
+function terminerModule(){
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage7']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+  window.location.href='academy.html';
+}
+function nextPartie(){
+  if(cp<tp){
+    try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage7']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+    switchPartie(cp+1);
+  }else{terminerModule();}
+}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){
+  document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';
+  document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';
+  document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;
+  document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;
+  document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';
+  document.getElementById('globalFill').style.width=(73+Math.round((cp/tp)*12))+'%';
+}
+var speaking=false;
+function toggleListen(){
+  var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');
+  if(!speaking){
+    var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);
+    u.lang='fr-FR';u.rate=0.88;
+    u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};
+    speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';
+  }else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}
+}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){
+  var t=iaInp.value.trim();if(!t)return;
+  var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  setTimeout(function(){
+    var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  },600);
+}
+function getR(q){
+  var q2=q.toLowerCase();
+  if(q2.includes('article')&&q2.includes('section'))return 'article est pour du contenu independant qui peut etre sorti de son contexte et reste comprehensible — un article de news, un tweet, une fiche produit. section est pour grouper du contenu thematiquement lie — les sections d\'une page d\'accueil, les chapitres d\'un article. En doute ? article si ca peut etre partage seul, section sinon.';
+  if(q2.includes('div')&&q2.includes('semantique'))return 'div n\'a pas de sens semantique — c\'est juste un conteneur. Utilise div quand aucune balise semantique ne correspond : pour creer une card, un wrapper, un container CSS. La regle : cherche d\'abord une balise semantique, utilise div seulement si aucune ne correspond.';
+  if(q2.includes('main'))return 'main contient le contenu principal unique de la page — ce qui change d\'une page a l\'autre. Il ne doit y en avoir qu\'un seul par page. Header, footer, nav ne vont pas dans main. C\'est l\'equivalent du zone de contenu principale — lecteurs d\'ecran sautent directement a main avec un raccourci clavier.';
+  return 'Bonne question sur le HTML semantique. Les balises cles : header (en-tete), nav (navigation), main (contenu principal), article (contenu independant), section (groupe thematique), aside (secondaire), footer (pied de page). Tu veux que je detail une balise en particulier ?';
+}
+iaSend.addEventListener('click',sendIa);
+iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){
+  var input=document.getElementById('exoInput').value.toLowerCase();
+  var fb=document.getElementById('exoFeedback');
+  var hasHeader=input.includes('<header');
+  var hasNav=input.includes('<nav');
+  var hasMain=input.includes('<main');
+  var hasSectionOrArticle=input.includes('<section')||input.includes('<article');
+  var hasAside=input.includes('<aside');
+  var hasFooter=input.includes('<footer');
+  var hasH1=input.includes('<h1');
+  var score=[hasHeader,hasNav,hasMain,hasSectionOrArticle,hasAside,hasFooter,hasH1].filter(Boolean).length;
+  if(score>=6){fb.className='exo-feedback ok';fb.innerHTML='Excellent ! Structure semantique complete. Ton HTML dit exactement ce que chaque partie de la page signifie. Google et les lecteurs d\'ecran peuvent maintenant parfaitement comprendre Kora.';}
+  else if(score>=4){
+    var m=[];
+    if(!hasHeader)m.push('header');if(!hasNav)m.push('nav');if(!hasMain)m.push('main');
+    if(!hasSectionOrArticle)m.push('section ou article');if(!hasAside)m.push('aside');if(!hasFooter)m.push('footer');if(!hasH1)m.push('h1');
+    fb.className='exo-feedback ok';fb.innerHTML='Bien ! Il manque : '+m.join(', ')+'.';}
+  else{fb.className='exo-feedback ko';fb.innerHTML='Continue ! La structure doit avoir : header, nav, main, section ou article, aside, footer.';}
+  fb.style.display='block';
+}
+function showIndice(){
+  var fb=document.getElementById('exoFeedback');
+  fb.className='exo-feedback ko';
+  fb.innerHTML='Structure de base :'
+    +'<br>&lt;header&gt;&lt;h1&gt;Kora&lt;/h1&gt;&lt;nav&gt;...&lt;/nav&gt;&lt;/header&gt;'
+    +'<br>&lt;main&gt;'
+    +'<br>&nbsp;&nbsp;&lt;section&gt;&lt;h2&gt;Pour toi&lt;/h2&gt;...&lt;/section&gt;'
+    +'<br>&nbsp;&nbsp;&lt;section&gt;&lt;h2&gt;Journal&lt;/h2&gt;...&lt;/section&gt;'
+    +'<br>&lt;/main&gt;'
+    +'<br>&lt;aside&gt;Tendances...&lt;/aside&gt;'
+    +'<br>&lt;footer&gt;Copyright Kora 2026&lt;/footer&gt;';
+  fb.style.display='block';
+}
+updateNav();
+</script>
+</body>
+</html>
