@@ -8,11 +8,84 @@
 <link rel="stylesheet" href="kora.css">
 
 <style>
+/* TOP NAV */
 .col-l { display: none !important; }
-.col-c { max-width: 680px; margin: 0 auto; width: 100%; border-left: none; border-right: none; }
-.col-r { display: none; }
-.page { display: block; }
+.col-r { display: none !important; }
+.page { display: block !important; }
+.col-c { max-width: 680px; margin: 0 auto; width: 100%; }
+
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding: 0 16px;
+}
+.top-nav-inner {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  gap: 12px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+.top-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.top-logo-img {
+  height: 28px; width: auto;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1.5px #C4622D;
+}
+.top-logo-title {
+  font-family: 'Fraunces', serif;
+  font-size: 16px; font-weight: 600;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.top-nav-items {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.top-nav-items::-webkit-scrollbar { display: none; }
+.top-item {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.top-item:hover { color: var(--text); background: var(--bg); }
+.top-item.active {
+  background: rgba(107,31,42,0.08);
+  color: var(--b1);
+  font-weight: 500;
+}
+.top-nav-krt {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  background: rgba(107,31,42,0.05);
+  border-radius: 20px;
+  border: 1px solid rgba(107,31,42,0.1);
+  flex-shrink: 0;
+}
+.mob-nav { display: none !important; }
 </style>
+
+
 
 <style>
 /* Profil styles */
@@ -151,6 +224,27 @@
 </style>
 </head>
 <body>
+
+<!-- NAV TOP -->
+<nav class="top-nav">
+  <div class="top-nav-inner" id="topNav">
+    <div class="top-nav-logo">
+      <img src="logo.jpg" alt="Kora" class="top-logo-img">
+      <span class="top-logo-title">Kora</span>
+    </div>
+    <div class="top-nav-items">
+      <div class="top-item active" data-s="social">⌂ Pour toi</div>
+      <div class="top-item" data-s="journal">◫ Journal</div>
+      <div class="top-item" data-s="formation">⊹ Formation</div>
+      <div class="top-item" data-s="profil">○ Profil</div>
+    </div>
+    <div class="top-nav-krt">
+      <span style="font-size:11px;color:var(--b2)">◈</span>
+      <span style="font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">248 KRT</span>
+    </div>
+  </div>
+</nav>
+
 <div class="page">
 
   <!-- CENTRE — toutes les vues -->
@@ -678,6 +772,16 @@ function switchAcTab(tab) {
     ? 'Connectez-vous pour accéder à vos formations et tokens.'
     : 'Créez votre compte et commencez à apprendre dès aujourd\'hui.';
 }
+
+// Top nav
+document.querySelectorAll('.top-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.top-item').forEach(x => x.classList.remove('active'));
+    item.classList.add('active');
+    switchView(item.dataset.s);
+  });
+});
+
 </script>
 </body>
 </html>
