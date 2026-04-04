@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="academy.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <img src="logo.jpg" alt="Kora" class="header-logo">
+    <span class="header-sep"></span>
+    <span class="header-title">Academy</span>
+  </div>
+  <div class="header-right">
+    <div class="header-krt">
+      <span class="krt-icon">◈</span>
+      <span class="krt-val">248 KRT</span>
+    </div>
+    <div class="header-av">V</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Kora Academy</div>
+    <h1 class="hero-h1">Apprendre autrement.<br><em>Vraiment.</em></h1>
+    <p class="hero-sub">Des formations concrètes, interactives, pensées pour ceux qui veulent comprendre le monde tel qu'il est — et être récompensés pour ça.</p>
+
+    <!-- Barre de recherche -->
+    <div class="search-wrap">
+      <span class="search-icon">◎</span>
+      <input class="search-inp" type="text" placeholder="Rechercher une formation...">
+      <div class="search-filters" id="searchFilters">
+        <button class="filter-btn active" data-f="all">Tout</button>
+        <button class="filter-btn" data-f="code">Code</button>
+        <button class="filter-btn" data-f="crypto">Crypto</button>
+        <button class="filter-btn" data-f="finance">Finance</button>
+        <button class="filter-btn" data-f="business">Business</button>
+        <button class="filter-btn" data-f="trading">Trading</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATIONS EN COURS -->
+
+  <!-- PROGRESSION & MÉDAILLE -->
+  <section class="section" id="secProgression">
+    <div class="section-inner">
+      <div class="prog-widget">
+        <div class="prog-medal-wrap">
+          <canvas id="medalCanvas" width="120" height="120"></canvas>
+          <div class="prog-medal-glow"></div>
+        </div>
+        <div class="prog-info">
+          <div class="prog-title">Ta progression</div>
+          <div class="prog-pct-wrap">
+            <span id="progPct">0%</span>
+            <span class="prog-formation-name">Le Code — de zéro à indépendant</span>
+          </div>
+          <div id="progLabel" class="prog-label">Commence ta formation</div>
+          <button id="btnContinue" class="btn-continue-main" style="display:none">Commencer la formation →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="section" id="secEnCours">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-title">Continuer</div>
+      <div class="section-sub">Reprends là où tu t'es arrêté</div>
+    </div>
+    <div class="en-cours-list">
+
+      <div class="en-cours-card" onclick="goFormation('code')">
+        <div class="ec-left">
+          <div class="ec-icon" style="background:linear-gradient(135deg,#1A1A2E,#16213E)">⌨️</div>
+          <div class="ec-info">
+            <div class="ec-title">Le Code — de zéro à indépendant</div>
+            <div class="ec-meta">Module 2 sur 8 · HTML & CSS</div>
+            <div class="progress-wrap">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:22%"></div>
+              </div>
+              <span class="progress-pct">22%</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn-continue">Continuer →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sep-line"></div>
+
+<!-- CATALOGUE -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-title">Catalogue</div>
+      <div class="section-sub">Toutes les formations disponibles</div>
+    </div>
+
+    <div class="catalogue" id="catalogue">
+
+      <!-- Code -->
+      <div class="forma-card" data-cat="code" onclick="goFormation('code')">
+        <div class="forma-cover" style="background:linear-gradient(135deg,#1A1A2E 0%,#16213E 50%,#0F3460 100%)">
+          <span class="forma-emoji">⌨️</span>
+          <div class="forma-tag">Code</div>
+        </div>
+        <div class="forma-body">
+          <div class="forma-title">Le Code — de zéro à indépendant</div>
+          <div class="forma-desc">HTML, CSS, JavaScript, bases du backend. Tu pars de zéro et tu arrives à construire tes propres outils.</div>
+          <div class="forma-footer">
+            <div class="forma-info">
+              <span class="forma-modules">8 modules</span>
+              <span class="forma-dot">·</span>
+              <span class="forma-level">Débutant</span>
+            </div>
+            <div class="forma-krt">
+              <span class="krt-icon">◈</span>
+              <span>+120 KRT</span>
+            </div>
+          </div>
+        </div>
+        <div class="forma-status active">En cours</div>
+      </div>
+
+      <!-- Crypto -->
+      <div class="forma-card locked" data-cat="crypto">
+        <div class="forma-cover" style="background:linear-gradient(135deg,#2D1B00 0%,#6B3A00 50%,#C4622D 100%)">
+          <span class="forma-emoji">₿</span>
+          <div class="forma-tag">Crypto</div>
+        </div>
+        <div class="forma-body">
+          <div class="forma-title">Crypto & Blockchain — Les bases</div>
+          <div class="forma-desc">Comprendre la blockchain, les tokens, les wallets. Ce que personne ne t'a vraiment expliqué.</div>
+          <div class="forma-footer">
+            <div class="forma-info">
+              <span class="forma-modules">6 modules</span>
+              <span class="forma-dot">·</span>
+              <span class="forma-level">Débutant</span>
+            </div>
+            <div class="forma-krt">
+              <span class="krt-icon">◈</span>
+              <span>+90 KRT</span>
+            </div>
+          </div>
+        </div>
+        <div class="forma-lock">🔒 Finir "Le Code" d'abord</div>
+      </div>
+
+      <!-- Trading -->
+      <div class="forma-card locked" data-cat="trading">
+        <div class="forma-cover" style="background:linear-gradient(135deg,#0A2A0A 0%,#1A5C1A 50%,#2E8B2E 100%)">
+          <span class="forma-emoji">📈</span>
+          <div class="forma-tag">Trading</div>
+        </div>
+        <div class="forma-body">
+          <div class="forma-title">Trading — Comprendre les marchés</div>
+          <div class="forma-desc">Lecture des graphiques, gestion du risque, psychologie du trader. Pas de promesses, que des faits.</div>
+          <div class="forma-footer">
+            <div class="forma-info">
+              <span class="forma-modules">10 modules</span>
+              <span class="forma-dot">·</span>
+              <span class="forma-level">Intermédiaire</span>
+            </div>
+            <div class="forma-krt">
+              <span class="krt-icon">◈</span>
+              <span>+150 KRT</span>
+            </div>
+          </div>
+        </div>
+        <div class="forma-lock">🔒 Finir "Crypto" d'abord</div>
+      </div>
+
+      <!-- Finance -->
+      <div class="forma-card locked" data-cat="finance">
+        <div class="forma-cover" style="background:linear-gradient(135deg,#1A0A2E 0%,#3D1A6E 50%,#6B3AAE 100%)">
+          <span class="forma-emoji">💰</span>
+          <div class="forma-tag">Finance</div>
+        </div>
+        <div class="forma-body">
+          <div class="forma-title">Finance personnelle & Investissement</div>
+          <div class="forma-desc">Gérer son argent, investir intelligemment, construire sa liberté financière. Étape par étape.</div>
+          <div class="forma-footer">
+            <div class="forma-info">
+              <span class="forma-modules">7 modules</span>
+              <span class="forma-dot">·</span>
+              <span class="forma-level">Débutant</span>
+            </div>
+            <div class="forma-krt">
+              <span class="krt-icon">◈</span>
+              <span>+100 KRT</span>
+            </div>
+          </div>
+        </div>
+        <div class="forma-lock">🔒 Débloqué après "Trading"</div>
+      </div>
+
+      <!-- Business -->
+      <div class="forma-card locked" data-cat="business">
+        <div class="forma-cover" style="background:linear-gradient(135deg,#2A1A0A 0%,#6B4A1A 50%,#C4873A 100%)">
+          <span class="forma-emoji">🚀</span>
+          <div class="forma-tag">Business</div>
+        </div>
+        <div class="forma-body">
+          <div class="forma-title">Entrepreneuriat — Lancer son projet</div>
+          <div class="forma-desc">De l'idée à la première vente. Trouver ses clients, pitcher, vendre sans avoir honte.</div>
+          <div class="forma-footer">
+            <div class="forma-info">
+              <span class="forma-modules">9 modules</span>
+              <span class="forma-dot">·</span>
+              <span class="forma-level">Tous niveaux</span>
+            </div>
+            <div class="forma-krt">
+              <span class="krt-icon">◈</span>
+              <span>+130 KRT</span>
+            </div>
+          </div>
+        </div>
+        <div class="forma-lock">🔒 Débloqué après "Finance"</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sep-line"></div>
+
+<!-- POURQUOI KORA ACADEMY -->
+<section class="section section-why">
+  <div class="section-inner">
+    <div class="section-head center">
+      <div class="section-title">Pourquoi Kora Academy</div>
+      <div class="section-sub">Ce qui nous rend différents</div>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">🎯</div>
+        <div class="why-title">Concret avant tout</div>
+        <div class="why-desc">Chaque formation se termine par des exercices dans la vraie vie. Pas des QCM — des défis à accomplir pour de vrai.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🔊</div>
+        <div class="why-title">Lecture vocale</div>
+        <div class="why-desc">Pas envie de lire ? Un bouton lit le contenu à voix haute. Tu absorbes en écoutant, pas en déchiffrant.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">◈</div>
+        <div class="why-title">Tu gagnes en apprenant</div>
+        <div class="why-desc">Chaque formation complétée te rapporte des tokens KRT utilisables sur toute la plateforme Kora.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🏆</div>
+        <div class="why-title">Des certifications réelles</div>
+        <div class="why-desc">Tes certifications apparaissent sur ton profil Kora, visibles par les recruteurs et la communauté.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🔓</div>
+        <div class="why-title">Dans l'ordre</div>
+        <div class="why-desc">Chaque formation débloque la suivante. Tu construis des bases solides, pas du n'importe quoi empilé.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">✦</div>
+        <div class="why-title">Vérifié par Kora</div>
+        <div class="why-desc">Tout le contenu est validé par notre IA avant publication. Tu apprends des choses vraies.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Filtres catalogue
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.f;
+    document.querySelectorAll('.forma-card').forEach(card => {
+      if (f === 'all' || card.dataset.cat === f) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+// Recherche
+document.querySelector('.search-inp').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  document.querySelectorAll('.forma-card').forEach(card => {
+    const title = card.querySelector('.forma-title').textContent.toLowerCase();
+    const desc = card.querySelector('.forma-desc').textContent.toLowerCase();
+    card.style.display = (!q || title.includes(q) || desc.includes(q)) ? 'flex' : 'none';
+  });
+});
+
+// Navigation vers formation
+function goFormation(id) {
+  window.location.href = 'formation.html?f=' + id;
+}
+</script>
+<script src="progression.js"></script>
+</body>
+</html>
