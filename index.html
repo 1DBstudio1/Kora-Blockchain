@@ -509,6 +509,23 @@
 
       <!-- Kora Identity Card -->
       <div class="kora-card">
+      <!-- Progression Academy -->
+      <div id="profilProgression" style="margin-bottom:16px;padding:14px 16px;border-radius:12px;background:rgba(107,31,42,0.04);border:1px solid rgba(107,31,42,0.1)">
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:5px">
+          <span style="display:block;width:12px;height:1.5px;background:var(--grad)"></span>
+          Progression Kora Academy
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <canvas id="profilMedal" width="60" height="60" style="image-rendering:pixelated;flex-shrink:0;cursor:pointer" onclick="switchView('formation')" title="Voir mes formations"></canvas>
+          <div style="flex:1">
+            <div style="font-size:22px;font-weight:600;font-family:'Fraunces',serif;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.5px" id="profilPct">0%</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:8px" id="profilLabel">Commence ta formation</div>
+            <div style="height:4px;background:var(--line);border-radius:2px;overflow:hidden">
+              <div id="profilBar" style="height:100%;background:var(--grad);border-radius:2px;width:0%;transition:width 0.4s"></div>
+            </div>
+          </div>
+        </div>
+      </div>
         <div class="kora-card-title">Identité Kora</div>
         <div class="comportement">
           <div class="comp-item">
@@ -665,6 +682,7 @@ const views = {
 };
 
 function switchView(s) {
+  if(s==='profil') setTimeout(initProfilProgression, 100);
   Object.values(views).forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.remove('active');
@@ -781,6 +799,61 @@ document.querySelectorAll('.top-item').forEach(item => {
     switchView(item.dataset.s);
   });
 });
+
+
+// Progression sur le profil
+function drawMedalSmall(canvas, pct) {
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var size = canvas.width;
+  ctx.clearRect(0,0,size,size);
+  var cx=size/2, cy=size/2, r=size*0.42;
+  var grad = ctx.createRadialGradient(cx-r*0.2,cy-r*0.2,r*0.1,cx,cy,r);
+  if(pct===0){grad.addColorStop(0,'#E8E0D0');grad.addColorStop(1,'#C8B8A0');}
+  else{grad.addColorStop(0,'#FFE566');grad.addColorStop(0.5,'#FFD700');grad.addColorStop(1,'#C88000');}
+  ctx.fillStyle=pct===0?'#B0A090':'#C4622D';
+  ctx.fillRect(cx-size*0.08,0,size*0.16,cy-r+size*0.05);
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=grad;ctx.fill();
+  if(pct>0&&pct<100){
+    ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+(pct/100)*Math.PI*2);
+    ctx.closePath();ctx.fillStyle='rgba(255,215,0,0.25)';ctx.fill();
+  }
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+  ctx.strokeStyle=pct===0?'#A09080':'#C88000';ctx.lineWidth=size*0.04;ctx.stroke();
+  ctx.fillStyle=pct===0?'rgba(100,80,60,0.5)':'rgba(100,60,0,0.7)';
+  ctx.font='bold '+Math.round(size*0.18)+'px monospace';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('</>',cx,cy+size*0.04);
+  if(pct>0){
+    ctx.fillStyle='rgba(80,40,0,0.8)';
+    ctx.font='bold '+Math.round(size*0.18)+'px sans-serif';
+    ctx.fillText(pct+'%',cx,cy+r*0.6);
+  }
+}
+
+function initProfilProgression() {
+  try {
+    var data = JSON.parse(localStorage.getItem('kora_prog')||'{}');
+    var modules = ['codage1','codage2','codage3','codage4','codage5','codage6','codage7','codage8'];
+    var parties = [5,5,5,4,5,3,4,1];
+    var total=0,done=0;
+    modules.forEach(function(id,i){total+=parties[i];done+=Math.min(data[id]||0,parties[i]);});
+    var pct = total>0?Math.round((done/total)*100):0;
+    var canvas = document.getElementById('profilMedal');
+    if(canvas) drawMedalSmall(canvas, pct);
+    var pctEl = document.getElementById('profilPct');
+    var labelEl = document.getElementById('profilLabel');
+    var barEl = document.getElementById('profilBar');
+    if(pctEl) pctEl.textContent = pct+'%';
+    if(barEl) barEl.style.width = pct+'%';
+    if(labelEl) {
+      if(pct===0) labelEl.textContent = 'Commence ta formation';
+      else if(pct===100) labelEl.textContent = 'Formation HTML complete !';
+      else labelEl.textContent = 'En cours — '+pct+'% complete';
+    }
+  } catch(e) {}
+}
 
 </script>
 </body>
