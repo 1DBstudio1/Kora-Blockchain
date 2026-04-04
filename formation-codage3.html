@@ -867,16 +867,28 @@ function switchPartie(n){
   const t=document.getElementById('partie'+n);if(t)t.style.display='block';
   const tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');
   cp=n;updateNav();
-KORA_PROG.initFormation('codage3');
+
 
 
 // Progression
 function terminerModule() {
-  KORA_PROG.finishModule('codage3');
+  // Sauvegarder progression
+  try {
+    var data = JSON.parse(localStorage.getItem('kora_prog') || '{}');
+    data['codage3'] = 99;
+    localStorage.setItem('kora_prog', JSON.stringify(data));
+  } catch(e) {}
+  // Retour academy avec animation
+  document.body.style.opacity = '0';
+  document.body.style.transition = 'opacity 0.3s ease';
+  setTimeout(function() { window.location.href = 'academy.html'; }, 300);
 }
 window.scrollTo(0,0);
 }
-function nextPartie(){if(cp<tp){KORA_PROG.savePartie('codage3',cp);switchPartie(cp+1);}else{terminerModule();}}
+function nextPartie(){if(cp<tp){
+    try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage3']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+    switchPartie(cp+1);
+  }else{terminerModule();}};
 function prevPartie(){if(cp>1)switchPartie(cp-1);}
 function updateNav(){
   document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';
@@ -991,6 +1003,6 @@ function showIndice(){
 
 updateNav();
 </script>
-<script src="progression.js"></script>
+
 </body>
 </html>

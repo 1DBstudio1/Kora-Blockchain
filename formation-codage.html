@@ -725,18 +725,30 @@ function switchPartie(n) {
   if(targetTab)targetTab.classList.add('active');
   currentPartie=n;
   updateNav();
-KORA_PROG.initFormation('codage1');
+
 
 
 // Progression
 function terminerModule() {
-  KORA_PROG.finishModule('codage1');
+  // Sauvegarder progression
+  try {
+    var data = JSON.parse(localStorage.getItem('kora_prog') || '{}');
+    data['codage1'] = 99;
+    localStorage.setItem('kora_prog', JSON.stringify(data));
+  } catch(e) {}
+  // Retour academy avec animation
+  document.body.style.opacity = '0';
+  document.body.style.transition = 'opacity 0.3s ease';
+  setTimeout(function() { window.location.href = 'academy.html'; }, 300);
 }
 
   window.scrollTo(0,0);
 }
 
-function nextPartie(){if(currentPartie<totalParties){KORA_PROG.savePartie('codage1',currentPartie);switchPartie(currentPartie+1);}else{terminerModule();}}
+function nextPartie(){if(currentPartie<totalParties){
+    try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage1']=currentPartie;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+    switchPartie(currentPartie+1);
+  }else{terminerModule();}};
 function prevPartie(){if(currentPartie>1)switchPartie(currentPartie-1);}
 
 function updateNav(){
@@ -862,6 +874,6 @@ function showIndice(){
 
 updateNav();
 </script>
-<script src="progression.js"></script>
+
 </body>
 </html>

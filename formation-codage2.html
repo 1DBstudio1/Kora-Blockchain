@@ -738,16 +738,28 @@ function switchPartie(n){
   const targetTab=document.querySelectorAll('.partie-tab')[n-1];
   if(targetTab)targetTab.classList.add('active');
   currentPartie=n;updateNav();
-KORA_PROG.initFormation('codage2');
+
 
 
 // Progression
 function terminerModule() {
-  KORA_PROG.finishModule('codage2');
+  // Sauvegarder progression
+  try {
+    var data = JSON.parse(localStorage.getItem('kora_prog') || '{}');
+    data['codage2'] = 99;
+    localStorage.setItem('kora_prog', JSON.stringify(data));
+  } catch(e) {}
+  // Retour academy avec animation
+  document.body.style.opacity = '0';
+  document.body.style.transition = 'opacity 0.3s ease';
+  setTimeout(function() { window.location.href = 'academy.html'; }, 300);
 }
 window.scrollTo(0,0);
 }
-function nextPartie(){if(currentPartie<totalParties){KORA_PROG.savePartie('codage2',currentPartie);switchPartie(currentPartie+1);}else{terminerModule();}}
+function nextPartie(){if(currentPartie<totalParties){
+    try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage2']=currentPartie;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+    switchPartie(currentPartie+1);
+  }else{terminerModule();}};
 function prevPartie(){if(currentPartie>1)switchPartie(currentPartie-1);}
 function updateNav(){
   const prev=document.getElementById('btnPrev');
@@ -860,7 +872,7 @@ function validerExo(){
     h2:input.includes('<h2>')&&input.includes('</h2>'),
     p:input.includes('<p>')&&input.includes('</p>'),
     strong:input.includes('<strong>')&&input.includes('</strong>'),
-    body:input.includes('<body>')&&input.includes('<script src="progression.js"></script>
+    body:input.includes('<body>')&&input.includes('
 </body>'),
     head:input.includes('<head>')&&input.includes('
 <style>
@@ -917,6 +929,6 @@ function showIndice(){
 
 updateNav();
 </script>
-<script src="progression.js"></script>
+
 </body>
 </html>
