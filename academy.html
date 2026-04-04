@@ -397,21 +397,6 @@ body {
 .forma-card:nth-child(4){animation:up 0.35s ease 0.2s both}
 .forma-card:nth-child(5){animation:up 0.35s ease 0.25s both}
 
-
-.auth-wall{position:fixed;inset:0;background:#FAFAFA;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
-.auth-box{background:#fff;border-radius:20px;padding:36px 28px;width:100%;max-width:360px;border:1px solid #EFEFEF;box-shadow:0 20px 60px rgba(0,0,0,0.1)}
-.auth-logo{font-family:'Fraunces',serif;font-size:20px;font-weight:600;background:linear-gradient(135deg,#6B1F2A,#C4622D,#E8956D);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
-.auth-title{font-family:'Fraunces',serif;font-size:18px;font-weight:300;color:#1A1A1A;margin-bottom:6px}
-.auth-sub{font-size:13px;color:#737373;margin-bottom:22px;line-height:1.5}
-.auth-field{margin-bottom:12px}
-.auth-field label{display:block;font-size:12px;color:#737373;margin-bottom:5px}
-.auth-field input{width:100%;padding:11px 14px;border:1px solid #EFEFEF;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:#1A1A1A;background:#FAFAFA;outline:none;box-sizing:border-box}
-.auth-field input:focus{border-color:#C4622D}
-.auth-err{font-size:12px;color:#C4622D;margin-bottom:10px;display:none;padding:8px 12px;background:rgba(196,98,45,0.06);border-radius:8px}
-.btn-auth{width:100%;padding:13px;background:linear-gradient(135deg,#6B1F2A,#C4622D);color:white;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;margin-bottom:10px}
-.auth-hint{font-size:11px;color:#B0B0B0;text-align:center}
-.auth-hint span{color:#C4622D;font-weight:500}
-
 </style>
 </head>
 <body>
@@ -484,25 +469,24 @@ body {
       <div class="section-title">Continuer</div>
       <div class="section-sub">Reprends là où tu t'es arrêté</div>
     </div>
-    <div class="en-cours-list">
-
-      <div class="en-cours-card" onclick="goFormation('code')">
+    <div class="en-cours-list" id="enCoursList">
+      <!-- Rempli dynamiquement par JS -->
+      <div class="en-cours-card" onclick="window.location.href='formation-codage.html'">
         <div class="ec-left">
           <div class="ec-icon" style="background:linear-gradient(135deg,#1A1A2E,#16213E)">⌨️</div>
           <div class="ec-info">
             <div class="ec-title">Le Code — de zéro à indépendant</div>
-            <div class="ec-meta">Module 2 sur 8 · HTML & CSS</div>
+            <div class="ec-meta" id="moduleEnCoursMeta">Module 1 sur 8</div>
             <div class="progress-wrap">
               <div class="progress-bar">
-                <div class="progress-fill" style="width:22%"></div>
+                <div class="progress-fill" id="progressFill" style="width:0%"></div>
               </div>
-              <span class="progress-pct">22%</span>
+              <span class="progress-pct" id="progressPct">0%</span>
             </div>
           </div>
         </div>
-        <button class="btn-continue">Continuer →</button>
+        <button class="btn-continue" id="btnContinueCard">Commencer →</button>
       </div>
-
     </div>
   </div>
 </section>
@@ -520,7 +504,7 @@ body {
     <div class="catalogue" id="catalogue">
 
       <!-- Code -->
-      <div class="forma-card" data-cat="code" onclick="goFormation('code')">
+      <div class="forma-card" id="mod-codage1" data-cat="code" onclick="goFormation('code')">
         <div class="forma-cover" style="background:linear-gradient(135deg,#1A1A2E 0%,#16213E 50%,#0F3460 100%)">
           <span class="forma-emoji">⌨️</span>
           <div class="forma-tag">Code</div>
@@ -874,31 +858,74 @@ function drawMedal(canvas, pct) {
 
 // Init page academy
 function initAcademy() {
-  const pct = globalPct();
-  const next = nextModule();
+  var pct = globalPct();
+  var next = nextModule();
+  var data = getProg();
 
-  // Médaille
+  // Medaille
   drawMedal(document.getElementById('medalCanvas'), pct);
 
   // Pourcentage
-  const pctEl = document.getElementById('progPct');
-  if (pctEl) pctEl.textContent = pct + '%';
+  var pctEl = document.getElementById('progPct');
+  if(pctEl) pctEl.textContent = pct + '%';
 
   // Label
-  const label = document.getElementById('progLabel');
-  if (label) {
-    if (pct === 0) label.textContent = 'Commence ta formation';
-    else if (pct === 100) label.textContent = 'Formation complétée ! 🏆';
+  var label = document.getElementById('progLabel');
+  if(label) {
+    if(pct === 0) label.textContent = 'Commence ta formation';
+    else if(pct === 100) label.textContent = 'Formation completee !';
     else label.textContent = 'En cours — continue !';
   }
 
   // Bouton continuer
-  const btn = document.getElementById('btnContinue');
-  if (btn && next) {
-    btn.textContent = pct === 0 ? 'Commencer la formation →' : 'Continuer — ' + next.name + ' →';
-    btn.onclick = () => window.location.href = next.file;
+  var btn = document.getElementById('btnContinue');
+  if(btn && next) {
+    btn.textContent = pct === 0 ? 'Commencer la formation' : 'Continuer — ' + next.name;
+    btn.onclick = function() { window.location.href = next.file; };
     btn.style.display = 'inline-block';
   }
+
+  // Mettre a jour la carte en cours
+  var pctCodage = 0;
+  var doneModules = 0;
+  MODULES.forEach(function(mod) {
+    if((data[mod.id]||0) >= mod.parties) doneModules++;
+  });
+  var totalModules = MODULES.length;
+  pctCodage = Math.round((doneModules / totalModules) * 100);
+  
+  var fillEl = document.getElementById('progressFill');
+  var pctEl2 = document.getElementById('progressPct');
+  var metaEl = document.getElementById('moduleEnCoursMeta');
+  var btnCard = document.getElementById('btnContinueCard');
+  
+  if(fillEl) fillEl.style.width = pctCodage + '%';
+  if(pctEl2) pctEl2.textContent = pctCodage + '%';
+  if(metaEl) metaEl.textContent = 'Module ' + (doneModules+1) + ' sur ' + totalModules + ' · HTML';
+  if(btnCard && next) {
+    btnCard.textContent = pct === 0 ? 'Commencer →' : 'Continuer →';
+    btnCard.onclick = function(e) { e.stopPropagation(); window.location.href = next.file; };
+  }
+
+  // Mettre a jour les cartes de modules
+  MODULES.forEach(function(mod) {
+    var done = data[mod.id] || 0;
+    var card = document.getElementById('mod-' + mod.id);
+    if(!card) return;
+    if(done >= mod.parties) {
+      card.classList.remove('locked');
+      card.onclick = function() { window.location.href = mod.file; };
+      var status = card.querySelector('.forma-status');
+      if(status) { status.textContent = 'Complete'; status.classList.add('active'); }
+      var lock = card.querySelector('.forma-lock');
+      if(lock) lock.textContent = 'Revoir le module';
+    } else if(done > 0) {
+      card.classList.remove('locked');
+      card.onclick = function() { window.location.href = mod.file; };
+      var status = card.querySelector('.forma-status');
+      if(status) { status.textContent = Math.round(done/mod.parties*100) + '% en cours'; status.classList.add('active'); }
+    }
+  });
 }
 
 initAcademy();
