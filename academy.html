@@ -334,31 +334,164 @@ function goFormation(id) {
   </div>
 </div>
 
+
+
+
 <script>
-// Auth temporaire
+// ── AUTH ──────────────────────────────────────
 function tryLogin() {
   const user = document.getElementById('authUser').value.trim().toLowerCase();
-  const pass = document.getElementById('authPass').value.trim();
-  const err = document.getElementById('authErr');
-  if ((user === 'kora' || user === 'Kora') && pass === '123456789') {
+  const pass = document.getElementById('authPass').value;
+  if (user === 'kora' && pass === '123456789') {
     localStorage.setItem('kora_auth', '1');
     document.getElementById('authWall').style.display = 'none';
   } else {
-    err.style.display = 'block';
+    document.getElementById('authErr').style.display = 'block';
     document.getElementById('authPass').value = '';
+    document.getElementById('authPass').focus();
   }
 }
-document.getElementById('authUser').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('authPass').focus(); });
-document.getElementById('authPass').addEventListener('keydown', e => { if(e.key==='Enter') tryLogin(); });
-
-// Check auth on load
-window.addEventListener('load', function() {
-  if (localStorage.getItem('kora_auth') === '1') {
-    document.getElementById('authWall').style.display = 'none';
-  }
+document.getElementById('authUser').addEventListener('keydown', e => {
+  if(e.key === 'Enter') document.getElementById('authPass').focus();
 });
+document.getElementById('authPass').addEventListener('keydown', e => {
+  if(e.key === 'Enter') tryLogin();
+});
+// Check si déjà connecté
+if (localStorage.getItem('kora_auth') === '1') {
+  document.getElementById('authWall').style.display = 'none';
+}
+
+// ── PROGRESSION ───────────────────────────────
+const MODULES = [
+  { id:'codage1', file:'formation-codage.html',  name:"C'est quoi le HTML",      parties:5 },
+  { id:'codage2', file:'formation-codage2.html', name:"La structure d'une page", parties:5 },
+  { id:'codage3', file:'formation-codage3.html', name:"Titres, textes, listes",  parties:5 },
+  { id:'codage4', file:'formation-codage4.html', name:"Liens et images",          parties:4 },
+  { id:'codage5', file:'formation-codage5.html', name:"Les formulaires",          parties:5 },
+  { id:'codage6', file:'formation-codage6.html', name:"Les tableaux",             parties:3 },
+  { id:'codage7', file:'formation-codage7.html', name:"HTML sémantique",          parties:4 },
+  { id:'codage8', file:'formation-codage8.html', name:"Évaluation + Certification", parties:1 },
+];
+
+function getProg() {
+  try { return JSON.parse(localStorage.getItem('kora_prog')) || {}; }
+  catch { return {}; }
+}
+
+function globalPct() {
+  const data = getProg();
+  let total = 0, done = 0;
+  MODULES.forEach(m => { total += m.parties; done += Math.min(data[m.id]||0, m.parties); });
+  return total > 0 ? Math.round((done/total)*100) : 0;
+}
+
+function nextModule() {
+  const data = getProg();
+  return MODULES.find(m => (data[m.id]||0) < m.parties) || null;
+}
+
+// Médaille pixel
+function drawMedal(canvas, pct) {
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+  const ps = size / 24;
+  ctx.clearRect(0, 0, size, size);
+
+  // Cercle de base
+  const cx = size/2, cy = size/2, r = size*0.45;
+  
+  // Fond médaille (gris si vide, or si rempli)
+  const grad = ctx.createRadialGradient(cx-r*0.2, cy-r*0.2, r*0.1, cx, cy, r);
+  if (pct === 0) {
+    grad.addColorStop(0, '#E8E0D0');
+    grad.addColorStop(1, '#C8B8A0');
+  } else {
+    grad.addColorStop(0, '#FFE566');
+    grad.addColorStop(0.5, '#FFD700');
+    grad.addColorStop(1, '#C88000');
+  }
+  
+  // Ruban
+  ctx.fillStyle = pct === 0 ? '#B0A090' : '#C4622D';
+  ctx.fillRect(cx - ps*2, 0, ps*4, cy - r + ps);
+  
+  // Médaille cercle
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI*2);
+  ctx.fillStyle = grad;
+  ctx.fill();
+  
+  // Remplissage progressif (arc)
+  if (pct > 0 && pct < 100) {
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, -Math.PI/2, -Math.PI/2 + (pct/100)*Math.PI*2);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(255,215,0,0.3)';
+    ctx.fill();
+  }
+  
+  // Bordure
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI*2);
+  ctx.strokeStyle = pct === 0 ? '#A09080' : '#C88000';
+  ctx.lineWidth = ps * 0.5;
+  ctx.stroke();
+
+  // Brillance
+  ctx.beginPath();
+  ctx.arc(cx - r*0.25, cy - r*0.25, r*0.35, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  ctx.fill();
+
+  // Icône balise code au centre
+  ctx.fillStyle = pct === 0 ? 'rgba(100,80,60,0.5)' : 'rgba(100,60,0,0.7)';
+  ctx.font = `bold ${Math.round(ps*3.5)}px monospace`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('</ >', cx, cy + ps*0.5);
+  
+  // Pourcentage en bas
+  if (pct > 0) {
+    ctx.fillStyle = pct >= 50 ? 'rgba(80,40,0,0.8)' : 'rgba(107,31,42,0.8)';
+    ctx.font = `bold ${Math.round(ps*2.2)}px 'DM Sans', sans-serif`;
+    ctx.fillText(pct + '%', cx, cy + r*0.62);
+  }
+}
+
+// Init page academy
+function initAcademy() {
+  const pct = globalPct();
+  const next = nextModule();
+
+  // Médaille
+  drawMedal(document.getElementById('medalCanvas'), pct);
+
+  // Pourcentage
+  const pctEl = document.getElementById('progPct');
+  if (pctEl) pctEl.textContent = pct + '%';
+
+  // Label
+  const label = document.getElementById('progLabel');
+  if (label) {
+    if (pct === 0) label.textContent = 'Commence ta formation';
+    else if (pct === 100) label.textContent = 'Formation complétée ! 🏆';
+    else label.textContent = 'En cours — continue !';
+  }
+
+  // Bouton continuer
+  const btn = document.getElementById('btnContinue');
+  if (btn && next) {
+    btn.textContent = pct === 0 ? 'Commencer la formation →' : 'Continuer — ' + next.name + ' →';
+    btn.onclick = () => window.location.href = next.file;
+    btn.style.display = 'inline-block';
+  }
+}
+
+initAcademy();
 </script>
 
-<script src="progression.js"></script>
 </body>
 </html>
