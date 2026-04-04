@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS — Module 1 — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--code:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;color:var(--text);margin-bottom:8px;line-height:1.2}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.12);color:var(--b1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--b2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;color:var(--text);margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7;color:var(--text)}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(107,31,42,0.04),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--b1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;color:var(--text);line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#252540}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#E0E0FF}
+.sel{color:#9ECE6A}.prop{color:#79B8FF}.val{color:#E8956D}.cm{color:#637777;font-style:italic}.cts{color:#79B8FF}.atr{color:#FFAB70}.vl{color:#9ECE6A}
+.demo-split{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.demo-split-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.demo-split-body{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:580px){.demo-split-body{grid-template-columns:1fr}}
+.demo-code{background:var(--code);padding:16px}
+.demo-code textarea{width:100%;min-height:130px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0E0FF;resize:none;line-height:1.7}
+.demo-preview{background:var(--w);padding:16px;border-left:1px solid var(--line)}
+.demo-preview-label{font-size:11px;color:var(--light);margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase}
+.demo-preview-result{min-height:80px;font-size:14px}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(107,31,42,0.08);color:var(--b2);border:1px solid rgba(107,31,42,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--b2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:160px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--b2)}
+.exo-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(107,31,42,0.25);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(107,31,42,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px;color:var(--text)}.ia-ctx{font-size:11px;color:var(--b2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(107,31,42,0.05);color:var(--text);border-radius:10px 10px 10px 3px;border:1px solid rgba(107,31,42,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--b2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">CSS — de zero a la maitrise</div>
+    <div class="header-meta">Module 1 · C'est quoi le CSS</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--b2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:6%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">CSS · Module 1</div>
+    <div class="mod-header-title">C'est quoi <em>le CSS ?</em></div>
+    <div class="mod-header-sub">Le HTML structure, le CSS embellit. Dans ce module tu comprends comment le CSS fonctionne, comment le lier a ton HTML, et pourquoi c'est l'outil qui transforme du texte brut en design professionnel.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">CSS c'est quoi</div>
+    <div class="partie-tab" onclick="switchPartie(2)">Les 3 facons</div>
+    <div class="partie-tab" onclick="switchPartie(3)">Regles et declarations</div>
+    <div class="partie-tab" onclick="switchPartie(4)">La cascade</div>
+    <div class="partie-tab" onclick="switchPartie(5)">Exercice</div>
+  </div>
+
+  <!-- PARTIE 1 -->
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">Le HTML donne la structure. <em>Le CSS donne le style.</em></span>
+      <p>Tu as appris le HTML — les titres, les textes, les liens, les images. Tout ca c'est la structure. Mais si tu ouvres une page HTML sans CSS, tu obtiens du texte brut noir sur fond blanc, sans couleur, sans mise en page, sans rien.</p>
+      <p>Le CSS — <strong>Cascading Style Sheets</strong> — c'est le langage qui dit comment ca ressemble. Les couleurs, les polices, les tailles, les espacements, les animations... tout ca c'est le CSS.</p>
+      <p>Regarde n'importe quel grand site — Instagram, Google, Kora. Desactive le CSS dans les outils developpeur. Tu verras le HTML nu. Ce que tu vois normalement, c'est le CSS par-dessus.</p>
+    </div>
+    <div class="hl"><span class="hlt">La separation des responsabilites</span>HTML dit QUOI est sur la page. CSS dit COMMENT ca ressemble. JavaScript dit QUE FAIRE quand tu interagis. Cette separation fondamentale te permet de changer completement le design d'un site sans toucher au HTML.</div>
+    <div class="fun-fact"><div class="ff-icon">🎨</div><div><div class="ff-title">CSS Zen Garden</div><div class="ff-text">En 2003, un site appele CSS Zen Garden a montre la puissance du CSS en publiant exactement le meme fichier HTML avec des dizaines de designs completement differents. Certains ressemblaient a des magazines de mode, d'autres a des illustrations japonaises. Meme HTML, designs radicalement differents. Ca a revolutionne la facon dont les developpeurs pensaient le web.</div></div></div>
+  </div>
+
+  <!-- PARTIE 2 -->
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">Tu peux ecrire du CSS <em>de trois facons differentes.</em></span>
+      <p>Fichier externe, balise style dans le head, ou directement sur l'element. Chaque methode a ses avantages — mais une seule est la bonne pratique professionnelle.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">Methode 1 — Fichier externe (recommande)</div></div>
+    <div class="code-body"><pre><span class="cm">/* Dans le head du HTML */</span>
+<span class="cts">&lt;link</span> <span class="atr">rel</span>=<span class="vl">"stylesheet"</span> <span class="atr">href</span>=<span class="vl">"style.css"</span><span class="cts">&gt;</span>
+
+<span class="cm">/* Dans style.css */</span>
+<span class="sel">h1</span> {
+  <span class="prop">color</span>: <span class="val">#6B1F2A</span>;
+  <span class="prop">font-size</span>: <span class="val">32px</span>;
+}</pre></div></div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">Methode 2 — Balise style (acceptable)</div></div>
+    <div class="code-body"><pre><span class="cts">&lt;style&gt;</span>
+  <span class="sel">h1</span> { <span class="prop">color</span>: <span class="val">#6B1F2A</span>; }
+<span class="cts">&lt;/style&gt;</span></pre></div></div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">Methode 3 — Inline style (a eviter)</div></div>
+    <div class="code-body"><pre><span class="cts">&lt;h1</span> <span class="atr">style</span>=<span class="vl">"color: #6B1F2A;"</span><span class="cts">&gt;</span>Titre<span class="cts">&lt;/h1&gt;</span></pre></div></div>
+    <div class="hl"><span class="hlt">Pourquoi le fichier externe est le mieux</span>Un seul fichier CSS peut styler des centaines de pages HTML. Si tu veux changer une couleur sur tout le site, tu la changes une seule fois dans le CSS. C'est ca la vraie puissance.</div>
+    <div class="fun-fact"><div class="ff-icon">💡</div><div><div class="ff-title">Kora utilise des balises style</div><div class="ff-text">Les modules Kora utilisent des balises style dans le head plutot qu'un fichier externe — c'est pour simplifier l'hebergement sur GitHub Pages avec un seul fichier. En production sur un vrai projet, tu utilises toujours un fichier CSS externe.</div></div></div>
+  </div>
+
+  <!-- PARTIE 3 -->
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">Une regle CSS c'est un <em>selecteur + des declarations.</em></span>
+      <p>Toute la syntaxe CSS suit exactement le meme pattern. Un selecteur qui cible des elements, des accolades, et des declarations propriete:valeur a l'interieur.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — Anatomie d'une regle</div></div>
+    <div class="code-body"><pre><span class="sel">h1</span> {                  <span class="cm">/* Selecteur — cible tous les h1 */</span>
+  <span class="prop">color</span>: <span class="val">red</span>;          <span class="cm">/* Propriete : Valeur ; */</span>
+  <span class="prop">font-size</span>: <span class="val">32px</span>;
+  <span class="prop">font-weight</span>: <span class="val">bold</span>;
+  <span class="prop">margin-bottom</span>: <span class="val">16px</span>;
+}                     <span class="cm">/* Accolade fermante */</span>
+
+<span class="cm">/* Plusieurs selecteurs, memes styles */</span>
+<span class="sel">h1, h2, h3</span> {
+  <span class="prop">font-family</span>: <span class="val">'Fraunces', serif</span>;
+  <span class="prop">line-height</span>: <span class="val">1.2</span>;
+}</pre></div></div>
+    <div class="demo-split">
+      <div class="demo-split-head">⚡ Editeur live — modifie le CSS et vois le resultat</div>
+      <div class="demo-split-body">
+        <div class="demo-code"><textarea id="liveCode" oninput="updateLive()">h2 {
+  color: #6B1F2A;
+  font-size: 24px;
+}
+p {
+  color: #737373;
+  font-size: 15px;
+  line-height: 1.6;
+}</textarea></div>
+        <div class="demo-preview">
+          <div class="demo-preview-label">Resultat</div>
+          <div class="demo-preview-result" id="liveResult">
+            <style id="liveStyle">h2{color:#6B1F2A;font-size:24px}p{color:#737373;font-size:15px;line-height:1.6}</style>
+            <h2>Titre en CSS</h2>
+            <p>Texte stylise avec le CSS que tu ecris en temps reel.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fun-fact"><div class="ff-icon">📌</div><div><div class="ff-title">Le point-virgule</div><div class="ff-text">Le point-virgule a la fin de chaque declaration CSS est obligatoire — sauf pour la derniere declaration d'un bloc (mais mets-le quand meme par habitude). Si tu oublies un point-virgule, les declarations suivantes peuvent etre ignorees. C'est l'erreur numero 1 des debutants.</div></div></div>
+  </div>
+
+  <!-- PARTIE 4 -->
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">La cascade — <em>qui gagne quand plusieurs regles s'appliquent ?</em></span>
+      <p>CSS signifie Cascading Style Sheets. Le mot "cascading" est crucial — il definit comment les conflits entre regles sont resolus. Trois facteurs : la specificite, l'ordre, l'importance.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — Specificite et cascade</div></div>
+    <div class="code-body"><pre><span class="cm">/* Specificite faible — selecteur de balise */</span>
+<span class="sel">p</span> { <span class="prop">color</span>: <span class="val">gray</span>; }
+
+<span class="cm">/* Specificite moyenne — classe */</span>
+<span class="sel">.rouge</span> { <span class="prop">color</span>: <span class="val">red</span>; }    <span class="cm">/* Gagne sur p */</span>
+
+<span class="cm">/* Specificite haute — id */</span>
+<span class="sel">#titre</span> { <span class="prop">color</span>: <span class="val">blue</span>; }  <span class="cm">/* Gagne sur .rouge */</span>
+
+<span class="cm">/* Inline style — plus fort encore */</span>
+<span class="cm">/* style="color: green" gagne sur tout */</span>
+
+<span class="cm">/* !important — dernier recours, a eviter */</span>
+<span class="sel">p</span> { <span class="prop">color</span>: <span class="val">purple !important</span>; }</pre></div></div>
+    <div class="hl"><span class="hlt">L'ordre de specificite</span>inline style gagne sur #id qui gagne sur .classe qui gagne sur balise. A specificite egale, la regle la plus basse dans le fichier CSS gagne. Mets les regles generales en haut, les exceptions en bas.</div>
+    <div class="fun-fact"><div class="ff-icon">🏆</div><div><div class="ff-title">Pourquoi eviter !important</div><div class="ff-text">!important force une regle a gagner sur tout. Ca semble pratique mais ca casse la cascade — la logique meme du CSS. Quand tu en abuses, tu te retrouves a mettre !important partout pour surcharger les autres !important. Les bons developpeurs n'utilisent !important que dans des cas tres specifiques.</div></div></div>
+  </div>
+
+  <!-- PARTIE 5 — EXERCICE -->
+  <div class="content" id="partie5" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Ton premier fichier CSS</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Ecris le CSS pour styler une page de profil basique. Utilise les selecteurs de balise et les bonnes proprietes.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton CSS doit</div><ul>
+          <li>Cibler body avec font-family et background-color</li>
+          <li>Cibler h1 avec une couleur et une taille de police</li>
+          <li>Cibler p avec font-size minimum 15px et line-height</li>
+          <li>Avoir au moins 3 regles CSS differentes avec les bonnes accolades et point-virgules</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="Ecris ton CSS ici...&#10;&#10;body {&#10;  font-family: ...;&#10;  background: ...;&#10;}&#10;h1 {&#10;  color: ...;&#10;}"></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">CSS · Module 1</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur le CSS et comment ca marche ? Je suis la.</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=5;
+function switchPartie(n){
+  for(var i=1;i<=tp;i++){
+    var el=document.getElementById('partie'+i);if(el)el.style.display='none';
+    var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');
+  }
+  var t=document.getElementById('partie'+n);if(t)t.style.display='block';
+  var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');
+  cp=n;updateNav();window.scrollTo(0,0);
+}
+function terminerModule(){
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['css1']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+  window.location.href='academy.html';
+}
+function nextPartie(){
+  if(cp<tp){
+    try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['css1']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+    switchPartie(cp+1);
+  }else{terminerModule();}
+}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){
+  document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';
+  document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';
+  document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;
+  document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;
+  document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';
+  document.getElementById('globalFill').style.width=(6+Math.round((cp/tp)*6))+'%';
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}
+}
+var speaking=false;
+function toggleListen(){
+  var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');
+  if(!speaking){
+    var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);
+    u.lang='fr-FR';u.rate=0.88;
+    u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};
+    speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';
+  }else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}
+}
+function updateLive(){
+  var css=document.getElementById('liveCode').value;
+  document.getElementById('liveStyle').textContent=css;
+}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){
+  var t=iaInp.value.trim();if(!t)return;
+  var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  setTimeout(function(){
+    var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  },600);
+}
+function getR(q){
+  var q2=q.toLowerCase();
+  if(q2.includes('lier')||q2.includes('link'))return 'Pour lier un fichier CSS a ton HTML, mets dans le head : <link rel="stylesheet" href="style.css">. Le href pointe vers ton fichier CSS dans le meme dossier.';
+  if(q2.includes('cascade')||q2.includes('specificit'))return 'CSS = Cascading Style Sheets. La cascade resout les conflits entre regles. Ordre de specificite : inline > #id > .classe > balise. A specificite egale, la derniere regle dans le fichier gagne.';
+  if(q2.includes('important'))return '!important force une regle a gagner sur tout. A eviter en general — ca casse la logique de la cascade et rend le CSS difficile a maintenir. Utilise-le seulement en dernier recours.';
+  if(q2.includes('selecteur'))return 'Un selecteur CSS cible les elements HTML. p cible tous les paragraphes. .classe cible les elements avec cette classe. #id cible un element unique. Tu en apprends plus dans le module 2.';
+  return 'Bonne question sur le CSS. La syntaxe de base : selecteur { propriete: valeur; }. Le fichier externe est recommande pour les vrais projets. La cascade determine quelle regle s\'applique quand plusieurs ciblent le meme element.';
+}
+iaSend.addEventListener('click',sendIa);
+iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){
+  var input=document.getElementById('exoInput').value.toLowerCase();
+  var fb=document.getElementById('exoFeedback');
+  var hasBody=input.includes('body')&&input.includes('font-family');
+  var hasH1=input.includes('h1')&&input.includes('color');
+  var hasP=input.includes('p {')&&input.includes('font-size');
+  var hasSyntax=(input.match(/\{/g)||[]).length>=3&&input.includes(';');
+  var score=[hasBody,hasH1,hasP,hasSyntax].filter(Boolean).length;
+  if(score>=3){fb.className='exo-feedback ok';fb.innerHTML='Parfait ! Tu maitrises la syntaxe CSS de base. Selecteur, accolades, proprietes, point-virgules — c\'est le pattern de tout le CSS que tu ecriras.';}
+  else{fb.className='exo-feedback ko';fb.innerHTML='Verifie : body avec font-family, h1 avec color, p avec font-size, et les accolades + point-virgules corrects.';}
+  fb.style.display='block';
+}
+function showIndice(){
+  var fb=document.getElementById('exoFeedback');
+  fb.className='exo-feedback ko';
+  fb.innerHTML='Indice :'
+    +'<br>body { font-family: sans-serif; background: #FAFAFA; }'
+    +'<br>h1 { color: #6B1F2A; font-size: 36px; }'
+    +'<br>p { font-size: 16px; line-height: 1.6; color: #333; }';
+  fb.style.display='block';
+}
+updateNav();
+</script>
+</body>
+</html>

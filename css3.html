@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS — Module 3 — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--code:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;color:var(--text);margin-bottom:8px;line-height:1.2}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.12);color:var(--b1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--b2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;color:var(--text);margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7;color:var(--text)}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(107,31,42,0.04),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--b1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;color:var(--text);line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#252540}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#E0E0FF}
+.sel{color:#9ECE6A}.prop{color:#79B8FF}.val{color:#E8956D}.cm{color:#637777;font-style:italic}.cts{color:#79B8FF}.atr{color:#FFAB70}.vl{color:#9ECE6A}
+.couleur-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0}
+@media(max-width:480px){.couleur-grid{grid-template-columns:repeat(2,1fr)}}
+.couleur-card{border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.couleur-preview{height:56px}
+.couleur-info{padding:8px 10px;background:var(--w)}
+.couleur-code{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.couleur-name{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px}
+.demo-interactive{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.demo-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.demo-body{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:580px){.demo-body{grid-template-columns:1fr}}
+.demo-left{background:var(--code);padding:16px}
+.demo-left textarea{width:100%;min-height:140px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0E0FF;resize:none;line-height:1.7}
+.demo-right{background:var(--w);padding:16px;border-left:1px solid var(--line)}
+.demo-label{font-size:11px;color:var(--light);margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase}
+.demo-result{font-size:14px;line-height:1.7;min-height:80px}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(107,31,42,0.08);color:var(--b2);border:1px solid rgba(107,31,42,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--b2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:160px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--b2)}
+.exo-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(107,31,42,0.25);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(107,31,42,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px;color:var(--text)}.ia-ctx{font-size:11px;color:var(--b2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(107,31,42,0.05);color:var(--text);border-radius:10px 10px 10px 3px;border:1px solid rgba(107,31,42,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--b2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">CSS — de zero a la maitrise</div>
+    <div class="header-meta">Module 3 · Couleurs et fonds</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--b2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:18%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">CSS · Module 3</div>
+    <div class="mod-header-title">Couleurs et <em>fonds.</em></div>
+    <div class="mod-header-sub">Les couleurs c'est la personnalite d'un site. CSS propose cinq formats de couleurs, les gradients, les images de fond. Dans ce module tu maitrises tout ce qui concerne la couleur en CSS.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">Formats de couleurs</div>
+    <div class="partie-tab" onclick="switchPartie(2)">Opacity et rgba</div>
+    <div class="partie-tab" onclick="switchPartie(3)">Background</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Gradients</div>
+    <div class="partie-tab" onclick="switchPartie(5)">Exercice</div>
+  </div>
+
+  <!-- PARTIE 1 -->
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">CSS propose <em>cinq formats de couleurs differents.</em></span>
+      <p>Tu peux ecrire une couleur en hexadecimal, en RGB, en HSL, ou simplement avec son nom anglais. Chaque format a ses avantages — certains sont plus lisibles, d'autres plus pratiques a manipuler programmatiquement.</p>
+    </div>
+    <div class="couleur-grid">
+      <div class="couleur-card"><div class="couleur-preview" style="background:#6B1F2A"></div><div class="couleur-info"><div class="couleur-name">Hexadecimal</div><div class="couleur-code">#6B1F2A</div></div></div>
+      <div class="couleur-card"><div class="couleur-preview" style="background:rgb(107,31,42)"></div><div class="couleur-info"><div class="couleur-name">RGB</div><div class="couleur-code">rgb(107,31,42)</div></div></div>
+      <div class="couleur-card"><div class="couleur-preview" style="background:rgba(107,31,42,0.5)"></div><div class="couleur-info"><div class="couleur-name">RGBA</div><div class="couleur-code">rgba(...,0.5)</div></div></div>
+      <div class="couleur-card"><div class="couleur-preview" style="background:hsl(350,55%,27%)"></div><div class="couleur-info"><div class="couleur-name">HSL</div><div class="couleur-code">hsl(350,55%,27%)</div></div></div>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — Les 5 formats de couleurs</div></div>
+    <div class="code-body"><pre><span class="cm">/* 1. Nom anglais — simple mais limite */</span>
+<span class="sel">h1</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+
+<span class="cm">/* 2. Hexadecimal — le plus utilise */</span>
+<span class="sel">h1</span> { <span class="prop">color</span>: <span class="val">#6B1F2A</span>; }
+<span class="sel">p</span>  { <span class="prop">color</span>: <span class="val">#333</span>; }     <span class="cm">/* Raccourci = #333333 */</span>
+
+<span class="cm">/* 3. RGB — rouge vert bleu (0-255) */</span>
+<span class="sel">h1</span> { <span class="prop">color</span>: <span class="val">rgb(107, 31, 42)</span>; }
+
+<span class="cm">/* 4. RGBA — RGB + transparence (0 a 1) */</span>
+<span class="sel">.overlay</span> { <span class="prop">background</span>: <span class="val">rgba(107, 31, 42, 0.5)</span>; }
+
+<span class="cm">/* 5. HSL — teinte saturation luminosite */</span>
+<span class="sel">h1</span> { <span class="prop">color</span>: <span class="val">hsl(350, 55%, 27%)</span>; }</pre></div></div>
+    <div class="hl"><span class="hlt">Quel format utiliser</span>Hexadecimal pour les couleurs fixes — c'est ce que les designers te donnent. RGBA quand tu as besoin de transparence. HSL pour generer des variantes : meme teinte, luminosite differente pour une version plus claire ou plus sombre.</div>
+    <div class="fun-fact"><div class="ff-icon">🎨</div><div><div class="ff-title">Les couleurs de Kora</div><div class="ff-text">Les couleurs que tu vois sur Kora sont definies en hexadecimal : bordeaux #6B1F2A, terre cuite #C4622D, ambre #E8956D. Ces trois couleurs forment un gradient. Dans le CSS de Kora tu vois exactement : background: linear-gradient(135deg, #6B1F2A, #C4622D, #E8956D). C'est ce que tu apprendras dans la partie 4.</div></div></div>
+  </div>
+
+  <!-- PARTIE 2 -->
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">La transparence avec <em>rgba et opacity.</em></span>
+      <p>Deux facons de rendre un element transparent en CSS. rgba pour la couleur seulement, opacity pour tout l'element y compris son contenu. La difference est importante.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — rgba vs opacity</div></div>
+    <div class="code-body"><pre><span class="cm">/* rgba — transparence sur la COULEUR seulement */</span>
+<span class="sel">.overlay</span> {
+  <span class="prop">background</span>: <span class="val">rgba(107, 31, 42, 0.7)</span>;
+  <span class="cm">/* Le texte a l'interieur reste 100% opaque */</span>
+}
+
+<span class="cm">/* opacity — transparence sur TOUT l'element */</span>
+<span class="sel">.ghost</span> {
+  <span class="prop">opacity</span>: <span class="val">0.5</span>;
+  <span class="cm">/* Le texte ET le fond sont a 50% transparent */</span>
+}
+
+<span class="cm">/* Cas reel — header verre depoli */</span>
+<span class="sel">.header</span> {
+  <span class="prop">background</span>: <span class="val">rgba(255, 255, 255, 0.95)</span>;
+  <span class="prop">backdrop-filter</span>: <span class="val">blur(12px)</span>;
+  <span class="cm">/* Effet verre depoli — c'est le header de Kora ! */</span>
+}</pre></div></div>
+    <div class="demo-interactive">
+      <div class="demo-head">⚡ Editeur live — teste rgba et opacity</div>
+      <div class="demo-body">
+        <div class="demo-left"><textarea id="liveCode1" oninput="updateLive1()">.box-rgba {
+  background: rgba(107,31,42,0.3);
+  padding: 16px;
+  border-radius: 8px;
+  color: #1A1A1A;
+}
+.box-opacity {
+  background: #6B1F2A;
+  opacity: 0.3;
+  padding: 16px;
+  border-radius: 8px;
+  color: white;
+}</textarea></div>
+        <div class="demo-right">
+          <div class="demo-label">Resultat</div>
+          <div class="demo-result" id="liveResult1">
+            <style id="liveStyle1">.box-rgba{background:rgba(107,31,42,0.3);padding:16px;border-radius:8px;color:#1A1A1A;margin-bottom:8px}.box-opacity{background:#6B1F2A;opacity:0.3;padding:16px;border-radius:8px;color:white}</style>
+            <div class="box-rgba">Fond rgba 30%</div>
+            <br>
+            <div class="box-opacity">Opacity 30%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hl"><span class="hlt">backdrop-filter</span>backdrop-filter: blur(12px) applique un flou sur ce qui est derriere l'element. Necessite un fond semi-transparent pour etre visible. C'est l'effet "verre depoli" qu'on voit dans iOS, macOS et de nombreuses apps modernes. Kora l'utilise sur son header.</div>
+  </div>
+
+  <!-- PARTIE 3 -->
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">La propriete background — <em>bien plus qu'une couleur.</em></span>
+      <p>background en CSS peut accueillir une couleur, une image, un gradient. Et des proprietes complementaires controlent comment ca s'affiche, se repete, se positionne.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — Background complet</div></div>
+    <div class="code-body"><pre><span class="cm">/* Couleur de fond */</span>
+<span class="sel">body</span> { <span class="prop">background-color</span>: <span class="val">#FAFAFA</span>; }
+
+<span class="cm">/* Image de fond */</span>
+<span class="sel">.hero</span> {
+  <span class="prop">background-image</span>: <span class="val">url('cover.jpg')</span>;
+  <span class="prop">background-size</span>: <span class="val">cover</span>;      <span class="cm">/* Remplit tout le conteneur */</span>
+  <span class="prop">background-position</span>: <span class="val">center</span>; <span class="cm">/* Centre l'image */</span>
+  <span class="prop">background-repeat</span>: <span class="val">no-repeat</span>;
+}
+
+<span class="cm">/* Raccourci — tout en une ligne */</span>
+<span class="sel">.hero</span> {
+  <span class="prop">background</span>: <span class="val">url('cover.jpg') center/cover no-repeat</span>;
+}
+
+<span class="cm">/* Couleur + image par-dessus */</span>
+<span class="sel">.hero</span> {
+  <span class="prop">background</span>:
+    <span class="val">linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4))</span>,
+    <span class="val">url('cover.jpg') center/cover no-repeat</span>;
+}</pre></div></div>
+    <div class="fun-fact"><div class="ff-icon">📸</div><div><div class="ff-title">background-size: cover</div><div class="ff-text">cover est la valeur la plus utilisee pour les images de fond. Elle dit : agrandis ou reduis l'image pour qu'elle couvre tout le conteneur sans deformation. contain dit le contraire : montre l'image entiere meme si ca laisse des espaces vides. Pour les sections hero avec image de fond, c'est toujours cover.</div></div></div>
+  </div>
+
+  <!-- PARTIE 4 -->
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">Les gradients — <em>des transitions de couleurs en CSS pur.</em></span>
+      <p>Les gradients CSS permettent de creer des degrades de couleurs sans image. Linear-gradient pour un degrade lineaire, radial-gradient pour un degrade circulaire.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — Gradients</div></div>
+    <div class="code-body"><pre><span class="cm">/* Linear gradient */</span>
+<span class="sel">.btn</span> {
+  <span class="prop">background</span>: <span class="val">linear-gradient(to right, #6B1F2A, #C4622D)</span>;
+}
+
+<span class="cm">/* Avec angle — le gradient de Kora */</span>
+<span class="sel">.kora-grad</span> {
+  <span class="prop">background</span>: <span class="val">linear-gradient(135deg, #6B1F2A 0%, #C4622D 50%, #E8956D 100%)</span>;
+}
+
+<span class="cm">/* Radial gradient — cercle */</span>
+<span class="sel">.circle</span> {
+  <span class="prop">background</span>: <span class="val">radial-gradient(circle, #FFD700, #FF8C00)</span>;
+}
+
+<span class="cm">/* Gradient de texte — technique avancee */</span>
+<span class="sel">.gradient-text</span> {
+  <span class="prop">background</span>: <span class="val">linear-gradient(135deg, #6B1F2A, #E8956D)</span>;
+  <span class="prop">-webkit-background-clip</span>: <span class="val">text</span>;
+  <span class="prop">-webkit-text-fill-color</span>: <span class="val">transparent</span>;
+  <span class="prop">background-clip</span>: <span class="val">text</span>;
+  <span class="cm">/* Tous les titres Kora utilisent ca ! */</span>
+}</pre></div></div>
+    <div class="demo-interactive">
+      <div class="demo-head">⚡ Editeur live — cree ton gradient</div>
+      <div class="demo-body">
+        <div class="demo-left"><textarea id="liveCode4" oninput="updateLive4()">.grad-demo {
+  background: linear-gradient(
+    135deg,
+    #6B1F2A 0%,
+    #C4622D 50%,
+    #E8956D 100%
+  );
+  height: 80px;
+  border-radius: 12px;
+}
+.text-grad {
+  background: linear-gradient(135deg, #6B1F2A, #E8956D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 24px;
+  font-weight: 700;
+}</textarea></div>
+        <div class="demo-right">
+          <div class="demo-label">Resultat</div>
+          <div class="demo-result" id="liveResult4">
+            <style id="liveStyle4">.grad-demo{background:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);height:80px;border-radius:12px;margin-bottom:12px}.text-grad{background:linear-gradient(135deg,#6B1F2A,#E8956D);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:24px;font-weight:700}</style>
+            <div class="grad-demo"></div>
+            <div class="text-grad">Kora Academy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hl"><span class="hlt">Le gradient de texte</span>Trois proprietes ensemble : background avec gradient, -webkit-background-clip: text pour limiter le fond au texte, -webkit-text-fill-color: transparent pour rendre le texte transparent et laisser voir le fond derriere. Tous les titres de Kora utilisent cette technique.</div>
+  </div>
+
+  <!-- PARTIE 5 — EXERCICE -->
+  <div class="content" id="partie5" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Stylise avec les couleurs de Kora</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Utilise les couleurs de Kora (#6B1F2A, #C4622D, #E8956D) et les techniques vues dans ce module pour styler plusieurs composants.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton CSS doit inclure</div><ul>
+          <li>Une couleur en hexadecimal sur un texte ou fond</li>
+          <li>Une couleur rgba avec transparence (alpha entre 0 et 1)</li>
+          <li>Un linear-gradient sur un element</li>
+          <li>background-color ou background sur au moins 2 elements differents</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="Utilise les couleurs de Kora...&#10;&#10;.card {&#10;  background: rgba(107, 31, 42, 0.05);&#10;}&#10;.btn {&#10;  background: linear-gradient(135deg, #6B1F2A, #C4622D);&#10;}"></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">CSS · Couleurs et fonds</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur les couleurs et fonds CSS ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=5;
+function switchPartie(n){
+  for(var i=1;i<=tp;i++){
+    var el=document.getElementById('partie'+i);if(el)el.style.display='none';
+    var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');
+  }
+  var t=document.getElementById('partie'+n);if(t)t.style.display='block';
+  var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');
+  cp=n;updateNav();window.scrollTo(0,0);
+}
+function terminerModule(){
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['css3']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+  window.location.href='academy.html';
+}
+function nextPartie(){
+  if(cp<tp){
+    try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['css3']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+    switchPartie(cp+1);
+  }else{terminerModule();}
+}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){
+  document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';
+  document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';
+  document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;
+  document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;
+  document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';
+  document.getElementById('globalFill').style.width=(18+Math.round((cp/tp)*6))+'%';
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}
+}
+var speaking=false;
+function toggleListen(){
+  var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');
+  if(!speaking){
+    var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);
+    u.lang='fr-FR';u.rate=0.88;
+    u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};
+    speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';
+  }else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}
+}
+function updateLive1(){document.getElementById('liveStyle1').textContent=document.getElementById('liveCode1').value;}
+function updateLive4(){document.getElementById('liveStyle4').textContent=document.getElementById('liveCode4').value;}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){
+  var t=iaInp.value.trim();if(!t)return;
+  var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  setTimeout(function(){
+    var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  },600);
+}
+function getR(q){
+  var q2=q.toLowerCase();
+  if(q2.includes('hex')||q2.includes('#'))return 'Le format hexadecimal (#RRGGBB) represente rouge vert bleu en base 16. #000000 = noir, #FFFFFF = blanc, #FF0000 = rouge pur. La version courte #RGB fonctionne quand chaque paire est identique : #333 = #333333.';
+  if(q2.includes('rgba')||q2.includes('opacity')||q2.includes('transparent'))return 'rgba(r,g,b,alpha) — le 4e parametre va de 0 (invisible) a 1 (opaque). rgba(107,31,42,0.5) = bordeaux a 50%. opacity applique la transparence a tout l\'element contenu inclus. Prefere rgba pour les fonds.';
+  if(q2.includes('gradient'))return 'linear-gradient(angle, couleur1, couleur2). Angle en degres (135deg) ou en mots cles (to right, to bottom). Tu peux ajouter des pourcentages : linear-gradient(135deg, rouge 0%, bleu 50%, vert 100%).';
+  if(q2.includes('background-size')||q2.includes('cover'))return 'background-size: cover agrandit ou reduit l\'image pour couvrir tout le conteneur sans deformation. contain montre l\'image entiere meme si ca laisse des espaces. Pour les images de fond hero, toujours cover.';
+  return 'Bonne question sur les couleurs CSS. Hex pour les couleurs fixes, rgba pour la transparence, linear-gradient pour les degrades. Les couleurs de Kora : #6B1F2A bordeaux, #C4622D terre cuite, #E8956D ambre.';
+}
+iaSend.addEventListener('click',sendIa);
+iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){
+  var input=document.getElementById('exoInput').value.toLowerCase();
+  var fb=document.getElementById('exoFeedback');
+  var hasHex=input.includes('#');
+  var hasRgba=input.includes('rgba');
+  var hasGrad=input.includes('linear-gradient')||input.includes('radial-gradient');
+  var hasBg=(input.match(/background/g)||[]).length>=2;
+  var score=[hasHex,hasRgba,hasGrad,hasBg].filter(Boolean).length;
+  if(score>=3){fb.className='exo-feedback ok';fb.innerHTML='Parfait ! Tu maitrises les couleurs CSS — hex, rgba, gradients. Ces outils te permettent de reproduire n\'importe quel design.';}
+  else{fb.className='exo-feedback ko';fb.innerHTML='Inclus : une couleur hex (#...), rgba avec transparence, et un linear-gradient.';}
+  fb.style.display='block';
+}
+function showIndice(){
+  var fb=document.getElementById('exoFeedback');
+  fb.className='exo-feedback ko';
+  fb.innerHTML='Indice :'
+    +'<br>body { background-color: #FAFAFA; color: #1A1A1A; }'
+    +'<br>.card { background: rgba(107, 31, 42, 0.04); border: 1px solid rgba(107,31,42,0.1); }'
+    +'<br>.btn { background: linear-gradient(135deg, #6B1F2A, #C4622D); color: white; }';
+  fb.style.display='block';
+}
+updateNav();
+</script>
+</body>
+</html>
