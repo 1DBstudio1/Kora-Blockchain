@@ -20,7 +20,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .global-progress{height:3px;background:var(--line)}
 .global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
 .layout{display:flex;max-width:1100px;margin:0 auto;min-height:calc(100vh - 59px)}
-
+.sidebar{width:260px;flex-shrink:0;border-right:1px solid var(--line);background:var(--w);position:sticky;top:59px;height:calc(100vh - 59px);overflow-y:auto;padding:20px 0}
 .sidebar::-webkit-scrollbar{width:0}
 .sidebar-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 18px 14px}
 .module-item{display:flex;align-items:center;gap:11px;padding:11px 18px;cursor:pointer;transition:background 0.15s;border-left:3px solid transparent}
@@ -36,8 +36,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .mod-name{font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .module-item.active .mod-name{font-weight:500;color:var(--b1)}
 .mod-parts{font-size:11px;color:var(--light);margin-top:1px}
-@media(max-width:700px){}
-.main{flex:1;min-width:0;padding:0 0 100px;width:100%}
+@media(max-width:700px){.sidebar{display:none}}
+.main{flex:1;min-width:0;padding:0 0 100px}
 .module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
 .mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
@@ -249,13 +249,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
 </style>
-
-<style>
-.sidebar { display: none !important; }
-.layout { display: block !important; }
-.main { width: 100% !important; max-width: 740px; margin: 0 auto; }
-</style>
-
+<style>.sidebar{display:none!important}.layout{display:block!important}.main{width:100%!important;max-width:740px;margin:0 auto}</style>
 </head>
 <body>
 
@@ -265,7 +259,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <div class="header-title">Le Code — de zéro à indépendant</div>
     <div class="header-meta">Module 3 · Titres, textes et listes</div>
   </div>
-  <canvas id="miniMedal" width="32" height="32" style="image-rendering:pixelated;border-radius:50%;margin-right:4px;cursor:pointer" onclick="window.location.href='academy.html'" title="Voir ma progression"></canvas>
   <div class="header-krt">
     <span style="font-size:11px;color:var(--b2)">◈</span>
     <span class="krt-val">248 KRT</span>
@@ -275,6 +268,17 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:25%"></div></div>
 
 <div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Les modules — HTML</div>
+    <div class="module-item done"><div class="mod-num">✓</div><div class="mod-info"><div class="mod-name">C'est quoi le HTML</div><div class="mod-parts">Complété</div></div></div>
+    <div class="module-item done"><div class="mod-num">✓</div><div class="mod-info"><div class="mod-name">La structure d'une page</div><div class="mod-parts">Complété</div></div></div>
+    <div class="module-item active"><div class="mod-num">3</div><div class="mod-info"><div class="mod-name">Titres, textes, listes</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">4</div><div class="mod-info"><div class="mod-name">Liens et images</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">5</div><div class="mod-info"><div class="mod-name">Les formulaires</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">6</div><div class="mod-info"><div class="mod-name">Les tableaux</div><div class="mod-parts">3 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">7</div><div class="mod-info"><div class="mod-name">HTML sémantique</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">8</div><div class="mod-info"><div class="mod-name">Évaluation + Certification</div><div class="mod-parts">Certification</div></div></div>
+  </aside>
 
   <main class="main">
     <div class="module-header">
@@ -866,29 +870,18 @@ function switchPartie(n){
   }
   const t=document.getElementById('partie'+n);if(t)t.style.display='block';
   const tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');
-  cp=n;updateNav();
-
-
-
-// Progression
-function terminerModule() {
-  // Sauvegarder progression
-  try {
-    var data = JSON.parse(localStorage.getItem('kora_prog') || '{}');
-    data['codage3'] = 99;
-    localStorage.setItem('kora_prog', JSON.stringify(data));
-  } catch(e) {}
-  // Retour academy avec animation
-  document.body.style.opacity = '0';
-  document.body.style.transition = 'opacity 0.3s ease';
-  setTimeout(function() { window.location.href = 'academy.html'; }, 300);
+  cp=n;updateNav();window.scrollTo(0,0);
 }
-window.scrollTo(0,0);
+function terminerModule(){
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage3']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+  window.location.href='academy.html';
 }
-function nextPartie(){if(cp<tp){
+function nextPartie(){
+  if(cp<tp){
     try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage3']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
     switchPartie(cp+1);
-  }else{terminerModule();}};
+  }else{terminerModule();}
+}
 function prevPartie(){if(cp>1)switchPartie(cp-1);}
 function updateNav(){
   document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';
@@ -954,14 +947,14 @@ function validerExo(){
   const input=document.getElementById('exoInput').value.toLowerCase();
   const fb=document.getElementById('exoFeedback');
   const checks={
-    h1:input.includes('<h1>')&&input.includes('</h1>'),
+    h1:input.includes('<h1>')&&input.includes('<\/h1>'),
     h2:(input.match(/<h2>/g)||[]).length>=2,
-    h3:input.includes('<h3>')&&input.includes('</h3>'),
+    h3:input.includes('<h3>')&&input.includes('<\/h3>'),
     p:(input.match(/<p>/g)||[]).length>=3,
-    strong:input.includes('<strong>')&&input.includes('</strong>'),
-    em:input.includes('<em>')&&input.includes('</em>'),
+    strong:input.includes('<strong>')&&input.includes('<\/strong>'),
+    em:input.includes('<em>')&&input.includes('<\/em>'),
     liste:(input.includes('<ul>')||input.includes('<ol>'))&&input.includes('<li>'),
-    blockquote:input.includes('<blockquote>')&&input.includes('</blockquote>')
+    blockquote:input.includes('<blockquote>')&&input.includes('<\/blockquote>')
   };
   const score=Object.values(checks).filter(Boolean).length;
   const total=8;
@@ -1003,6 +996,5 @@ function showIndice(){
 
 updateNav();
 </script>
-
 </body>
 </html>

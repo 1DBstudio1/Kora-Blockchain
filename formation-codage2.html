@@ -24,7 +24,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 
 .layout{display:flex;max-width:1100px;margin:0 auto;min-height:calc(100vh - 59px)}
 
-
+.sidebar{width:260px;flex-shrink:0;border-right:1px solid var(--line);background:var(--w);position:sticky;top:59px;height:calc(100vh - 59px);overflow-y:auto;padding:20px 0}
 .sidebar::-webkit-scrollbar{width:0}
 .sidebar-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 18px 14px}
 .module-item{display:flex;align-items:center;gap:11px;padding:11px 18px;cursor:pointer;transition:background 0.15s;border-left:3px solid transparent}
@@ -40,9 +40,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .mod-name{font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .module-item.active .mod-name{font-weight:500;color:var(--b1)}
 .mod-parts{font-size:11px;color:var(--light);margin-top:1px}
-@media(max-width:700px){}
+@media(max-width:700px){.sidebar{display:none}}
 
-.main{flex:1;min-width:0;padding:0 0 100px;width:100%}
+.main{flex:1;min-width:0;padding:0 0 100px}
 
 .module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
 .mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -251,13 +251,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
 </style>
-
-<style>
-.sidebar { display: none !important; }
-.layout { display: block !important; }
-.main { width: 100% !important; max-width: 740px; margin: 0 auto; }
-</style>
-
+<style>.sidebar{display:none!important}.layout{display:block!important}.main{width:100%!important;max-width:740px;margin:0 auto}</style>
 </head>
 <body>
 
@@ -267,7 +261,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
     <div class="header-title">Le Code — de zéro à indépendant</div>
     <div class="header-meta">Module 2 · La structure d'une page HTML</div>
   </div>
-  <canvas id="miniMedal" width="32" height="32" style="image-rendering:pixelated;border-radius:50%;margin-right:4px;cursor:pointer" onclick="window.location.href='academy.html'" title="Voir ma progression"></canvas>
   <div class="header-krt">
     <span style="font-size:11px;color:var(--b2)">◈</span>
     <span class="krt-val">248 KRT</span>
@@ -277,6 +270,24 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 <div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:13%"></div></div>
 
 <div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">Les modules — HTML</div>
+    <div class="module-item done" onclick="window.location='formation.html'">
+      <div class="mod-num">✓</div>
+      <div class="mod-info"><div class="mod-name">C'est quoi le HTML</div><div class="mod-parts">Complété</div></div>
+    </div>
+    <div class="module-item active">
+      <div class="mod-num">2</div>
+      <div class="mod-info"><div class="mod-name">La structure d'une page</div><div class="mod-parts">5 parties</div></div>
+    </div>
+    <div class="module-item locked"><div class="mod-num">3</div><div class="mod-info"><div class="mod-name">Titres, textes, listes</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">4</div><div class="mod-info"><div class="mod-name">Liens et images</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">5</div><div class="mod-info"><div class="mod-name">Les formulaires</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">6</div><div class="mod-info"><div class="mod-name">Les tableaux</div><div class="mod-parts">3 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">7</div><div class="mod-info"><div class="mod-name">HTML sémantique</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">8</div><div class="mod-info"><div class="mod-name">Évaluation + Certification</div><div class="mod-parts">Certification</div></div></div>
+  </aside>
 
   <main class="main">
 
@@ -737,29 +748,18 @@ function switchPartie(n){
   if(target)target.style.display='block';
   const targetTab=document.querySelectorAll('.partie-tab')[n-1];
   if(targetTab)targetTab.classList.add('active');
-  currentPartie=n;updateNav();
-
-
-
-// Progression
-function terminerModule() {
-  // Sauvegarder progression
-  try {
-    var data = JSON.parse(localStorage.getItem('kora_prog') || '{}');
-    data['codage2'] = 99;
-    localStorage.setItem('kora_prog', JSON.stringify(data));
-  } catch(e) {}
-  // Retour academy avec animation
-  document.body.style.opacity = '0';
-  document.body.style.transition = 'opacity 0.3s ease';
-  setTimeout(function() { window.location.href = 'academy.html'; }, 300);
+  currentPartie=n;updateNav();window.scrollTo(0,0);
 }
-window.scrollTo(0,0);
+function terminerModule(){
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage2']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+  window.location.href='academy.html';
 }
-function nextPartie(){if(currentPartie<totalParties){
+function nextPartie(){
+  if(currentPartie<totalParties){
     try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['codage2']=currentPartie;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
     switchPartie(currentPartie+1);
-  }else{terminerModule();}};
+  }else{terminerModule();}
+}
 function prevPartie(){if(currentPartie>1)switchPartie(currentPartie-1);}
 function updateNav(){
   const prev=document.getElementById('btnPrev');
@@ -769,7 +769,7 @@ function updateNav(){
   const progFill=document.getElementById('modProgFill');
   const globalFill=document.getElementById('globalFill');
   prev.style.visibility=currentPartie>1?'visible':'hidden';
-  next.textContent=currentPartie===totalParties?'Terminer le module ✓':'Suivant →';
+  next.textContent=currentPartie===totalParties?'Terminer le module':'Suivant';
   curr.textContent='Partie '+currentPartie+' sur '+totalParties;
   if(progTxt)progTxt.textContent='Partie '+currentPartie+'/'+totalParties;
   if(progFill)progFill.style.width=(currentPartie/totalParties*100)+'%';
@@ -863,25 +863,17 @@ function validerExo(){
   const feedback=document.getElementById('exoFeedback');
   const checks={
     doctype:input.includes('<!doctype html>'),
-    html:input.includes('<html')&&input.includes('lang')&&input.includes('</html>'),
+    html:input.includes('<html')&&input.includes('lang')&&input.includes('<\/html>'),
     charset:input.includes('charset')&&input.includes('utf-8'),
     viewport:input.includes('viewport'),
-    title:input.includes('<title>')&&input.includes('</title>'),
+    title:input.includes('<title>')&&input.includes('<\/title>'),
     description:input.includes('name="description"')||input.includes("name='description'"),
-    h1:input.includes('<h1>')&&input.includes('</h1>'),
-    h2:input.includes('<h2>')&&input.includes('</h2>'),
-    p:input.includes('<p>')&&input.includes('</p>'),
-    strong:input.includes('<strong>')&&input.includes('</strong>'),
-    body:input.includes('<body>')&&input.includes('
-</body>'),
-    head:input.includes('<head>')&&input.includes('
-<style>
-.sidebar { display: none !important; }
-.layout { display: block !important; }
-.main { width: 100% !important; max-width: 740px; margin: 0 auto; }
-</style>
-
-</head>')
+    h1:input.includes('<h1>')&&input.includes('<\/h1>'),
+    h2:input.includes('<h2>')&&input.includes('<\/h2>'),
+    p:input.includes('<p>')&&input.includes('<\/p>'),
+    strong:input.includes('<strong>')&&input.includes('<\/strong>'),
+    body:input.includes('<body>')&&input.includes('<\/body>'),
+    head:input.includes('<head>')&&input.includes('<\/head>')
   };
   const score=Object.values(checks).filter(Boolean).length;
   const total=Object.keys(checks).length;
@@ -929,6 +921,5 @@ function showIndice(){
 
 updateNav();
 </script>
-
 </body>
 </html>

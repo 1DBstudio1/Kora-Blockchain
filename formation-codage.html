@@ -725,24 +725,16 @@ function switchPartie(n) {
   if(targetTab)targetTab.classList.add('active');
   currentPartie=n;
   updateNav();
-
-
+}
 
 // Progression
 function terminerModule() {
-  // Sauvegarder progression
   try {
     var data = JSON.parse(localStorage.getItem('kora_prog') || '{}');
     data['codage1'] = 99;
     localStorage.setItem('kora_prog', JSON.stringify(data));
   } catch(e) {}
-  // Retour academy avec animation
-  document.body.style.opacity = '0';
-  document.body.style.transition = 'opacity 0.3s ease';
-  setTimeout(function() { window.location.href = 'academy.html'; }, 300);
-}
-
-  window.scrollTo(0,0);
+  window.location.href = 'academy.html';
 }
 
 function nextPartie(){if(currentPartie<totalParties){
