@@ -282,35 +282,39 @@
 </section>
 
 <script>
-// Filtres catalogue
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.f;
-    document.querySelectorAll('.forma-card').forEach(card => {
-      if (f === 'all' || card.dataset.cat === f) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
+// Init au chargement
+window.addEventListener('DOMContentLoaded', function() {
+
+  // Filtres catalogue
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.dataset.f;
+      document.querySelectorAll('.forma-card').forEach(function(card) {
+        card.style.display = (f === 'all' || card.dataset.cat === f) ? 'flex' : 'none';
+      });
     });
   });
-});
 
-// Recherche
-document.querySelector('.search-inp').addEventListener('input', function() {
-  const q = this.value.toLowerCase().trim();
-  document.querySelectorAll('.forma-card').forEach(card => {
-    const title = card.querySelector('.forma-title').textContent.toLowerCase();
-    const desc = card.querySelector('.forma-desc').textContent.toLowerCase();
-    card.style.display = (!q || title.includes(q) || desc.includes(q)) ? 'flex' : 'none';
-  });
+  // Recherche
+  var searchInp = document.querySelector('.search-inp');
+  if (searchInp) {
+    searchInp.addEventListener('input', function() {
+      var q = this.value.toLowerCase().trim();
+      document.querySelectorAll('.forma-card').forEach(function(card) {
+        var title = card.querySelector('.forma-title') ? card.querySelector('.forma-title').textContent.toLowerCase() : '';
+        var desc = card.querySelector('.forma-desc') ? card.querySelector('.forma-desc').textContent.toLowerCase() : '';
+        card.style.display = (!q || title.includes(q) || desc.includes(q)) ? 'flex' : 'none';
+      });
+    });
+  }
+
 });
 
 // Navigation vers formation
 function goFormation(id) {
-  window.location.href = 'formation.html?f=' + id;
+  window.location.href = 'formation-codage.html';
 }
 </script>
 
