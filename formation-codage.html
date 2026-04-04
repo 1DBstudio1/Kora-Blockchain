@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Code — Module 1 — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;
+  --b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;
+  --grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);
+  --code:#1A1A2E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.15s;flex-shrink:0}
+.header-back:hover{border-color:var(--b2);color:var(--b1)}
+.header-info{flex:1;min-width:0}
+.header-title{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* PROGRESS */
+.global-progress{height:3px;background:var(--line)}
+.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+
+/* LAYOUT */
+.layout{display:flex;max-width:1100px;margin:0 auto;min-height:calc(100vh - 59px)}
+
+/* SIDEBAR */
+.sidebar{width:260px;flex-shrink:0;border-right:1px solid var(--line);background:var(--w);position:sticky;top:59px;height:calc(100vh - 59px);overflow-y:auto;padding:20px 0}
+.sidebar::-webkit-scrollbar{width:0}
+.sidebar-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 18px 14px}
+.module-item{display:flex;align-items:center;gap:11px;padding:11px 18px;cursor:pointer;transition:background 0.15s;border-left:3px solid transparent}
+.module-item:hover{background:#F5F5F5}
+.module-item.active{background:rgba(107,31,42,0.05);border-left-color:var(--b2)}
+.module-item.locked{opacity:0.35;cursor:default}
+.module-item.locked:hover{background:transparent}
+.mod-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+.module-item.active .mod-num{background:var(--grad);border:none;color:white}
+.mod-info{flex:1;min-width:0}
+.mod-name{font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.module-item.active .mod-name{font-weight:500;color:var(--b1)}
+.mod-parts{font-size:11px;color:var(--light);margin-top:1px}
+@media(max-width:700px){.sidebar{display:none}}
+
+/* MAIN */
+.main{flex:1;min-width:0;padding:0 0 100px}
+
+/* MODULE HEADER */
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;color:var(--text);margin-bottom:8px;line-height:1.2}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.12);color:var(--b1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.18s}
+.btn-listen:hover{background:rgba(107,31,42,0.12)}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--b2);font-weight:500}
+
+/* PARTIES NAV */
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab:hover{color:var(--text)}
+.partie-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
+.partie-tab.done::after{content:' ✓';color:var(--b2);font-size:11px}
+
+/* CONTENT */
+.content{padding:36px 28px;max-width:740px}
+
+/* Texte */
+.bloc p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:16px}
+.bloc p:last-child{margin-bottom:0}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;color:var(--text);margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Highlight */
+.highlight{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7;color:var(--text)}
+.highlight .hl-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+
+/* Sites réels grid */
+.sites-reels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+@media(max-width:500px){.sites-reels{grid-template-columns:1fr 1fr}}
+.site-card{padding:16px 14px;border-radius:12px;background:var(--w);border:1px solid var(--line);text-align:center;transition:all 0.18s;cursor:default}
+.site-card:hover{border-color:rgba(196,98,45,0.2);transform:translateY(-1px)}
+.site-logo{font-size:24px;margin-bottom:6px}
+.site-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.site-desc{font-size:11px;color:var(--muted);line-height:1.4}
+
+/* Schéma */
+.schema{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.schema-label{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);letter-spacing:0.5px}
+.schema-inner{padding:28px;background:var(--w);display:flex;flex-direction:column;align-items:center;gap:16px}
+.schema-flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.sbox{padding:14px 18px;border-radius:12px;text-align:center;min-width:90px}
+.sbox .si{font-size:26px;margin-bottom:6px}
+.sbox .sl{font-size:12px;font-weight:500;color:var(--text)}
+.sbox .ss{font-size:11px;color:var(--muted);margin-top:2px}
+.sb-file{background:#F0F4FF;border:1px solid #D0D8FF}
+.sb-nav{background:#F0FFF4;border:1px solid #C0F0D0}
+.sb-screen{background:#FFF8F0;border:1px solid #FFE0C0}
+.sarrow{font-size:20px;color:var(--light);flex-shrink:0}
+
+/* Comparaison 3 couches */
+.couches{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+@media(max-width:540px){.couches{grid-template-columns:1fr}}
+.couche{padding:18px 16px;border-radius:12px;border:1px solid var(--line);background:var(--w)}
+.couche-icon{font-size:28px;margin-bottom:10px}
+.couche-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px}
+.couche-role{font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.5}
+.couche-ex{font-size:12px;color:var(--b2);font-weight:500}
+.couche.html{border-top:3px solid #4A90D9}
+.couche.css{border-top:3px solid #E67E22}
+.couche.js{border-top:3px solid #F1C40F}
+
+/* Code */
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#252540}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px}
+.cdot{width:10px;height:10px;border-radius:50%}
+.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#E0E0FF}
+.tag{color:#79B8FF}
+.attr{color:#FFAB70}
+.val{color:#9ECE6A}
+.com{color:#637777;font-style:italic}
+.txt{color:#E0E0FF}
+
+/* Résultat */
+.resultat{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:0 0 24px}
+.res-head{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.res-head::before{content:'◎';color:var(--b2)}
+.res-body{padding:22px;background:var(--w)}
+.res-body h1{font-size:22px;font-weight:700;margin-bottom:8px}
+.res-body h2{font-size:17px;font-weight:600;margin-bottom:6px;margin-top:14px}
+.res-body p{font-size:14px;color:#333;margin-bottom:8px;line-height:1.6}
+.res-body ul{padding-left:20px;margin-bottom:8px}
+.res-body li{font-size:14px;color:#333;margin-bottom:4px}
+.res-body a{color:#0070F3;text-decoration:underline}
+.res-body strong{font-weight:600}
+.res-body em{font-style:italic}
+
+/* Explication ligne par ligne */
+.ligne-explication{margin:24px 0}
+.ligne-row{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.ligne-row:last-child{border-bottom:none}
+.ligne-code{font-family:'JetBrains Mono',monospace;font-size:12px;color:#79B8FF;background:var(--code);padding:6px 10px;border-radius:8px;min-width:140px;flex-shrink:0}
+.ligne-expl{font-size:13px;color:var(--text);line-height:1.6;padding-top:4px}
+
+/* Fun fact */
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(107,31,42,0.04),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.ff-content{}
+.ff-title{font-size:13px;font-weight:500;color:var(--b1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.ff-text{font-size:14px;color:var(--text);line-height:1.65}
+
+/* Timeline historique */
+.timeline{margin:24px 0;display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:16px;padding:16px 0;position:relative}
+.tl-item:not(:last-child)::after{content:'';position:absolute;left:19px;top:44px;bottom:0;width:2px;background:var(--line)}
+.tl-dot{width:38px;height:38px;border-radius:50%;background:rgba(107,31,42,0.08);border:2px solid rgba(107,31,42,0.15);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;z-index:1}
+.tl-content{}
+.tl-year{font-size:11px;font-weight:500;color:var(--b2);letter-spacing:0.5px;margin-bottom:2px}
+.tl-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px}
+.tl-desc{font-size:13px;color:var(--muted);line-height:1.55}
+
+/* Quiz rapide */
+.quiz{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.quiz-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.quiz-icon{font-size:20px}
+.quiz-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.quiz-body{padding:20px;background:var(--w)}
+.quiz-q{font-size:15px;font-weight:500;color:var(--text);margin-bottom:16px;line-height:1.5}
+.quiz-options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.quiz-opt{padding:12px 16px;border-radius:10px;border:1px solid var(--line);font-size:14px;color:var(--text);cursor:pointer;transition:all 0.15s;background:var(--w);font-family:'DM Sans',sans-serif;text-align:left}
+.quiz-opt:hover{border-color:rgba(107,31,42,0.2);background:rgba(107,31,42,0.03)}
+.quiz-opt.correct{border-color:#28CA41;background:rgba(40,202,65,0.08);color:#1A6B3A}
+.quiz-opt.wrong{border-color:#FF5F57;background:rgba(255,95,87,0.08);color:#8B1A1A}
+.quiz-feedback{display:none;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.6}
+.quiz-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.quiz-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+
+/* Exercice */
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}
+.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(107,31,42,0.08);color:var(--b2);border:1px solid rgba(107,31,42,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'→';color:var(--b2);flex-shrink:0;margin-top:1px}
+.exo-textarea{width:100%;min-height:140px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--b2)}
+.exo-textarea::placeholder{color:var(--light);font-family:'DM Sans',sans-serif}
+.exo-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:opacity 0.2s}
+.btn-valider:hover{opacity:0.88}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s}
+.btn-indice:hover{border-color:var(--b2);color:var(--b1)}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+
+/* Kora IA */
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(107,31,42,0.25);display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.ia-btn:hover{transform:scale(1.06)}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:300px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(107,31,42,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px;color:var(--text)}
+.ia-ctx{font-size:11px;color:var(--b2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(107,31,42,0.05);color:var(--text);border-radius:10px 10px 10px 3px;border:1px solid rgba(107,31,42,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--bg);outline:none;transition:border-color 0.15s}
+.ia-inp:focus{border-color:var(--b2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* NAV BOTTOM */
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s}
+.nav-prev:hover{border-color:var(--b2);color:var(--b1)}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:opacity 0.2s}
+.nav-next:hover{opacity:0.88}
+
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}.ia-panel{width:260px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}
+.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">Le Code — de zéro à indépendant</div>
+    <div class="header-meta">Module 1 · C'est quoi le HTML</div>
+  </div>
+  <canvas id="miniMedal" width="32" height="32" style="image-rendering:pixelated;border-radius:50%;margin-right:4px;cursor:pointer" onclick="window.location.href='academy.html'" title="Voir ma progression"></canvas>
+  <div class="header-krt">
+    <span style="font-size:11px;color:var(--b2)">◈</span>
+    <span class="krt-val">248 KRT</span>
+  </div>
+</header>
+
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:6%"></div></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Les modules — HTML</div>
+    <div class="module-item active"><div class="mod-num">1</div><div class="mod-info"><div class="mod-name">C'est quoi le HTML</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">2</div><div class="mod-info"><div class="mod-name">La structure d'une page</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">3</div><div class="mod-info"><div class="mod-name">Titres, textes, listes</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">4</div><div class="mod-info"><div class="mod-name">Liens et images</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">5</div><div class="mod-info"><div class="mod-name">Les formulaires</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">6</div><div class="mod-info"><div class="mod-name">Les tableaux</div><div class="mod-parts">3 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">7</div><div class="mod-info"><div class="mod-name">HTML sémantique</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">8</div><div class="mod-info"><div class="mod-name">Évaluation + Certification</div><div class="mod-parts">Certification</div></div></div>
+  </aside>
+
+  <main class="main">
+
+    <div class="module-header">
+      <div class="mod-header-label">Module 1 — HTML</div>
+      <div class="mod-header-title">C'est quoi le <em>HTML ?</em></div>
+      <div class="mod-header-sub">Avant d'écrire une seule ligne de code, tu dois comprendre ce que c'est vraiment. Pas une définition de Wikipedia — la vraie logique derrière chaque site que tu utilises tous les jours.</div>
+      <div class="mod-header-actions">
+        <button class="btn-listen" id="btnListen" onclick="toggleListen()">
+          <span>🔊</span><span id="listenTxt">Écouter ce module</span>
+        </button>
+        <div class="mod-progress">
+          <div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div>
+          <span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="parties-nav">
+      <div class="partie-tab active" onclick="switchPartie(1)">Le HTML c'est quoi</div>
+      <div class="partie-tab" onclick="switchPartie(2)">Comment ça marche vraiment</div>
+      <div class="partie-tab" onclick="switchPartie(3)">Les balises en détail</div>
+      <div class="partie-tab" onclick="switchPartie(4)">HTML vs CSS vs JS</div>
+      <div class="partie-tab" onclick="switchPartie(5)">Exercice 🎯</div>
+    </div>
+
+    <!-- ========== PARTIE 1 ========== -->
+    <div class="content" id="partie1">
+
+      <div class="bloc">
+        <span class="big">Chaque site que tu utilises — <em>Instagram, Google, Kora</em> — commence par du HTML.</span>
+        <p>Quand tu ouvres Instagram sur ton téléphone, derrière l'écran il y a du code. Ce code dit au téléphone quoi afficher — les photos, les noms, les boutons. Ce code c'est du HTML à la base.</p>
+        <p>HTML veut dire <strong>HyperText Markup Language</strong>. Oublie l'acronyme. Ce qui compte c'est que le HTML c'est un langage qui <strong>décrit</strong> le contenu d'une page. Il dit "ici c'est un titre", "là c'est une image", "ça c'est un bouton".</p>
+        <p>Le navigateur — Chrome, Safari, Firefox — lit ce HTML et l'affiche à l'écran. C'est tout le principe.</p>
+      </div>
+
+      <div class="fun-fact">
+        <div class="ff-icon">💡</div>
+        <div class="ff-content">
+          <div class="ff-title">Le saviez-vous</div>
+          <div class="ff-text">Tim Berners-Lee a inventé le HTML en 1991 pour que les scientifiques puissent partager des documents entre eux sur internet. Il ne s'attendait pas à ce que ça devienne la base de tout ce qu'on connaît aujourd'hui — Netflix, Amazon, YouTube, tout ça tourne sur du HTML.</div>
+        </div>
+      </div>
+
+      <div class="bloc">
+        <p><strong>Des exemples concrets que tu connais :</strong></p>
+      </div>
+
+      <div class="sites-reels">
+        <div class="site-card">
+          <div class="site-logo">📸</div>
+          <div class="site-name">Instagram</div>
+          <div class="site-desc">Les posts, les stories, les profils — tout structuré en HTML</div>
+        </div>
+        <div class="site-card">
+          <div class="site-logo">🔍</div>
+          <div class="site-name">Google</div>
+          <div class="site-desc">La barre de recherche et les résultats — HTML depuis 1998</div>
+        </div>
+        <div class="site-card">
+          <div class="site-logo">🎬</div>
+          <div class="site-name">YouTube</div>
+          <div class="site-desc">Les vidéos, les titres, les commentaires — HTML + CSS + JS</div>
+        </div>
+        <div class="site-card">
+          <div class="site-logo">🛒</div>
+          <div class="site-name">Amazon</div>
+          <div class="site-desc">Des millions de pages produits — toutes générées en HTML</div>
+        </div>
+        <div class="site-card">
+          <div class="site-logo">🐦</div>
+          <div class="site-name">X (Twitter)</div>
+          <div class="site-desc">Le feed, les tweets, les profils — HTML à la base</div>
+        </div>
+        <div class="site-card">
+          <div class="site-logo">✦</div>
+          <div class="site-name">Kora</div>
+          <div class="site-desc">Ce que tu lis maintenant — c'est du HTML que tu regardes</div>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <span class="hl-title">Le truc important à comprendre</span>
+        Ces sites ne sont pas "spéciaux". Ils sont construits avec les mêmes outils que toi tu vas apprendre. La différence c'est juste la taille — Instagram a des milliers de fichiers HTML. Toi tu vas commencer avec un seul fichier. Même logique, même langage.
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot">🌐</div>
+          <div class="tl-content">
+            <div class="tl-year">1991</div>
+            <div class="tl-title">HTML est inventé</div>
+            <div class="tl-desc">Tim Berners-Lee crée le HTML pour partager des documents scientifiques. Le premier site web de l'histoire est encore en ligne.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">🎨</div>
+          <div class="tl-content">
+            <div class="tl-year">1996</div>
+            <div class="tl-title">Le CSS arrive</div>
+            <div class="tl-desc">Les développeurs pouvaient faire de la structure mais pas du style. Le CSS arrive pour séparer le contenu de la présentation.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">⚡</div>
+          <div class="tl-content">
+            <div class="tl-year">1995</div>
+            <div class="tl-title">JavaScript débarque</div>
+            <div class="tl-desc">Brendan Eich crée JavaScript en 10 jours pour Netscape. Les pages peuvent enfin réagir aux clics et bouger.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">🚀</div>
+          <div class="tl-content">
+            <div class="tl-year">Aujourd'hui</div>
+            <div class="tl-title">Le trio domine le web</div>
+            <div class="tl-desc">HTML + CSS + JavaScript. Tout ce que tu vois sur internet utilise ces trois langages. Ils ne disparaîtront pas de sitôt.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========== PARTIE 2 ========== -->
+    <div class="content" id="partie2" style="display:none">
+
+      <div class="bloc">
+        <span class="big">Le HTML c'est juste <em>des instructions dans un fichier texte.</em></span>
+        <p>Tu ouvres un éditeur de texte. Tu écris des instructions. Tu sauvegardes en <strong>.html</strong>. Tu ouvres dans un navigateur. Et là tu vois le résultat.</p>
+        <p>C'est vraiment aussi simple que ça. Pas de logiciel spécial, pas de serveur compliqué pour commencer. Juste un fichier texte avec les bonnes instructions.</p>
+      </div>
+
+      <div class="schema">
+        <div class="schema-label">Le chemin d'une page web — de ton clavier à ton écran</div>
+        <div class="schema-inner">
+          <div class="schema-flow">
+            <div class="sbox sb-file">
+              <div class="si">⌨️</div>
+              <div class="sl">Tu écris</div>
+              <div class="ss">index.html</div>
+            </div>
+            <div class="sarrow">→</div>
+            <div class="sbox" style="background:#F5F0FF;border:1px solid #D8C8FF">
+              <div class="si">💾</div>
+              <div class="sl">Tu sauvegardes</div>
+              <div class="ss">Fichier .html</div>
+            </div>
+            <div class="sarrow">→</div>
+            <div class="sbox sb-nav">
+              <div class="si">◎</div>
+              <div class="sl">Navigateur lit</div>
+              <div class="ss">Chrome, Safari...</div>
+            </div>
+            <div class="sarrow">→</div>
+            <div class="sbox sb-screen">
+              <div class="si">🖥</div>
+              <div class="sl">Tu vois</div>
+              <div class="ss">La page rendue</div>
+            </div>
+          </div>
+          <p style="font-size:12px;color:var(--muted);text-align:center;max-width:440px">Le navigateur est un <strong>traducteur</strong>. Il lit ton HTML et le transforme en ce qui s'affiche à l'écran. C'est son seul rôle.</p>
+        </div>
+      </div>
+
+      <div class="bloc">
+        <p>Et quand tu vas sur Google.com, c'est exactement la même chose — mais en sens inverse. Le serveur de Google t'envoie un fichier HTML. Ton navigateur le lit. Et tu vois la page de recherche.</p>
+        <p>Tout internet fonctionne comme ça. Des fichiers HTML envoyés de serveurs à des navigateurs. À l'échelle, c'est des milliards de fois par seconde. Mais le principe ne change pas.</p>
+      </div>
+
+      <div class="highlight">
+        <span class="hl-title">Essaie maintenant</span>
+        Sur Chrome ou Safari, va sur n'importe quel site — Instagram, YouTube, n'importe quoi. Fais clic droit → "Afficher le code source" ou "Inspecter". Tu verras le HTML de la page. Ce que tu vas apprendre dans cette formation c'est exactement ça que tu vas lire et écrire.
+      </div>
+
+      <div class="fun-fact">
+        <div class="ff-icon">🤯</div>
+        <div class="ff-content">
+          <div class="ff-title">Chiffre qui claque</div>
+          <div class="ff-text">Il y a plus de 1,8 milliard de sites web sur internet aujourd'hui. Chacun d'eux a du HTML. Chacun d'eux a commencé par quelqu'un qui a appris exactement ce que tu es en train d'apprendre là.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========== PARTIE 3 ========== -->
+    <div class="content" id="partie3" style="display:none">
+
+      <div class="bloc">
+        <span class="big">Le HTML parle avec des <em>balises.</em> C'est là que tout commence.</span>
+        <p>Une balise c'est une instruction entourée de chevrons <code style="background:var(--bg);padding:2px 7px;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:13px">&lt; &gt;</code>. Tu dis au navigateur "ce qui est ici c'est quoi".</p>
+        <p>La majorité des balises fonctionnent en duo — une balise qui <strong>ouvre</strong> et une balise qui <strong>ferme</strong>. Le contenu se met entre les deux. La balise fermante a juste un slash <code style="background:var(--bg);padding:2px 7px;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:13px">/</code> en plus.</p>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">HTML — Anatomie d'une balise</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="com">&lt;!-- Structure de base d'une balise --&gt;</span>
+
+<span class="tag">&lt;p&gt;</span><span class="txt">Ton texte ici</span><span class="tag">&lt;/p&gt;</span>
+<span class="com">  ↑             ↑</span>
+<span class="com">  Ouvre         Ferme (remarque le /)</span>
+
+<span class="com">&lt;!-- D'autres exemples --&gt;</span>
+
+<span class="tag">&lt;h1&gt;</span><span class="txt">Titre principal</span><span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span><span class="txt">Sous-titre</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;p&gt;</span><span class="txt">Un paragraphe de texte normal.</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;strong&gt;</span><span class="txt">Texte en gras</span><span class="tag">&lt;/strong&gt;</span>
+<span class="tag">&lt;em&gt;</span><span class="txt">Texte en italique</span><span class="tag">&lt;/em&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="resultat">
+        <div class="res-head">Ce que le navigateur affiche</div>
+        <div class="res-body">
+          <h1>Titre principal</h1>
+          <h2>Sous-titre</h2>
+          <p>Un paragraphe de texte normal.</p>
+          <p><strong>Texte en gras</strong></p>
+          <p><em>Texte en italique</em></p>
+        </div>
+      </div>
+
+      <div class="bloc">
+        <p>Regarde bien — le navigateur a lu tes balises et les a <strong>transformées</strong> en mise en forme. <code style="background:var(--bg);padding:2px 7px;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:13px">&lt;h1&gt;</code> est devenu un grand titre en gras. <code style="background:var(--bg);padding:2px 7px;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:13px">&lt;em&gt;</code> est devenu de l'italique. Tu n'as rien eu à dire "mets ça en gras" — le navigateur sait déjà ce que chaque balise veut dire.</p>
+      </div>
+
+      <div class="ligne-explication">
+        <div class="ligne-row">
+          <div class="ligne-code">&lt;h1&gt;</div>
+          <div class="ligne-expl"><strong>Heading 1</strong> — Le titre le plus important de la page. Il ne doit y en avoir qu'un seul par page. Les moteurs de recherche comme Google lui donnent beaucoup d'importance.</div>
+        </div>
+        <div class="ligne-row">
+          <div class="ligne-code">&lt;h2&gt; à &lt;h6&gt;</div>
+          <div class="ligne-expl">Sous-titres de niveaux décroissants. h2 est moins important que h1, h3 moins que h2, etc. Comme une table des matières.</div>
+        </div>
+        <div class="ligne-row">
+          <div class="ligne-code">&lt;p&gt;</div>
+          <div class="ligne-expl"><strong>Paragraph</strong> — Un bloc de texte. Le navigateur ajoute automatiquement de l'espace avant et après. C'est la balise la plus utilisée sur le web.</div>
+        </div>
+        <div class="ligne-row">
+          <div class="ligne-code">&lt;strong&gt;</div>
+          <div class="ligne-expl">Met le texte en <strong>gras</strong> et lui donne de l'importance sémantique. Les lecteurs d'écran pour les malvoyants vont accentuer ce mot.</div>
+        </div>
+        <div class="ligne-row">
+          <div class="ligne-code">&lt;em&gt;</div>
+          <div class="ligne-expl">Met le texte en <em>italique</em> et lui donne de l'emphase. Vient de "emphasis" — tu mets l'accent sur quelque chose.</div>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <span class="hl-title">L'erreur la plus commune</span>
+        Oublier de fermer une balise. Si tu ouvres &lt;p&gt; et tu oublies &lt;/p&gt;, le navigateur va essayer de deviner ce que tu voulais faire — et souvent il va faire n'importe quoi. Toujours vérifier que chaque balise ouvrante a sa balise fermante correspondante.
+      </div>
+
+    </div>
+
+    <!-- ========== PARTIE 4 ========== -->
+    <div class="content" id="partie4" style="display:none">
+
+      <div class="bloc">
+        <span class="big">HTML, CSS, JavaScript — <em>trois langages, trois rôles.</em></span>
+        <p>Le web est construit sur trois piliers. Chacun a un rôle précis. Les confondre c'est la première erreur des débutants. On va démystifier ça une fois pour toutes.</p>
+      </div>
+
+      <div class="couches">
+        <div class="couche html">
+          <div class="couche-icon">🏗</div>
+          <div class="couche-name">HTML</div>
+          <div class="couche-role">La <strong>structure</strong>. Ce qui est sur la page — les titres, les textes, les images, les boutons. Le squelette de tout.</div>
+          <div class="couche-ex">Analogie : les murs d'une maison</div>
+        </div>
+        <div class="couche css">
+          <div class="couche-icon">🎨</div>
+          <div class="couche-name">CSS</div>
+          <div class="couche-role">Le <strong>style</strong>. Comment ça ressemble — les couleurs, les polices, les tailles, les animations. La déco.</div>
+          <div class="couche-ex">Analogie : la peinture et les meubles</div>
+        </div>
+        <div class="couche js">
+          <div class="couche-icon">⚡</div>
+          <div class="couche-name">JavaScript</div>
+          <div class="couche-role">Le <strong>comportement</strong>. Ce qui se passe quand tu cliques, ce qui bouge, ce qui réagit. L'intelligence de la page.</div>
+          <div class="couche-ex">Analogie : l'électricité et la domotique</div>
+        </div>
+      </div>
+
+      <div class="bloc">
+        <p>Regarde Instagram sur ton téléphone. Quand tu vois la liste de posts — c'est le <strong>HTML</strong> qui dit "il y a un post ici, une image là, un nom d'utilisateur". Quand tu vois les couleurs, les polices, l'espacement — c'est le <strong>CSS</strong>. Quand tu scrolles et que de nouveaux posts se chargent automatiquement, ou quand tu double-cliques pour liker — c'est le <strong>JavaScript</strong>.</p>
+        <p>Les trois travaillent ensemble sur chaque page que tu visites. Mais ils ont chacun leur fichier, leur rôle, leur logique. Et on les apprend dans l'ordre — HTML d'abord, CSS ensuite, JavaScript après.</p>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">HTML — La structure</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="com">&lt;!-- HTML : on décrit le contenu --&gt;</span>
+<span class="tag">&lt;button&gt;</span><span class="txt">Like ❤️</span><span class="tag">&lt;/button&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">CSS — Le style (tu apprendras ça après)</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="com">/* CSS : on décrit comment ça ressemble */</span>
+<span class="tag">button</span> {
+  <span class="attr">background</span>: <span class="val">red</span>;
+  <span class="attr">color</span>: <span class="val">white</span>;
+  <span class="attr">border-radius</span>: <span class="val">20px</span>;
+}</pre>
+        </div>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">JavaScript — Le comportement (encore après)</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="com">// JavaScript : on décrit ce qui se passe</span>
+<span class="tag">button</span>.<span class="attr">addEventListener</span>(<span class="val">'click'</span>, () => {
+  <span class="attr">alert</span>(<span class="val">'Tu as liké !'</span>);
+});</pre>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <span class="hl-title">Pourquoi on commence par le HTML</span>
+        Parce que sans structure, le style ne sert à rien. Et sans structure et style, le comportement n'a rien sur quoi s'appuyer. HTML c'est la fondation. Tu ne construis pas un toit avant les murs.
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-head">
+          <span class="quiz-icon">🎯</span>
+          <span class="quiz-title">Vérification rapide</span>
+        </div>
+        <div class="quiz-body">
+          <div class="quiz-q">Sur Instagram, les boutons "J'aime", "Commenter", "Partager" sont visibles en rouge avec des icônes. Quel langage est responsable de leur couleur rouge ?</div>
+          <div class="quiz-options" id="quizOptions">
+            <button class="quiz-opt" onclick="checkQuiz(this, false)">HTML — parce que c'est lui qui met les boutons sur la page</button>
+            <button class="quiz-opt" onclick="checkQuiz(this, true)">CSS — parce que c'est lui qui gère les couleurs et le style</button>
+            <button class="quiz-opt" onclick="checkQuiz(this, false)">JavaScript — parce que c'est lui qui rend les boutons cliquables</button>
+          </div>
+          <div class="quiz-feedback" id="quizFeedback"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========== PARTIE 5 — EXERCICE ========== -->
+    <div class="content" id="partie5" style="display:none">
+
+      <div class="bloc">
+        <span class="big">Maintenant tu codes. <em>Pas de copier-coller.</em></span>
+        <p>Tu as compris la théorie. C'est le moment de faire travailler tes doigts. L'objectif c'est pas d'être parfait — c'est de comprendre par toi-même ce que les balises font vraiment.</p>
+      </div>
+
+      <div class="exercice">
+        <div class="exo-head">
+          <span class="exo-icon">🎯</span>
+          <span class="exo-title">Ta première page HTML</span>
+          <span class="exo-badge">Exercice</span>
+        </div>
+        <div class="exo-body">
+          <div class="exo-context">
+            Imagine que tu crées la page de présentation de Kora. Tu dois écrire le HTML qui structure cette présentation — pas de style, pas de couleurs, juste la structure. Le CSS viendra plus tard.
+          </div>
+          <div class="exo-mission">
+            <div class="exo-mission-title">Ce que tu dois écrire</div>
+            <ul>
+              <li>Un titre principal <code style="background:white;padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12px">&lt;h1&gt;</code> avec le nom "Kora"</li>
+              <li>Un sous-titre <code style="background:white;padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12px">&lt;h2&gt;</code> avec la phrase "L'information vérifiée"</li>
+              <li>Un paragraphe <code style="background:white;padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12px">&lt;p&gt;</code> qui décrit Kora en une ou deux phrases</li>
+              <li>Un deuxième paragraphe avec le mot <strong>"confiance"</strong> mis en gras avec <code style="background:white;padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12px">&lt;strong&gt;</code></li>
+            </ul>
+          </div>
+          <textarea class="exo-textarea" id="exoInput" placeholder="Écris ton code HTML ici...&#10;&#10;Commence par &lt;h1&gt;Kora&lt;/h1&gt; puis continue..."></textarea>
+          <div class="exo-actions">
+            <button class="btn-valider" onclick="validerExo()">Valider mon code</button>
+            <button class="btn-indice" onclick="showIndice()">💡 Indice</button>
+          </div>
+          <div class="exo-feedback" id="exoFeedback"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- KORA IA -->
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header">
+      <div class="ia-av">✦</div>
+      <div>
+        <div class="ia-name">Kora IA</div>
+        <div class="ia-ctx" id="iaCtx">Module 1 · HTML</div>
+      </div>
+    </div>
+    <div class="ia-msgs" id="iaMsgs">
+      <div class="ia-msg ia-a">Salut ! Je suis là si tu bloques. Pose-moi n'importe quelle question sur ce qu'on vient de voir.</div>
+    </div>
+    <div class="ia-row">
+      <input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question...">
+      <button class="ia-send" id="iaSend">↑</button>
+    </div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+
+<!-- NAV BOTTOM -->
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Précédent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant →</button>
+</div>
+
+<script>
+let currentPartie = 1;
+const totalParties = 5;
+
+function switchPartie(n) {
+  for(let i=1;i<=totalParties;i++){
+    const el=document.getElementById('partie'+i);
+    if(el)el.style.display='none';
+    const tab=document.querySelectorAll('.partie-tab')[i-1];
+    if(tab)tab.classList.remove('active');
+  }
+  const target=document.getElementById('partie'+n);
+  if(target)target.style.display='block';
+  const targetTab=document.querySelectorAll('.partie-tab')[n-1];
+  if(targetTab)targetTab.classList.add('active');
+  currentPartie=n;
+  updateNav();
+KORA_PROG.initFormation('codage1');
+
+
+// Progression
+function terminerModule() {
+  KORA_PROG.finishModule('codage1');
+}
+
+  window.scrollTo(0,0);
+}
+
+function nextPartie(){if(currentPartie<totalParties){KORA_PROG.savePartie('codage1',currentPartie);switchPartie(currentPartie+1);}else{terminerModule();}}
+function prevPartie(){if(currentPartie>1)switchPartie(currentPartie-1);}
+
+function updateNav(){
+  const prev=document.getElementById('btnPrev');
+  const next=document.getElementById('btnNext');
+  const curr=document.getElementById('navCurrent');
+  const progTxt=document.getElementById('modProgTxt');
+  const progFill=document.getElementById('modProgFill');
+  const globalFill=document.getElementById('globalFill');
+  prev.style.visibility=currentPartie>1?'visible':'hidden';
+  next.textContent=currentPartie===totalParties?'Terminer le module ✓':'Suivant →';
+  curr.textContent='Partie '+currentPartie+' sur '+totalParties;
+  if(progTxt)progTxt.textContent='Partie '+currentPartie+'/'+totalParties;
+  if(progFill)progFill.style.width=(currentPartie/totalParties*100)+'%';
+  if(globalFill)globalFill.style.width=Math.round((currentPartie/totalParties)*12.5)+'%';
+}
+
+// Lecture vocale
+let speaking=false;
+function toggleListen(){
+  const btn=document.getElementById('btnListen');
+  const txt=document.getElementById('listenTxt');
+  if(!speaking){
+    const content=document.getElementById('partie'+currentPartie);
+    const texte=content?content.innerText:'';
+    const u=new SpeechSynthesisUtterance(texte);
+    u.lang='fr-FR';u.rate=0.88;
+    u.onend=()=>{speaking=false;btn.classList.remove('playing');txt.textContent='Écouter ce module'};
+    speechSynthesis.speak(u);
+    speaking=true;btn.classList.add('playing');txt.textContent='Stop ■';
+  } else {
+    speechSynthesis.cancel();speaking=false;
+    btn.classList.remove('playing');txt.textContent='Écouter ce module';
+  }
+}
+
+// Kora IA
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+const iaInp=document.getElementById('iaInp');
+const iaSend=document.getElementById('iaSend');
+const iaMsgs=document.getElementById('iaMsgs');
+
+function sendIa(){
+  const t=iaInp.value.trim();if(!t)return;
+  const u=document.createElement('div');
+  u.className='ia-msg ia-u';u.textContent=t;
+  iaMsgs.appendChild(u);iaInp.value='';
+  iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  setTimeout(()=>{
+    const a=document.createElement('div');
+    a.className='ia-msg ia-a';a.textContent=getReponse(t);
+    iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  },600);
+}
+
+function getReponse(q){
+  const q2=q.toLowerCase();
+  if(q2.includes('balise')&&q2.includes('fermer')||q2.includes('oublié'))return 'Si tu oublies de fermer une balise, le navigateur va "deviner" et souvent tout le reste de la page va être déformé. Toujours vérifier que chaque <balise> a son </balise>. VSCode te le signale en rouge si tu oublies.';
+  if(q2.includes('h1')&&q2.includes('h2')||q2.includes('différence')&&q2.includes('titre'))return 'h1 c\'est le titre le plus important — il y en a un seul par page. h2 c\'est un sous-titre, h3 encore plus petit, jusqu\'à h6. Pense à une table des matières : le chapitre c\'est h1, les sous-chapitres h2, les sections h3...';
+  if(q2.includes('css')&&q2.includes('html')||q2.includes('différence')&&(q2.includes('css')||q2.includes('javascript')))return 'HTML = la structure (ce qui est là). CSS = le style (comment ça ressemble). JavaScript = le comportement (ce qui se passe). Instagram sans CSS ressemblerait à du texte brut sans couleur ni mise en page. Essaie : dans Chrome, désactive le CSS d\'un site via l\'inspecteur — tu verras le HTML nu.';
+  if(q2.includes('instagram')||q2.includes('google')||q2.includes('youtube')||q2.includes('amazon'))return 'Oui, tous ces sites utilisent HTML à la base. Ce qui change c\'est la complexité — Instagram a des millions de lignes de code générées dynamiquement. Mais chaque page qui arrive sur ton navigateur est du HTML. Tu peux le voir avec clic droit → Afficher le code source sur n\'importe quel site.';
+  if(q2.includes('erreur')||q2.includes('bug')||q2.includes('marche pas'))return 'Les bugs HTML les plus fréquents : 1) Balise non fermée. 2) Balises mal imbriquées (tu fermes une balise avant d\'en fermer une autre que tu as ouverte dedans). 3) Faute de frappe dans le nom de la balise. Montre-moi ton code et je t\'aide à trouver.';
+  if(q2.includes('pourquoi')&&q2.includes('html')&&q2.includes('d\'abord'))return 'Parce que le HTML c\'est la fondation. Sans structure, le CSS n\'a rien à styliser. Sans HTML et CSS, le JavaScript n\'a rien sur quoi agir. Comme construire une maison — tu poses les murs avant de peindre.';
+  if(q2.includes('fichier')&&q2.includes('.html')||q2.includes('extension'))return 'Le fichier doit s\'appeler quelque chose.html — l\'extension .html dit au navigateur que c\'est une page web. Par convention la page principale s\'appelle toujours index.html — c\'est le nom que les serveurs web cherchent en premier.';
+  return 'Bonne question sur ce module. Pour résumer ce qu\'on a vu : HTML c\'est le squelette de toute page web, il fonctionne avec des balises ouvrantes/fermantes, et il travaille avec CSS (le style) et JavaScript (le comportement). Tu veux que j\'approfondisse un point précis ?';
+}
+
+iaSend.addEventListener('click',sendIa);
+iaInp.addEventListener('keydown',e=>{if(e.key==='Enter')sendIa();});
+
+// Quiz
+function checkQuiz(btn, correct) {
+  const opts=document.querySelectorAll('.quiz-opt');
+  opts.forEach(o=>o.disabled=true);
+  const feedback=document.getElementById('quizFeedback');
+  if(correct){
+    btn.classList.add('correct');
+    feedback.className='quiz-feedback ok';
+    feedback.innerHTML='✓ Exactement ! Le CSS est responsable des couleurs, des tailles, des polices. Le HTML dit juste "il y a un bouton ici". C\'est le CSS qui décide qu\'il est rouge et arrondi.';
+  } else {
+    btn.classList.add('wrong');
+    opts[1].classList.add('correct');
+    feedback.className='quiz-feedback ko';
+    feedback.innerHTML='Pas tout à fait. HTML dit que le bouton existe, JavaScript le rend cliquable — mais c\'est le CSS qui décide de sa couleur rouge. Retiens : HTML = structure, CSS = style, JS = comportement.';
+  }
+  feedback.style.display='block';
+}
+
+// Exercice
+function validerExo(){
+  const input=document.getElementById('exoInput').value.toLowerCase();
+  const feedback=document.getElementById('exoFeedback');
+  const aH1=input.includes('<h1>')&&input.includes('</h1>');
+  const aH2=input.includes('<h2>')&&input.includes('</h2>');
+  const aP=input.includes('<p>')&&input.includes('</p>');
+  const aStrong=input.includes('<strong>')&&input.includes('</strong>');
+  const score=[aH1,aH2,aP,aStrong].filter(Boolean).length;
+
+  if(score===4){
+    feedback.className='exo-feedback ok';
+    feedback.innerHTML='✓ Parfait ! Tu as utilisé les quatre éléments demandés. Ton HTML est valide. Tu maîtrises les bases des balises — c\'est ça qui compte à ce stade. Module suivant débloqué.';
+  } else if(score>=2){
+    const manquants=[];
+    if(!aH1)manquants.push('&lt;h1&gt;');
+    if(!aH2)manquants.push('&lt;h2&gt;');
+    if(!aP)manquants.push('&lt;p&gt;');
+    if(!aStrong)manquants.push('&lt;strong&gt;');
+    feedback.className='exo-feedback ko';
+    feedback.innerHTML='Presque ! Il manque encore : '+manquants.join(', ')+'. Vérifie que ces balises sont bien ouvertes ET fermées.';
+  } else {
+    feedback.className='exo-feedback ko';
+    feedback.innerHTML='Continue — il faut utiliser &lt;h1&gt;, &lt;h2&gt;, &lt;p&gt; et &lt;strong&gt;. Commence par écrire le titre : &lt;h1&gt;Kora&lt;/h1&gt; et construis à partir de là.';
+  }
+  feedback.style.display='block';
+}
+
+function showIndice(){
+  const feedback=document.getElementById('exoFeedback');
+  feedback.className='exo-feedback ko';
+  feedback.innerHTML='💡 Structure de départ :<br><br><code style="font-family:monospace;font-size:12px">&lt;h1&gt;Kora&lt;/h1&gt;<br>&lt;h2&gt;L\'information vérifiée&lt;/h2&gt;<br>&lt;p&gt;Ta description ici&lt;/p&gt;<br>&lt;p&gt;Nous mettons la &lt;strong&gt;confiance&lt;/strong&gt; au centre.&lt;/p&gt;</code>';
+  feedback.style.display='block';
+}
+
+updateNav();
+</script>
+<script src="progression.js"></script>
+</body>
+</html>

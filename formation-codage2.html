@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Code — Module 2 — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--code:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.15s;flex-shrink:0}
+.header-back:hover{border-color:var(--b2);color:var(--b1)}
+.header-info{flex:1;min-width:0}
+.header-title{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.global-progress{height:3px;background:var(--line)}
+.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+
+.layout{display:flex;max-width:1100px;margin:0 auto;min-height:calc(100vh - 59px)}
+
+.sidebar{width:260px;flex-shrink:0;border-right:1px solid var(--line);background:var(--w);position:sticky;top:59px;height:calc(100vh - 59px);overflow-y:auto;padding:20px 0}
+.sidebar::-webkit-scrollbar{width:0}
+.sidebar-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 18px 14px}
+.module-item{display:flex;align-items:center;gap:11px;padding:11px 18px;cursor:pointer;transition:background 0.15s;border-left:3px solid transparent}
+.module-item:hover{background:#F5F5F5}
+.module-item.done{opacity:0.7}
+.module-item.active{background:rgba(107,31,42,0.05);border-left-color:var(--b2)}
+.module-item.locked{opacity:0.35;cursor:default}
+.module-item.locked:hover{background:transparent}
+.mod-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+.module-item.active .mod-num{background:var(--grad);border:none;color:white}
+.module-item.done .mod-num{background:rgba(107,31,42,0.08);border-color:rgba(107,31,42,0.15);color:var(--b1)}
+.mod-info{flex:1;min-width:0}
+.mod-name{font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.module-item.active .mod-name{font-weight:500;color:var(--b1)}
+.mod-parts{font-size:11px;color:var(--light);margin-top:1px}
+@media(max-width:700px){.sidebar{display:none}}
+
+.main{flex:1;min-width:0;padding:0 0 100px}
+
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;color:var(--text);margin-bottom:8px;line-height:1.2}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.12);color:var(--b1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.18s}
+.btn-listen:hover{background:rgba(107,31,42,0.12)}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--b2);font-weight:500}
+
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab:hover{color:var(--text)}
+.partie-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
+.partie-tab.done::after{content:' ✓';color:var(--b2);font-size:11px}
+
+.content{padding:36px 28px;max-width:740px}
+
+.bloc p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:16px}
+.bloc p:last-child{margin-bottom:0}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;color:var(--text);margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7;color:var(--text)}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+
+/* Anatomie visuelle d'un fichier HTML */
+.anatomie{border-radius:16px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.anatomie-label{padding:12px 18px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0.5px}
+.anatomie-body{background:var(--code);padding:24px}
+.anat-section{border-radius:10px;margin-bottom:12px;overflow:hidden}
+.anat-section:last-child{margin-bottom:0}
+.anat-head-tag{padding:10px 16px;font-family:'JetBrains Mono',monospace;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer}
+.anat-badge{font-size:10px;font-weight:500;padding:3px 8px;border-radius:6px;letter-spacing:0.5px;text-transform:uppercase;flex-shrink:0}
+.anat-content{padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;display:none}
+.anat-section.open .anat-content{display:block}
+
+/* Doctype */
+.anat-doctype .anat-head-tag{background:rgba(121,184,255,0.1);color:#79B8FF}
+.anat-doctype .anat-badge{background:rgba(121,184,255,0.15);color:#79B8FF}
+/* Html */
+.anat-html .anat-head-tag{background:rgba(255,171,112,0.1);color:#FFAB70}
+.anat-html .anat-badge{background:rgba(255,171,112,0.15);color:#FFAB70}
+/* Head */
+.anat-head-s .anat-head-tag{background:rgba(232,149,109,0.1);color:var(--b3)}
+.anat-head-s .anat-badge{background:rgba(232,149,109,0.15);color:var(--b3)}
+.anat-head-s .anat-content{background:rgba(232,149,109,0.05);color:rgba(232,149,109,0.8)}
+/* Body */
+.anat-body-s .anat-head-tag{background:rgba(158,206,106,0.1);color:#9ECE6A}
+.anat-body-s .anat-badge{background:rgba(158,206,106,0.15);color:#9ECE6A}
+.anat-body-s .anat-content{background:rgba(158,206,106,0.05);color:rgba(158,206,106,0.8)}
+
+.toggle-hint{font-size:11px;color:rgba(255,255,255,0.3);margin-left:auto}
+
+/* Code bloc */
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#252540}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px}
+.cdot{width:10px;height:10px;border-radius:50%}
+.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#E0E0FF}
+.tag{color:#79B8FF}.attr{color:#FFAB70}.val{color:#9ECE6A}.com{color:#637777;font-style:italic}.txt{color:#E0E0FF}
+
+/* Résultat */
+.resultat{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:0 0 24px}
+.res-head{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.res-head::before{content:'◎';color:var(--b2)}
+.res-body{padding:22px;background:var(--w)}
+.res-body h1{font-size:22px;font-weight:700;margin-bottom:8px}
+.res-body p{font-size:14px;color:#333;margin-bottom:8px;line-height:1.6}
+
+/* Ligne par ligne */
+.lignes{margin:24px 0;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.ligne-row{display:flex;gap:0;align-items:stretch;border-bottom:1px solid var(--line)}
+.ligne-row:last-child{border-bottom:none}
+.ligne-code{font-family:'JetBrains Mono',monospace;font-size:12px;color:#79B8FF;background:var(--code);padding:12px 14px;min-width:200px;flex-shrink:0;display:flex;align-items:center;border-right:1px solid rgba(255,255,255,0.05)}
+.ligne-expl{font-size:13px;color:var(--text);line-height:1.6;padding:12px 16px;background:var(--w)}
+@media(max-width:600px){.ligne-row{flex-direction:column}.ligne-code{min-width:auto;border-right:none;border-bottom:1px solid rgba(255,255,255,0.05)}}
+
+/* Fun fact */
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(107,31,42,0.04),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.ff-title{font-size:13px;font-weight:500;color:var(--b1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.ff-text{font-size:14px;color:var(--text);line-height:1.65}
+
+/* Comparaison head vs body */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+@media(max-width:540px){.compare{grid-template-columns:1fr}}
+.compare-card{padding:18px 16px;border-radius:12px;border:1px solid var(--line);background:var(--w)}
+.compare-title{font-size:13px;font-weight:500;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.compare-icon{font-size:18px}
+.compare-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.compare-list li{font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:7px;line-height:1.5}
+.compare-list li::before{flex-shrink:0;margin-top:2px}
+.head-card{border-top:3px solid var(--b3)}
+.head-card .compare-title{color:var(--b2)}
+.head-card .compare-list li::before{content:'👁';font-size:11px}
+.body-card{border-top:3px solid #9ECE6A}
+.body-card .compare-title{color:#4A8A2A}
+.body-card .compare-list li::before{content:'✦';color:#9ECE6A;font-size:10px}
+
+/* Méta tags grid */
+.meta-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:24px 0}
+.meta-item{padding:14px 16px;border-radius:10px;background:var(--w);border:1px solid var(--line);display:flex;gap:14px;align-items:flex-start}
+.meta-code{font-family:'JetBrains Mono',monospace;font-size:11px;color:#79B8FF;background:var(--code);padding:6px 10px;border-radius:7px;flex-shrink:0;white-space:nowrap}
+.meta-info{}
+.meta-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+.meta-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.meta-important{border-color:rgba(107,31,42,0.2);background:rgba(107,31,42,0.02)}
+
+/* Démo interactive */
+.demo-interactive{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.demo-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.demo-head::before{content:'⚡';font-size:14px}
+.demo-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:600px){.demo-body{grid-template-columns:1fr}}
+.demo-left{background:var(--code);padding:16px}
+.demo-left textarea{width:100%;min-height:140px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0E0FF;resize:none;line-height:1.7}
+.demo-right{background:var(--w);padding:16px;border-left:1px solid var(--line)}
+.demo-label{font-size:11px;color:var(--light);margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase}
+.demo-result{font-size:14px;line-height:1.6;color:var(--text);min-height:100px}
+.demo-result h1{font-size:20px;font-weight:700;margin-bottom:6px}
+.demo-result h2{font-size:16px;font-weight:600;margin-bottom:5px;margin-top:10px}
+.demo-result p{margin-bottom:6px;color:#333}
+
+/* Quiz */
+.quiz{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.quiz-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.quiz-icon{font-size:20px}
+.quiz-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.quiz-body{padding:20px;background:var(--w)}
+.quiz-q{font-size:15px;font-weight:500;color:var(--text);margin-bottom:16px;line-height:1.5}
+.quiz-options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.quiz-opt{padding:12px 16px;border-radius:10px;border:1px solid var(--line);font-size:14px;color:var(--text);cursor:pointer;transition:all 0.15s;background:var(--w);font-family:'DM Sans',sans-serif;text-align:left}
+.quiz-opt:hover{border-color:rgba(107,31,42,0.2);background:rgba(107,31,42,0.03)}
+.quiz-opt.correct{border-color:#28CA41;background:rgba(40,202,65,0.08);color:#1A6B3A}
+.quiz-opt.wrong{border-color:#FF5F57;background:rgba(255,95,87,0.08);color:#8B1A1A}
+.quiz-feedback{display:none;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.6}
+.quiz-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.quiz-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+
+/* Exercice */
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}
+.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(107,31,42,0.08);color:var(--b2);border:1px solid rgba(107,31,42,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'→';color:var(--b2);flex-shrink:0;margin-top:1px}
+.exo-textarea{width:100%;min-height:180px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--b2)}
+.exo-textarea::placeholder{color:var(--light);font-family:'DM Sans',sans-serif}
+.exo-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:opacity 0.2s}
+.btn-valider:hover{opacity:0.88}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s}
+.btn-indice:hover{border-color:var(--b2);color:var(--b1)}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+
+/* IA */
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(107,31,42,0.25);display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.ia-btn:hover{transform:scale(1.06)}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:300px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(107,31,42,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px;color:var(--text)}
+.ia-ctx{font-size:11px;color:var(--b2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(107,31,42,0.05);color:var(--text);border-radius:10px 10px 10px 3px;border:1px solid rgba(107,31,42,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--bg);outline:none;transition:border-color 0.15s}
+.ia-inp:focus{border-color:var(--b2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s}
+.nav-prev:hover{border-color:var(--b2);color:var(--b1)}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:opacity 0.2s}
+.nav-next:hover{opacity:0.88}
+
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">Le Code — de zéro à indépendant</div>
+    <div class="header-meta">Module 2 · La structure d'une page HTML</div>
+  </div>
+  <canvas id="miniMedal" width="32" height="32" style="image-rendering:pixelated;border-radius:50%;margin-right:4px;cursor:pointer" onclick="window.location.href='academy.html'" title="Voir ma progression"></canvas>
+  <div class="header-krt">
+    <span style="font-size:11px;color:var(--b2)">◈</span>
+    <span class="krt-val">248 KRT</span>
+  </div>
+</header>
+
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:13%"></div></div>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">Les modules — HTML</div>
+    <div class="module-item done" onclick="window.location='formation.html'">
+      <div class="mod-num">✓</div>
+      <div class="mod-info"><div class="mod-name">C'est quoi le HTML</div><div class="mod-parts">Complété</div></div>
+    </div>
+    <div class="module-item active">
+      <div class="mod-num">2</div>
+      <div class="mod-info"><div class="mod-name">La structure d'une page</div><div class="mod-parts">5 parties</div></div>
+    </div>
+    <div class="module-item locked"><div class="mod-num">3</div><div class="mod-info"><div class="mod-name">Titres, textes, listes</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">4</div><div class="mod-info"><div class="mod-name">Liens et images</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">5</div><div class="mod-info"><div class="mod-name">Les formulaires</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">6</div><div class="mod-info"><div class="mod-name">Les tableaux</div><div class="mod-parts">3 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">7</div><div class="mod-info"><div class="mod-name">HTML sémantique</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">8</div><div class="mod-info"><div class="mod-name">Évaluation + Certification</div><div class="mod-parts">Certification</div></div></div>
+  </aside>
+
+  <main class="main">
+
+    <div class="module-header">
+      <div class="mod-header-label">Module 2 — HTML</div>
+      <div class="mod-header-title">La structure d'une <em>page HTML.</em></div>
+      <div class="mod-header-sub">Chaque page web correctement écrite suit la même structure. Comprendre cette structure c'est comprendre comment le navigateur lit et interprète ton code — et pourquoi certaines choses marchent ou ne marchent pas.</div>
+      <div class="mod-header-actions">
+        <button class="btn-listen" id="btnListen" onclick="toggleListen()">
+          <span>🔊</span><span id="listenTxt">Écouter ce module</span>
+        </button>
+        <div class="mod-progress">
+          <div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div>
+          <span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="parties-nav">
+      <div class="partie-tab active" onclick="switchPartie(1)">Ouvrir un fichier HTML</div>
+      <div class="partie-tab" onclick="switchPartie(2)">Le DOCTYPE</div>
+      <div class="partie-tab" onclick="switchPartie(3)">Le &lt;head&gt; — l'invisible</div>
+      <div class="partie-tab" onclick="switchPartie(4)">Le &lt;body&gt; — le visible</div>
+      <div class="partie-tab" onclick="switchPartie(5)">Exercice 🎯</div>
+    </div>
+
+    <!-- PARTIE 1 -->
+    <div class="content" id="partie1">
+      <div class="bloc">
+        <span class="big">Un fichier HTML c'est un fichier texte. <em>Rien de plus.</em></span>
+        <p>Ouvre le Bloc-notes sur Windows, TextEdit sur Mac, ou n'importe quel éditeur de texte. Écris dedans. Sauvegarde en <strong>.html</strong>. Ouvre dans Chrome. Tu viens de créer une page web.</p>
+        <p>Pas de logiciel spécial, pas d'installation compliquée. C'est du texte que le navigateur sait lire. Ce qui change c'est ce que tu mets dedans — et il y a une structure précise à respecter.</p>
+        <p>Tout fichier HTML bien écrit ressemble à ça :</p>
+      </div>
+
+      <div class="anatomie">
+        <div class="anatomie-label">Clique sur chaque section pour la voir en détail ↓</div>
+        <div class="anatomie-body">
+
+          <div class="anat-section anat-doctype">
+            <div class="anat-head-tag" onclick="toggleSection(this)">
+              <span style="color:#79B8FF">&lt;!DOCTYPE html&gt;</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span class="anat-badge">Déclaration</span>
+                <span class="toggle-hint">Tap pour voir</span>
+              </div>
+            </div>
+            <div class="anat-content" style="color:rgba(121,184,255,0.7)">
+              → Toujours en première ligne. Dit au navigateur "ce qui suit c'est du HTML5". Sans ça le navigateur entre en "mode quirks" et peut se comporter bizarrement.
+            </div>
+          </div>
+
+          <div class="anat-section anat-html">
+            <div class="anat-head-tag" onclick="toggleSection(this)">
+              <span style="color:#FFAB70">&lt;html lang="fr"&gt;</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span class="anat-badge">Racine</span>
+                <span class="toggle-hint">Tap pour voir</span>
+              </div>
+            </div>
+            <div class="anat-content" style="color:rgba(255,171,112,0.7)">
+              → Contient TOUT le reste. La balise la plus englobante. L'attribut lang="fr" dit que la page est en français — utile pour les lecteurs d'écran et les moteurs de recherche. Se ferme tout à la fin avec &lt;/html&gt;.
+            </div>
+          </div>
+
+          <div class="anat-section anat-head-s">
+            <div class="anat-head-tag" onclick="toggleSection(this)">
+              <span>&nbsp;&nbsp;&lt;head&gt; ... &lt;/head&gt;</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span class="anat-badge">Invisible</span>
+                <span class="toggle-hint">Tap pour voir</span>
+              </div>
+            </div>
+            <div class="anat-content">
+              → Ce que l'utilisateur ne voit PAS directement. Le titre de l'onglet, les métadonnées, les liens vers le CSS, le charset... Tout ce que le navigateur et les moteurs de recherche ont besoin de savoir sur ta page.
+            </div>
+          </div>
+
+          <div class="anat-section anat-body-s">
+            <div class="anat-head-tag" onclick="toggleSection(this)">
+              <span>&nbsp;&nbsp;&lt;body&gt; ... &lt;/body&gt;</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span class="anat-badge">Visible</span>
+                <span class="toggle-hint">Tap pour voir</span>
+              </div>
+            </div>
+            <div class="anat-content">
+              → Tout ce que l'utilisateur VOIT sur la page. Les titres, les textes, les images, les boutons, les formulaires... Si ça s'affiche à l'écran, ça va dans le body. C'est là que tu passes 90% de ton temps.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="bloc">
+        <p>Ce n'est pas une convention inventée au hasard. C'est le standard international défini par le W3C — l'organisation qui régule le web depuis 1994. Tous les navigateurs du monde respectent ce standard.</p>
+        <p>Ça veut dire que si tu respectes cette structure, ta page fonctionnera sur Chrome, Firefox, Safari, Edge, sur PC, Mac, iPhone, Android. <strong>Partout.</strong></p>
+      </div>
+
+      <div class="fun-fact">
+        <div class="ff-icon">🌍</div>
+        <div>
+          <div class="ff-title">Le W3C</div>
+          <div class="ff-text">Le World Wide Web Consortium, fondé par Tim Berners-Lee (l'inventeur du web), définit les standards HTML depuis 1994. Sans eux, chaque navigateur pourrait interpréter le HTML différemment et tout le web serait cassé. C'est grâce à eux qu'une page que tu codes aujourd'hui fonctionnera encore dans 10 ans.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTIE 2 -->
+    <div class="content" id="partie2" style="display:none">
+      <div class="bloc">
+        <span class="big">La première ligne de toute page web. <em>Le DOCTYPE.</em></span>
+        <p>Avant même la balise HTML, avant tout le reste, tu mets une seule ligne :</p>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">HTML — Ligne 1 de tout fichier web</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="com">&lt;!-- C'est tout. Une ligne. Toujours la même. --&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="bloc">
+        <p>Cette ligne dit au navigateur : <strong>"Ce fichier est du HTML5, la version moderne du HTML."</strong> Sans cette ligne, le navigateur entre dans ce qu'on appelle le "quirks mode" — un mode de compatibilité avec les vieux sites des années 90 où les règles étaient différentes. En quirks mode, ton CSS peut se comporter de façon imprévisible.</p>
+        <p>Bonne nouvelle : tu n'as jamais à y penser. Tu la mets, tu passes à la suite. Elle ne change jamais.</p>
+      </div>
+
+      <div class="hl">
+        <span class="hlt">Pourquoi c'est écrit comme ça</span>
+        Le DOCTYPE a existé dans des versions plus complexes avant HTML5. En HTML4 il ressemblait à ça : <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(107,31,42,0.1);padding:2px 6px;border-radius:4px">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;</code>. Les créateurs de HTML5 ont décidé de simplifier ça en juste <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(107,31,42,0.1);padding:2px 6px;border-radius:4px">&lt;!DOCTYPE html&gt;</code>. Merci à eux.
+      </div>
+
+      <div class="fun-fact">
+        <div class="ff-icon">🕰</div>
+        <div>
+          <div class="ff-title">Anecdote</div>
+          <div class="ff-text">Si tu vas sur le code source de sites comme Google ou Wikipedia, la toute première chose que tu vois c'est exactement cette ligne. Les développeurs senior avec 20 ans d'expérience écrivent exactement la même première ligne que toi maintenant. Certaines choses ne changent pas.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-head"><span class="quiz-icon">🎯</span><span class="quiz-title">Vérification</span></div>
+        <div class="quiz-body">
+          <div class="quiz-q">Tu crées un nouveau fichier HTML. Quelle est la toute première chose que tu écris ?</div>
+          <div class="quiz-options" id="quiz2Options">
+            <button class="quiz-opt" onclick="checkQuiz2(this,false)">&lt;html&gt;</button>
+            <button class="quiz-opt" onclick="checkQuiz2(this,false)">&lt;head&gt;</button>
+            <button class="quiz-opt" onclick="checkQuiz2(this,true)">&lt;!DOCTYPE html&gt;</button>
+            <button class="quiz-opt" onclick="checkQuiz2(this,false)">&lt;body&gt;</button>
+          </div>
+          <div class="quiz-feedback" id="quiz2Feedback"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTIE 3 -->
+    <div class="content" id="partie3" style="display:none">
+      <div class="bloc">
+        <span class="big">Le &lt;head&gt; — ce que l'utilisateur ne voit pas, <em>mais qui change tout.</em></span>
+        <p>Tu regardes une page web et tu vois le contenu. Mais derrière, il y a des informations que le navigateur et les moteurs de recherche utilisent sans jamais les afficher directement à l'écran. Tout ça vit dans le <code style="background:var(--bg);padding:2px 7px;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:13px">&lt;head&gt;</code>.</p>
+      </div>
+
+      <div class="compare">
+        <div class="compare-card head-card">
+          <div class="compare-title"><span class="compare-icon">👁</span>&lt;head&gt; — Invisible</div>
+          <ul class="compare-list">
+            <li>Le titre de l'onglet du navigateur</li>
+            <li>L'encodage des caractères (é, à, ç...)</li>
+            <li>La description pour Google</li>
+            <li>Le lien vers ton fichier CSS</li>
+            <li>Les instructions pour mobile</li>
+            <li>L'icône de l'onglet (favicon)</li>
+          </ul>
+        </div>
+        <div class="compare-card body-card">
+          <div class="compare-title"><span class="compare-icon">🖥</span>&lt;body&gt; — Visible</div>
+          <ul class="compare-list">
+            <li>Les titres et les textes</li>
+            <li>Les images</li>
+            <li>Les boutons</li>
+            <li>Les menus de navigation</li>
+            <li>Les formulaires</li>
+            <li>Tout ce que tu vois à l'écran</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bloc">
+        <p>Voici les balises les plus importantes dans un &lt;head&gt; :</p>
+      </div>
+
+      <div class="meta-grid">
+        <div class="meta-item meta-important">
+          <div class="meta-code">&lt;meta charset="UTF-8"&gt;</div>
+          <div class="meta-info">
+            <div class="meta-title">Encodage des caractères — INDISPENSABLE</div>
+            <div class="meta-desc">Sans ça, tes é, à, ç, ñ, 中文, العربية vont s'afficher en caractères bizarres. UTF-8 supporte tous les caractères de toutes les langues du monde. Toujours mettre en premier dans le head.</div>
+          </div>
+        </div>
+        <div class="meta-item meta-important">
+          <div class="meta-code">&lt;meta name="viewport"...&gt;</div>
+          <div class="meta-info">
+            <div class="meta-title">Responsive mobile — INDISPENSABLE</div>
+            <div class="meta-desc">Sans ça, ton site va s'afficher en version "desktop zoomée" sur mobile — illisible. Cette balise dit au téléphone d'adapter la page à sa taille d'écran. En 2024, plus de 60% du trafic web vient du mobile.</div>
+          </div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-code">&lt;title&gt;...&lt;/title&gt;</div>
+          <div class="meta-info">
+            <div class="meta-title">Le titre de la page</div>
+            <div class="meta-desc">Ce qui s'affiche dans l'onglet du navigateur et dans les résultats Google. "Kora — L'information vérifiée" ou "Accueil — Amazon". Important pour le référencement SEO.</div>
+          </div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-code">&lt;meta name="description"&gt;</div>
+          <div class="meta-info">
+            <div class="meta-title">La description Google</div>
+            <div class="meta-desc">Le texte qui apparaît sous le titre dans les résultats de recherche Google. Ne s'affiche pas sur la page mais crucial pour le SEO et pour donner envie aux gens de cliquer.</div>
+          </div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-code">&lt;link rel="stylesheet"&gt;</div>
+          <div class="meta-info">
+            <div class="meta-title">Lien vers le fichier CSS</div>
+            <div class="meta-desc">C'est ici que tu dis au navigateur "pour styliser cette page, va lire ce fichier CSS". Sans ça, ta page sera du HTML brut sans mise en forme.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">HTML — Un head complet et correct</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="tag">&lt;head&gt;</span>
+  <span class="com">&lt;!-- 1. Encodage — TOUJOURS en premier --&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+
+  <span class="com">&lt;!-- 2. Responsive mobile --&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+
+  <span class="com">&lt;!-- 3. Titre de l'onglet et de Google --&gt;</span>
+  <span class="tag">&lt;title&gt;</span><span class="txt">Kora — L'information vérifiée</span><span class="tag">&lt;/title&gt;</span>
+
+  <span class="com">&lt;!-- 4. Description pour Google --&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"description"</span> <span class="attr">content</span>=<span class="val">"Kora agrège, vérifie et analyse les news en temps réel."</span><span class="tag">&gt;</span>
+
+  <span class="com">&lt;!-- 5. Lien vers le CSS --&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"kora.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="hl">
+        <span class="hlt">Ce que Google voit</span>
+        Quand Google indexe une page, il lit le &lt;head&gt; en premier. Le title et la meta description décident directement de comment ta page apparaît dans les résultats de recherche. Un bon head = un meilleur référencement. C'est ce qu'on appelle le SEO on-page.
+      </div>
+
+      <div class="fun-fact">
+        <div class="ff-icon">🔍</div>
+        <div>
+          <div class="ff-title">Teste maintenant sur Google</div>
+          <div class="ff-text">Va sur Google, cherche n'importe quoi. Le titre en bleu cliquable, c'est le contenu de la balise &lt;title&gt; du site. Le texte en gris en dessous, c'est la &lt;meta name="description"&gt;. Des millions de développeurs ont soigneusement écrit ces textes pour que tu cliques dessus.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTIE 4 -->
+    <div class="content" id="partie4" style="display:none">
+      <div class="bloc">
+        <span class="big">Le &lt;body&gt; — <em>tout ce que l'utilisateur voit.</em></span>
+        <p>Si le &lt;head&gt; c'est les coulisses, le &lt;body&gt; c'est la scène. Tout ce qui s'affiche à l'écran vit ici. C'est là où tu vas passer la majorité de ton temps quand tu codes une page.</p>
+        <p>Il n'y a qu'un seul &lt;body&gt; par page, et tout ton contenu se met dedans — dans l'ordre dans lequel tu veux qu'il apparaisse de haut en bas.</p>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">HTML — Une page complète de A à Z</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"fr"</span><span class="tag">&gt;</span>
+
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span><span class="txt">Ma première vraie page</span><span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"description"</span> <span class="attr">content</span>=<span class="val">"Une page créée par moi, de zéro."</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+
+<span class="tag">&lt;body&gt;</span>
+
+  <span class="tag">&lt;h1&gt;</span><span class="txt">Bienvenue sur ma page</span><span class="tag">&lt;/h1&gt;</span>
+
+  <span class="tag">&lt;p&gt;</span><span class="txt">Je m'appelle Val. Je suis en train d'apprendre le code.</span><span class="tag">&lt;/p&gt;</span>
+
+  <span class="tag">&lt;h2&gt;</span><span class="txt">Ce que je construis</span><span class="tag">&lt;/h2&gt;</span>
+
+  <span class="tag">&lt;p&gt;</span><span class="txt">Je travaille sur <span class="tag">&lt;strong&gt;</span>Kora<span class="tag">&lt;/strong&gt;</span>, une plateforme d'information.</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;/body&gt;</span>
+
+<span class="tag">&lt;/html&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="resultat">
+        <div class="res-head">Ce que le navigateur affiche — uniquement le contenu du body</div>
+        <div class="res-body">
+          <h1>Bienvenue sur ma page</h1>
+          <p>Je m'appelle Val. Je suis en train d'apprendre le code.</p>
+          <h2>Ce que je construis</h2>
+          <p>Je travaille sur <strong>Kora</strong>, une plateforme d'information.</p>
+        </div>
+      </div>
+
+      <div class="bloc">
+        <p>Regarde bien le code. Tu peux voir que les balises s'<strong>imbriquent</strong> — les unes dans les autres. Le &lt;body&gt; est dans le &lt;html&gt;. Les &lt;h1&gt; et &lt;p&gt; sont dans le &lt;body&gt;. Le &lt;strong&gt; est dans le &lt;p&gt;.</p>
+        <p>C'est comme des poupées russes. Et la règle c'est que tu dois toujours fermer dans l'ordre inverse où tu as ouvert. Si tu ouvres A puis B, tu fermes B puis A. Jamais l'inverse.</p>
+      </div>
+
+      <div class="lignes">
+        <div class="ligne-row">
+          <div class="ligne-code">&lt;!DOCTYPE html&gt;</div>
+          <div class="ligne-expl"><strong>Ligne 1 — toujours.</strong> Déclare que c'est du HTML5. Le navigateur entre en mode standard.</div>
+        </div>
+        <div class="ligne-row">
+          <div class="ligne-code">&lt;html lang="fr"&gt;</div>
+          <div class="ligne-expl">Ouvre le document HTML. Lang="fr" précise la langue — important pour l'accessibilité et Google.</div>
+        </div>
+        <div class="ligne-row">
+          <div class="ligne-code">&lt;head&gt; ... &lt;/head&gt;</div>
+          <div class="ligne-expl">Zone invisible. Charset, viewport, title, meta description, liens CSS. Tout ce que le navigateur a besoin de savoir.</div>
+        </div>
+        <div class="ligne-row">
+          <div class="ligne-code">&lt;body&gt; ... &lt;/body&gt;</div>
+          <div class="ligne-expl">Zone visible. Tout le contenu affiché à l'écran. H1, p, images, boutons... tout ici.</div>
+        </div>
+        <div class="ligne-row">
+          <div class="ligne-code">&lt;/html&gt;</div>
+          <div class="ligne-expl"><strong>Dernière ligne — toujours.</strong> Ferme la balise html ouverte au début. Tout le document est entre &lt;html&gt; et &lt;/html&gt;.</div>
+        </div>
+      </div>
+
+      <div class="demo-interactive">
+        <div class="demo-head">Éditeur live — modifie le code et vois le résultat en direct</div>
+        <div class="demo-body">
+          <div class="demo-left">
+            <div class="demo-label" style="color:rgba(255,255,255,0.3);margin-bottom:8px;font-size:11px;letter-spacing:0.5px">BODY — modifie ici</div>
+            <textarea id="liveCode" oninput="updateLive()">&lt;h1&gt;Mon titre&lt;/h1&gt;
+&lt;p&gt;Mon premier paragraphe.&lt;/p&gt;
+&lt;h2&gt;Ma section&lt;/h2&gt;
+&lt;p&gt;Un autre texte &lt;strong&gt;en gras&lt;/strong&gt;.&lt;/p&gt;</textarea>
+          </div>
+          <div class="demo-right">
+            <div class="demo-label">RÉSULTAT</div>
+            <div class="demo-result" id="liveResult">
+              <h1>Mon titre</h1>
+              <p>Mon premier paragraphe.</p>
+              <h2>Ma section</h2>
+              <p>Un autre texte <strong>en gras</strong>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hl">
+        <span class="hlt">La règle d'or de l'imbrication</span>
+        Les balises doivent être fermées dans l'ordre inverse de leur ouverture. Si tu ouvres &lt;p&gt; puis &lt;strong&gt;, tu fermes &lt;/strong&gt; puis &lt;/p&gt;. Jamais &lt;/p&gt;&lt;/strong&gt; — c'est comme fermer la boîte avant d'y mettre le couvercle.
+      </div>
+    </div>
+
+    <!-- PARTIE 5 — EXERCICE -->
+    <div class="content" id="partie5" style="display:none">
+      <div class="bloc">
+        <span class="big">Tu connais maintenant la structure complète. <em>À toi de la construire.</em></span>
+        <p>C'est le moment de tout assembler — DOCTYPE, html, head avec les balises obligatoires, et body avec du contenu. Pas un bout de code — une vraie page complète, structurée correctement de la première à la dernière ligne.</p>
+      </div>
+
+      <div class="exercice">
+        <div class="exo-head">
+          <span class="exo-icon">🎯</span>
+          <span class="exo-title">Construis la page d'accueil de Kora</span>
+          <span class="exo-badge">Exercice</span>
+        </div>
+        <div class="exo-body">
+          <div class="exo-context">
+            Tu travailles sur Kora. On t'a demandé de créer la toute première version de la page d'accueil — juste la structure HTML, sans CSS pour l'instant. Elle doit être techniquement correcte et complète.
+          </div>
+          <div class="exo-mission">
+            <div class="exo-mission-title">Ce que doit contenir ta page</div>
+            <ul>
+              <li>Le DOCTYPE correct en première ligne</li>
+              <li>La balise html avec l'attribut lang en français</li>
+              <li>Un head complet : charset UTF-8, viewport, title "Kora — L'information vérifiée", une meta description</li>
+              <li>Un body avec : un h1 "Kora", un h2 "L'information vérifiée par IA", au moins deux paragraphes de présentation, un mot en &lt;strong&gt; dans un paragraphe</li>
+              <li>Toutes les balises correctement fermées dans le bon ordre</li>
+            </ul>
+          </div>
+          <textarea class="exo-textarea" id="exoInput" placeholder="Écris ta page complète ici...&#10;&#10;Commence par :&#10;&lt;!DOCTYPE html&gt;&#10;&lt;html lang=&quot;fr&quot;&gt;..."></textarea>
+          <div class="exo-actions">
+            <button class="btn-valider" onclick="validerExo()">Valider ma page</button>
+            <button class="btn-indice" onclick="showIndice()">💡 Indice</button>
+          </div>
+          <div class="exo-feedback" id="exoFeedback"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- IA -->
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header">
+      <div class="ia-av">✦</div>
+      <div>
+        <div class="ia-name">Kora IA</div>
+        <div class="ia-ctx">Module 2 · Structure HTML</div>
+      </div>
+    </div>
+    <div class="ia-msgs" id="iaMsgs">
+      <div class="ia-msg ia-a">Salut ! Ce module c'est la fondation de tout. Pose-moi tes questions sur le DOCTYPE, le head ou le body.</div>
+    </div>
+    <div class="ia-row">
+      <input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question...">
+      <button class="ia-send" id="iaSend">↑</button>
+    </div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Précédent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant →</button>
+</div>
+
+<script>
+let currentPartie=1;
+const totalParties=5;
+
+function switchPartie(n){
+  for(let i=1;i<=totalParties;i++){
+    const el=document.getElementById('partie'+i);
+    if(el)el.style.display='none';
+    const tab=document.querySelectorAll('.partie-tab')[i-1];
+    if(tab)tab.classList.remove('active');
+  }
+  const target=document.getElementById('partie'+n);
+  if(target)target.style.display='block';
+  const targetTab=document.querySelectorAll('.partie-tab')[n-1];
+  if(targetTab)targetTab.classList.add('active');
+  currentPartie=n;updateNav();
+KORA_PROG.initFormation('codage2');
+
+
+// Progression
+function terminerModule() {
+  KORA_PROG.finishModule('codage2');
+}
+window.scrollTo(0,0);
+}
+function nextPartie(){if(currentPartie<totalParties){KORA_PROG.savePartie('codage2',currentPartie);switchPartie(currentPartie+1);}else{terminerModule();}}
+function prevPartie(){if(currentPartie>1)switchPartie(currentPartie-1);}
+function updateNav(){
+  const prev=document.getElementById('btnPrev');
+  const next=document.getElementById('btnNext');
+  const curr=document.getElementById('navCurrent');
+  const progTxt=document.getElementById('modProgTxt');
+  const progFill=document.getElementById('modProgFill');
+  const globalFill=document.getElementById('globalFill');
+  prev.style.visibility=currentPartie>1?'visible':'hidden';
+  next.textContent=currentPartie===totalParties?'Terminer le module ✓':'Suivant →';
+  curr.textContent='Partie '+currentPartie+' sur '+totalParties;
+  if(progTxt)progTxt.textContent='Partie '+currentPartie+'/'+totalParties;
+  if(progFill)progFill.style.width=(currentPartie/totalParties*100)+'%';
+  if(globalFill)globalFill.style.width=(13+Math.round((currentPartie/totalParties)*12))+'%';
+}
+
+// Toggle sections anatomie
+function toggleSection(el){
+  const section=el.closest('.anat-section');
+  section.classList.toggle('open');
+  const hint=el.querySelector('.toggle-hint');
+  if(hint)hint.textContent=section.classList.contains('open')?'Fermer':'Tap pour voir';
+}
+
+// Lecture vocale
+let speaking=false;
+function toggleListen(){
+  const btn=document.getElementById('btnListen');
+  const txt=document.getElementById('listenTxt');
+  if(!speaking){
+    const content=document.getElementById('partie'+currentPartie);
+    const u=new SpeechSynthesisUtterance(content?content.innerText:'');
+    u.lang='fr-FR';u.rate=0.88;
+    u.onend=()=>{speaking=false;btn.classList.remove('playing');txt.textContent='Écouter ce module'};
+    speechSynthesis.speak(u);speaking=true;
+    btn.classList.add('playing');txt.textContent='Stop ■';
+  } else {
+    speechSynthesis.cancel();speaking=false;
+    btn.classList.remove('playing');txt.textContent='Écouter ce module';
+  }
+}
+
+// Live editor
+function updateLive(){
+  const code=document.getElementById('liveCode').value;
+  document.getElementById('liveResult').innerHTML=code;
+}
+
+// IA
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+const iaInp=document.getElementById('iaInp');
+const iaSend=document.getElementById('iaSend');
+const iaMsgs=document.getElementById('iaMsgs');
+
+function sendIa(){
+  const t=iaInp.value.trim();if(!t)return;
+  const u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;
+  iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  setTimeout(()=>{
+    const a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getReponse(t);
+    iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  },600);
+}
+
+function getReponse(q){
+  const q2=q.toLowerCase();
+  if(q2.includes('doctype'))return 'Le DOCTYPE doit être absolument en première ligne, avant même la balise html. Sans lui le navigateur entre en "quirks mode" — un mode de compatibilité avec les vieux sites où les règles CSS se comportent différemment. En HTML5 c\'est juste <!DOCTYPE html>, rien d\'autre.';
+  if(q2.includes('charset')||q2.includes('utf'))return 'Le charset UTF-8 doit être la première chose dans le head — avant même le title. Pourquoi ? Parce que le navigateur doit savoir comment décoder les caractères AVANT de lire le titre. Si tu le mets après, certains caractères spéciaux dans le title peuvent s\'afficher mal.';
+  if(q2.includes('viewport')||q2.includes('mobile'))return 'La balise viewport avec content="width=device-width, initial-scale=1.0" dit au téléphone d\'afficher la page à 100% de sa largeur réelle. Sans ça, le téléphone pense que ta page fait 980px de large (comme un vieux bureau) et zoom out pour tout faire rentrer — tout devient minuscule.';
+  if(q2.includes('head')&&q2.includes('body'))return 'Le head contient les métadonnées — des informations SUR la page (titre, encodage, description, CSS). Le body contient le contenu — ce qui s\'affiche à l\'écran. Une règle simple : si ça s\'affiche à l\'écran, c\'est dans le body. Si ça s\'affiche pas mais est nécessaire, c\'est dans le head.';
+  if(q2.includes('imbriqu')||q2.includes('ordre')&&q2.includes('fermer'))return 'Les balises HTML s\'imbriquent comme des poupées russes. La règle : tu fermes toujours dans l\'ordre inverse de l\'ouverture. Si tu ouvres <p> puis <strong>, tu fermes </strong> puis </p>. Jamais l\'inverse. Les navigateurs pardonnent parfois les erreurs d\'imbrication, mais le résultat peut être imprévisible.';
+  if(q2.includes('title')||q2.includes('onglet'))return 'Le title est dans le head et s\'affiche dans l\'onglet du navigateur + dans les résultats Google. Il ne s\'affiche PAS sur la page elle-même. Pour afficher un titre sur la page, tu utilises <h1> dans le body. Les deux existent indépendamment.';
+  if(q2.includes('seo')||q2.includes('google')&&q2.includes('description'))return 'La meta description n\'affecte pas directement le classement Google — Google dit lui-même que ça n\'influence pas le ranking. Mais ça influence le taux de clic : un beau résumé donne envie de cliquer. Et si tu n\'en mets pas, Google va choisir lui-même un extrait de ta page, souvent pas très attrayant.';
+  return 'Bonne question sur la structure HTML. L\'ordre correct c\'est : DOCTYPE → html → head (avec charset, viewport, title, meta, CSS) → body (avec tout le contenu visible) → /body → /html. Tu veux que je détaille un point en particulier ?';
+}
+
+iaSend.addEventListener('click',sendIa);
+iaInp.addEventListener('keydown',e=>{if(e.key==='Enter')sendIa();});
+
+// Quiz partie 2
+function checkQuiz2(btn,correct){
+  const opts=document.querySelectorAll('#quiz2Options .quiz-opt');
+  opts.forEach(o=>o.disabled=true);
+  const feedback=document.getElementById('quiz2Feedback');
+  if(correct){
+    btn.classList.add('correct');
+    feedback.className='quiz-feedback ok';
+    feedback.innerHTML='✓ Exactement ! Le DOCTYPE est toujours la première ligne — avant même la balise &lt;html&gt;. C\'est la règle absolue numéro 1 de tout fichier HTML.';
+  } else {
+    btn.classList.add('wrong');
+    opts[2].classList.add('correct');
+    feedback.className='quiz-feedback ko';
+    feedback.innerHTML='Pas tout à fait. La bonne réponse c\'est &lt;!DOCTYPE html&gt; — toujours en première ligne, avant tout le reste. Même avant &lt;html&gt;.';
+  }
+  feedback.style.display='block';
+}
+
+// Exercice
+function validerExo(){
+  const input=document.getElementById('exoInput').value.toLowerCase();
+  const feedback=document.getElementById('exoFeedback');
+  const checks={
+    doctype:input.includes('<!doctype html>'),
+    html:input.includes('<html')&&input.includes('lang')&&input.includes('</html>'),
+    charset:input.includes('charset')&&input.includes('utf-8'),
+    viewport:input.includes('viewport'),
+    title:input.includes('<title>')&&input.includes('</title>'),
+    description:input.includes('name="description"')||input.includes("name='description'"),
+    h1:input.includes('<h1>')&&input.includes('</h1>'),
+    h2:input.includes('<h2>')&&input.includes('</h2>'),
+    p:input.includes('<p>')&&input.includes('</p>'),
+    strong:input.includes('<strong>')&&input.includes('</strong>'),
+    body:input.includes('<body>')&&input.includes('<script src="progression.js"></script>
+</body>'),
+    head:input.includes('<head>')&&input.includes('</head>')
+  };
+  const score=Object.values(checks).filter(Boolean).length;
+  const total=Object.keys(checks).length;
+
+  if(score===total){
+    feedback.className='exo-feedback ok';
+    feedback.innerHTML='✓ Page parfaite ! Tu as tous les éléments : DOCTYPE, html avec lang, head complet (charset, viewport, title, description), body avec h1, h2, paragraphes et strong. C\'est exactement ce que doit être un fichier HTML professionnel. Module 3 débloqué !';
+  } else if(score>=8){
+    const manquants=Object.entries(checks).filter(([k,v])=>!v).map(([k])=>k);
+    feedback.className='exo-feedback ok';
+    feedback.innerHTML='Très bien ! Il manque juste : '+manquants.join(', ')+'. Ajoute ces éléments pour une page complète.';
+  } else if(score>=5){
+    const manquants=Object.entries(checks).filter(([k,v])=>!v).map(([k])=>({doctype:'DOCTYPE',html:'html avec lang',charset:'charset UTF-8',viewport:'viewport',title:'title',description:'meta description',h1:'h1',h2:'h2',p:'paragraphe p',strong:'strong',body:'body',head:'head'}[k]||k));
+    feedback.className='exo-feedback ko';
+    feedback.innerHTML='Bonne base ! '+score+'/'+total+' éléments corrects. Il manque : '+manquants.join(', ')+'.';
+  } else {
+    feedback.className='exo-feedback ko';
+    feedback.innerHTML='Continue ! Pense à la structure complète : DOCTYPE → &lt;html lang="fr"&gt; → &lt;head&gt; avec charset, viewport, title, description → &lt;/head&gt; → &lt;body&gt; avec h1, h2, p, strong → &lt;/body&gt; → &lt;/html&gt;.';
+  }
+  feedback.style.display='block';
+}
+
+function showIndice(){
+  const feedback=document.getElementById('exoFeedback');
+  feedback.className='exo-feedback ko';
+  feedback.innerHTML=`💡 Structure à compléter :<br><br>
+<code style="font-family:monospace;font-size:11px;line-height:1.8;display:block">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html lang="fr"&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+&nbsp;&nbsp;&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+&nbsp;&nbsp;&lt;title&gt;Kora — L'information vérifiée&lt;/title&gt;<br>
+&nbsp;&nbsp;&lt;meta name="description" content="..."&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&nbsp;&nbsp;&lt;h1&gt;Kora&lt;/h1&gt;<br>
+&nbsp;&nbsp;&lt;h2&gt;L'information vérifiée par IA&lt;/h2&gt;<br>
+&nbsp;&nbsp;&lt;p&gt;... &lt;strong&gt;mot&lt;/strong&gt; ...&lt;/p&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+</code>`;
+  feedback.style.display='block';
+}
+
+updateNav();
+</script>
+<script src="progression.js"></script>
+</body>
+</html>

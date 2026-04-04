@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kora</title>
+<link rel="stylesheet" href="kora.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="page">
+
+  <!-- NAV GAUCHE -->
+  <aside class="col-l">
+    <div class="logo">
+      <img src="logo.jpg" alt="Kora" class="logo-img">
+    </div>
+    <ul class="nav" id="mainNav">
+      <li class="nav-item active" data-s="social">
+        <span class="nav-ic">⌂</span>
+        <span class="nav-label">Pour toi</span>
+      </li>
+      <li class="nav-item" data-s="journal" id="journalNav">
+        <span class="nav-ic">◫</span>
+        <span class="nav-label">Journal</span>
+      </li>
+      <ul class="nav-sub" id="journalSub">
+        <li class="nav-sub-item active">Toute l'actualité</li>
+        <li class="nav-sub-item">Crypto & Web3</li>
+        <li class="nav-sub-item">Finance & Marchés</li>
+        <li class="nav-sub-item">Tech & IA</li>
+        <li class="nav-sub-item">Entreprise</li>
+        <li class="nav-sub-item">Monde</li>
+        <li class="nav-sub-item analyses">◈ Analyses</li>
+      </ul>
+      <li class="nav-item" data-s="formation">
+        <span class="nav-ic">⊹</span>
+        <span class="nav-label">Formation</span>
+      </li>
+      <li class="nav-item" data-s="profil">
+        <span class="nav-ic">○</span>
+        <span class="nav-label">Profil</span>
+      </li>
+    </ul>
+    <button class="btn-pub">+ Publier</button>
+    <div class="nav-foot">
+      <div class="av">V</div>
+      <div>
+        <div class="nf-name">Val</div>
+        <div class="nf-krt">248 KRT</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CENTRE — toutes les vues -->
+  <main class="col-c">
+
+    <!-- VUE : POUR TOI -->
+    <div class="view active" id="view-social">
+      <div class="topbar">
+        <div class="mob-topbar" id="mobLogo">
+          <img src="logo.jpg" alt="Kora" class="mob-logo-img">
+        </div>
+        <div class="topbar-title">Pour toi</div>
+      </div>
+      <div class="compose">
+        <div class="av av-post">V</div>
+        <div class="compose-body">
+          <textarea class="compose-inp" rows="2" placeholder="Partagez une information, une réaction..."></textarea>
+          <div class="compose-foot">
+            <div class="compose-icons">
+              <button class="ci">🖼</button>
+              <button class="ci">🔗</button>
+              <button class="ci">⊹</button>
+            </div>
+            <button class="btn-submit">Publier</button>
+          </div>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post-head">
+          <div class="av av-post av-kora">K</div>
+          <div class="post-info">
+            <div class="post-name">Kora <span class="chk">✓</span> <span class="dot-time">· il y a 6 min</span></div>
+            <div class="post-sub">Compte officiel · Vérifié par IA</div>
+          </div>
+          <div class="badge b-ok"><span class="bdot"></span>Vérifié</div>
+        </div>
+        <div class="post-body"><strong>🔴 Breaking —</strong> Bitcoin franchit les 85 000$ pour la première fois depuis novembre 2025. Les flux on-chain révèlent un afflux institutionnel massif depuis 72h.</div>
+        <a class="btn-read" href="#">Lire l'article complet</a>
+        <div class="post-acts">
+          <button class="pact like-btn"><span class="pic">♡</span> 1,4k</button>
+          <button class="pact"><span class="pic">↩</span> 312</button>
+          <button class="pact"><span class="pic">⇧</span> Partager</button>
+          <button class="pact"><span class="pic">◈</span> Analyse</button>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post-head">
+          <div class="av av-post av-user">M</div>
+          <div class="post-info">
+            <div class="post-name">Marc_Trader <span class="dot-time">· il y a 18 min</span></div>
+            <div class="post-sub">Trader · Score 94/100</div>
+          </div>
+          <div class="badge b-ok"><span class="bdot"></span>Vérifié</div>
+        </div>
+        <div class="post-body">La zone 88k–92k sera décisive pour BTC cette semaine. Si on tient 72h sur ce range, le prochain palier naturel est 100k.</div>
+        <div class="post-acts">
+          <button class="pact like-btn"><span class="pic">♡</span> 284</button>
+          <button class="pact"><span class="pic">↩</span> 47</button>
+          <button class="pact"><span class="pic">⇧</span> Partager</button>
+          <button class="pact"><span class="pic">◈</span> Analyse</button>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post-head">
+          <div class="av av-post av-kora">K</div>
+          <div class="post-info">
+            <div class="post-name">Kora <span class="chk">✓</span> <span class="dot-time">· il y a 1h</span></div>
+            <div class="post-sub">Compte officiel · Vérifié par IA</div>
+          </div>
+          <div class="badge b-ok"><span class="bdot"></span>Vérifié</div>
+        </div>
+        <div class="post-body"><strong>📊 Macro —</strong> La BCE maintient ses taux directeurs. Lagarde évoque une possible baisse dès juin si l'inflation continue de se normaliser.</div>
+        <a class="btn-read" href="#">Lire l'article complet</a>
+        <div class="post-acts">
+          <button class="pact like-btn"><span class="pic">♡</span> 892</button>
+          <button class="pact"><span class="pic">↩</span> 203</button>
+          <button class="pact"><span class="pic">⇧</span> Partager</button>
+          <button class="pact"><span class="pic">◈</span> Analyse</button>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post-head">
+          <div class="av av-post av-user">S</div>
+          <div class="post-info">
+            <div class="post-name">SophieInvest <span class="dot-time">· il y a 2h</span></div>
+            <div class="post-sub">Investisseure · Score 61/100</div>
+          </div>
+          <div class="badge b-chk"><span class="bdot"></span>En vérification</div>
+        </div>
+        <div class="post-body">OpenAI serait en discussion avec plusieurs hedge funds pour lancer un modèle IA dédié au trading quantitatif.</div>
+        <div class="post-acts">
+          <button class="pact like-btn"><span class="pic">♡</span> 156</button>
+          <button class="pact"><span class="pic">↩</span> 89</button>
+          <button class="pact"><span class="pic">⇧</span> Partager</button>
+          <button class="pact"><span class="pic">◈</span> Analyse</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VUE : JOURNAL -->
+    <div class="view" id="view-journal">
+      <div class="topbar">
+        <div class="mob-topbar">
+          <img src="logo.jpg" alt="Kora" class="mob-logo-img" style="display:block">
+        </div>
+        <div class="topbar-title">Journal</div>
+      </div>
+      <div style="padding:40px 20px;text-align:center;color:var(--muted)">
+        <div style="font-family:'Fraunces',serif;font-size:28px;margin-bottom:8px;color:var(--text)">Le Journal Kora</div>
+        <div style="font-size:14px">Style Le Monde — en construction</div>
+      </div>
+    </div>
+
+    <!-- VUE : FORMATION / KORA ACADEMY -->
+    <div class="view" id="view-formation">
+      <div class="topbar">
+        <div class="mob-topbar" style="display:none;align-items:center;gap:10px;margin-bottom:12px">
+          <img src="logo.jpg" alt="Kora" class="mob-logo-img">
+        </div>
+        <div class="topbar-title">Kora Academy</div>
+      </div>
+
+      <!-- Hero -->
+      <div class="ac-hero">
+        <div class="ac-label">Kora Academy</div>
+        <div class="ac-h1">Apprendre n'a jamais<br>autant <em>rapporté.</em></div>
+        <div class="ac-sub">Une plateforme de formation pensée pour ceux qui veulent comprendre le monde tel qu'il est vraiment — et être récompensés pour ça.</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openAcModal('register')">Rejoindre</button>
+          <button class="ac-btn-out" onclick="openAcModal('login')">Se connecter</button>
+        </div>
+        <div class="ac-wallet-note">Un wallet crypto est nécessaire pour recevoir vos tokens KRT</div>
+      </div>
+
+      <div class="ac-sep"></div>
+
+      <!-- Valeurs -->
+      <div class="ac-valeur">
+        <div class="ac-val-item">
+          <div class="ac-val-icon">◎</div>
+          <div class="ac-val-title">Formations vérifiées</div>
+          <div class="ac-val-desc">Chaque contenu est validé par notre IA avant publication. Vous apprenez des choses vraies.</div>
+        </div>
+        <div class="ac-val-item">
+          <div class="ac-val-icon">✦</div>
+          <div class="ac-val-title">Apprenez et gagnez</div>
+          <div class="ac-val-desc">Chaque formation complétée vous rapporte des tokens KRT utilisables sur toute la plateforme.</div>
+        </div>
+        <div class="ac-val-item">
+          <div class="ac-val-icon">◈</div>
+          <div class="ac-val-title">Un profil qui prouve</div>
+          <div class="ac-val-desc">Vos certifications apparaissent sur votre profil Kora — visibles par les recruteurs et la communauté.</div>
+        </div>
+      </div>
+
+      <!-- Token -->
+      <div class="ac-token">
+        <div class="ac-token-left">
+          <div class="ac-token-label">Token KRT</div>
+          <div class="ac-token-title">Votre formation vous rapporte des <em>Kora Tokens.</em></div>
+          <div class="ac-token-desc">À chaque module complété, vous accumulez des KRT. Ces tokens vous donnent accès aux analyses, aux fonctionnalités premium et circulent dans tout l'écosystème Kora.</div>
+        </div>
+        <div class="krt-card">
+          <div class="krt-symbol">KRT</div>
+          <div class="krt-name">Kora Token</div>
+          <div class="krt-uses">
+            <div class="krt-use">Accès aux analyses</div>
+            <div class="krt-use">Formations premium</div>
+            <div class="krt-use">Kora IA</div>
+            <div class="krt-use">Échangeable</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wallet note -->
+      <div class="ac-wallet">
+        <div class="ac-wallet-icon">◈</div>
+        <div class="ac-wallet-text">
+          <div class="ac-wallet-title">Un wallet crypto est nécessaire</div>
+          <div class="ac-wallet-desc">Pour recevoir vos tokens KRT vous aurez besoin d'un wallet compatible. Pas encore de wallet ? C'est simple à créer.</div>
+        </div>
+        <a class="ac-wallet-link" href="#">En savoir plus →</a>
+      </div>
+
+      <!-- CTA -->
+      <div class="ac-cta">
+        <h2>Prêt à apprendre <em>autrement ?</em></h2>
+        <p>Rejoignez Kora Academy et construisez un profil qui vous représente vraiment.</p>
+        <button class="ac-btn" onclick="openAcModal('register')">Créer mon compte</button>
+      </div>
+    </div>
+
+    <!-- MODAL AUTH ACADEMY -->
+    <div class="modal-bg" id="acModalBg" onclick="closeAcModalBg(event)">
+      <div class="modal">
+        <button class="modal-close" onclick="closeAcModal()">×</button>
+        <div class="modal-logo">Kora Academy</div>
+        <div class="modal-title" id="acModalTitle">Bienvenue</div>
+        <div class="modal-sub" id="acModalSub">Connectez-vous pour accéder à vos formations et tokens.</div>
+        <div class="modal-tabs">
+          <div class="modal-tab" id="acTabLogin" onclick="switchAcTab('login')">Connexion</div>
+          <div class="modal-tab" id="acTabRegister" onclick="switchAcTab('register')">Inscription</div>
+        </div>
+        <div id="acFormLogin">
+          <div class="m-field"><label>Email</label><input type="email" placeholder="votre@email.com"></div>
+          <div class="m-field"><label>Mot de passe</label><input type="password" placeholder="••••••••"></div>
+          <button class="btn-modal">Se connecter</button>
+          <div class="modal-legal">Mot de passe oublié ? <span style="color:var(--b2);cursor:pointer">Réinitialiser</span></div>
+        </div>
+        <div id="acFormRegister" style="display:none">
+          <div class="m-field"><label>Prénom</label><input type="text" placeholder="Votre prénom"></div>
+          <div class="m-field"><label>Email</label><input type="email" placeholder="votre@email.com"></div>
+          <div class="m-field"><label>Mot de passe</label><input type="password" placeholder="Min. 8 caractères"></div>
+          <div class="m-wallet">
+            <div class="m-wallet-icon">◈</div>
+            <div>
+              <div class="m-wallet-title">Adresse wallet KRT (optionnel)</div>
+              <div class="m-wallet-desc">Nécessaire pour recevoir vos tokens. Vous pouvez l'ajouter plus tard.</div>
+              <div class="m-wallet-link">Créer un wallet →</div>
+            </div>
+          </div>
+          <button class="btn-modal">Créer mon compte</button>
+          <div class="modal-legal">En créant un compte, vous acceptez nos <span style="color:var(--b2);cursor:pointer">conditions</span> et notre <span style="color:var(--b2);cursor:pointer">politique de confidentialité.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VUE : PROFIL -->
+    <div class="view" id="view-profil">
+      <!-- Cover -->
+      <div class="cover"><div class="cover-pattern"></div></div>
+
+      <!-- Identity -->
+      <div class="identity">
+        <div class="identity-top">
+          <div class="avatar-wrap">
+            <div class="p-avatar">V</div>
+            <div class="avatar-badge">✓</div>
+          </div>
+          <div class="p-actions">
+            <button class="btn-follow">Modifier</button>
+            <button class="btn-contact">Partager</button>
+          </div>
+        </div>
+        <div style="margin-bottom:10px">
+          <div class="p-name">Val Dubromez</div>
+          <div class="p-handle">@val · Gap, France</div>
+        </div>
+        <div class="p-bio">Entrepreneur & trader indépendant. Fondateur de DB Studio et Kora. Crypto, finance, web.</div>
+        <div class="p-stats">
+          <div class="p-stat"><span class="p-stat-num">2,4k</span><span class="p-stat-label">Abonnés</span></div>
+          <div class="p-stat"><span class="p-stat-num">180</span><span class="p-stat-label">Abonnements</span></div>
+          <div class="p-stat"><span class="p-stat-num">47</span><span class="p-stat-label">Publications</span></div>
+        </div>
+        <div class="domaines">
+          <span class="domaine domaine-main">Crypto & Web3</span>
+          <span class="domaine">Entrepreneuriat</span>
+          <span class="domaine">Finance</span>
+          <span class="domaine">Tech</span>
+        </div>
+      </div>
+
+      <!-- Kora Identity Card -->
+      <div class="kora-card">
+        <div class="kora-card-title">Identité Kora</div>
+        <div class="comportement">
+          <div class="comp-item">
+            <div class="comp-label">Fiabilité</div>
+            <div class="comp-val"><span>Contributeur fiable</span></div>
+          </div>
+          <div class="comp-item">
+            <div class="comp-label">Activité</div>
+            <div class="comp-val"><span>Très actif</span></div>
+          </div>
+          <div class="comp-item">
+            <div class="comp-label">Profil dominant</div>
+            <div class="comp-val"><span>Entrepreneur</span></div>
+          </div>
+          <div class="comp-item">
+            <div class="comp-label">Contenu validé</div>
+            <div class="comp-val"><span>91 % vérifié</span></div>
+          </div>
+        </div>
+        <div class="certs-title">Certifications Kora Academy</div>
+        <div class="certs">
+          <div class="cert">
+            <div class="cert-icon">₿</div>
+            <div class="cert-info">
+              <div class="cert-name">Crypto & Blockchain — Avancé</div>
+              <div class="cert-date">Obtenu en janvier 2026</div>
+            </div>
+            <span class="cert-badge">Certifié</span>
+          </div>
+          <div class="cert">
+            <div class="cert-icon">🌐</div>
+            <div class="cert-info">
+              <div class="cert-name">Web & Développement</div>
+              <div class="cert-date">Obtenu en mars 2026</div>
+            </div>
+            <span class="cert-badge">Certifié</span>
+          </div>
+          <div class="cert" style="opacity:0.5">
+            <div class="cert-icon" style="background:#E8E5E0;color:var(--muted)">🔒</div>
+            <div class="cert-info">
+              <div class="cert-name">Finance & Investissement</div>
+              <div class="cert-date">En cours — 45 % complété</div>
+            </div>
+            <span class="cert-badge" style="color:var(--muted);border-color:var(--line);background:transparent">En cours</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stories -->
+      <div class="p-stories">
+        <div class="story"><div class="story-ring"><div class="story-inner">📈</div></div><span class="story-label">Trading</span></div>
+        <div class="story"><div class="story-ring"><div class="story-inner">💻</div></div><span class="story-label">DB Studio</span></div>
+        <div class="story"><div class="story-ring"><div class="story-inner">🌍</div></div><span class="story-label">Macro</span></div>
+        <div class="story"><div class="story-ring"><div class="story-inner">💡</div></div><span class="story-label">Idées</span></div>
+        <div class="story"><div class="story-ring"><div class="story-inner">🎯</div></div><span class="story-label">Kora</span></div>
+      </div>
+
+      <!-- Tabs contenu -->
+      <div class="p-tabs" id="pTabs">
+        <div class="p-tab active" data-pt="posts">Publications</div>
+        <div class="p-tab" data-pt="photos">Photos</div>
+      </div>
+
+      <!-- Posts -->
+      <div class="p-posts" id="pPostsView">
+        <div class="p-post">
+          <div class="p-post-time">Il y a 2 heures · Vérifié ✓</div>
+          <div class="p-post-body">La zone 88k–92k sera décisive pour BTC cette semaine. Volume acheteur confirme la tendance haussière.</div>
+          <div class="p-post-acts">
+            <button class="pact"><span>♡</span> 284</button>
+            <button class="pact"><span>↩</span> 47</button>
+            <button class="pact"><span>⇧</span> Partager</button>
+          </div>
+        </div>
+        <div class="p-post">
+          <div class="p-post-time">Hier · Vérifié ✓</div>
+          <div class="p-post-body">Le DXY en train de casser un support clé. Si on confirme cette cassure en weekly, ça devrait libérer du potentiel sur les crypto.</div>
+          <div class="p-post-acts">
+            <button class="pact"><span>♡</span> 521</button>
+            <button class="pact"><span>↩</span> 93</button>
+            <button class="pact"><span>⇧</span> Partager</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Photos -->
+      <div class="photos-grid" id="pPhotosView" style="display:none">
+        <div class="photo" style="background:#D4C4B8">📊</div>
+        <div class="photo" style="background:#E8D5C8">🌍</div>
+        <div class="photo" style="background:#C4B4A8">💹</div>
+        <div class="photo" style="background:#D8C8BC">📈</div>
+        <div class="photo" style="background:#E0CFC4">🎯</div>
+        <div class="photo" style="background:#CCB8AC">💡</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SIDEBAR DROITE -->
+  <aside class="col-r">
+    <div class="agent">
+      <div class="ag-head">
+        <div class="ag-av">✦</div>
+        <div>
+          <div class="ag-name">Kora IA</div>
+          <div class="ag-live">En ligne</div>
+        </div>
+      </div>
+      <div class="ag-msgs" id="agMsgs">
+        <div class="msg msg-a">Bonjour ! Posez-moi une question sur l'actualité, je vérifie les sources en temps réel.</div>
+      </div>
+      <div class="ag-row">
+        <input class="ag-inp" id="agInp" type="text" placeholder="Votre question...">
+        <button class="ag-btn" id="agSend">↑</button>
+      </div>
+    </div>
+    <div class="trends">
+      <div class="sec-head">Tendances</div>
+      <div class="trend"><span class="tn">1</span><div><div class="tc">Crypto</div><div class="tx">Bitcoin 85k — analyse des facteurs</div><div class="tct">4 821 posts</div></div></div>
+      <div class="trend"><span class="tn">2</span><div><div class="tc">Finance</div><div class="tx">BCE taux — scénarios pour juin 2026</div><div class="tct">2 340 posts</div></div></div>
+      <div class="trend"><span class="tn">3</span><div><div class="tc">Tech</div><div class="tx">IA dans la finance — les 10 usages</div><div class="tct">1 890 posts</div></div></div>
+      <div class="trend"><span class="tn">4</span><div><div class="tc">Crypto</div><div class="tx">TAO Bittensor — Jensen Huang valide</div><div class="tct">987 posts</div></div></div>
+    </div>
+    <div class="token-box">
+      <div class="tk-top"><span class="tk-lbl">Kora Tokens</span><span class="tk-gain">+12 aujourd'hui ↑</span></div>
+      <div><span class="tk-num">248</span><span class="tk-unit">KRT</span></div>
+      <div class="tk-sub">≈ 3 formations disponibles</div>
+      <div class="tk-btns">
+        <button class="tkb tkb-earn">Gagner</button>
+        <button class="tkb tkb-spend">Dépenser</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- MOBILE NAV -->
+<nav class="mob-nav">
+  <div class="mob-inner" id="mobNav">
+    <div class="mob-item active" data-s="social"><span class="mob-ic">⌂</span>Pour toi</div>
+    <div class="mob-item" data-s="journal"><span class="mob-ic">◫</span>Journal</div>
+    <div class="mob-item" data-s="social"><span class="mob-ic">✦</span>Kora IA</div>
+    <div class="mob-item" data-s="formation"><span class="mob-ic">⊹</span>Formation</div>
+    <div class="mob-item" data-s="profil"><span class="mob-ic">○</span>Profil</div>
+  </div>
+</nav>
+
+<script>
+// Navigation principale — swap de vue
+const views = {
+  social: 'view-social',
+  journal: 'view-journal',
+  formation: 'view-formation',
+  profil: 'view-profil'
+};
+
+function switchView(s) {
+  Object.values(views).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('active');
+  });
+  const target = views[s];
+  if (target) document.getElementById(target).classList.add('active');
+  // Journal sous-menu
+  const sub = document.getElementById('journalSub');
+  if (sub) sub.classList.toggle('open', s === 'journal');
+}
+
+document.querySelectorAll('#mainNav .nav-item').forEach(li => {
+  li.addEventListener('click', () => {
+    document.querySelectorAll('#mainNav .nav-item').forEach(x => x.classList.remove('active'));
+    li.classList.add('active');
+    switchView(li.dataset.s);
+  });
+});
+
+document.querySelectorAll('#mobNav .mob-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('#mobNav .mob-item').forEach(x => x.classList.remove('active'));
+    item.classList.add('active');
+    switchView(item.dataset.s);
+    // Sync nav gauche
+    document.querySelectorAll('#mainNav .nav-item').forEach(li => {
+      li.classList.toggle('active', li.dataset.s === item.dataset.s);
+    });
+  });
+});
+
+// Sous-menu journal
+document.querySelectorAll('.nav-sub-item').forEach(item => {
+  item.addEventListener('click', e => {
+    e.stopPropagation();
+    document.querySelectorAll('.nav-sub-item').forEach(x => x.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+// Logo mobile
+function checkMob() {
+  const ml = document.getElementById('mobLogo');
+  if (ml) ml.style.display = window.innerWidth <= 680 ? 'flex' : 'none';
+}
+checkMob();
+window.addEventListener('resize', checkMob);
+
+// Kora IA
+const agInp = document.getElementById('agInp');
+const agSend = document.getElementById('agSend');
+const agMsgs = document.getElementById('agMsgs');
+function sendMsg() {
+  const t = agInp.value.trim();
+  if (!t) return;
+  const u = document.createElement('div');
+  u.className = 'msg msg-u'; u.textContent = t;
+  agMsgs.appendChild(u);
+  agInp.value = '';
+  agMsgs.scrollTop = agMsgs.scrollHeight;
+  setTimeout(() => {
+    const a = document.createElement('div');
+    a.className = 'msg msg-a'; a.textContent = 'Je vérifie les sources en temps réel...';
+    agMsgs.appendChild(a);
+    agMsgs.scrollTop = agMsgs.scrollHeight;
+  }, 700);
+}
+agSend.addEventListener('click', sendMsg);
+agInp.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
+
+// Likes
+document.querySelectorAll('.like-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const ic = btn.querySelector('.pic');
+    ic.textContent = ic.textContent === '♡' ? '♥' : '♡';
+    ic.style.color = ic.textContent === '♥' ? '#C4622D' : '';
+  });
+});
+
+// Tabs profil
+document.querySelectorAll('#pTabs .p-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('#pTabs .p-tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('pPostsView').style.display = t.dataset.pt === 'posts' ? 'flex' : 'none';
+    document.getElementById('pPhotosView').style.display = t.dataset.pt === 'photos' ? 'grid' : 'none';
+  });
+});
+
+// Academy modal
+function openAcModal(tab) {
+  document.getElementById('acModalBg').classList.add('open');
+  switchAcTab(tab);
+}
+function closeAcModal() { document.getElementById('acModalBg').classList.remove('open'); }
+function closeAcModalBg(e) { if(e.target===document.getElementById('acModalBg')) closeAcModal(); }
+function switchAcTab(tab) {
+  document.getElementById('acTabLogin').classList.toggle('active', tab==='login');
+  document.getElementById('acTabRegister').classList.toggle('active', tab==='register');
+  document.getElementById('acFormLogin').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('acFormRegister').style.display = tab==='register' ? 'block' : 'none';
+  document.getElementById('acModalTitle').textContent = tab==='login' ? 'Bienvenue' : 'Rejoindre Kora Academy';
+  document.getElementById('acModalSub').textContent = tab==='login'
+    ? 'Connectez-vous pour accéder à vos formations et tokens.'
+    : 'Créez votre compte et commencez à apprendre dès aujourd\'hui.';
+}
+</script>
+</body>
+</html>

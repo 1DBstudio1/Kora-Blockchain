@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Code — Module 3 — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--code:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.15s;flex-shrink:0}
+.header-back:hover{border-color:var(--b2);color:var(--b1)}
+.header-info{flex:1;min-width:0}
+.header-title{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}
+.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.layout{display:flex;max-width:1100px;margin:0 auto;min-height:calc(100vh - 59px)}
+.sidebar{width:260px;flex-shrink:0;border-right:1px solid var(--line);background:var(--w);position:sticky;top:59px;height:calc(100vh - 59px);overflow-y:auto;padding:20px 0}
+.sidebar::-webkit-scrollbar{width:0}
+.sidebar-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 18px 14px}
+.module-item{display:flex;align-items:center;gap:11px;padding:11px 18px;cursor:pointer;transition:background 0.15s;border-left:3px solid transparent}
+.module-item:hover{background:#F5F5F5}
+.module-item.done{opacity:0.7}
+.module-item.active{background:rgba(107,31,42,0.05);border-left-color:var(--b2)}
+.module-item.locked{opacity:0.35;cursor:default}
+.module-item.locked:hover{background:transparent}
+.mod-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+.module-item.active .mod-num{background:var(--grad);border:none;color:white}
+.module-item.done .mod-num{background:rgba(107,31,42,0.08);border-color:rgba(107,31,42,0.15);color:var(--b1)}
+.mod-info{flex:1;min-width:0}
+.mod-name{font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.module-item.active .mod-name{font-weight:500;color:var(--b1)}
+.mod-parts{font-size:11px;color:var(--light);margin-top:1px}
+@media(max-width:700px){.sidebar{display:none}}
+.main{flex:1;min-width:0;padding:0 0 100px}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;color:var(--text);margin-bottom:8px;line-height:1.2}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.12);color:var(--b1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.18s}
+.btn-listen:hover{background:rgba(107,31,42,0.12)}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--b2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab:hover{color:var(--text)}
+.partie-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
+.content{padding:36px 28px;max-width:740px}
+.bloc p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:16px}
+.bloc p:last-child{margin-bottom:0}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;color:var(--text);margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7;color:var(--text)}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(107,31,42,0.04),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.ff-title{font-size:13px;font-weight:500;color:var(--b1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.ff-text{font-size:14px;color:var(--text);line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#252540}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px}
+.cdot{width:10px;height:10px;border-radius:50%}
+.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#E0E0FF}
+.tag{color:#79B8FF}.attr{color:#FFAB70}.val{color:#9ECE6A}.com{color:#637777;font-style:italic}.txt{color:#E0E0FF}
+.resultat{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:0 0 24px}
+.res-head{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.res-head::before{content:'◎';color:var(--b2)}
+.res-body{padding:22px;background:var(--w)}
+.res-body h1{font-size:22px;font-weight:700;margin-bottom:10px}
+.res-body h2{font-size:18px;font-weight:600;margin-bottom:8px;margin-top:14px}
+.res-body h3{font-size:15px;font-weight:600;margin-bottom:6px;margin-top:12px}
+.res-body h4{font-size:14px;font-weight:600;margin-bottom:5px;margin-top:10px}
+.res-body p{font-size:14px;color:#333;margin-bottom:8px;line-height:1.6}
+.res-body ul,.res-body ol{padding-left:22px;margin-bottom:10px}
+.res-body li{font-size:14px;color:#333;margin-bottom:5px;line-height:1.5}
+.res-body strong{font-weight:600}
+.res-body em{font-style:italic}
+.res-body blockquote{border-left:3px solid #ccc;padding-left:14px;color:#666;font-style:italic;margin:10px 0}
+.res-body code{background:#f4f4f4;padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.res-body mark{background:#fff3a3;padding:0 2px}
+.res-body del{text-decoration:line-through;color:#999}
+.res-body abbr{text-decoration:underline dotted;cursor:help}
+
+/* Hiérarchie visuelle des titres */
+.titres-hierarchie{margin:24px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.hier-label{padding:12px 18px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);font-weight:500}
+.hier-body{padding:20px;background:var(--w);display:flex;flex-direction:column;gap:8px}
+.hier-item{display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:10px;background:var(--bg);border:1px solid var(--line);transition:all 0.15s;cursor:default}
+.hier-item:hover{border-color:rgba(107,31,42,0.2)}
+.hier-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:#79B8FF;background:var(--code);padding:4px 8px;border-radius:6px;min-width:36px;text-align:center;flex-shrink:0}
+.hier-preview{flex:1}
+.hier-meta{font-size:11px;color:var(--muted);flex-shrink:0;text-align:right}
+.h1-prev{font-size:22px;font-weight:700;color:var(--text)}
+.h2-prev{font-size:18px;font-weight:600;color:var(--text)}
+.h3-prev{font-size:15px;font-weight:600;color:#333}
+.h4-prev{font-size:14px;font-weight:600;color:#555}
+.h5-prev{font-size:13px;font-weight:600;color:#666}
+.h6-prev{font-size:12px;font-weight:600;color:#888}
+
+/* Tableau comparatif balises texte */
+.balises-table{margin:24px 0;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.bt-head{display:grid;grid-template-columns:130px 1fr 1fr;background:var(--code);padding:10px 16px;gap:14px}
+.bt-head span{font-size:11px;font-weight:500;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.bt-row{display:grid;grid-template-columns:130px 1fr 1fr;padding:12px 16px;gap:14px;border-bottom:1px solid var(--line);align-items:center;background:var(--w)}
+.bt-row:last-child{border-bottom:none}
+.bt-row:hover{background:rgba(107,31,42,0.02)}
+.bt-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:#79B8FF;background:var(--code);padding:4px 8px;border-radius:6px;display:inline-block}
+.bt-rendu{font-size:13px;color:var(--text)}
+.bt-usage{font-size:12px;color:var(--muted);line-height:1.5}
+@media(max-width:580px){.bt-head,.bt-row{grid-template-columns:100px 1fr}}
+
+/* Listes visuelles */
+.listes-demo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+@media(max-width:540px){.listes-demo{grid-template-columns:1fr}}
+.liste-card{border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.liste-card-head{padding:10px 14px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:6px}
+.liste-card-code{background:var(--code);padding:14px}
+.liste-card-code pre{font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;color:#E0E0FF}
+.liste-card-result{padding:14px;background:var(--w)}
+.liste-card-result ul,.liste-card-result ol{padding-left:20px}
+.liste-card-result li{font-size:13px;color:var(--text);margin-bottom:4px;line-height:1.5}
+
+/* Cas réels */
+.cas-reels{display:flex;flex-direction:column;gap:14px;margin:24px 0}
+.cas-item{border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.cas-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.cas-logo{font-size:18px}
+.cas-site{font-size:13px;font-weight:500;color:var(--text)}
+.cas-desc{font-size:12px;color:var(--muted);margin-left:auto}
+.cas-body{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--w)}
+@media(max-width:580px){.cas-body{grid-template-columns:1fr}}
+.cas-code{background:var(--code);padding:14px;border-right:1px solid rgba(255,255,255,0.05)}
+.cas-code pre{font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;color:#E0E0FF}
+.cas-result{padding:14px}
+.cas-result h1{font-size:18px;font-weight:700;margin-bottom:6px}
+.cas-result h2{font-size:14px;font-weight:600;margin-bottom:4px;color:#555}
+.cas-result p{font-size:12px;color:#666;line-height:1.5;margin-bottom:4px}
+.cas-result ul{padding-left:16px;margin-bottom:4px}
+.cas-result li{font-size:12px;color:#666;margin-bottom:2px}
+.cas-result .nav-link{font-size:12px;color:#0070F3;margin-right:12px;text-decoration:none}
+
+/* Demo live */
+.demo-interactive{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.demo-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.demo-head::before{content:'⚡';font-size:14px}
+.demo-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:600px){.demo-body{grid-template-columns:1fr}}
+.demo-left{background:var(--code);padding:16px}
+.demo-left textarea{width:100%;min-height:160px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0E0FF;resize:none;line-height:1.7}
+.demo-right{background:var(--w);padding:16px;border-left:1px solid var(--line)}
+.demo-label{font-size:11px;color:var(--light);margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase}
+.demo-result{font-size:14px;line-height:1.6;color:var(--text);min-height:120px}
+.demo-result h1{font-size:20px;font-weight:700;margin-bottom:6px}
+.demo-result h2{font-size:16px;font-weight:600;margin-bottom:5px;margin-top:10px}
+.demo-result h3{font-size:14px;font-weight:600;margin-bottom:4px;margin-top:8px}
+.demo-result p{margin-bottom:6px;color:#333}
+.demo-result ul,.demo-result ol{padding-left:18px;margin-bottom:6px}
+.demo-result li{margin-bottom:3px;color:#333}
+.demo-result strong{font-weight:700}
+.demo-result em{font-style:italic}
+.demo-result blockquote{border-left:3px solid #ccc;padding-left:12px;color:#666;font-style:italic;margin:8px 0}
+.demo-result mark{background:#fff3a3}
+.demo-result code{background:#f4f4f4;padding:1px 4px;border-radius:3px;font-family:monospace;font-size:12px}
+
+/* Quiz */
+.quiz{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.quiz-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.quiz-icon{font-size:20px}
+.quiz-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.quiz-body{padding:20px;background:var(--w)}
+.quiz-q{font-size:15px;font-weight:500;color:var(--text);margin-bottom:16px;line-height:1.5}
+.quiz-options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.quiz-opt{padding:12px 16px;border-radius:10px;border:1px solid var(--line);font-size:14px;color:var(--text);cursor:pointer;transition:all 0.15s;background:var(--w);font-family:'DM Sans',sans-serif;text-align:left}
+.quiz-opt:hover{border-color:rgba(107,31,42,0.2);background:rgba(107,31,42,0.03)}
+.quiz-opt.correct{border-color:#28CA41;background:rgba(40,202,65,0.08);color:#1A6B3A}
+.quiz-opt.wrong{border-color:#FF5F57;background:rgba(255,95,87,0.08);color:#8B1A1A}
+.quiz-feedback{display:none;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.6}
+.quiz-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.quiz-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+
+/* Exercice */
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}
+.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400;color:var(--text)}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(107,31,42,0.08);color:var(--b2);border:1px solid rgba(107,31,42,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;color:var(--text);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'→';color:var(--b2);flex-shrink:0;margin-top:1px}
+.exo-textarea{width:100%;min-height:200px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--b2)}
+.exo-textarea::placeholder{color:var(--light);font-family:'DM Sans',sans-serif}
+.exo-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:opacity 0.2s}
+.btn-valider:hover{opacity:0.88}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s}
+.btn-indice:hover{border-color:var(--b2);color:var(--b1)}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(107,31,42,0.25);display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.ia-btn:hover{transform:scale(1.06)}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:300px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(107,31,42,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px;color:var(--text)}
+.ia-ctx{font-size:11px;color:var(--b2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(107,31,42,0.05);color:var(--text);border-radius:10px 10px 10px 3px;border:1px solid rgba(107,31,42,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--bg);outline:none;transition:border-color 0.15s}
+.ia-inp:focus{border-color:var(--b2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s}
+.nav-prev:hover{border-color:var(--b2);color:var(--b1)}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:opacity 0.2s}
+.nav-next:hover{opacity:0.88}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">Le Code — de zéro à indépendant</div>
+    <div class="header-meta">Module 3 · Titres, textes et listes</div>
+  </div>
+  <canvas id="miniMedal" width="32" height="32" style="image-rendering:pixelated;border-radius:50%;margin-right:4px;cursor:pointer" onclick="window.location.href='academy.html'" title="Voir ma progression"></canvas>
+  <div class="header-krt">
+    <span style="font-size:11px;color:var(--b2)">◈</span>
+    <span class="krt-val">248 KRT</span>
+  </div>
+</header>
+
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:25%"></div></div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Les modules — HTML</div>
+    <div class="module-item done"><div class="mod-num">✓</div><div class="mod-info"><div class="mod-name">C'est quoi le HTML</div><div class="mod-parts">Complété</div></div></div>
+    <div class="module-item done"><div class="mod-num">✓</div><div class="mod-info"><div class="mod-name">La structure d'une page</div><div class="mod-parts">Complété</div></div></div>
+    <div class="module-item active"><div class="mod-num">3</div><div class="mod-info"><div class="mod-name">Titres, textes, listes</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">4</div><div class="mod-info"><div class="mod-name">Liens et images</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">5</div><div class="mod-info"><div class="mod-name">Les formulaires</div><div class="mod-parts">5 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">6</div><div class="mod-info"><div class="mod-name">Les tableaux</div><div class="mod-parts">3 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">7</div><div class="mod-info"><div class="mod-name">HTML sémantique</div><div class="mod-parts">4 parties</div></div></div>
+    <div class="module-item locked"><div class="mod-num">8</div><div class="mod-info"><div class="mod-name">Évaluation + Certification</div><div class="mod-parts">Certification</div></div></div>
+  </aside>
+
+  <main class="main">
+    <div class="module-header">
+      <div class="mod-header-label">Module 3 — HTML</div>
+      <div class="mod-header-title">Titres, textes <em>et listes.</em></div>
+      <div class="mod-header-sub">90% du contenu sur internet c'est du texte. Des titres, des paragraphes, des listes. Dans ce module tu maîtrises toutes les balises qui structurent et enrichissent le texte — celles que tu utiliseras dans chaque projet.</div>
+      <div class="mod-header-actions">
+        <button class="btn-listen" id="btnListen" onclick="toggleListen()">
+          <span>🔊</span><span id="listenTxt">Écouter ce module</span>
+        </button>
+        <div class="mod-progress">
+          <div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div>
+          <span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="parties-nav">
+      <div class="partie-tab active" onclick="switchPartie(1)">Les titres h1→h6</div>
+      <div class="partie-tab" onclick="switchPartie(2)">Paragraphes et texte</div>
+      <div class="partie-tab" onclick="switchPartie(3)">Listes ul et ol</div>
+      <div class="partie-tab" onclick="switchPartie(4)">Cas réels — sites connus</div>
+      <div class="partie-tab" onclick="switchPartie(5)">Exercice 🎯</div>
+    </div>
+
+    <!-- PARTIE 1 — LES TITRES -->
+    <div class="content" id="partie1">
+      <div class="bloc">
+        <span class="big">Le web a six niveaux de titres. <em>Chacun a un rôle précis.</em></span>
+        <p>De h1 à h6, les titres HTML créent une hiérarchie dans ton contenu. C'est comme un livre — il y a le titre principal, des chapitres, des sous-chapitres, des sections... Les titres HTML font exactement ça.</p>
+        <p>Mais attention — les titres HTML ne sont pas juste visuels. Ils ont un <strong>sens sémantique</strong>. Google les lit pour comprendre de quoi parle ta page. Un lecteur d'écran pour malvoyants navigue de titre en titre. Une bonne hiérarchie de titres c'est la base du référencement et de l'accessibilité.</p>
+      </div>
+
+      <div class="titres-hierarchie">
+        <div class="hier-label">Hiérarchie des titres HTML — du plus important au moins important</div>
+        <div class="hier-body">
+          <div class="hier-item">
+            <div class="hier-tag">h1</div>
+            <div class="hier-preview"><span class="h1-prev">Titre de la page</span></div>
+            <div class="hier-meta">1 seul par page · Le plus important</div>
+          </div>
+          <div class="hier-item">
+            <div class="hier-tag">h2</div>
+            <div class="hier-preview"><span class="h2-prev">Section principale</span></div>
+            <div class="hier-meta">Plusieurs par page · Sections</div>
+          </div>
+          <div class="hier-item">
+            <div class="hier-tag">h3</div>
+            <div class="hier-preview"><span class="h3-prev">Sous-section</span></div>
+            <div class="hier-meta">Dans une section h2</div>
+          </div>
+          <div class="hier-item">
+            <div class="hier-tag">h4</div>
+            <div class="hier-preview"><span class="h4-prev">Sous-sous-section</span></div>
+            <div class="hier-meta">Rarement nécessaire</div>
+          </div>
+          <div class="hier-item">
+            <div class="hier-tag">h5</div>
+            <div class="hier-preview"><span class="h5-prev">Niveau 5</span></div>
+            <div class="hier-meta">Très rare en pratique</div>
+          </div>
+          <div class="hier-item">
+            <div class="hier-tag">h6</div>
+            <div class="hier-preview"><span class="h6-prev">Niveau 6</span></div>
+            <div class="hier-meta">Quasi jamais utilisé</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">HTML — Titres en contexte réel</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="com">&lt;!-- Structure d'un article sur Kora --&gt;</span>
+
+<span class="tag">&lt;h1&gt;</span><span class="txt">Bitcoin franchit les 85 000$</span><span class="tag">&lt;/h1&gt;</span>
+<span class="com">&lt;!-- Le titre principal de l'article --&gt;</span>
+
+<span class="tag">&lt;h2&gt;</span><span class="txt">Ce qui s'est passé</span><span class="tag">&lt;/h2&gt;</span>
+<span class="com">&lt;!-- Une grande section --&gt;</span>
+
+<span class="tag">&lt;h3&gt;</span><span class="txt">Les données on-chain</span><span class="tag">&lt;/h3&gt;</span>
+<span class="com">&lt;!-- Un sous-titre dans cette section --&gt;</span>
+
+<span class="tag">&lt;h2&gt;</span><span class="txt">Ce que ça signifie pour les marchés</span><span class="tag">&lt;/h2&gt;</span>
+<span class="com">&lt;!-- Une autre grande section --&gt;</span>
+
+<span class="tag">&lt;h3&gt;</span><span class="txt">L'analyse court terme</span><span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;h3&gt;</span><span class="txt">L'analyse long terme</span><span class="tag">&lt;/h3&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="resultat">
+        <div class="res-head">Rendu dans le navigateur</div>
+        <div class="res-body">
+          <h1>Bitcoin franchit les 85 000$</h1>
+          <h2>Ce qui s'est passé</h2>
+          <h3>Les données on-chain</h3>
+          <h2>Ce que ça signifie pour les marchés</h2>
+          <h3>L'analyse court terme</h3>
+          <h3>L'analyse long terme</h3>
+        </div>
+      </div>
+
+      <div class="hl">
+        <span class="hlt">La règle d'or des titres</span>
+        Ne saute jamais un niveau. Tu ne mets pas un h3 directement après un h1 sans h2 entre les deux. C'est comme passer du chapitre 1 à la section 1.1.1 sans 1.1. Google et les lecteurs d'écran attendent une hiérarchie logique. Si tu veux juste du texte plus grand, utilise le CSS pour ça — pas les titres HTML.
+      </div>
+
+      <div class="fun-fact">
+        <div class="ff-icon">🔍</div>
+        <div>
+          <div class="ff-title">SEO et titres</div>
+          <div class="ff-text">Google accorde plus d'importance aux mots dans un h1 qu'aux mots dans un h2, et plus d'importance aux h2 qu'aux h3... Si tu veux que ta page remonte dans les résultats sur un sujet, mets le mot clé principal dans le h1. C'est l'un des signaux SEO les plus importants. Des milliers d'articles en ligne expliquent comment "optimiser ses titres HTML" — maintenant tu sais de quoi ils parlent.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-head"><span class="quiz-icon">🎯</span><span class="quiz-title">Vérification</span></div>
+        <div class="quiz-body">
+          <div class="quiz-q">Tu crées un article sur Kora sur "Les 5 cryptos à surveiller en 2026". Combien de balises h1 doit avoir cet article ?</div>
+          <div class="quiz-options" id="q1opts">
+            <button class="quiz-opt" onclick="cq(this,'q1',false)">Autant que nécessaire selon la longueur de l'article</button>
+            <button class="quiz-opt" onclick="cq(this,'q1',true)">Une seule — le titre principal de l'article</button>
+            <button class="quiz-opt" onclick="cq(this,'q1',false)">5 — une pour chaque crypto à surveiller</button>
+            <button class="quiz-opt" onclick="cq(this,'q1',false)">Zéro — le h1 c'est pour les pages d'accueil seulement</button>
+          </div>
+          <div class="quiz-feedback" id="q1fb"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTIE 2 — TEXTE -->
+    <div class="content" id="partie2" style="display:none">
+      <div class="bloc">
+        <span class="big">Le texte en HTML c'est bien plus <em>que juste des paragraphes.</em></span>
+        <p>Tu as un arsenal complet de balises pour enrichir ton texte — mettre en gras, en italique, souligner, barrer, surligner, citer... Chacune a un sens précis. Et ce sens compte autant pour les navigateurs, Google et les lecteurs d'écran que pour l'aspect visuel.</p>
+      </div>
+
+      <div class="balises-table">
+        <div class="bt-head">
+          <span>Balise</span>
+          <span>Rendu</span>
+          <span>Quand l'utiliser</span>
+        </div>
+        <div class="bt-row">
+          <div><span class="bt-tag">&lt;p&gt;</span></div>
+          <div class="bt-rendu">Un paragraphe de texte normal avec une ligne vide avant et après.</div>
+          <div class="bt-usage">Tout bloc de texte courant. La balise la plus utilisée sur le web.</div>
+        </div>
+        <div class="bt-row">
+          <div><span class="bt-tag">&lt;strong&gt;</span></div>
+          <div class="bt-rendu"><strong>Texte important en gras</strong></div>
+          <div class="bt-usage">Importance forte. Lecteurs d'écran accentuent la voix. Google accorde plus de poids à ces mots.</div>
+        </div>
+        <div class="bt-row">
+          <div><span class="bt-tag">&lt;em&gt;</span></div>
+          <div class="bt-rendu"><em>Texte en italique avec emphase</em></div>
+          <div class="bt-usage">Emphase, accentuation, titres de livres/films. Pas juste pour la mise en forme.</div>
+        </div>
+        <div class="bt-row">
+          <div><span class="bt-tag">&lt;mark&gt;</span></div>
+          <div class="bt-rendu"><mark>Texte surligné</mark></div>
+          <div class="bt-usage">Mettre en évidence un terme important, résultat de recherche, information clé.</div>
+        </div>
+        <div class="bt-row">
+          <div><span class="bt-tag">&lt;del&gt;</span></div>
+          <div class="bt-rendu"><del>Texte supprimé / barré</del></div>
+          <div class="bt-usage">Prix barrés, corrections visibles, contenu supprimé avec traçabilité.</div>
+        </div>
+        <div class="bt-row">
+          <div><span class="bt-tag">&lt;code&gt;</span></div>
+          <div class="bt-rendu"><code>du_code_ici</code></div>
+          <div class="bt-usage">Afficher du code inline. Polices à chasse fixe. Utilisé sur GitHub, Stack Overflow, Kora Academy.</div>
+        </div>
+        <div class="bt-row">
+          <div><span class="bt-tag">&lt;blockquote&gt;</span></div>
+          <div class="bt-rendu" style="font-style:italic;border-left:3px solid #ccc;padding-left:10px;color:#666">"Une citation importante"</div>
+          <div class="bt-usage">Citer quelqu'un ou une source externe. Le navigateur l'indente automatiquement.</div>
+        </div>
+        <div class="bt-row">
+          <div><span class="bt-tag">&lt;abbr&gt;</span></div>
+          <div class="bt-rendu"><abbr title="HyperText Markup Language">HTML</abbr> (survole)</div>
+          <div class="bt-usage">Abréviations avec leur signification en info-bulle au survol. Important pour l'accessibilité.</div>
+        </div>
+        <div class="bt-row">
+          <div><span class="bt-tag">&lt;br&gt;</span></div>
+          <div class="bt-rendu">Saut de ligne<br>sans nouveau paragraphe</div>
+          <div class="bt-usage">Retour à la ligne sans créer un nouveau paragraphe. Balise auto-fermante — pas de &lt;/br&gt;.</div>
+        </div>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">HTML — Toutes les balises texte en action</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="tag">&lt;p&gt;</span>
+  <span class="txt">Kora est une plateforme d'information </span><span class="tag">&lt;strong&gt;</span><span class="txt">100% vérifiée</span><span class="tag">&lt;/strong&gt;</span><span class="txt">.</span>
+  <span class="txt">Elle utilise </span><span class="tag">&lt;em&gt;</span><span class="txt">l'intelligence artificielle</span><span class="tag">&lt;/em&gt;</span><span class="txt"> pour valider chaque information.</span>
+<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>
+  <span class="txt">Prix habituel : </span><span class="tag">&lt;del&gt;</span><span class="txt">50€/mois</span><span class="tag">&lt;/del&gt;</span><span class="txt"> — </span><span class="tag">&lt;mark&gt;</span><span class="txt">Gratuit pendant le lancement</span><span class="tag">&lt;/mark&gt;</span>
+<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;blockquote&gt;</span>
+  <span class="txt">L'information c'est le pouvoir. Kora rend ce pouvoir accessible à tous.</span>
+<span class="tag">&lt;/blockquote&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>
+  <span class="txt">Utilise </span><span class="tag">&lt;code&gt;</span><span class="txt">kora.css</span><span class="tag">&lt;/code&gt;</span><span class="txt"> pour styliser ta page avec nos couleurs.</span>
+<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>
+  <span class="txt">Format accepté : </span><span class="tag">&lt;abbr</span> <span class="attr">title</span>=<span class="val">"JavaScript Object Notation"</span><span class="tag">&gt;</span><span class="txt">JSON</span><span class="tag">&lt;/abbr&gt;</span>
+<span class="tag">&lt;/p&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="resultat">
+        <div class="res-head">Rendu dans le navigateur</div>
+        <div class="res-body">
+          <p>Kora est une plateforme d'information <strong>100% vérifiée</strong>. Elle utilise <em>l'intelligence artificielle</em> pour valider chaque information.</p>
+          <p>Prix habituel : <del>50€/mois</del> — <mark>Gratuit pendant le lancement</mark></p>
+          <blockquote>"L'information c'est le pouvoir. Kora rend ce pouvoir accessible à tous."</blockquote>
+          <p>Utilise <code>kora.css</code> pour styliser ta page avec nos couleurs.</p>
+          <p>Format accepté : <abbr title="JavaScript Object Notation">JSON</abbr> (survole avec ta souris)</p>
+        </div>
+      </div>
+
+      <div class="hl">
+        <span class="hlt">&lt;b&gt; vs &lt;strong&gt; — La différence qui compte</span>
+        Tu verras parfois &lt;b&gt; pour le gras et &lt;i&gt; pour l'italique dans du vieux code. La différence avec &lt;strong&gt; et &lt;em&gt; : &lt;b&gt; et &lt;i&gt; sont purement visuels — "mets ça en gras". &lt;strong&gt; et &lt;em&gt; ont un sens sémantique — "c'est important" et "c'est accentué". Aujourd'hui on utilise &lt;strong&gt; et &lt;em&gt; — le CSS gère le visuel, HTML gère le sens.
+      </div>
+
+      <div class="fun-fact">
+        <div class="ff-icon">♿</div>
+        <div>
+          <div class="ff-title">Accessibilité — pourquoi ça compte</div>
+          <div class="ff-text">Plus de 2 milliards de personnes dans le monde ont une forme de handicap visuel. Les lecteurs d'écran comme JAWS ou VoiceOver lisent ta page à voix haute. Quand ils rencontrent &lt;strong&gt;, ils accentuent la voix. Quand ils voient &lt;em&gt;, ils modulent l'intonation. Utiliser les bonnes balises c'est pas juste pour Google — c'est rendre ton site utilisable par tout le monde.</div>
+        </div>
+      </div>
+
+      <div class="demo-interactive">
+        <div class="demo-head">Éditeur live — teste toutes les balises texte</div>
+        <div class="demo-body">
+          <div class="demo-left">
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase">Modifie ici</div>
+            <textarea id="liveCode2" oninput="updateLive2()">&lt;p&gt;Texte &lt;strong&gt;gras&lt;/strong&gt; et &lt;em&gt;italique&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;mark&gt;Surligné&lt;/mark&gt; et &lt;del&gt;barré&lt;/del&gt;.&lt;/p&gt;
+&lt;blockquote&gt;Une citation.&lt;/blockquote&gt;
+&lt;p&gt;Code : &lt;code&gt;const x = 42&lt;/code&gt;&lt;/p&gt;</textarea>
+          </div>
+          <div class="demo-right">
+            <div class="demo-label">Résultat</div>
+            <div class="demo-result" id="liveResult2">
+              <p>Texte <strong>gras</strong> et <em>italique</em>.</p>
+              <p><mark>Surligné</mark> et <del>barré</del>.</p>
+              <blockquote>Une citation.</blockquote>
+              <p>Code : <code>const x = 42</code></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTIE 3 — LISTES -->
+    <div class="content" id="partie3" style="display:none">
+      <div class="bloc">
+        <span class="big">Les listes structurent l'information. <em>Et Google les adore.</em></span>
+        <p>Regarde n'importe quel grand site — Wikipedia, Amazon, Google lui-même dans ses résultats — ils sont remplis de listes. Les listes rendent le contenu scannable, facile à lire, bien structuré. Et HTML a deux types de listes bien distincts.</p>
+      </div>
+
+      <div class="listes-demo">
+        <div class="liste-card">
+          <div class="liste-card-head">🔵 &lt;ul&gt; — Liste non ordonnée</div>
+          <div class="liste-card-code">
+            <pre><span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Bitcoin</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Ethereum</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Solana</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></pre>
+          </div>
+          <div class="liste-card-result">
+            <ul><li>Bitcoin</li><li>Ethereum</li><li>Solana</li></ul>
+            <div style="font-size:11px;color:var(--muted);margin-top:8px">Points (•) — ordre sans importance</div>
+          </div>
+        </div>
+        <div class="liste-card">
+          <div class="liste-card-head">🔴 &lt;ol&gt; — Liste ordonnée</div>
+          <div class="liste-card-code">
+            <pre><span class="tag">&lt;ol&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Installer VSCode</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Créer index.html</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Ouvrir dans Chrome</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span></pre>
+          </div>
+          <div class="liste-card-result">
+            <ol><li>Installer VSCode</li><li>Créer index.html</li><li>Ouvrir dans Chrome</li></ol>
+            <div style="font-size:11px;color:var(--muted);margin-top:8px">Numérotée — ordre important</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloc">
+        <p><strong>La règle simple :</strong> si l'ordre n'a pas d'importance → &lt;ul&gt;. Si l'ordre est important (étapes, classement, procédure) → &lt;ol&gt;. Utiliser le bon type c'est important pour la sémantique et l'accessibilité.</p>
+        <p>Et les listes peuvent <strong>s'imbriquer</strong> — tu peux mettre une liste dans une liste. C'est ce que font les menus de navigation avec des sous-menus.</p>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">HTML — Liste imbriquée</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="com">&lt;!-- Menu de navigation de Kora --&gt;</span>
+<span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Pour toi</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Journal</span>
+    <span class="tag">&lt;ul&gt;</span>
+      <span class="tag">&lt;li&gt;</span><span class="txt">Crypto & Web3</span><span class="tag">&lt;/li&gt;</span>
+      <span class="tag">&lt;li&gt;</span><span class="txt">Finance & Marchés</span><span class="tag">&lt;/li&gt;</span>
+      <span class="tag">&lt;li&gt;</span><span class="txt">Tech & IA</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;/ul&gt;</span>
+  <span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Formation</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Profil</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="resultat">
+        <div class="res-head">Rendu dans le navigateur</div>
+        <div class="res-body">
+          <ul>
+            <li>Pour toi</li>
+            <li>Journal
+              <ul>
+                <li>Crypto & Web3</li>
+                <li>Finance & Marchés</li>
+                <li>Tech & IA</li>
+              </ul>
+            </li>
+            <li>Formation</li>
+            <li>Profil</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="code-bloc">
+        <div class="code-head">
+          <div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div>
+          <div class="code-lang">HTML — Guide étape par étape (ol)</div>
+        </div>
+        <div class="code-body">
+          <pre><span class="com">&lt;!-- Étapes pour rejoindre Kora --&gt;</span>
+<span class="tag">&lt;h2&gt;</span><span class="txt">Comment rejoindre Kora en 4 étapes</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;ol&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Crée ton compte sur </span><span class="tag">&lt;strong&gt;</span><span class="txt">kora.io</span><span class="tag">&lt;/strong&gt;</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Configure ton wallet </span><span class="tag">&lt;em&gt;</span><span class="txt">KRT</span><span class="tag">&lt;/em&gt;</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Choisis tes domaines d'intérêt</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Commence à lire, publier et </span><span class="tag">&lt;mark&gt;</span><span class="txt">gagner des tokens</span><span class="tag">&lt;/mark&gt;</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="resultat">
+        <div class="res-head">Rendu dans le navigateur</div>
+        <div class="res-body">
+          <h2>Comment rejoindre Kora en 4 étapes</h2>
+          <ol>
+            <li>Crée ton compte sur <strong>kora.io</strong></li>
+            <li>Configure ton wallet <em>KRT</em></li>
+            <li>Choisis tes domaines d'intérêt</li>
+            <li>Commence à lire, publier et <mark>gagner des tokens</mark></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="hl">
+        <span class="hlt">Les listes c'est pas juste pour lister</span>
+        Les menus de navigation sur tous les grands sites sont codés en &lt;ul&gt;&lt;li&gt;. Instagram, Amazon, Twitter — leurs menus sont des listes HTML stylisées en CSS pour ressembler à une barre de navigation horizontale. Quand tu apprendras le CSS, tu transformeras des listes verticales en menus horizontaux élégants.
+      </div>
+    </div>
+
+    <!-- PARTIE 4 — CAS REELS -->
+    <div class="content" id="partie4" style="display:none">
+      <div class="bloc">
+        <span class="big">Comment les grands sites utilisent <em>ces balises au quotidien.</em></span>
+        <p>Théorie c'est bien. Voir comment les vrais sites l'utilisent c'est mieux. Voici une reconstruction simplifiée de comment Wikipedia, Amazon et un article Medium utilisent les balises qu'on vient d'apprendre.</p>
+      </div>
+
+      <div class="cas-reels">
+
+        <div class="cas-item">
+          <div class="cas-head">
+            <span class="cas-logo">📚</span>
+            <span class="cas-site">Wikipedia — Structure d'un article</span>
+            <span class="cas-desc">Millions d'articles · Même structure</span>
+          </div>
+          <div class="cas-body">
+            <div class="cas-code">
+              <pre><span class="tag">&lt;h1&gt;</span><span class="txt">Bitcoin</span><span class="tag">&lt;/h1&gt;</span>
+
+<span class="tag">&lt;p&gt;</span><span class="txt">Le </span><span class="tag">&lt;strong&gt;</span><span class="txt">bitcoin</span><span class="tag">&lt;/strong&gt;</span>
+<span class="txt">est une </span><span class="tag">&lt;em&gt;</span><span class="txt">monnaie
+numérique</span><span class="tag">&lt;/em&gt;</span><span class="txt">...</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;h2&gt;</span><span class="txt">Historique</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;h3&gt;</span><span class="txt">Création en 2009</span><span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;p&gt;</span><span class="txt">Satoshi Nakamoto...</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;h2&gt;</span><span class="txt">Fonctionnement</span><span class="tag">&lt;/h2&gt;</span></pre>
+            </div>
+            <div class="cas-result">
+              <h1>Bitcoin</h1>
+              <p>Le <strong>bitcoin</strong> est une <em>monnaie numérique</em> créée en 2009...</p>
+              <h2>Historique</h2>
+              <h3>Création en 2009</h3>
+              <p>Satoshi Nakamoto publie le whitepaper...</p>
+              <h2>Fonctionnement</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="cas-item">
+          <div class="cas-head">
+            <span class="cas-logo">🛒</span>
+            <span class="cas-site">Amazon — Page produit simplifiée</span>
+            <span class="cas-desc">Listes pour les caractéristiques</span>
+          </div>
+          <div class="cas-body">
+            <div class="cas-code">
+              <pre><span class="tag">&lt;h1&gt;</span><span class="txt">iPhone 16 Pro</span><span class="tag">&lt;/h1&gt;</span>
+
+<span class="tag">&lt;p&gt;</span><span class="txt">Prix : </span>
+<span class="tag">&lt;del&gt;</span><span class="txt">1 299€</span><span class="tag">&lt;/del&gt;</span>
+<span class="tag">&lt;mark&gt;</span><span class="txt">999€</span><span class="tag">&lt;/mark&gt;</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;h2&gt;</span><span class="txt">Caractéristiques</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Puce A18 Pro</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Caméra 48MP</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">5G</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></pre>
+            </div>
+            <div class="cas-result">
+              <h1>iPhone 16 Pro</h1>
+              <p>Prix : <del>1 299€</del> <mark>999€</mark></p>
+              <h2>Caractéristiques</h2>
+              <ul><li>Puce A18 Pro</li><li>Caméra 48MP</li><li>5G</li></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="cas-item">
+          <div class="cas-head">
+            <span class="cas-logo">✦</span>
+            <span class="cas-site">Kora — Article d'analyse</span>
+            <span class="cas-desc">Notre propre plateforme</span>
+          </div>
+          <div class="cas-body">
+            <div class="cas-code">
+              <pre><span class="tag">&lt;h1&gt;</span><span class="txt">BTC : les 3 signaux
+à surveiller</span><span class="tag">&lt;/h1&gt;</span>
+
+<span class="tag">&lt;blockquote&gt;</span>
+<span class="txt">"Le volume acheteur
+confirme la tendance"</span>
+<span class="tag">&lt;/blockquote&gt;</span>
+
+<span class="tag">&lt;h2&gt;</span><span class="txt">Signal 1</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;p&gt;</span><span class="txt">Le </span><span class="tag">&lt;strong&gt;</span>
+<span class="txt">ratio Long/Short</span>
+<span class="tag">&lt;/strong&gt;</span>
+<span class="txt">atteint...</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;ol&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Vérifier le DXY</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Analyser le COT</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span></pre>
+            </div>
+            <div class="cas-result">
+              <h1>BTC : les 3 signaux à surveiller</h1>
+              <blockquote>"Le volume acheteur confirme la tendance"</blockquote>
+              <h2>Signal 1</h2>
+              <p>Le <strong>ratio Long/Short</strong> atteint son plus haut depuis janvier 2024...</p>
+              <ol><li>Vérifier le DXY</li><li>Analyser le COT</li></ol>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="hl">
+        <span class="hlt">Ce que tu remarques</span>
+        Tous ces sites — Wikipedia, Amazon, Kora — utilisent exactement les mêmes balises que tu viens d'apprendre. h1, h2, p, ul, li, strong, em, blockquote, del, mark. Rien de magique, rien de secret. La différence entre eux et une page basique c'est le CSS — mais la structure HTML de base, tu la connais maintenant.
+      </div>
+
+      <div class="fun-fact">
+        <div class="ff-icon">📊</div>
+        <div>
+          <div class="ff-title">Chiffres réels</div>
+          <div class="ff-text">D'après les analyses de millions de pages web, la balise &lt;p&gt; est la plus utilisée sur internet — présente sur 98% des pages. Vient ensuite &lt;a&gt; (les liens), puis &lt;li&gt;. Les balises &lt;h1&gt; à &lt;h3&gt; sont présentes sur plus de 85% des pages web analysées. Ce que tu apprends maintenant c'est le cœur du web.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARTIE 5 — EXERCICE -->
+    <div class="content" id="partie5" style="display:none">
+      <div class="bloc">
+        <span class="big">Tu connais maintenant tous les outils pour structurer du texte. <em>Construis un vrai article.</em></span>
+        <p>Pas un exercice scolaire — une vraie page d'article comme ceux que tu vois sur Kora, Wikipedia ou Medium. Structure, hiérarchie, richesse du texte.</p>
+      </div>
+
+      <div class="exercice">
+        <div class="exo-head">
+          <span class="exo-icon">🎯</span>
+          <span class="exo-title">Écris un article pour Kora</span>
+          <span class="exo-badge">Exercice</span>
+        </div>
+        <div class="exo-body">
+          <div class="exo-context">
+            Tu es rédacteur sur Kora. On te demande d'écrire un article court sur un sujet que tu maîtrises — crypto, trading, business, tech, peu importe. L'objectif c'est la structure HTML, pas le contenu. Mais fais quelque chose de vrai, pas du "lorem ipsum".
+          </div>
+          <div class="exo-mission">
+            <div class="exo-mission-title">L'article doit contenir</div>
+            <ul>
+              <li>Un &lt;h1&gt; avec le titre de l'article</li>
+              <li>Au moins deux &lt;h2&gt; pour les sections principales</li>
+              <li>Au moins un &lt;h3&gt; dans une des sections</li>
+              <li>Minimum 3 paragraphes &lt;p&gt; avec du contenu réel</li>
+              <li>Du &lt;strong&gt; sur au moins un terme important</li>
+              <li>Du &lt;em&gt; sur au moins un terme</li>
+              <li>Une liste &lt;ul&gt; ou &lt;ol&gt; avec minimum 3 éléments &lt;li&gt;</li>
+              <li>Un &lt;blockquote&gt; avec une citation ou une stat</li>
+            </ul>
+          </div>
+          <textarea class="exo-textarea" id="exoInput" placeholder="Écris ton article HTML ici...&#10;&#10;Exemple de début :&#10;&lt;h1&gt;Pourquoi le Bitcoin va à 100k&lt;/h1&gt;&#10;&lt;p&gt;Depuis le début...&lt;/p&gt;"></textarea>
+          <div class="exo-actions">
+            <button class="btn-valider" onclick="validerExo()">Valider mon article</button>
+            <button class="btn-indice" onclick="showIndice()">💡 Indice structure</button>
+          </div>
+          <div class="exo-feedback" id="exoFeedback"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- IA -->
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header">
+      <div class="ia-av">✦</div>
+      <div>
+        <div class="ia-name">Kora IA</div>
+        <div class="ia-ctx">Module 3 · Titres, textes, listes</div>
+      </div>
+    </div>
+    <div class="ia-msgs" id="iaMsgs">
+      <div class="ia-msg ia-a">Salut ! Ce module c'est le pain quotidien du dev web. Pose-moi tes questions sur les titres, le texte ou les listes.</div>
+    </div>
+    <div class="ia-row">
+      <input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question...">
+      <button class="ia-send" id="iaSend">↑</button>
+    </div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Précédent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant →</button>
+</div>
+
+<script>
+let cp=1;const tp=5;
+function switchPartie(n){
+  for(let i=1;i<=tp;i++){
+    const el=document.getElementById('partie'+i);if(el)el.style.display='none';
+    const tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');
+  }
+  const t=document.getElementById('partie'+n);if(t)t.style.display='block';
+  const tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');
+  cp=n;updateNav();
+KORA_PROG.initFormation('codage3');
+
+
+// Progression
+function terminerModule() {
+  KORA_PROG.finishModule('codage3');
+}
+window.scrollTo(0,0);
+}
+function nextPartie(){if(cp<tp){KORA_PROG.savePartie('codage3',cp);switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){
+  document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';
+  document.getElementById('btnNext').textContent=cp===tp?'Terminer le module ✓':'Suivant →';
+  document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;
+  document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;
+  document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';
+  document.getElementById('globalFill').style.width=(25+Math.round((cp/tp)*12))+'%';
+}
+
+// Live editors
+function updateLive2(){document.getElementById('liveResult2').innerHTML=document.getElementById('liveCode2').value;}
+
+// Listen
+let speaking=false;
+function toggleListen(){
+  const btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');
+  if(!speaking){
+    const u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);
+    u.lang='fr-FR';u.rate=0.88;
+    u.onend=()=>{speaking=false;btn.classList.remove('playing');txt.textContent='Écouter ce module'};
+    speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop ■';
+  }else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Écouter ce module';}
+}
+
+// IA
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+const iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){
+  const t=iaInp.value.trim();if(!t)return;
+  const u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;
+  iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  setTimeout(()=>{
+    const a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);
+    iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;
+  },600);
+}
+function getR(q){
+  const q2=q.toLowerCase();
+  if(q2.includes('h1')&&q2.includes('seul')||q2.includes('combien')&&q2.includes('h1'))return 'Un seul h1 par page — c\'est la règle absolue. Le h1 c\'est le titre principal de la page, il ne peut y en avoir qu\'un. Comme un livre a un seul titre. Si tu as l\'impression d\'avoir besoin de plusieurs h1, c\'est souvent que tu as en réalité besoin de h2.';
+  if(q2.includes('ul')&&q2.includes('ol')||q2.includes('différence')&&q2.includes('liste'))return 'ul = unordered list = liste non ordonnée = les points (•). Utilise ul quand l\'ordre n\'a pas d\'importance : une liste d\'ingrédients, des fonctionnalités. ol = ordered list = liste ordonnée = numérotée. Utilise ol quand l\'ordre compte : des étapes, un classement, une procédure.';
+  if(q2.includes('strong')&&q2.includes('b')||q2.includes('em')&&q2.includes('i'))return 'strong et b donnent tous les deux du gras visuellement. Mais strong a un sens sémantique : "c\'est important". b dit juste "mets en gras". Même chose pour em (emphase sémantique) vs i (italique visuel). En HTML5 moderne, on préfère strong et em car ils donnent du sens au texte, pas juste du style.';
+  if(q2.includes('seo')&&q2.includes('titre')||q2.includes('google')&&q2.includes('h1'))return 'Google lit tes h1 et h2 pour comprendre le sujet de ta page. Le mot clé principal de ta page devrait idéalement être dans le h1. Les h2 pour les sujets secondaires. Mais attention — n\'essaie pas de "tricher" en mettant des mots clés partout dans tes titres sans logique. Google est devenu très bon pour détecter ça.';
+  if(q2.includes('blockquote'))return 'blockquote c\'est pour citer une source externe ou une personne. Le navigateur l\'indente automatiquement. Tu peux ajouter un attribut cite avec l\'URL de la source : <blockquote cite="https://...">. Pour des citations très courtes dans le texte, il y a aussi la balise <q> qui ajoute automatiquement les guillemets.';
+  if(q2.includes('liste')&&q2.includes('imbriq')||q2.includes('sous-liste'))return 'Pour imbriquer une liste dans une autre, tu mets simplement un &lt;ul&gt; ou &lt;ol&gt; à l\'intérieur d\'un &lt;li&gt;. Attention — le &lt;ul&gt; ou &lt;ol&gt; enfant doit être DANS le &lt;li&gt;, pas après. C\'est l\'erreur classique.';
+  return 'Bonne question sur les titres et le texte HTML. Les points clés : un seul h1 par page, ne saute pas de niveaux dans les titres, utilise ul pour les listes sans ordre et ol pour les étapes, préfère strong à b et em à i pour la sémantique. Tu veux un exemple sur quelque chose de précis ?';
+}
+iaSend.addEventListener('click',sendIa);
+iaInp.addEventListener('keydown',e=>{if(e.key==='Enter')sendIa();});
+
+// Quiz
+function cq(btn,id,correct){
+  const opts=document.querySelectorAll('#'+id+'opts .quiz-opt');
+  opts.forEach(o=>o.disabled=true);
+  const fb=document.getElementById(id+'fb');
+  if(correct){btn.classList.add('correct');fb.className='quiz-feedback ok';fb.innerHTML='✓ Exactement ! Un seul h1 par page — c\'est la règle absolue. Le h1 c\'est le titre principal. Pour les 5 cryptos, tu utiliserais 5 &lt;h2&gt; — un pour chaque crypto, sous le h1 principal.';}
+  else{btn.classList.add('wrong');opts[1].classList.add('correct');fb.className='quiz-feedback ko';fb.innerHTML='Pas tout à fait. Un seul h1 par page, toujours. Pour les 5 cryptos à surveiller, tu aurais 1 h1 "Les 5 cryptos à surveiller" et 5 h2 "1. Bitcoin", "2. Ethereum", etc.';}
+  fb.style.display='block';
+}
+
+// Exercice
+function validerExo(){
+  const input=document.getElementById('exoInput').value.toLowerCase();
+  const fb=document.getElementById('exoFeedback');
+  const checks={
+    h1:input.includes('<h1>')&&input.includes('</h1>'),
+    h2:(input.match(/<h2>/g)||[]).length>=2,
+    h3:input.includes('<h3>')&&input.includes('</h3>'),
+    p:(input.match(/<p>/g)||[]).length>=3,
+    strong:input.includes('<strong>')&&input.includes('</strong>'),
+    em:input.includes('<em>')&&input.includes('</em>'),
+    liste:(input.includes('<ul>')||input.includes('<ol>'))&&input.includes('<li>'),
+    blockquote:input.includes('<blockquote>')&&input.includes('</blockquote>')
+  };
+  const score=Object.values(checks).filter(Boolean).length;
+  const total=8;
+  if(score===total){
+    fb.className='exo-feedback ok';
+    fb.innerHTML='✓ Article parfait ! Tu as utilisé tous les éléments — h1, h2, h3, paragraphes, strong, em, liste et blockquote. C\'est exactement la structure d\'un vrai article sur Kora. Module 4 débloqué !';
+  }else if(score>=5){
+    const manquants=Object.entries(checks).filter(([k,v])=>!v).map(([k])=>({h1:'h1',h2:'2 h2 minimum',h3:'h3',p:'3 paragraphes minimum',strong:'strong',em:'em',liste:'ul ou ol avec li',blockquote:'blockquote'}[k]));
+    fb.className='exo-feedback ok';
+    fb.innerHTML='Bon travail ! '+score+'/'+total+'. Il manque : '+manquants.join(', ')+'.';
+  }else{
+    fb.className='exo-feedback ko';
+    fb.innerHTML='Continue ! '+score+'/'+total+'. Pense à inclure : h1 (titre), plusieurs h2 (sections), h3 (sous-section), 3 paragraphes p, strong, em, une liste ul ou ol, et un blockquote.';
+  }
+  fb.style.display='block';
+}
+
+function showIndice(){
+  const fb=document.getElementById('exoFeedback');
+  fb.className='exo-feedback ko';
+  fb.innerHTML=`💡 Structure d'un article Kora :<br><br>
+<code style="font-family:monospace;font-size:11px;line-height:1.9;display:block">
+&lt;h1&gt;Titre de ton article&lt;/h1&gt;<br>
+&lt;p&gt;Introduction...&lt;/p&gt;<br>
+&lt;blockquote&gt;"Une citation ou stat"&lt;/blockquote&gt;<br>
+&lt;h2&gt;Première section&lt;/h2&gt;<br>
+&lt;h3&gt;Un sous-point&lt;/h3&gt;<br>
+&lt;p&gt;Texte avec &lt;strong&gt;mot important&lt;/strong&gt; et &lt;em&gt;emphase&lt;/em&gt;.&lt;/p&gt;<br>
+&lt;ul&gt;<br>
+&nbsp;&nbsp;&lt;li&gt;Point 1&lt;/li&gt;<br>
+&nbsp;&nbsp;&lt;li&gt;Point 2&lt;/li&gt;<br>
+&nbsp;&nbsp;&lt;li&gt;Point 3&lt;/li&gt;<br>
+&lt;/ul&gt;<br>
+&lt;h2&gt;Deuxième section&lt;/h2&gt;<br>
+&lt;p&gt;Conclusion...&lt;/p&gt;
+</code>`;
+  fb.style.display='block';
+}
+
+updateNav();
+</script>
+<script src="progression.js"></script>
+</body>
+</html>

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:   #FAFAFA;
+  --w:    #FFFFFF;
+  --line: #EFEFEF;
+  --text: #1A1A1A;
+  --muted:#737373;
+  --light:#B0B0B0;
+  --b1:   #6B1F2A;
+  --b2:   #C4622D;
+  --b3:   #E8956D;
+  --grad: linear-gradient(135deg, #6B1F2A 0%, #C4622D 50%, #E8956D 100%);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-logo {
+  height: 32px; width: auto;
+  border-radius: 8px;
+  padding: 3px;
+  box-shadow: 0 0 0 1.5px #C4622D, 0 0 0 3px rgba(232,149,109,0.2);
+}
+.header-sep {
+  width: 1px; height: 20px;
+  background: var(--line);
+}
+.header-title {
+  font-family: 'Fraunces', serif;
+  font-size: 18px; font-weight: 400;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.3px;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.header-krt {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: rgba(107,31,42,0.05);
+  border-radius: 20px;
+  border: 1px solid rgba(107,31,42,0.1);
+}
+.krt-icon { font-size: 12px; color: var(--b2); }
+.krt-val {
+  font-size: 13px; font-weight: 500;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header-av {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--grad);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 14px; font-weight: 500;
+  cursor: pointer;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--w);
+  border-bottom: 1px solid var(--line);
+  padding: 48px 24px 36px;
+}
+.hero-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--b2);
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.hero-label::before,.hero-label::after {
+  content: '';
+  width: 16px; height: 1.5px;
+  background: var(--grad);
+}
+.hero-h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.hero-h1 em {
+  font-style: italic;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 560px;
+  margin-bottom: 28px;
+}
+
+/* ── SEARCH ── */
+.search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+.search-wrap:focus-within { border-color: var(--b2); }
+.search-icon { font-size: 16px; color: var(--light); flex-shrink: 0; }
+.search-inp {
+  flex: 1; border: none; background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: var(--text); outline: none;
+}
+.search-inp::placeholder { color: var(--light); }
+
+.search-filters {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 400;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.filter-btn:hover { color: var(--text); border-color: rgba(107,31,42,0.2); }
+.filter-btn.active {
+  background: rgba(107,31,42,0.07);
+  color: var(--b1);
+  border-color: rgba(107,31,42,0.15);
+  font-weight: 500;
+}
+
+/* ── SECTIONS ── */
+.section { padding: 40px 0; }
+.section-inner { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+.section-head { margin-bottom: 24px; }
+.section-head.center { text-align: center; }
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 400;
+  color: var(--text); letter-spacing: -0.3px;
+  margin-bottom: 4px;
+}
+.section-sub { font-size: 13px; color: var(--muted); }
+
+.sep-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C4622D 30%, #E8956D 70%, transparent);
+  opacity: 0.25;
+  margin: 0 24px;
+}
+
+/* ── EN COURS ── */
+.en-cours-list { display: flex; flex-direction: column; gap: 12px; }
+
+.en-cours-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--w);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.en-cours-card:hover {
+  border-color: rgba(196,98,45,0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(107,31,42,0.06);
+}
+.ec-left { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
+.ec-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.ec-info { flex: 1; min-width: 0; }
+.ec-title {
+  font-size: 15px; font-weight: 500;
+  color: var(--text); margin-bottom: 3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ec-meta { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.progress-wrap { display: flex; align-items: center; gap: 8px; }
+.progress-bar {
+  flex: 1; height: 4px;
+  background: var(--line);
+  border-radius: 2px; overflow: hidden;
+  max-width: 200px;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--grad);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.progress-pct { font-size: 11px; color: var(--b2); font-weight: 500; }
+
+.btn-continue {
+  padding: 9px 18px;
+  background: var(--grad);
+  color: white; border: none;
+  border-radius: 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: opacity 0.2s;
+  white-space: nowrap; flex-shrink: 0;
+}
+.btn-continue:hover { opacity: 0.88; }
+
+/* ── CATALOGUE ── */
+.catalogue {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+@media(max-width:900px){ .catalogue { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:580px){ .catalogue { grid-template-columns: 1fr; } }
+
+.forma-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--w);
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.18s;
+  position: relative;
+}
+.forma-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  border-color: rgba(196,98,45,0.2);
+}
+.forma-card.locked { cursor: default; opacity: 0.7; }
+.forma-card.locked:hover { transform: none; box-shadow: none; }
+
+.forma-cover {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.forma-emoji { font-size: 36px; }
+.forma-tag {
+  position: absolute;
+  top: 10px; right: 10px;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+  background: rgba(0,0,0,0.2);
+  padding: 3px 8px; border-radius: 8px;
+  backdrop-filter: blur(4px);
+}
+
+.forma-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.forma-title { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.4; }
+.forma-desc { font-size: 13px; color: var(--muted); line-height: 1.55; flex: 1; }
+.forma-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  margin-top: auto;
+}
+.forma-info { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--light); }
+.forma-dot { color: var(--line); }
+.forma-krt {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 500;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.forma-status {
+  position: absolute;
+  top: 10px; left: 10px;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 3px 8px; border-radius: 8px;
+}
+.forma-status.active {
+  background: rgba(107,31,42,0.12);
+  color: var(--b2);
+  border: 1px solid rgba(107,31,42,0.2);
+}
+
+.forma-lock {
+  padding: 10px 16px;
+  font-size: 12px; color: var(--muted);
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+/* ── POURQUOI ── */
+.section-why { background: var(--w); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+}
+@media(max-width:760px){ .why-grid { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:480px){ .why-grid { grid-template-columns: 1fr; } }
+
+.why-item {
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  transition: border-color 0.18s;
+}
+.why-item:hover { border-color: rgba(196,98,45,0.2); }
+.why-icon { font-size: 24px; margin-bottom: 10px; }
+.why-title {
+  font-family: 'Fraunces', serif;
+  font-size: 15px; font-weight: 400;
+  color: var(--text); margin-bottom: 6px;
+  letter-spacing: -0.2px;
+}
+.why-desc { font-size: 13px; line-height: 1.6; color: var(--muted); }
+
+/* ── ANIMATIONS ── */
+@keyframes up { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.hero-inner { animation: up 0.5s ease both; }
+.en-cours-card { animation: up 0.4s ease 0.1s both; }
+.forma-card:nth-child(1){animation:up 0.35s ease 0.05s both}
+.forma-card:nth-child(2){animation:up 0.35s ease 0.1s both}
+.forma-card:nth-child(3){animation:up 0.35s ease 0.15s both}
+.forma-card:nth-child(4){animation:up 0.35s ease 0.2s both}
+.forma-card:nth-child(5){animation:up 0.35s ease 0.25s both}
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <img src="logo.jpg" alt="Kora" class="header-logo">
+    <span class="header-sep"></span>
+    <span class="header-title">Academy</span>
+  </div>
+  <div class="header-right">
+    <div class="header-krt">
+      <span class="krt-icon">◈</span>
+      <span class="krt-val">248 KRT</span>
+    </div>
+    <div class="header-av">V</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Kora Academy</div>
+    <h1 class="hero-h1">Apprendre autrement.<br><em>Vraiment.</em></h1>
+    <p class="hero-sub">Des formations concrètes, interactives, pensées pour ceux qui veulent comprendre le monde tel qu'il est — et être récompensés pour ça.</p>
+
+    <!-- Barre de recherche -->
+    <div class="search-wrap">
+      <span class="search-icon">◎</span>
+      <input class="search-inp" type="text" placeholder="Rechercher une formation...">
+      <div class="search-filters" id="searchFilters">
+        <button class="filter-btn active" data-f="all">Tout</button>
+        <button class="filter-btn" data-f="code">Code</button>
+        <button class="filter-btn" data-f="crypto">Crypto</button>
+        <button class="filter-btn" data-f="finance">Finance</button>
+        <button class="filter-btn" data-f="business">Business</button>
+        <button class="filter-btn" data-f="trading">Trading</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATIONS EN COURS -->
+<section class="section" id="secEnCours">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-title">Continuer</div>
+      <div class="section-sub">Reprends là où tu t'es arrêté</div>
+    </div>
+    <div class="en-cours-list">
+
+      <div class="en-cours-card" onclick="goFormation('code')">
+        <div class="ec-left">
+          <div class="ec-icon" style="background:linear-gradient(135deg,#1A1A2E,#16213E)">⌨️</div>
+          <div class="ec-info">
+            <div class="ec-title">Le Code — de zéro à indépendant</div>
+            <div class="ec-meta">Module 2 sur 8 · HTML & CSS</div>
+            <div class="progress-wrap">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:22%"></div>
+              </div>
+              <span class="progress-pct">22%</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn-continue">Continuer →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sep-line"></div>
+
+<!-- CATALOGUE -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="section-title">Catalogue</div>
+      <div class="section-sub">Toutes les formations disponibles</div>
+    </div>
+
+    <div class="catalogue" id="catalogue">
+
+      <!-- Code -->
+      <div class="forma-card" data-cat="code" onclick="goFormation('code')">
+        <div class="forma-cover" style="background:linear-gradient(135deg,#1A1A2E 0%,#16213E 50%,#0F3460 100%)">
+          <span class="forma-emoji">⌨️</span>
+          <div class="forma-tag">Code</div>
+        </div>
+        <div class="forma-body">
+          <div class="forma-title">Le Code — de zéro à indépendant</div>
+          <div class="forma-desc">HTML, CSS, JavaScript, bases du backend. Tu pars de zéro et tu arrives à construire tes propres outils.</div>
+          <div class="forma-footer">
+            <div class="forma-info">
+              <span class="forma-modules">8 modules</span>
+              <span class="forma-dot">·</span>
+              <span class="forma-level">Débutant</span>
+            </div>
+            <div class="forma-krt">
+              <span class="krt-icon">◈</span>
+              <span>+120 KRT</span>
+            </div>
+          </div>
+        </div>
+        <div class="forma-status active">En cours</div>
+      </div>
+
+      <!-- Crypto -->
+      <div class="forma-card locked" data-cat="crypto">
+        <div class="forma-cover" style="background:linear-gradient(135deg,#2D1B00 0%,#6B3A00 50%,#C4622D 100%)">
+          <span class="forma-emoji">₿</span>
+          <div class="forma-tag">Crypto</div>
+        </div>
+        <div class="forma-body">
+          <div class="forma-title">Crypto & Blockchain — Les bases</div>
+          <div class="forma-desc">Comprendre la blockchain, les tokens, les wallets. Ce que personne ne t'a vraiment expliqué.</div>
+          <div class="forma-footer">
+            <div class="forma-info">
+              <span class="forma-modules">6 modules</span>
+              <span class="forma-dot">·</span>
+              <span class="forma-level">Débutant</span>
+            </div>
+            <div class="forma-krt">
+              <span class="krt-icon">◈</span>
+              <span>+90 KRT</span>
+            </div>
+          </div>
+        </div>
+        <div class="forma-lock">🔒 Finir "Le Code" d'abord</div>
+      </div>
+
+      <!-- Trading -->
+      <div class="forma-card locked" data-cat="trading">
+        <div class="forma-cover" style="background:linear-gradient(135deg,#0A2A0A 0%,#1A5C1A 50%,#2E8B2E 100%)">
+          <span class="forma-emoji">📈</span>
+          <div class="forma-tag">Trading</div>
+        </div>
+        <div class="forma-body">
+          <div class="forma-title">Trading — Comprendre les marchés</div>
+          <div class="forma-desc">Lecture des graphiques, gestion du risque, psychologie du trader. Pas de promesses, que des faits.</div>
+          <div class="forma-footer">
+            <div class="forma-info">
+              <span class="forma-modules">10 modules</span>
+              <span class="forma-dot">·</span>
+              <span class="forma-level">Intermédiaire</span>
+            </div>
+            <div class="forma-krt">
+              <span class="krt-icon">◈</span>
+              <span>+150 KRT</span>
+            </div>
+          </div>
+        </div>
+        <div class="forma-lock">🔒 Finir "Crypto" d'abord</div>
+      </div>
+
+      <!-- Finance -->
+      <div class="forma-card locked" data-cat="finance">
+        <div class="forma-cover" style="background:linear-gradient(135deg,#1A0A2E 0%,#3D1A6E 50%,#6B3AAE 100%)">
+          <span class="forma-emoji">💰</span>
+          <div class="forma-tag">Finance</div>
+        </div>
+        <div class="forma-body">
+          <div class="forma-title">Finance personnelle & Investissement</div>
+          <div class="forma-desc">Gérer son argent, investir intelligemment, construire sa liberté financière. Étape par étape.</div>
+          <div class="forma-footer">
+            <div class="forma-info">
+              <span class="forma-modules">7 modules</span>
+              <span class="forma-dot">·</span>
+              <span class="forma-level">Débutant</span>
+            </div>
+            <div class="forma-krt">
+              <span class="krt-icon">◈</span>
+              <span>+100 KRT</span>
+            </div>
+          </div>
+        </div>
+        <div class="forma-lock">🔒 Débloqué après "Trading"</div>
+      </div>
+
+      <!-- Business -->
+      <div class="forma-card locked" data-cat="business">
+        <div class="forma-cover" style="background:linear-gradient(135deg,#2A1A0A 0%,#6B4A1A 50%,#C4873A 100%)">
+          <span class="forma-emoji">🚀</span>
+          <div class="forma-tag">Business</div>
+        </div>
+        <div class="forma-body">
+          <div class="forma-title">Entrepreneuriat — Lancer son projet</div>
+          <div class="forma-desc">De l'idée à la première vente. Trouver ses clients, pitcher, vendre sans avoir honte.</div>
+          <div class="forma-footer">
+            <div class="forma-info">
+              <span class="forma-modules">9 modules</span>
+              <span class="forma-dot">·</span>
+              <span class="forma-level">Tous niveaux</span>
+            </div>
+            <div class="forma-krt">
+              <span class="krt-icon">◈</span>
+              <span>+130 KRT</span>
+            </div>
+          </div>
+        </div>
+        <div class="forma-lock">🔒 Débloqué après "Finance"</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sep-line"></div>
+
+<!-- POURQUOI KORA ACADEMY -->
+<section class="section section-why">
+  <div class="section-inner">
+    <div class="section-head center">
+      <div class="section-title">Pourquoi Kora Academy</div>
+      <div class="section-sub">Ce qui nous rend différents</div>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">🎯</div>
+        <div class="why-title">Concret avant tout</div>
+        <div class="why-desc">Chaque formation se termine par des exercices dans la vraie vie. Pas des QCM — des défis à accomplir pour de vrai.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🔊</div>
+        <div class="why-title">Lecture vocale</div>
+        <div class="why-desc">Pas envie de lire ? Un bouton lit le contenu à voix haute. Tu absorbes en écoutant, pas en déchiffrant.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">◈</div>
+        <div class="why-title">Tu gagnes en apprenant</div>
+        <div class="why-desc">Chaque formation complétée te rapporte des tokens KRT utilisables sur toute la plateforme Kora.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🏆</div>
+        <div class="why-title">Des certifications réelles</div>
+        <div class="why-desc">Tes certifications apparaissent sur ton profil Kora, visibles par les recruteurs et la communauté.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🔓</div>
+        <div class="why-title">Dans l'ordre</div>
+        <div class="why-desc">Chaque formation débloque la suivante. Tu construis des bases solides, pas du n'importe quoi empilé.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">✦</div>
+        <div class="why-title">Vérifié par Kora</div>
+        <div class="why-desc">Tout le contenu est validé par notre IA avant publication. Tu apprends des choses vraies.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Filtres catalogue
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.f;
+    document.querySelectorAll('.forma-card').forEach(card => {
+      if (f === 'all' || card.dataset.cat === f) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+// Recherche
+document.querySelector('.search-inp').addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  document.querySelectorAll('.forma-card').forEach(card => {
+    const title = card.querySelector('.forma-title').textContent.toLowerCase();
+    const desc = card.querySelector('.forma-desc').textContent.toLowerCase();
+    card.style.display = (!q || title.includes(q) || desc.includes(q)) ? 'flex' : 'none';
+  });
+});
+
+// Navigation vers formation
+function goFormation(id) {
+  window.location.href = 'formation.html?f=' + id;
+}
+</script>
+</body>
+</html>
