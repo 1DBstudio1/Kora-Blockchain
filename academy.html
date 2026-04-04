@@ -337,11 +337,11 @@ function goFormation(id) {
 <script>
 // Auth temporaire
 function tryLogin() {
-  const user = document.getElementById('authUser').value.trim();
+  const user = document.getElementById('authUser').value.trim().toLowerCase();
   const pass = document.getElementById('authPass').value.trim();
   const err = document.getElementById('authErr');
-  if (user === 'kora' && pass === '123456789') {
-    sessionStorage.setItem('kora_auth', '1');
+  if ((user === 'kora' || user === 'Kora') && pass === '123456789') {
+    localStorage.setItem('kora_auth', '1');
     document.getElementById('authWall').style.display = 'none';
   } else {
     err.style.display = 'block';
@@ -352,9 +352,11 @@ document.getElementById('authUser').addEventListener('keydown', e => { if(e.key=
 document.getElementById('authPass').addEventListener('keydown', e => { if(e.key==='Enter') tryLogin(); });
 
 // Check auth on load
-if (sessionStorage.getItem('kora_auth') === '1') {
-  document.getElementById('authWall').style.display = 'none';
-}
+window.addEventListener('load', function() {
+  if (localStorage.getItem('kora_auth') === '1') {
+    document.getElementById('authWall').style.display = 'none';
+  }
+});
 </script>
 
 <script src="progression.js"></script>

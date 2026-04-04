@@ -251,6 +251,13 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
 </style>
+
+<style>
+.sidebar { display: none !important; }
+.layout { display: block !important; }
+.main { width: 100% !important; max-width: 740px; margin: 0 auto; }
+</style>
+
 </head>
 <body>
 
@@ -855,7 +862,14 @@ function validerExo(){
     strong:input.includes('<strong>')&&input.includes('</strong>'),
     body:input.includes('<body>')&&input.includes('<script src="progression.js"></script>
 </body>'),
-    head:input.includes('<head>')&&input.includes('</head>')
+    head:input.includes('<head>')&&input.includes('
+<style>
+.sidebar { display: none !important; }
+.layout { display: block !important; }
+.main { width: 100% !important; max-width: 740px; margin: 0 auto; }
+</style>
+
+</head>')
   };
   const score=Object.values(checks).filter(Boolean).length;
   const total=Object.keys(checks).length;
