@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS — Module 13 — Transitions et animations — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--code:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.12);color:var(--b1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--b2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(107,31,42,0.04),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--b1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#252540}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#E0E0FF}
+.sel{color:#9ECE6A}.prop{color:#79B8FF}.val{color:#E8956D}.cm{color:#637777;font-style:italic}
+.demo-live{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.demo-live-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.demo-live-body{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:560px){.demo-live-body{grid-template-columns:1fr}}
+.demo-live-code{background:var(--code);padding:16px}
+.demo-live-code textarea{width:100%;min-height:150px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0E0FF;resize:none;line-height:1.7}
+.demo-live-preview{background:var(--w);padding:16px;border-left:1px solid var(--line);overflow:hidden}
+.dlp-label{font-size:11px;color:var(--light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+/* Animations demo */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.05);opacity:0.8}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.anim-demo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:24px 0}
+@media(max-width:480px){.anim-demo-grid{grid-template-columns:1fr}}
+.anim-card{padding:16px;border-radius:12px;border:1px solid var(--line);background:var(--w);text-align:center;cursor:pointer}
+.anim-icon{font-size:28px;margin-bottom:8px}
+.anim-label{font-size:12px;color:var(--muted);margin-top:6px}
+.anim-el{width:48px;height:48px;border-radius:12px;background:var(--grad);margin:0 auto}
+.hover-card{padding:20px;border-radius:14px;border:1px solid var(--line);background:var(--w);cursor:pointer;transition:all 0.3s ease;margin:8px 0}
+.hover-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,0.1);border-color:rgba(196,98,45,0.2)}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(107,31,42,0.08);color:var(--b2);border:1px solid rgba(107,31,42,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--b2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:200px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--b2)}
+.exo-actions{display:flex;gap:10px}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(107,31,42,0.25);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(107,31,42,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--b2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(107,31,42,0.05);border-radius:10px 10px 10px 3px;border:1px solid rgba(107,31,42,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--b2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">CSS — de zero a la maitrise</div>
+    <div class="header-meta">Module 13 · Transitions et animations</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--b2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:78%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">CSS · Module 13</div>
+    <div class="mod-header-title">Transitions et <em>animations.</em></div>
+    <div class="mod-header-sub">Les animations donnent vie aux interfaces. transition pour animer les changements d'etat, @keyframes pour les animations continues. CSS peut faire des choses impressionnantes sans une seule ligne de JavaScript.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">transition</div>
+    <div class="partie-tab" onclick="switchPartie(2)">transform</div>
+    <div class="partie-tab" onclick="switchPartie(3)">@keyframes</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Animations avancees</div>
+    <div class="partie-tab" onclick="switchPartie(5)">Exercice</div>
+  </div>
+
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">transition — <em>animer les changements d'etat.</em></span>
+      <p>Transition anime le passage d'un style a un autre. Sans transition, les changements au :hover sont instantanes. Avec transition, l'element glisse progressivement vers le nouveau style — c'est ce qui donne une impression de qualite et de fluidite.</p>
+    </div>
+    <div class="hover-card">Survole cette card — elle a transition: transform 0.3s ease, box-shadow 0.3s ease</div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — transition</div></div>
+    <div class="code-body"><pre><span class="cm">/* Syntaxe : propriete duree timing-function delai */</span>
+<span class="sel">.btn</span> {
+  <span class="prop">background</span>: <span class="val">#6B1F2A</span>;
+  <span class="prop">transition</span>: <span class="val">all 0.2s ease</span>;
+  <span class="cm">/* 'all' anime toutes les proprietes qui changent */</span>
+}
+<span class="sel">.btn:hover</span> {
+  <span class="prop">background</span>: <span class="val">#9B2F3A</span>;
+  <span class="prop">transform</span>: <span class="val">translateY(-2px)</span>;
+}
+
+<span class="cm">/* Meilleure pratique : transitions specifiques */</span>
+<span class="sel">.card</span> {
+  <span class="prop">transition</span>:
+    <span class="val">transform 0.3s ease</span>,
+    <span class="val">box-shadow 0.3s ease</span>,
+    <span class="val">border-color 0.2s ease</span>;
+}
+<span class="sel">.card:hover</span> {
+  <span class="prop">transform</span>: <span class="val">translateY(-4px)</span>;
+  <span class="prop">box-shadow</span>: <span class="val">0 16px 48px rgba(0,0,0,0.1)</span>;
+  <span class="prop">border-color</span>: <span class="val">rgba(196,98,45,0.3)</span>;
+}
+
+<span class="cm">/* Les timing functions */</span>
+<span class="cm">/* ease : lent-rapide-lent (defaut, le plus naturel) */</span>
+<span class="cm">/* linear : vitesse constante */</span>
+<span class="cm">/* ease-in : demarre lentement */</span>
+<span class="cm">/* ease-out : finit lentement */</span>
+<span class="cm">/* ease-in-out : lent au debut et a la fin */</span></pre></div></div>
+    <div class="hl"><span class="hlt">Transition specifique vs all</span>transition: all est pratique mais anime TOUTES les proprietes qui changent — meme celles qui ne devraient pas. Prefere lister les proprietes specifiques : transition: transform 0.2s ease, box-shadow 0.2s ease. C'est aussi plus performant car le navigateur sait exactement quoi animer.</div>
+  </div>
+
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">transform — <em>deplacer, agrandir, tourner sans bouger le flux.</em></span>
+      <p>transform modifie geometriquement un element sans affecter le flux de la page. Contrairement a changer top ou margin, transform ne force pas le navigateur a recalculer tout le layout.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — transform</div></div>
+    <div class="code-body"><pre><span class="cm">/* Deplacement */</span>
+<span class="sel">.el</span> { <span class="prop">transform</span>: <span class="val">translateX(20px)</span>; }    <span class="cm">/* Droite */</span>
+<span class="sel">.el</span> { <span class="prop">transform</span>: <span class="val">translateY(-10px)</span>; }   <span class="cm">/* Haut */</span>
+<span class="sel">.el</span> { <span class="prop">transform</span>: <span class="val">translate(-50%, -50%)</span>; } <span class="cm">/* Centrage */</span>
+
+<span class="cm">/* Agrandissement */</span>
+<span class="sel">.btn:hover</span>   { <span class="prop">transform</span>: <span class="val">scale(1.05)</span>; }  <span class="cm">/* +5% */</span>
+<span class="sel">.btn:active</span>  { <span class="prop">transform</span>: <span class="val">scale(0.95)</span>; }  <span class="cm">/* Effet clic */</span>
+
+<span class="cm">/* Rotation */</span>
+<span class="sel">.icone</span>       { <span class="prop">transform</span>: <span class="val">rotate(45deg)</span>; }
+<span class="sel">.icone.open</span>  { <span class="prop">transform</span>: <span class="val">rotate(180deg)</span>; } <span class="cm">/* Chevron */</span>
+
+<span class="cm">/* Combiner plusieurs transforms */</span>
+<span class="sel">.card:hover</span> {
+  <span class="prop">transform</span>: <span class="val">translateY(-4px) scale(1.02)</span>;
+}
+
+<span class="cm">/* transform-origin — point de pivot */</span>
+<span class="sel">.el</span> { <span class="prop">transform-origin</span>: <span class="val">top left</span>; } <span class="cm">/* Tourne depuis coin haut-gauche */</span></pre></div></div>
+    <div class="demo-live">
+      <div class="demo-live-head">⚡ Editeur live — transitions et transforms</div>
+      <div class="demo-live-body">
+        <div class="demo-live-code"><textarea id="liveCode2" oninput="updateLive2()">.t-card {
+  padding: 16px;
+  background: white;
+  border: 1px solid #EFEFEF;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.2s ease;
+}
+.t-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  border-color: rgba(196,98,45,0.3);
+}</textarea></div>
+        <div class="demo-live-preview">
+          <div class="dlp-label">Survole la card</div>
+          <div id="liveResult2">
+            <style id="liveStyle2">.t-card{padding:16px;background:white;border:1px solid #EFEFEF;border-radius:12px;cursor:pointer;transition:transform 0.3s ease,box-shadow 0.3s ease,border-color 0.2s ease}.t-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 20px 60px rgba(0,0,0,0.12);border-color:rgba(196,98,45,0.3)}</style>
+            <div class="t-card">
+              <div style="font-size:14px;font-weight:500;margin-bottom:4px">Module CSS</div>
+              <div style="font-size:12px;color:#737373">Survole-moi !</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fun-fact"><div class="ff-icon">⚡</div><div><div class="ff-title">Performance : transform et opacity</div><div class="ff-text">transform et opacity sont les deux proprietes CSS les plus performantes pour les animations. Le navigateur peut les animer directement sur le GPU, sans recalculer le layout de la page. Evite d'animer width, height, top, left, margin, padding — ca force un "layout reflow" complet a chaque frame et cause des saccades. La regle : anime seulement transform et opacity pour des animations a 60fps.</div></div></div>
+  </div>
+
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">@keyframes — <em>des animations qui se jouent toutes seules.</em></span>
+      <p>@keyframes definit les etapes d'une animation. La propriete animation applique cette animation a un element. Contrairement a transition, les animations @keyframes ne necessitent pas d'interaction utilisateur — elles jouent automatiquement.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — @keyframes et animation</div></div>
+    <div class="code-body"><pre><span class="cm">/* 1. Definir l'animation */</span>
+@<span class="sel">keyframes</span> <span class="prop">slideUp</span> {
+  <span class="val">from</span> {
+    <span class="prop">opacity</span>: <span class="val">0</span>;
+    <span class="prop">transform</span>: <span class="val">translateY(20px)</span>;
+  }
+  <span class="val">to</span> {
+    <span class="prop">opacity</span>: <span class="val">1</span>;
+    <span class="prop">transform</span>: <span class="val">translateY(0)</span>;
+  }
+}
+
+<span class="cm">/* 2. Appliquer l'animation */</span>
+<span class="sel">.carte</span> {
+  <span class="prop">animation</span>: <span class="val">slideUp 0.4s ease both</span>;
+  <span class="cm">/* nom  duree  timing  fill-mode */</span>
+}
+
+<span class="cm">/* Animation avec etapes en % */</span>
+@<span class="sel">keyframes</span> <span class="prop">pulse</span> {
+  <span class="val">0%, 100%</span> { <span class="prop">transform</span>: <span class="val">scale(1)</span>; <span class="prop">opacity</span>: <span class="val">1</span>; }
+  <span class="val">50%</span>       { <span class="prop">transform</span>: <span class="val">scale(1.06)</span>; <span class="prop">opacity</span>: <span class="val">0.8</span>; }
+}
+<span class="sel">.badge-krt</span> {
+  <span class="prop">animation</span>: <span class="val">pulse 2s ease infinite</span>; <span class="cm">/* Boucle infinie */</span>
+}
+
+<span class="cm">/* Skeleton loading */</span>
+@<span class="sel">keyframes</span> <span class="prop">shimmer</span> {
+  <span class="val">0%</span>   { <span class="prop">background-position</span>: <span class="val">-200% 0</span>; }
+  <span class="val">100%</span> { <span class="prop">background-position</span>: <span class="val">200% 0</span>; }
+}
+<span class="sel">.skeleton</span> {
+  <span class="prop">background</span>: <span class="val">linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)</span>;
+  <span class="prop">background-size</span>: <span class="val">200% 100%</span>;
+  <span class="prop">animation</span>: <span class="val">shimmer 1.5s infinite</span>;
+}</pre></div></div>
+    <div class="anim-demo-grid">
+      <div class="anim-card" onclick="playAnim(this,'fadeInUp',0.6)">
+        <div class="anim-el" id="anim1"></div>
+        <div style="font-size:13px;font-weight:500;margin-top:8px">fadeInUp</div>
+        <div class="anim-label">Clique pour jouer</div>
+      </div>
+      <div class="anim-card" onclick="playAnim(this,'pulse',2)">
+        <div class="anim-el" id="anim2" style="animation:pulse 2s ease infinite"></div>
+        <div style="font-size:13px;font-weight:500;margin-top:8px">pulse infinite</div>
+        <div class="anim-label">En boucle</div>
+      </div>
+      <div class="anim-card" onclick="playAnim(this,'spin',1)">
+        <div class="anim-el" id="anim3" style="border-radius:50%"></div>
+        <div style="font-size:13px;font-weight:500;margin-top:8px">rotate</div>
+        <div class="anim-label">Clique pour jouer</div>
+      </div>
+      <div class="anim-card">
+        <div style="width:100%;height:48px;border-radius:12px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite"></div>
+        <div style="font-size:13px;font-weight:500;margin-top:8px">shimmer</div>
+        <div class="anim-label">Skeleton loading</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">Animations avancees — <em>controle total avec animation.</em></span>
+      <p>La propriete animation est un raccourci pour plusieurs sous-proprietes. Tu peux controler la direction, le mode de remplissage, le delai, et meme enchainner plusieurs animations.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — animation proprietes detaillees</div></div>
+    <div class="code-body"><pre><span class="cm">/* Raccourci complet */</span>
+<span class="sel">.el</span> {
+  <span class="prop">animation</span>: <span class="val">slideUp 0.4s ease 0.1s both</span>;
+  <span class="cm">/* nom duree timing delai fill-mode */</span>
+}
+
+<span class="cm">/* Proprietes separees */</span>
+<span class="sel">.el</span> {
+  <span class="prop">animation-name</span>: <span class="val">slideUp</span>;
+  <span class="prop">animation-duration</span>: <span class="val">0.4s</span>;
+  <span class="prop">animation-timing-function</span>: <span class="val">ease</span>;
+  <span class="prop">animation-delay</span>: <span class="val">0.1s</span>;          <span class="cm">/* Delai avant de commencer */</span>
+  <span class="prop">animation-fill-mode</span>: <span class="val">both</span>;       <span class="cm">/* Garde style initial et final */</span>
+  <span class="prop">animation-iteration-count</span>: <span class="val">1</span>;    <span class="cm">/* Ou 'infinite' */</span>
+  <span class="prop">animation-direction</span>: <span class="val">normal</span>;     <span class="cm">/* Ou 'reverse', 'alternate' */</span>
+  <span class="prop">animation-play-state</span>: <span class="val">running</span>;   <span class="cm">/* Ou 'paused' pour mettre en pause */</span>
+}
+
+<span class="cm">/* Plusieurs animations */</span>
+<span class="sel">.el</span> {
+  <span class="prop">animation</span>: <span class="val">slideUp 0.4s ease, pulse 2s ease 0.5s infinite</span>;
+}
+
+<span class="cm">/* ACCESSIBILITE — respecter les preferences */</span>
+@<span class="sel">media</span> (<span class="prop">prefers-reduced-motion</span>: <span class="val">reduce</span>) {
+  <span class="sel">*</span> {
+    <span class="prop">animation-duration</span>: <span class="val">0.01ms !important</span>;
+    <span class="prop">transition-duration</span>: <span class="val">0.01ms !important</span>;
+  }
+}</pre></div></div>
+    <div class="hl"><span class="hlt">animation-fill-mode: both</span>both est presque toujours ce que tu veux. "both" = l'element garde le style du premier keyframe avant de commencer (forward), et garde le style du dernier keyframe apres la fin (backwards). Sans ca, l'element revient a son etat initial apres l'animation — ce qui cause un saut visuel desagreable.</div>
+    <div class="fun-fact"><div class="ff-icon">♿</div><div><div class="ff-title">prefers-reduced-motion</div><div class="ff-text">Certains utilisateurs (epileptiques, sensibles aux mouvements, migraineux) peuvent activer "reduire les animations" dans leurs parametres d'accessibilite. La media query prefers-reduced-motion: reduce detecte ce parametre. Bonne pratique : ajoute cette media query dans tous tes CSS pour desactiver ou ralentir les animations pour ces utilisateurs. C'est un geste simple qui peut changer leur experience.</div></div></div>
+  </div>
+
+  <div class="content" id="partie5" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Anime ta page profil</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Ajoute des transitions et animations a ta page profil pour la rendre vivante. Boutons qui reagissent, cards qui se levent, entrees en fade. Mais n'oublies pas prefers-reduced-motion.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton CSS doit avoir</div><ul>
+          <li>transition sur les boutons et liens au :hover (transform + box-shadow)</li>
+          <li>transform: translateY(-Npx) sur les cards au :hover avec transition</li>
+          <li>Un @keyframes d'entree (fadeIn ou slideUp)</li>
+          <li>animation: appliquee sur au moins un element</li>
+          <li>@media (prefers-reduced-motion: reduce) pour l'accessibilite</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="Ecris tes transitions et animations...&#10;&#10;@keyframes fadeIn {&#10;  from { opacity: 0; transform: translateY(16px); }&#10;  to { opacity: 1; transform: translateY(0); }&#10;}&#10;&#10;.page-header {&#10;  animation: fadeIn 0.5s ease both;&#10;}&#10;&#10;.card {&#10;  transition: transform 0.3s ease, box-shadow 0.3s ease;&#10;}&#10;&#10;.card:hover {&#10;  transform: translateY(-4px);&#10;  box-shadow: 0 16px 48px rgba(0,0,0,0.1);&#10;}&#10;&#10;@media (prefers-reduced-motion: reduce) {&#10;  * { animation: none !important; transition: none !important; }&#10;}"></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">CSS · Animations</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur les transitions et animations CSS ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+<script>
+var cp=1;var tp=5;
+function switchPartie(n){for(var i=1;i<=tp;i++){var el=document.getElementById('partie'+i);if(el)el.style.display='none';var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');}var t=document.getElementById('partie'+n);if(t)t.style.display='block';var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');cp=n;updateNav();window.scrollTo(0,0);}
+function terminerModule(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['css13']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nextPartie(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['css13']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';document.getElementById('globalFill').style.width=(78+Math.round((cp/tp)*6))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}}
+var speaking=false;
+function toggleListen(){var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');if(!speaking){var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);u.lang='fr-FR';u.rate=0.88;u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';}else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}}
+function updateLive2(){document.getElementById('liveStyle2').textContent=document.getElementById('liveCode2').value;}
+var animTimers={};
+function playAnim(card,name,dur){var el=card.querySelector('.anim-el');if(!el)return;el.style.animation='none';void el.offsetWidth;if(name==='fadeInUp'){el.style.animation='fadeInUp '+dur+'s ease both';}else if(name==='spin'){el.style.animation='spin '+dur+'s linear';}clearTimeout(animTimers[name]);animTimers[name]=setTimeout(function(){if(name!=='pulse')el.style.animation='';},dur*1000);}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){var t=iaInp.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;},600);}
+function getR(q){var q2=q.toLowerCase();if(q2.includes('transition'))return 'transition: propriete duree timing. all 0.2s ease anime tout. Pour les perfs, prefere lister les proprietes specifiques : transition: transform 0.2s ease, box-shadow 0.2s ease. Toujours sur l\'etat de base, pas sur :hover.';if(q2.includes('keyframe'))return '@keyframes nom { from {} to {} } ou avec des pourcentages { 0% {} 50% {} 100% {} }. animation: nom duree timing. Ajoute both pour fill-mode, infinite pour boucler.';if(q2.includes('performance')||q2.includes('fps'))return 'Anime seulement transform et opacity pour 60fps. Ces proprietes sont animees sur le GPU sans recalculer le layout. width, height, top, left, margin forcent un reflow de la page = saccades. Regle : transform pour deplacer/agrandir, opacity pour apparaitre/disparaitre.';return 'transition pour les changements d\'etat (:hover). @keyframes pour les animations independantes. transform pour deplacer/agrandir/tourner. Anime seulement transform et opacity pour les perfs. prefers-reduced-motion pour l\'accessibilite.';}
+iaSend.addEventListener('click',sendIa);iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){var input=document.getElementById('exoInput').value.toLowerCase();var fb=document.getElementById('exoFeedback');var hasTrans=input.includes('transition');var hasTransform=input.includes('transform');var hasKf=input.includes('@keyframes');var hasAnim=input.includes('animation')&&!input.includes('@keyframes animation');var hasA11y=input.includes('prefers-reduced-motion');var score=[hasTrans,hasTransform,hasKf,hasAnim,hasA11y].filter(Boolean).length;if(score>=4){fb.className='exo-feedback ok';fb.innerHTML='Excellent ! Tu sais animer avec CSS. Tes interfaces vont prendre vie et donner une impression de qualite professionnelle.';}else{fb.className='exo-feedback ko';fb.innerHTML='Il manque : '+(hasTrans?'':'transition, ')+(hasTransform?'':'transform au :hover, ')+(hasKf?'':'@keyframes, ')+(hasAnim?'':'animation appliquee, ')+(hasA11y?'':'prefers-reduced-motion.');}fb.style.display='block';}
+function showIndice(){var fb=document.getElementById('exoFeedback');fb.className='exo-feedback ko';fb.innerHTML='@keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }<br>.header { animation: fadeIn 0.5s ease both; }<br>.card { transition: transform 0.3s ease, box-shadow 0.3s ease; }<br>.card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.1); }<br>.btn { transition: all 0.2s ease; }<br>.btn:hover { transform: translateY(-2px); }<br>@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }';fb.style.display='block';}
+updateNav();
+</script>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS — Module 11 — Pseudo-classes — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--code:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.12);color:var(--b1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--b2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(107,31,42,0.04);border-left:3px solid var(--b2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(107,31,42,0.04),rgba(196,98,45,0.04));border:1px solid rgba(107,31,42,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--b1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#252540}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#E0E0FF}
+.sel{color:#9ECE6A}.prop{color:#79B8FF}.val{color:#E8956D}.cm{color:#637777;font-style:italic}
+.demo-live{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.demo-live-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.demo-live-body{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:560px){.demo-live-body{grid-template-columns:1fr}}
+.demo-live-code{background:var(--code);padding:16px}
+.demo-live-code textarea{width:100%;min-height:150px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E0E0FF;resize:none;line-height:1.7}
+.demo-live-preview{background:var(--w);padding:16px;border-left:1px solid var(--line);overflow:hidden}
+.dlp-label{font-size:11px;color:var(--light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+.pseudo-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+@media(max-width:500px){.pseudo-grid{grid-template-columns:1fr}}
+.pseudo-card{padding:16px;border-radius:12px;border:1px solid var(--line);background:var(--w)}
+.pseudo-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:#9ECE6A;background:var(--code);padding:4px 9px;border-radius:7px;display:inline-block;margin-bottom:8px}
+.pseudo-title{font-size:13px;font-weight:500;margin-bottom:4px}
+.pseudo-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(107,31,42,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(107,31,42,0.04);border-bottom:1px solid rgba(107,31,42,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(107,31,42,0.08);color:var(--b2);border:1px solid rgba(107,31,42,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--b2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--b2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:180px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--b2)}
+.exo-actions{display:flex;gap:10px}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(107,31,42,0.06);border:1px solid rgba(107,31,42,0.15);color:var(--b1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(107,31,42,0.25);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(107,31,42,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--b2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(107,31,42,0.05);border-radius:10px 10px 10px 3px;border:1px solid rgba(107,31,42,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--b2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+/* Demo interactive styles */
+.demo-btn{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s ease;display:inline-block;margin:4px}
+.demo-btn:hover{opacity:0.85;transform:translateY(-2px);box-shadow:0 6px 20px rgba(107,31,42,0.3)}
+.demo-btn:active{transform:translateY(0);box-shadow:none}
+.demo-input{padding:10px 14px;border:1px solid var(--line);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.15s,box-shadow 0.15s;width:100%;margin:4px 0;box-sizing:border-box}
+.demo-input:focus{border-color:var(--b2);box-shadow:0 0 0 3px rgba(196,98,45,0.15)}
+.demo-list{list-style:none;margin:8px 0}
+.demo-list li{padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;transition:background 0.15s}
+.demo-list li:last-child{border-bottom:none}
+.demo-list li:hover{background:rgba(107,31,42,0.04)}
+.demo-list li:first-child{font-weight:500;color:var(--b1)}
+.demo-list li:nth-child(even){background:rgba(0,0,0,0.02)}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">CSS — de zero a la maitrise</div>
+    <div class="header-meta">Module 11 · Pseudo-classes et pseudo-elements</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--b2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:66%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">CSS · Module 11</div>
+    <div class="mod-header-title">Pseudo-classes et <em>pseudo-elements.</em></div>
+    <div class="mod-header-sub">Les pseudo-classes selectionnent des elements selon leur etat ou leur position. Les pseudo-elements selectionnent des parties virtuelles d'un element. Ensemble ils permettent des effets avances sans ajouter une seule ligne de HTML.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:25%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/4</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">Pseudo-classes d'etat</div>
+    <div class="partie-tab" onclick="switchPartie(2)">Pseudo-classes structurelles</div>
+    <div class="partie-tab" onclick="switchPartie(3)">::before et ::after</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Exercice</div>
+  </div>
+
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">Les pseudo-classes d'etat — <em>reagir aux interactions sans JavaScript.</em></span>
+      <p>:hover quand la souris est dessus, :focus quand l'element est selectionne au clavier, :active pendant le clic, :disabled quand desactive. Ces pseudo-classes permettent de creer des interfaces interactives en CSS pur.</p>
+    </div>
+    <div class="pseudo-grid">
+      <div class="pseudo-card"><span class="pseudo-tag">:hover</span><div class="pseudo-title">Survol</div><div class="pseudo-desc">Quand la souris est sur l'element. Changement de couleur, elevation, transition.</div></div>
+      <div class="pseudo-card"><span class="pseudo-tag">:focus</span><div class="pseudo-title">Focus clavier</div><div class="pseudo-desc">Quand l'element est actif via clavier ou clic. Indispensable pour l'accessibilite.</div></div>
+      <div class="pseudo-card"><span class="pseudo-tag">:active</span><div class="pseudo-title">Clic</div><div class="pseudo-desc">Pendant le clic. Effet d'appui sur les boutons.</div></div>
+      <div class="pseudo-card"><span class="pseudo-tag">:disabled</span><div class="pseudo-title">Desactive</div><div class="pseudo-desc">Sur les inputs et boutons desactives. opacity + cursor:not-allowed.</div></div>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — Pseudo-classes d'etat</div></div>
+    <div class="code-body"><pre><span class="cm">/* :hover — survol */</span>
+<span class="sel">.btn:hover</span> {
+  <span class="prop">opacity</span>: <span class="val">0.85</span>;
+  <span class="prop">transform</span>: <span class="val">translateY(-2px)</span>;
+  <span class="prop">box-shadow</span>: <span class="val">0 6px 20px rgba(107,31,42,0.3)</span>;
+}
+
+<span class="cm">/* :focus — accessibilite clavier */</span>
+<span class="sel">input:focus</span> {
+  <span class="prop">outline</span>: <span class="val">none</span>;
+  <span class="prop">border-color</span>: <span class="val">#C4622D</span>;
+  <span class="prop">box-shadow</span>: <span class="val">0 0 0 3px rgba(196,98,45,0.15)</span>;
+}
+
+<span class="cm">/* :active — pendant le clic */</span>
+<span class="sel">.btn:active</span> {
+  <span class="prop">transform</span>: <span class="val">translateY(0)</span>;
+  <span class="prop">box-shadow</span>: <span class="val">none</span>;
+}
+
+<span class="cm">/* :disabled — element desactive */</span>
+<span class="sel">button:disabled</span> {
+  <span class="prop">opacity</span>: <span class="val">0.4</span>;
+  <span class="prop">cursor</span>: <span class="val">not-allowed</span>;
+}
+
+<span class="cm">/* :checked — checkbox cochee */</span>
+<span class="sel">input[type="checkbox"]:checked + label</span> {
+  <span class="prop">color</span>: <span class="val">#6B1F2A</span>;
+  <span class="prop">font-weight</span>: <span class="val">500</span>;
+}</pre></div></div>
+    <div style="padding:20px;background:var(--w);border-radius:14px;border:1px solid var(--line);margin:24px 0">
+      <div class="dlp-label" style="font-size:11px;color:var(--light);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.5px">Demo interactive — survole et clique</div>
+      <button class="demo-btn">Bouton avec :hover et :active</button>
+      <button class="demo-btn" disabled style="opacity:0.4;cursor:not-allowed">Bouton :disabled</button>
+      <div style="margin-top:12px">
+        <input class="demo-input" type="text" placeholder="Champ avec :focus (clique ici)">
+      </div>
+    </div>
+    <div class="hl"><span class="hlt">Ne jamais supprimer outline sans remplacer</span>outline:none sur :focus supprime le contour de focus visible. C'est tentant visuellement mais catastrophique pour l'accessibilite — les utilisateurs clavier ne savent plus ou ils sont. Remplaces toujours outline par un box-shadow ou border-color visible. C'est ce que font tous les sites professionnels.</div>
+    <div class="fun-fact"><div class="ff-icon">♿</div><div><div class="ff-title">L'accessibilite commence par :focus</div><div class="ff-text">Des millions d'utilisateurs naviguent sur le web uniquement avec le clavier — malvoyants, personnes avec troubles moteurs, power users. La pseudo-classe :focus est leur seul moyen de savoir ou ils se trouvent sur la page. Les WCAG (directives d'accessibilite du W3C) exigent que tout element interactif ait un style de focus visible. Google, Airbnb, Apple — tous ont des styles :focus soignes.</div></div></div>
+  </div>
+
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">Pseudo-classes structurelles — <em>cibler par position dans le DOM.</em></span>
+      <p>:nth-child, :first-child, :last-child, :not — ces pseudo-classes selectionnent des elements selon leur position dans leur parent. Parfaites pour les tableaux en zebra, les listes, les grilles.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — Pseudo-classes structurelles</div></div>
+    <div class="code-body"><pre><span class="cm">/* Premier et dernier */</span>
+<span class="sel">li:first-child</span> { <span class="prop">font-weight</span>: <span class="val">500</span>; <span class="prop">color</span>: <span class="val">#6B1F2A</span>; }
+<span class="sel">li:last-child</span>  { <span class="prop">border-bottom</span>: <span class="val">none</span>; }
+
+<span class="cm">/* :nth-child — cibler par formule */</span>
+<span class="sel">tr:nth-child(even)</span> { <span class="prop">background</span>: <span class="val">#f5f5f5</span>; } <span class="cm">/* Pairs */</span>
+<span class="sel">tr:nth-child(odd)</span>  { <span class="prop">background</span>: <span class="val">white</span>; }     <span class="cm">/* Impairs */</span>
+<span class="sel">li:nth-child(3)</span>    { <span class="prop">color</span>: <span class="val">red</span>; }             <span class="cm">/* Le 3e */</span>
+<span class="sel">li:nth-child(3n)</span>   { <span class="prop">color</span>: <span class="val">blue</span>; }            <span class="cm">/* 3, 6, 9... */</span>
+
+<span class="cm">/* :not — tous sauf */</span>
+<span class="sel">li:not(:last-child)</span> {
+  <span class="prop">border-bottom</span>: <span class="val">1px solid #EFEFEF</span>;
+}
+
+<span class="cm">/* :only-child — enfant unique */</span>
+<span class="sel">p:only-child</span> { <span class="prop">margin</span>: <span class="val">0</span>; }
+
+<span class="cm">/* :empty — element vide */</span>
+<span class="sel">div:empty</span> { <span class="prop">display</span>: <span class="val">none</span>; }</pre></div></div>
+    <div style="padding:20px;background:var(--w);border-radius:14px;border:1px solid var(--line);margin:24px 0">
+      <div class="dlp-label" style="font-size:11px;color:var(--light);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.5px">Demo — zebra striping avec nth-child</div>
+      <ul class="demo-list" style="border-radius:8px;overflow:hidden;border:1px solid var(--line)">
+        <li>Module 1 — HTML bases (premier enfant en gras)</li>
+        <li>Module 2 — Selecteurs</li>
+        <li>Module 3 — Couleurs et fonds</li>
+        <li>Module 4 — Typographie</li>
+        <li>Module 5 — Box model</li>
+      </ul>
+    </div>
+    <div class="fun-fact"><div class="ff-icon">🎨</div><div><div class="ff-title">nth-child en production</div><div class="ff-text">Les tableaux de donnees financieres sur Bloomberg, les listes de crypto sur CoinGecko, les tables de prix sur AWS — tous utilisent tr:nth-child(even) pour le zebra striping. Ca ameliore la lisibilite sans avoir a ajouter des classes CSS sur chaque ligne HTML. C'est ca l'elegance du CSS structural.</div></div></div>
+  </div>
+
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">::before et ::after — <em>du contenu virtuel sans toucher au HTML.</em></span>
+      <p>::before insere un element virtuel AVANT le contenu d'un element. ::after l'insere APRES. Ces pseudo-elements n'existent pas dans le HTML — ils sont crees par CSS. Parfaits pour les decorations, icones, overlays.</p>
+      <p>La propriete content est obligatoire — meme vide (content: ''). Sans content, le pseudo-element n'existe pas.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CSS — ::before et ::after</div></div>
+    <div class="code-body"><pre><span class="cm">/* Ajouter du contenu textuel */</span>
+<span class="sel">.required::after</span> {
+  <span class="prop">content</span>: <span class="val">' *'</span>;
+  <span class="prop">color</span>: <span class="val">red</span>;
+}
+
+<span class="cm">/* Ligne decorative avant un titre */</span>
+<span class="sel">.section-title::before</span> {
+  <span class="prop">content</span>: <span class="val">''</span>;              <span class="cm">/* Vide mais obligatoire */</span>
+  <span class="prop">display</span>: <span class="val">block</span>;
+  <span class="prop">width</span>: <span class="val">40px</span>;
+  <span class="prop">height</span>: <span class="val">3px</span>;
+  <span class="prop">background</span>: <span class="val">linear-gradient(to right, #6B1F2A, #C4622D)</span>;
+  <span class="prop">margin-bottom</span>: <span class="val">10px</span>;
+  <span class="prop">border-radius</span>: <span class="val">2px</span>;
+}
+
+<span class="cm">/* Overlay sur une image */</span>
+<span class="sel">.card-image</span> { <span class="prop">position</span>: <span class="val">relative</span>; }
+<span class="sel">.card-image::after</span> {
+  <span class="prop">content</span>: <span class="val">''</span>;
+  <span class="prop">position</span>: <span class="val">absolute</span>;
+  <span class="prop">inset</span>: <span class="val">0</span>;               <span class="cm">/* = top:0 right:0 bottom:0 left:0 */</span>
+  <span class="prop">background</span>: <span class="val">linear-gradient(to top, rgba(0,0,0,0.6), transparent)</span>;
+}
+
+<span class="cm">/* Icone avec content */</span>
+<span class="sel">.external-link::after</span> {
+  <span class="prop">content</span>: <span class="val">' →'</span>;
+  <span class="prop">font-size</span>: <span class="val">12px</span>;
+  <span class="prop">opacity</span>: <span class="val">0.6</span>;
+}</pre></div></div>
+    <div class="demo-live">
+      <div class="demo-live-head">⚡ Editeur live — ::before et ::after</div>
+      <div class="demo-live-body">
+        <div class="demo-live-code"><textarea id="liveCode3" oninput="updateLive3()">.titre-deco::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 3px;
+  background: linear-gradient(
+    to right, #6B1F2A, #C4622D
+  );
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+.lien-ext::after {
+  content: ' →';
+  color: #C4622D;
+  font-size: 12px;
+}
+.requis::after {
+  content: ' *';
+  color: red;
+  font-size: 13px;
+}</textarea></div>
+        <div class="demo-live-preview">
+          <div class="dlp-label">Resultat</div>
+          <div id="liveResult3" style="padding:8px">
+            <style id="liveStyle3">.titre-deco::before{content:'';display:block;width:36px;height:3px;background:linear-gradient(to right,#6B1F2A,#C4622D);border-radius:2px;margin-bottom:8px}.lien-ext::after{content:' →';color:#C4622D;font-size:12px}.requis::after{content:' *';color:red;font-size:13px}</style>
+            <div class="titre-deco" style="font-family:'Fraunces',serif;font-size:18px;font-weight:300;margin-bottom:12px">Formation CSS</div>
+            <div style="font-size:13px;margin-bottom:8px"><a class="lien-ext" href="#" style="color:#6B1F2A;text-decoration:none">Voir la documentation</a></div>
+            <div style="font-size:13px"><label class="requis">Email</label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hl"><span class="hlt">position:relative + pseudo-element absolute</span>Le pattern le plus utilise avec ::after : position:relative sur le parent, ::after en position:absolute avec inset:0 pour creer un overlay qui couvre tout l'element. Utile pour les overlays d'images, les effets de hover sur les cartes, les badges qui couvrent un element.</div>
+  </div>
+
+  <div class="content" id="partie4" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Bouton interactif et liste stylisee</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Cree un bouton avec effets complets (:hover, :active, :focus) et une liste stylisee avec des pseudo-classes structurelles et un ::before decoratif.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton CSS doit avoir</div><ul>
+          <li>:hover sur le bouton avec transform et box-shadow</li>
+          <li>:focus avec box-shadow visible (accessibilite)</li>
+          <li>:active pour l'effet de clic</li>
+          <li>:first-child et/ou :last-child sur une liste</li>
+          <li>::before ou ::after avec content defini</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="Ecris tes pseudo-classes et pseudo-elements..."></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">CSS · Pseudo-classes</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur les pseudo-classes et pseudo-elements ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 4</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+<script>
+var cp=1;var tp=4;
+function switchPartie(n){for(var i=1;i<=tp;i++){var el=document.getElementById('partie'+i);if(el)el.style.display='none';var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');}var t=document.getElementById('partie'+n);if(t)t.style.display='block';var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');cp=n;updateNav();window.scrollTo(0,0);}
+function terminerModule(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['css11']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nextPartie(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['css11']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';document.getElementById('globalFill').style.width=(66+Math.round((cp/tp)*6))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}}
+var speaking=false;
+function toggleListen(){var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');if(!speaking){var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);u.lang='fr-FR';u.rate=0.88;u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';}else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}}
+function updateLive3(){document.getElementById('liveStyle3').textContent=document.getElementById('liveCode3').value;}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){var t=iaInp.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;},600);}
+function getR(q){var q2=q.toLowerCase();if(q2.includes('before')&&q2.includes('after'))return '::before insere un element virtuel AVANT le contenu. ::after APRES. content est obligatoire meme si vide. Avec position:relative sur le parent et position:absolute sur ::after, tu peux couvrir tout l\'element (overlay, badge).';if(q2.includes('nth'))return 'nth-child(n) cible le n-ieme enfant. even=pairs, odd=impairs. 3n = chaque 3e (3,6,9...). 3n+1 = 1,4,7... :not(x) cible tous sauf x. :first-child et :last-child ciblent le premier et le dernier.';if(q2.includes('focus'))return ':focus s\'applique quand l\'element est selectionne via clavier ou clic. Ne jamais faire outline:none sans remplacer. Un box-shadow visible est la meilleure alternative : box-shadow: 0 0 0 3px rgba(196,98,45,0.15).';return 'Pseudo-classes : etat (:hover, :focus, :active) et structurelles (:nth-child, :first-child, :not). Pseudo-elements (::): ::before et ::after avec content obligatoire. La difference :: vs : distingue pseudo-elements des pseudo-classes.';}
+iaSend.addEventListener('click',sendIa);iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){var input=document.getElementById('exoInput').value.toLowerCase();var fb=document.getElementById('exoFeedback');var hasHover=input.includes(':hover');var hasFocus=input.includes(':focus');var hasActive=input.includes(':active');var hasStructural=input.includes(':first-child')||input.includes(':last-child')||input.includes(':nth-child')||input.includes(':not(');var hasPseudoEl=(input.includes('::before')||input.includes('::after'))&&input.includes('content');var score=[hasHover,hasFocus,hasActive,hasStructural,hasPseudoEl].filter(Boolean).length;if(score>=4){fb.className='exo-feedback ok';fb.innerHTML='Excellent ! Tu maitrises les pseudo-classes et pseudo-elements. Ces outils permettent des effets avances sans toucher au HTML.';}else{fb.className='exo-feedback ko';fb.innerHTML='Il manque : '+(hasHover?'':':hover, ')+(hasFocus?'':':focus avec box-shadow, ')+(hasActive?'':':active, ')+(hasStructural?'':':first-child ou :nth-child, ')+(hasPseudoEl?'':'::before ou ::after avec content.');}fb.style.display='block';}
+function showIndice(){var fb=document.getElementById('exoFeedback');fb.className='exo-feedback ko';fb.innerHTML='Indice :<br>.btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(107,31,42,0.3); }<br>.btn:focus { outline:none; box-shadow:0 0 0 3px rgba(196,98,45,0.15); }<br>.btn:active { transform:translateY(0); }<br>li:first-child { font-weight:500; }<br>li:not(:last-child) { border-bottom:1px solid #EFEFEF; }<br>.titre::before { content:""; display:block; width:32px; height:3px; background:#C4622D; }';fb.style.display='block';}
+updateNav();
+</script>
+</body>
+</html>
