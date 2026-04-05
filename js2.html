@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS — Module 2 — Variables et types — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--j1:#1A3A6B;--j2:#2563EB;--j3:#60A5FA;--grad:linear-gradient(135deg,#1A3A6B 0%,#2563EB 50%,#60A5FA 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(37,99,235,0.05);border-radius:20px;border:1px solid rgba(37,99,235,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--j2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.12);color:var(--j1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--j2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--j1);font-weight:500;border-bottom-color:var(--j2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(37,99,235,0.04);border-left:3px solid var(--j2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(26,58,107,0.04),rgba(37,99,235,0.04));border:1px solid rgba(37,99,235,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--j1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#161b22}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#E6EDF3}
+.kw{color:#FF7B72}.fn{color:#D2A8FF}.st{color:#A5D6FF}.nm{color:#79C0FF}.cm{color:#8B949E;font-style:italic}.op{color:#FF7B72}.bool{color:#79C0FF}.var{color:#FFA657}
+.types-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:24px 0}
+@media(max-width:500px){.types-grid{grid-template-columns:1fr}}
+.type-card{padding:16px;border-radius:12px;border:1px solid var(--line);background:var(--w)}
+.type-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--j3);background:var(--code);padding:4px 9px;border-radius:7px;display:inline-block;margin-bottom:8px}
+.type-title{font-size:13px;font-weight:500;margin-bottom:4px}
+.type-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.type-example{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--j3);margin-top:6px}
+.demo-live{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.demo-live-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.demo-live-body{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:560px){.demo-live-body{grid-template-columns:1fr}}
+.demo-live-code{background:var(--code);padding:16px}
+.demo-live-code textarea{width:100%;min-height:150px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E6EDF3;resize:none;line-height:1.8}
+.demo-live-preview{background:var(--w);padding:16px;border-left:1px solid var(--line);overflow:hidden}
+.dlp-label{font-size:11px;color:var(--light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+.console-out{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);line-height:1.7;min-height:60px;white-space:pre-wrap;word-break:break-all}
+.console-line{padding:3px 0;border-bottom:1px solid var(--line)}.console-line:last-child{border-bottom:none}
+.console-line.log{color:var(--text)}.console-line.err{color:#FF5F57}.console-line.warn{color:#FFBD2E}
+.run-btn{margin-top:10px;padding:7px 16px;background:var(--grad);color:white;border:none;border-radius:16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(37,99,235,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(37,99,235,0.04);border-bottom:1px solid rgba(37,99,235,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(37,99,235,0.08);color:var(--j2);border:1px solid rgba(37,99,235,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--j2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:180px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--j2)}
+.exo-actions{display:flex;gap:10px}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);color:var(--j1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(37,99,235,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--j2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(37,99,235,0.05);border-radius:10px 10px 10px 3px;border:1px solid rgba(37,99,235,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--j2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">JavaScript — de zero a la maitrise</div>
+    <div class="header-meta">Module 2 · Variables et types</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--j2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:16%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">JavaScript · Module 2</div>
+    <div class="mod-header-title">Variables et <em>types.</em></div>
+    <div class="mod-header-sub">Une variable c'est une boite avec un nom et une valeur. JavaScript a sept types de donnees fondamentaux. Comprendre comment stocker et manipuler les donnees c'est la base de toute logique de programmation.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">let, const, var</div>
+    <div class="partie-tab" onclick="switchPartie(2)">Les types primitifs</div>
+    <div class="partie-tab" onclick="switchPartie(3)">Strings</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Template literals</div>
+    <div class="partie-tab" onclick="switchPartie(5)">Exercice</div>
+  </div>
+
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">let, const et var — <em>declarer des variables.</em></span>
+      <p>En JavaScript moderne tu declares des variables avec let ou const. let pour une valeur qui peut changer. const pour une valeur fixe. var est l'ancienne syntaxe — evite-la, elle a des comportements surprenants.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — let et const</div></div>
+    <div class="code-body"><pre><span class="cm">// const — valeur constante (ne peut pas changer)</span>
+<span class="kw">const</span> <span class="var">nom</span> <span class="op">=</span> <span class="st">'Valentin'</span>;
+<span class="kw">const</span> <span class="var">prixBTC</span> <span class="op">=</span> <span class="nm">65000</span>;
+<span class="kw">const</span> <span class="var">PI</span> <span class="op">=</span> <span class="nm">3.14159</span>;
+
+<span class="cm">// let — valeur variable (peut changer)</span>
+<span class="kw">let</span> <span class="var">score</span> <span class="op">=</span> <span class="nm">0</span>;
+<span class="var">score</span> <span class="op">=</span> <span class="nm">42</span>;          <span class="cm">// OK — let peut etre reassigne</span>
+
+<span class="kw">let</span> <span class="var">estConnecte</span> <span class="op">=</span> <span class="bool">false</span>;
+<span class="var">estConnecte</span> <span class="op">=</span> <span class="bool">true</span>; <span class="cm">// OK</span>
+
+<span class="cm">// const ne peut pas etre reassigne</span>
+<span class="cm">// prixBTC = 70000; → TypeError !</span>
+
+<span class="cm">// Regles de nommage</span>
+<span class="kw">const</span> <span class="var">maVariable</span> <span class="op">=</span> <span class="nm">1</span>;  <span class="cm">// camelCase — convention JS</span>
+<span class="kw">const</span> <span class="var">MA_CONSTANTE</span> <span class="op">=</span> <span class="nm">1</span>; <span class="cm">// UPPER_SNAKE pour constantes globales</span>
+<span class="cm">// Pas d'espaces, pas de tirets, pas commencer par un chiffre</span></pre></div></div>
+    <div class="hl"><span class="hlt">const par defaut, let si necessaire</span>La bonne pratique : utilise toujours const en premier. Si tu te rends compte que la valeur doit changer, passe en let. Ca force a reflechir a la mutabilite des donnees et reduit les bugs. En pratique, environ 80% des variables d'un code propre sont des const.</div>
+    <div class="fun-fact"><div class="ff-icon">⚠️</div><div><div class="ff-title">Pourquoi eviter var</div><div class="ff-text">var a deux problemes majeurs. 1) Le hoisting : var est "hissee" en haut de la fonction, ce qui cree des comportements contre-intuitifs. 2) La portee : var ignore les blocs if et for — elle est accessible partout dans la fonction. let et const ont une portee de bloc, ce qui est plus logique. Depuis ES6 (2015), il n'y a aucune raison d'utiliser var dans du code moderne.</div></div></div>
+  </div>
+
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">JavaScript a <em>7 types de donnees fondamentaux.</em></span>
+      <p>Chaque valeur en JavaScript a un type. Le type determine ce qu'on peut faire avec la valeur. Connaitre les types c'est indispensable pour comprendre pourquoi certaines operations marchent et d'autres pas.</p>
+    </div>
+    <div class="types-grid">
+      <div class="type-card"><span class="type-tag">string</span><div class="type-title">Chaine de caracteres</div><div class="type-desc">Du texte entre guillemets simples, doubles, ou backticks.</div><div class="type-example">'Kora' "Bitcoin" `prix: ${p}`</div></div>
+      <div class="type-card"><span class="type-tag">number</span><div class="type-title">Nombre</div><div class="type-desc">Entiers et decimaux. Un seul type pour les deux.</div><div class="type-example">42  3.14  -7  1_000_000</div></div>
+      <div class="type-card"><span class="type-tag">boolean</span><div class="type-title">Booleen</div><div class="type-desc">true ou false. La base de toute logique conditionnelle.</div><div class="type-example">true  false</div></div>
+      <div class="type-card"><span class="type-tag">null</span><div class="type-title">Null</div><div class="type-desc">Absence intentionnelle de valeur. "Pas de valeur, intentionnellement."</div><div class="type-example">null</div></div>
+      <div class="type-card"><span class="type-tag">undefined</span><div class="type-title">Undefined</div><div class="type-desc">Variable declaree mais sans valeur assignee.</div><div class="type-example">let x; // x est undefined</div></div>
+      <div class="type-card"><span class="type-tag">object</span><div class="type-title">Objet</div><div class="type-desc">Collection de paires cle:valeur. Les tableaux sont aussi des objets.</div><div class="type-example">{nom: 'BTC', prix: 65000}</div></div>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — typeof</div></div>
+    <div class="code-body"><pre><span class="cm">// typeof retourne le type d'une valeur</span>
+<span class="kw">typeof</span> <span class="st">'Kora'</span>      <span class="cm">// → 'string'</span>
+<span class="kw">typeof</span> <span class="nm">65000</span>      <span class="cm">// → 'number'</span>
+<span class="kw">typeof</span> <span class="bool">true</span>       <span class="cm">// → 'boolean'</span>
+<span class="kw">typeof</span> <span class="kw">null</span>       <span class="cm">// → 'object' (bug historique de JS !)</span>
+<span class="kw">typeof</span> <span class="kw">undefined</span>  <span class="cm">// → 'undefined'</span>
+<span class="kw">typeof</span> {}         <span class="cm">// → 'object'</span>
+<span class="kw">typeof</span> []         <span class="cm">// → 'object'</span>
+<span class="kw">typeof</span> <span class="kw">function</span>(){} <span class="cm">// → 'function'</span>
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="st">'42'</span> <span class="op">===</span> <span class="st">'string'</span>); <span class="cm">// → true</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="nm">42</span> <span class="op">===</span> <span class="st">'number'</span>);   <span class="cm">// → true</span></pre></div></div>
+    <div class="hl"><span class="hlt">typeof null === 'object'</span>C'est un bug historique de JavaScript qui n'a jamais ete corrige pour ne pas casser le code existant. Pour verifier si quelque chose est null, utilise valeur === null plutot que typeof valeur === 'null'.</div>
+  </div>
+
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">Les strings — <em>manipuler le texte en JavaScript.</em></span>
+      <p>Les strings sont partout — noms d'utilisateur, messages, donnees venant d'APIs, contenu HTML. JavaScript a des dizaines de methodes pour les manipuler. Les plus utiles sont length, toUpperCase, toLowerCase, includes, slice, split, trim, replace.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Methodes de string</div></div>
+    <div class="code-body"><pre><span class="kw">const</span> <span class="var">crypto</span> <span class="op">=</span> <span class="st">'Bitcoin'</span>;
+
+<span class="cm">// Longueur</span>
+<span class="var">crypto</span>.<span class="fn">length</span>           <span class="cm">// → 7</span>
+
+<span class="cm">// Casse</span>
+<span class="var">crypto</span>.<span class="fn">toUpperCase</span>()    <span class="cm">// → 'BITCOIN'</span>
+<span class="var">crypto</span>.<span class="fn">toLowerCase</span>()    <span class="cm">// → 'bitcoin'</span>
+
+<span class="cm">// Chercher</span>
+<span class="var">crypto</span>.<span class="fn">includes</span>(<span class="st">'coin'</span>) <span class="cm">// → true</span>
+<span class="var">crypto</span>.<span class="fn">startsWith</span>(<span class="st">'Bit'</span>)<span class="cm">// → true</span>
+<span class="var">crypto</span>.<span class="fn">indexOf</span>(<span class="st">'t'</span>)     <span class="cm">// → 3 (position du 't')</span>
+
+<span class="cm">// Extraire</span>
+<span class="var">crypto</span>.<span class="fn">slice</span>(<span class="nm">0</span>, <span class="nm">3</span>)      <span class="cm">// → 'Bit' (de 0 a 3 exclu)</span>
+<span class="var">crypto</span>.<span class="fn">slice</span>(<span class="nm">-4</span>)        <span class="cm">// → 'coin' (4 depuis la fin)</span>
+
+<span class="cm">// Remplacer</span>
+<span class="var">crypto</span>.<span class="fn">replace</span>(<span class="st">'Bit'</span>, <span class="st">'Alt'</span>) <span class="cm">// → 'Altcoin'</span>
+
+<span class="cm">// Supprimer espaces</span>
+<span class="st">'  kora  '</span>.<span class="fn">trim</span>()       <span class="cm">// → 'kora'</span>
+
+<span class="cm">// Diviser en tableau</span>
+<span class="st">'BTC,ETH,SOL'</span>.<span class="fn">split</span>(<span class="st">','</span>) <span class="cm">// → ['BTC', 'ETH', 'SOL']</span></pre></div></div>
+    <div class="demo-live">
+      <div class="demo-live-head">⚡ Console live — joue avec les strings</div>
+      <div class="demo-live-body">
+        <div class="demo-live-code">
+          <textarea id="liveCode3">const ticker = 'bitcoin';
+console.log(ticker.toUpperCase());
+console.log(ticker.length);
+console.log(ticker.includes('coin'));
+console.log(ticker.slice(0, 3));
+console.log('BTC,ETH,SOL'.split(','));</textarea>
+          <button class="run-btn" onclick="runCode('liveCode3','out3')">▶ Executer</button>
+        </div>
+        <div class="demo-live-preview">
+          <div class="dlp-label">Console</div>
+          <div class="console-out" id="out3"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fun-fact"><div class="ff-icon">📌</div><div><div class="ff-title">Les strings sont immutables</div><div class="ff-text">Quand tu appelles crypto.toUpperCase(), tu n'as pas modifie la variable crypto — tu as cree une nouvelle string. Les strings JavaScript sont immutables : leurs methodes retournent toujours de nouvelles valeurs sans modifier l'original. Si tu veux la version uppercase, tu dois la stocker : const cryptoMaj = crypto.toUpperCase().</div></div></div>
+  </div>
+
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">Template literals — <em>construire des strings dynamiques.</em></span>
+      <p>Les template literals (backticks `) permettent d'inserer des variables directement dans une string avec ${variable}. Plus lisible que la concatenation avec +, et supportent les strings multiligne nativement.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Template literals</div></div>
+    <div class="code-body"><pre><span class="kw">const</span> <span class="var">prenom</span> <span class="op">=</span> <span class="st">'Valentin'</span>;
+<span class="kw">const</span> <span class="var">krt</span> <span class="op">=</span> <span class="nm">248</span>;
+<span class="kw">const</span> <span class="var">btc</span> <span class="op">=</span> <span class="nm">65000</span>;
+
+<span class="cm">// Concatenation classique (ancien style)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Bonjour '</span> <span class="op">+</span> <span class="var">prenom</span> <span class="op">+</span> <span class="st">', tu as '</span> <span class="op">+</span> <span class="var">krt</span> <span class="op">+</span> <span class="st">' KRT'</span>);
+
+<span class="cm">// Template literal (moderne, recommande)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="st">`Bonjour ${<span class="var">prenom</span>}, tu as ${<span class="var">krt</span>} KRT`</span>);
+
+<span class="cm">// Expressions dans ${}</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="st">`BTC : ${<span class="var">btc</span>.<span class="fn">toLocaleString</span>(<span class="st">'fr-FR'</span>)} €`</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="st">`Double KRT : ${<span class="var">krt</span> <span class="op">*</span> <span class="nm">2</span>}`</span>);
+
+<span class="cm">// Multilignes</span>
+<span class="kw">const</span> <span class="var">message</span> <span class="op">=</span> <span class="st">`
+  Bienvenue ${<span class="var">prenom</span>} !
+  Solde : ${<span class="var">krt</span>} KRT
+  BTC : ${<span class="var">btc</span>} $
+`</span>;
+
+<span class="cm">// Construire du HTML dynamiquement</span>
+<span class="kw">const</span> <span class="var">html</span> <span class="op">=</span> <span class="st">`&lt;div class="card"&gt;
+  &lt;h3&gt;${<span class="var">prenom</span>}&lt;/h3&gt;
+  &lt;p&gt;${<span class="var">krt</span>} KRT&lt;/p&gt;
+&lt;/div&gt;`</span>;</pre></div></div>
+    <div class="demo-live">
+      <div class="demo-live-head">⚡ Console live — template literals</div>
+      <div class="demo-live-body">
+        <div class="demo-live-code">
+          <textarea id="liveCode4">const crypto = 'Bitcoin';
+const prix = 65000;
+const variation = 3.2;
+
+const message = `${crypto} : ${prix.toLocaleString('fr-FR')} $
+Variation 24h : +${variation}%
+Capitalisation : ${(prix * 19700000).toLocaleString('fr-FR')} $`;
+
+console.log(message);</textarea>
+          <button class="run-btn" onclick="runCode('liveCode4','out4')">▶ Executer</button>
+        </div>
+        <div class="demo-live-preview">
+          <div class="dlp-label">Console</div>
+          <div class="console-out" id="out4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content" id="partie5" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Tableau de bord crypto avec variables</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Cree les variables d'un tableau de bord crypto et construis des messages avec template literals.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton code doit</div><ul>
+          <li>Declarer au moins 4 variables avec const (nom crypto, prix, quantite, symbole)</li>
+          <li>Declarer au moins 1 variable avec let (ex: estEnHausse = true)</li>
+          <li>Utiliser typeof sur au moins une variable</li>
+          <li>Construire un message avec template literal qui affiche prix et valeur totale</li>
+          <li>Utiliser une methode de string (toUpperCase, includes, ou autre)</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="// Tableau de bord crypto&#10;const crypto = 'Bitcoin';&#10;const prix = 65000;&#10;const quantite = 0.5;&#10;let estEnHausse = true;&#10;&#10;console.log(typeof prix);&#10;console.log(`${crypto.toUpperCase()} : ${prix} $`);&#10;console.log(`Valeur : ${prix * quantite} $`);"></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">JS · Variables</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur les variables JS ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=5;
+function switchPartie(n){for(var i=1;i<=tp;i++){var el=document.getElementById('partie'+i);if(el)el.style.display='none';var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');}var t=document.getElementById('partie'+n);if(t)t.style.display='block';var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');cp=n;updateNav();window.scrollTo(0,0);}
+function terminerModule(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js2']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nextPartie(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js2']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';document.getElementById('globalFill').style.width=(16+Math.round((cp/tp)*8))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}}
+var speaking=false;
+function toggleListen(){var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');if(!speaking){var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);u.lang='fr-FR';u.rate=0.88;u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';}else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}}
+function runCode(codeId, outId){
+  var code=document.getElementById(codeId).value;
+  var out=document.getElementById(outId);out.innerHTML='';
+  var logs=[];
+  var fakeConsole={log:function(){logs.push({t:'log',v:Array.from(arguments).map(function(a){return typeof a==='object'?JSON.stringify(a):String(a);}).join(' ')});},warn:function(){logs.push({t:'warn',v:Array.from(arguments).join(' ')});},error:function(){logs.push({t:'err',v:Array.from(arguments).join(' ')});},clear:function(){logs=[];}};
+  try{var fn=new Function('console',code);fn(fakeConsole);}catch(e){logs.push({t:'err',v:'Erreur: '+e.message});}
+  logs.forEach(function(l){var d=document.createElement('div');d.className='console-line '+l.t;d.textContent=(l.t==='warn'?'⚠ ':l.t==='err'?'✕ ':'')+l.v;out.appendChild(d);});
+  if(!logs.length){var d=document.createElement('div');d.className='console-line log';d.textContent='(aucune sortie)';out.appendChild(d);}
+}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){var t=iaInp.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;},600);}
+function getR(q){var q2=q.toLowerCase();if(q2.includes('const')&&q2.includes('let'))return 'const = valeur fixe qui ne peut pas etre reassignee. let = valeur variable qui peut changer. Utilise const par defaut, let seulement si la valeur doit changer. var est obsolete depuis ES6 2015 — evite-la.';if(q2.includes('template')||q2.includes('backtick')||q2.includes('`'))return 'Template literals = backticks ` au lieu de guillemets. Tu inseres des variables avec ${nomVariable}. Tu peux mettre n\'importe quelle expression dans ${} : ${prix * 0.1} calcule et insere le resultat. Multilignes supportees nativement.';if(q2.includes('typeof'))return 'typeof variable retourne le type sous forme de string : "string", "number", "boolean", "undefined", "object", "function". Attention : typeof null retourne "object" — c\'est un bug historique. Pour verifier null : valeur === null.';return 'Variables JS : const pour les valeurs fixes, let pour les valeurs qui changent. 7 types : string, number, boolean, null, undefined, object, symbol. Template literals avec backticks et ${} pour les strings dynamiques.';}
+iaSend.addEventListener('click',sendIa);iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){var input=document.getElementById('exoInput').value.toLowerCase();var fb=document.getElementById('exoFeedback');var hasConst=(input.match(/const /g)||[]).length>=4;var hasLet=input.includes('let ');var hasTypeof=input.includes('typeof');var hasTemplate=input.includes('`')&&input.includes('${');var hasMethod=input.includes('.touppercase')||input.includes('.includes')||input.includes('.length')||input.includes('.slice')||input.includes('.replace');var score=[hasConst,hasLet,hasTypeof,hasTemplate,hasMethod].filter(Boolean).length;if(score>=4){fb.className='exo-feedback ok';fb.innerHTML='Excellent ! Tu maitrises const, let, typeof et les template literals. Ce sont les bases de tout code JS.';}else{fb.className='exo-feedback ko';fb.innerHTML='Il manque : '+(hasConst?'':'4 variables const, ')+(hasLet?'':'une variable let, ')+(hasTypeof?'':'typeof, ')+(hasTemplate?'':'template literal avec ${}, ')+(hasMethod?'':'une methode de string.');}fb.style.display='block';}
+function showIndice(){var fb=document.getElementById('exoFeedback');fb.className='exo-feedback ko';fb.innerHTML='Indice :<br>const crypto = "Bitcoin";<br>const prix = 65000;<br>const quantite = 0.5;<br>const symbole = "BTC";<br>let estEnHausse = true;<br>console.log(typeof prix); // "number"<br>console.log(`${crypto.toUpperCase()} : ${prix} $`);<br>console.log(`Valeur totale : ${prix * quantite} $`);';fb.style.display='block';}
+updateNav();
+</script>
+</body>
+</html>

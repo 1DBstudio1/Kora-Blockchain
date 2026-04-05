@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS — Module 7 — Le DOM — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--j1:#1A3A6B;--j2:#2563EB;--j3:#60A5FA;--grad:linear-gradient(135deg,#1A3A6B 0%,#2563EB 50%,#60A5FA 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(37,99,235,0.05);border-radius:20px;border:1px solid rgba(37,99,235,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--j2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.12);color:var(--j1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--j2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--j1);font-weight:500;border-bottom-color:var(--j2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(37,99,235,0.04);border-left:3px solid var(--j2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(26,58,107,0.04),rgba(37,99,235,0.04));border:1px solid rgba(37,99,235,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--j1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#161b22}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#E6EDF3}
+.kw{color:#FF7B72}.fn{color:#D2A8FF}.st{color:#A5D6FF}.nm{color:#79C0FF}.cm{color:#8B949E;font-style:italic}.op{color:#FF7B72}.bool{color:#79C0FF}.var{color:#FFA657}
+/* DOM demo interactive */
+.dom-demo{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.dom-demo-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.dom-demo-body{padding:20px;background:var(--w)}
+.dom-preview{background:var(--bg);border-radius:10px;padding:16px;margin-bottom:12px;min-height:80px}
+.dom-controls{display:flex;gap:8px;flex-wrap:wrap}
+.dom-btn{padding:8px 14px;border-radius:16px;border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.15s}
+.dom-btn-primary{background:var(--grad);color:white}
+.dom-btn-secondary{background:rgba(37,99,235,0.08);color:var(--j1);border:1px solid rgba(37,99,235,0.15)}
+.dom-btn-danger{background:rgba(255,95,87,0.08);color:#C0392B;border:1px solid rgba(255,95,87,0.2)}
+.dom-input{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;flex:1;min-width:120px}
+.dom-input:focus{border-color:var(--j2)}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(37,99,235,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(37,99,235,0.04);border-bottom:1px solid rgba(37,99,235,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(37,99,235,0.08);color:var(--j2);border:1px solid rgba(37,99,235,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--j2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:220px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--j2)}
+.exo-actions{display:flex;gap:10px}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);color:var(--j1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(37,99,235,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--j2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(37,99,235,0.05);border-radius:10px 10px 10px 3px;border:1px solid rgba(37,99,235,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--j2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">JavaScript — de zero a la maitrise</div>
+    <div class="header-meta">Module 7 · Le DOM</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--j2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:56%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">JavaScript · Module 7</div>
+    <div class="mod-header-title">Le <em>DOM.</em></div>
+    <div class="mod-header-sub">Le DOM (Document Object Model) c'est la representation du HTML en JavaScript. Tu peux lire, modifier, creer et supprimer des elements HTML depuis JS. C'est la connexion entre ton code et ce que l'utilisateur voit.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">Selectionner des elements</div>
+    <div class="partie-tab" onclick="switchPartie(2)">Lire et modifier</div>
+    <div class="partie-tab" onclick="switchPartie(3)">Creer et inserer</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Classes et styles</div>
+    <div class="partie-tab" onclick="switchPartie(5)">Exercice</div>
+  </div>
+
+  <!-- PARTIE 1 -->
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">Selectionner des elements — <em>document.querySelector.</em></span>
+      <p>Avant de modifier un element HTML, tu dois d'abord le selectionner. querySelector utilise la meme syntaxe que CSS — c'est le sélecteur le plus utilise. querySelectorAll retourne tous les elements correspondants.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Selectionner des elements</div></div>
+    <div class="code-body"><pre><span class="cm">// querySelector — premier element correspondant</span>
+<span class="kw">const</span> <span class="var">titre</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'h1'</span>);
+<span class="kw">const</span> <span class="var">prix</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#prix-btc'</span>);
+<span class="kw">const</span> <span class="var">card</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'.card'</span>);
+<span class="kw">const</span> <span class="var">btn</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'.nav .btn-primary'</span>);
+
+<span class="cm">// querySelectorAll — tous les elements (NodeList)</span>
+<span class="kw">const</span> <span class="var">cards</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelectorAll</span>(<span class="st">'.card'</span>);
+<span class="kw">const</span> <span class="var">liens</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelectorAll</span>(<span class="st">'a'</span>);
+
+<span class="cm">// Parcourir un NodeList</span>
+<span class="var">cards</span>.<span class="fn">forEach</span>(<span class="var">card</span> <span class="op">=></span> {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">card</span>.<span class="var">textContent</span>);
+});
+
+<span class="cm">// Anciennes methodes (toujours utilisees)</span>
+<span class="kw">const</span> <span class="var">el</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="st">'mon-id'</span>);
+<span class="kw">const</span> <span class="var">els</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">getElementsByClassName</span>(<span class="st">'ma-classe'</span>);
+
+<span class="cm">// Si rien ne correspond → null (toujours verifier !)</span>
+<span class="kw">const</span> <span class="var">el</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#inexistant'</span>);
+<span class="kw">if</span> (<span class="var">el</span>) { <span class="cm">/* faire quelque chose */</span> }</pre></div></div>
+    <div class="hl"><span class="hlt">querySelector utilise la syntaxe CSS</span>C'est le point le plus important : querySelector('#id'), querySelector('.classe'), querySelector('div > p'), querySelector('[data-type="crypto"]'). Toutes les combinaisons CSS fonctionnent. C'est pourquoi apprendre CSS avant JS est si important.</div>
+    <div class="fun-fact"><div class="ff-icon">🌳</div><div><div class="ff-title">C'est quoi le DOM</div><div class="ff-text">Le DOM (Document Object Model) est une representation en arbre de ton HTML. Chaque balise est un "noeud". document est la racine. document.body est le body. Quand le navigateur charge ton HTML, il construit ce arbre en memoire. JS peut lire et modifier cet arbre, et le navigateur re-affiche automatiquement ce qui a change. C'est la magie des pages dynamiques.</div></div></div>
+  </div>
+
+  <!-- PARTIE 2 -->
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">Lire et modifier le contenu — <em>textContent et innerHTML.</em></span>
+      <p>Une fois l'element selectionne, tu peux lire ou modifier son contenu avec textContent (texte pur) ou innerHTML (HTML). Pour les attributs, getAttribute et setAttribute. Pour le style inline, element.style.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Lire et modifier</div></div>
+    <div class="code-body"><pre><span class="kw">const</span> <span class="var">el</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#prix'</span>);
+
+<span class="cm">// Lire le contenu</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="var">el</span>.<span class="var">textContent</span>); <span class="cm">// Texte pur</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="var">el</span>.<span class="var">innerHTML</span>);   <span class="cm">// HTML avec balises</span>
+
+<span class="cm">// Modifier le contenu</span>
+<span class="var">el</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">'65 000 $'</span>;
+<span class="var">el</span>.<span class="var">innerHTML</span> <span class="op">=</span> <span class="st">'&lt;strong&gt;65 000 $&lt;/strong&gt; 🚀'</span>;
+
+<span class="cm">// Attributs</span>
+<span class="var">el</span>.<span class="fn">getAttribute</span>(<span class="st">'data-crypto'</span>);
+<span class="var">el</span>.<span class="fn">setAttribute</span>(<span class="st">'data-prix'</span>, <span class="nm">65000</span>);
+<span class="var">el</span>.<span class="fn">removeAttribute</span>(<span class="st">'disabled'</span>);
+
+<span class="cm">// Style inline</span>
+<span class="var">el</span>.<span class="var">style</span>.<span class="var">color</span> <span class="op">=</span> <span class="st">'#28CA41'</span>;
+<span class="var">el</span>.<span class="var">style</span>.<span class="var">fontSize</span> <span class="op">=</span> <span class="st">'24px'</span>;
+<span class="var">el</span>.<span class="var">style</span>.<span class="var">display</span> <span class="op">=</span> <span class="st">'none'</span>;
+
+<span class="cm">// Valeur d'un input</span>
+<span class="kw">const</span> <span class="var">input</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'input'</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="var">input</span>.<span class="var">value</span>); <span class="cm">// Lire la valeur</span>
+<span class="var">input</span>.<span class="var">value</span> <span class="op">=</span> <span class="st">'65000'</span>;   <span class="cm">// Modifier la valeur</span></pre></div></div>
+    <div class="dom-demo">
+      <div class="dom-demo-head">⚡ Demo interactive — modifie le DOM en live</div>
+      <div class="dom-demo-body">
+        <div class="dom-preview">
+          <div id="demo-prix" style="font-family:'Fraunces',serif;font-size:28px;font-weight:300;margin-bottom:6px">65 000 $</div>
+          <div id="demo-signal" style="font-size:13px;color:var(--muted)">Signal : HOLD</div>
+        </div>
+        <div class="dom-controls">
+          <button class="dom-btn dom-btn-primary" onclick="demoHausse()">📈 Simuler hausse</button>
+          <button class="dom-btn dom-btn-danger" onclick="demoBaisse()">📉 Simuler baisse</button>
+          <button class="dom-btn dom-btn-secondary" onclick="demoReset()">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+    <div class="hl"><span class="hlt">textContent vs innerHTML</span>Utilise textContent pour le texte pur — c'est plus sur car il n'interprete pas le HTML (protection XSS). Utilise innerHTML seulement si tu dois inserer du vrai HTML. Ne jamais mettre innerHTML = donneeUtilisateur directement — c'est une faille de securite majeure (XSS). Utilise textContent pour les donnees venant des utilisateurs.</div>
+  </div>
+
+  <!-- PARTIE 3 -->
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">Creer et inserer des elements — <em>construire le HTML depuis JS.</em></span>
+      <p>Tu peux creer des elements HTML depuis scratch avec createElement, leur ajouter du contenu et des attributs, puis les inserer dans la page. C'est comme ca qu'on genere dynamiquement des listes de cards, des lignes de tableau, des notifications.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Creer et inserer</div></div>
+    <div class="code-body"><pre><span class="cm">// Creer un element</span>
+<span class="kw">const</span> <span class="var">card</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">createElement</span>(<span class="st">'div'</span>);
+<span class="var">card</span>.<span class="var">className</span> <span class="op">=</span> <span class="st">'card'</span>;
+<span class="var">card</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">'Bitcoin'</span>;
+
+<span class="cm">// Inserer dans le DOM</span>
+<span class="kw">const</span> <span class="var">liste</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'.liste'</span>);
+<span class="var">liste</span>.<span class="fn">appendChild</span>(<span class="var">card</span>);      <span class="cm">// A la fin</span>
+<span class="var">liste</span>.<span class="fn">prepend</span>(<span class="var">card</span>);          <span class="cm">// Au debut</span>
+<span class="var">liste</span>.<span class="fn">insertAdjacentElement</span>(  <span class="cm">// Position precise</span>
+  <span class="st">'beforeend'</span>, <span class="var">card</span>
+);
+
+<span class="cm">// Methode moderne — innerHTML (pour HTML complexe)</span>
+<span class="kw">const</span> <span class="fn">creerCard</span> <span class="op">=</span> (<span class="var">crypto</span>) <span class="op">=></span> <span class="st">`
+  &lt;div class="card"&gt;
+    &lt;h3&gt;${<span class="var">crypto</span>.<span class="var">ticker</span>}&lt;/h3&gt;
+    &lt;p&gt;${<span class="var">crypto</span>.<span class="var">prix</span>} $&lt;/p&gt;
+  &lt;/div&gt;
+`</span>;
+
+<span class="kw">const</span> <span class="var">portfolio</span> <span class="op">=</span> [
+  { <span class="var">ticker</span>: <span class="st">'BTC'</span>, <span class="var">prix</span>: <span class="nm">65000</span> },
+  { <span class="var">ticker</span>: <span class="st">'ETH'</span>, <span class="var">prix</span>: <span class="nm">3200</span> },
+];
+<span class="kw">const</span> <span class="var">container</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#container'</span>);
+<span class="var">container</span>.<span class="var">innerHTML</span> <span class="op">=</span> <span class="var">portfolio</span>.<span class="fn">map</span>(<span class="fn">creerCard</span>).<span class="fn">join</span>(<span class="st">''</span>);
+
+<span class="cm">// Supprimer un element</span>
+<span class="var">card</span>.<span class="fn">remove</span>(); <span class="cm">// Supprime l'element du DOM</span></pre></div></div>
+    <div class="dom-demo">
+      <div class="dom-demo-head">⚡ Demo — generation dynamique de cards</div>
+      <div class="dom-demo-body">
+        <div class="dom-preview" id="demo-cards-container" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+        <div class="dom-controls">
+          <button class="dom-btn dom-btn-primary" onclick="ajouterCard()">+ Ajouter crypto</button>
+          <button class="dom-btn dom-btn-danger" onclick="supprimerCard()">− Supprimer</button>
+        </div>
+      </div>
+    </div>
+    <div class="fun-fact"><div class="ff-icon">⚡</div><div><div class="ff-title">innerHTML vs createElement</div><div class="ff-text">innerHTML est plus rapide a ecrire mais moins sur (risque XSS si les donnees viennent d'un utilisateur). createElement est plus verbeux mais securise et performant pour les grandes listes. La bonne pratique : innerHTML avec des template literals pour du HTML statique ou des donnees controlees, createElement pour les donnees utilisateur.</div></div></div>
+  </div>
+
+  <!-- PARTIE 4 -->
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">Manipuler les classes — <em>classList, la bonne pratique.</em></span>
+      <p>Plutot que de modifier element.style directement (style inline), la bonne pratique est de manipuler les classes CSS avec classList. Tu gardes la separation HTML/CSS/JS et ton code est bien plus maintenable.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — classList</div></div>
+    <div class="code-body"><pre><span class="kw">const</span> <span class="var">card</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'.card'</span>);
+
+<span class="cm">// Ajouter une classe</span>
+<span class="var">card</span>.<span class="var">classList</span>.<span class="fn">add</span>(<span class="st">'active'</span>);
+<span class="var">card</span>.<span class="var">classList</span>.<span class="fn">add</span>(<span class="st">'featured'</span>, <span class="st">'highlight'</span>);
+
+<span class="cm">// Supprimer une classe</span>
+<span class="var">card</span>.<span class="var">classList</span>.<span class="fn">remove</span>(<span class="st">'active'</span>);
+
+<span class="cm">// Toggle — ajoute si absente, supprime si presente</span>
+<span class="var">card</span>.<span class="var">classList</span>.<span class="fn">toggle</span>(<span class="st">'dark'</span>);
+
+<span class="cm">// Verifier si une classe est presente</span>
+<span class="var">card</span>.<span class="var">classList</span>.<span class="fn">contains</span>(<span class="st">'active'</span>); <span class="cm">// → true/false</span>
+
+<span class="cm">// Remplacer une classe</span>
+<span class="var">card</span>.<span class="var">classList</span>.<span class="fn">replace</span>(<span class="st">'hold'</span>, <span class="st">'buy'</span>);
+
+<span class="cm">// En pratique — afficher/cacher un menu</span>
+<span class="kw">const</span> <span class="var">menu</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'.menu'</span>);
+<span class="kw">const</span> <span class="var">btn</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'.burger'</span>);
+
+btn.<span class="fn">addEventListener</span>(<span class="st">'click'</span>, () <span class="op">=></span> {
+  <span class="var">menu</span>.<span class="var">classList</span>.<span class="fn">toggle</span>(<span class="st">'open'</span>);
+});</pre></div></div>
+    <div class="dom-demo">
+      <div class="dom-demo-head">⚡ Demo — classList.toggle en action</div>
+      <div class="dom-demo-body">
+        <div class="dom-preview">
+          <div id="demo-toggle-card" style="padding:14px;border-radius:10px;background:white;border:2px solid #EFEFEF;font-size:14px;transition:all 0.3s;display:inline-block">
+            <span id="demo-toggle-text">BTC — HOLD</span>
+          </div>
+        </div>
+        <div class="dom-controls">
+          <button class="dom-btn dom-btn-primary" onclick="toggleBuy()">Toggle BUY</button>
+          <button class="dom-btn dom-btn-danger" onclick="toggleSell()">Toggle SELL</button>
+          <button class="dom-btn dom-btn-secondary" onclick="toggleReset()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTIE 5 -->
+  <div class="content" id="partie5" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Tableau de bord DOM</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Ecris le JS qui manipule le DOM pour afficher un mini tableau de bord crypto. Le code s'applique a une page HTML avec des elements deja en place.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton code doit</div><ul>
+          <li>Selectionner des elements avec querySelector et querySelectorAll</li>
+          <li>Modifier textContent ou innerHTML d'au moins 3 elements</li>
+          <li>Creer et inserer dynamiquement des elements avec createElement ou innerHTML</li>
+          <li>Utiliser classList.add, remove ou toggle</li>
+          <li>Modifier un style ou attribut via JS</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="// Selectionner les elements&#10;const titreEl = document.querySelector('#titre');&#10;const prixEl = document.querySelector('#prix');&#10;const container = document.querySelector('.cards');&#10;&#10;// Modifier le contenu&#10;titreEl.textContent = 'Mon Portfolio';&#10;prixEl.innerHTML = '&lt;strong&gt;65 000 $&lt;/strong&gt;';&#10;&#10;// Generer des cards&#10;const cryptos = ['BTC', 'ETH', 'SOL'];&#10;container.innerHTML = cryptos.map(c =>&#10;  `&lt;div class=&quot;card&quot;&gt;${c}&lt;/div&gt;`&#10;).join('');&#10;&#10;// Manipuler classes&#10;document.querySelector('.card').classList.add('active');&#10;document.querySelector('.btn').classList.toggle('loading');"></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">JS · DOM</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur le DOM JS ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=5;
+function switchPartie(n){for(var i=1;i<=tp;i++){var el=document.getElementById('partie'+i);if(el)el.style.display='none';var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');}var t=document.getElementById('partie'+n);if(t)t.style.display='block';var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');cp=n;updateNav();window.scrollTo(0,0);}
+function terminerModule(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js7']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nextPartie(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js7']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';document.getElementById('globalFill').style.width=(56+Math.round((cp/tp)*8))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}}
+var speaking=false;
+function toggleListen(){var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');if(!speaking){var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);u.lang='fr-FR';u.rate=0.88;u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';}else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}}
+// Demo partie 2
+var demoBase=65000;
+function demoHausse(){var n=demoBase*(1+Math.random()*0.05);demoBase=Math.round(n);var p=document.getElementById('demo-prix');var s=document.getElementById('demo-signal');p.textContent=demoBase.toLocaleString('fr-FR')+' $';p.style.color='#28CA41';s.textContent='Signal : BUY 🚀';s.style.color='#28CA41';}
+function demoBaisse(){var n=demoBase*(1-Math.random()*0.05);demoBase=Math.round(n);var p=document.getElementById('demo-prix');var s=document.getElementById('demo-signal');p.textContent=demoBase.toLocaleString('fr-FR')+' $';p.style.color='#FF5F57';s.textContent='Signal : SELL 📉';s.style.color='#FF5F57';}
+function demoReset(){demoBase=65000;var p=document.getElementById('demo-prix');var s=document.getElementById('demo-signal');p.textContent='65 000 $';p.style.color='var(--text)';s.textContent='Signal : HOLD';s.style.color='var(--muted)';}
+// Demo partie 3
+var cryptoList=['BTC','ETH','SOL','XRP','BNB','SUI','TAO'];var cryptoIdx=0;
+function ajouterCard(){if(cryptoIdx>=cryptoList.length)cryptoIdx=0;var c=cryptoList[cryptoIdx++];var div=document.createElement('div');div.style.cssText='padding:10px 14px;border-radius:8px;background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.15);font-size:13px;font-weight:500;color:var(--j1);cursor:pointer';div.textContent=c;div.onclick=function(){this.remove();};document.getElementById('demo-cards-container').appendChild(div);}
+function supprimerCard(){var c=document.getElementById('demo-cards-container');if(c.lastChild)c.lastChild.remove();}
+// Demo partie 4
+function toggleBuy(){var c=document.getElementById('demo-toggle-card');var t=document.getElementById('demo-toggle-text');c.style.borderColor='#28CA41';c.style.background='rgba(40,202,65,0.08)';t.textContent='BTC — BUY 🚀';}
+function toggleSell(){var c=document.getElementById('demo-toggle-card');var t=document.getElementById('demo-toggle-text');c.style.borderColor='#FF5F57';c.style.background='rgba(255,95,87,0.08)';t.textContent='BTC — SELL 📉';}
+function toggleReset(){var c=document.getElementById('demo-toggle-card');var t=document.getElementById('demo-toggle-text');c.style.borderColor='#EFEFEF';c.style.background='white';t.textContent='BTC — HOLD';}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){var t=iaInp.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;},600);}
+function getR(q){var q2=q.toLowerCase();if(q2.includes('queryselector'))return 'querySelector retourne le PREMIER element qui correspond au selecteur CSS. querySelectorAll retourne TOUS les elements sous forme de NodeList. Si rien ne correspond : null. Toujours verifier if(el) avant de modifier pour eviter les erreurs.';if(q2.includes('innerhtml')||q2.includes('textcontent'))return 'textContent pour le texte pur — plus sur. innerHTML pour inserer du vrai HTML. Ne jamais faire innerHTML = donneeUtilisateur directement (risque XSS). Pour les donnees venant des users, utilise toujours textContent.';if(q2.includes('classlist'))return 'classList.add("classe") ajoute. classList.remove("classe") supprime. classList.toggle("classe") ajoute si absente, supprime si presente. classList.contains("classe") retourne true/false. C\'est la bonne pratique — garder les styles dans le CSS.';if(q2.includes('createelement'))return 'const el = document.createElement("div") cree un element HTML. Ensuite el.textContent = "...", el.className = "...", el.setAttribute(...). Puis parent.appendChild(el) pour l\'inserer. Ou parent.innerHTML = template literal pour du HTML complexe.';return 'DOM : document.querySelector(css) pour selectionner. element.textContent ou innerHTML pour lire/modifier. element.classList.add/remove/toggle pour les classes. document.createElement pour creer. parent.appendChild pour inserer.';}
+iaSend.addEventListener('click',sendIa);iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){var input=document.getElementById('exoInput').value.toLowerCase();var fb=document.getElementById('exoFeedback');var hasSelect=input.includes('queryselector');var hasModify=input.includes('textcontent')||input.includes('innerhtml');var hasCreate=input.includes('createelement')||input.includes('.map(');var hasClasslist=input.includes('classlist');var hasStyle=input.includes('.style')||input.includes('setattribute')||input.includes('.value');var score=[hasSelect,hasModify,hasCreate,hasClasslist,hasStyle].filter(Boolean).length;if(score>=4){fb.className='exo-feedback ok';fb.innerHTML='Parfait ! Tu sais manipuler le DOM — selectionner, modifier, creer et styler des elements. C\'est la base de toute interface interactive.';}else{fb.className='exo-feedback ko';fb.innerHTML='Il manque : '+(hasSelect?'':'querySelector, ')+(hasModify?'':'textContent ou innerHTML, ')+(hasCreate?'':'createElement ou generation dynamique, ')+(hasClasslist?'':'classList, ')+(hasStyle?'':'.style ou setAttribute.');}fb.style.display='block';}
+function showIndice(){var fb=document.getElementById('exoFeedback');fb.className='exo-feedback ko';fb.innerHTML='const titre = document.querySelector("#titre");<br>const container = document.querySelector(".cards");<br>titre.textContent = "Mon Portfolio";<br>const cryptos = ["BTC","ETH","SOL"];<br>container.innerHTML = cryptos.map(c => `&lt;div class="card"&gt;${c}&lt;/div&gt;`).join("");<br>document.querySelector(".card").classList.add("active");<br>document.querySelector(".btn").style.display = "none";';fb.style.display='block';}
+updateNav();
+</script>
+</body>
+</html>

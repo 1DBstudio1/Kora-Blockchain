@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS — Module 3 — Operateurs et conditions — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--j1:#1A3A6B;--j2:#2563EB;--j3:#60A5FA;--grad:linear-gradient(135deg,#1A3A6B 0%,#2563EB 50%,#60A5FA 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(37,99,235,0.05);border-radius:20px;border:1px solid rgba(37,99,235,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--j2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.12);color:var(--j1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--j2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--j1);font-weight:500;border-bottom-color:var(--j2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(37,99,235,0.04);border-left:3px solid var(--j2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(26,58,107,0.04),rgba(37,99,235,0.04));border:1px solid rgba(37,99,235,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--j1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#161b22}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#E6EDF3}
+.kw{color:#FF7B72}.fn{color:#D2A8FF}.st{color:#A5D6FF}.nm{color:#79C0FF}.cm{color:#8B949E;font-style:italic}.op{color:#FF7B72}.bool{color:#79C0FF}.var{color:#FFA657}
+.demo-live{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.demo-live-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.demo-live-body{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:560px){.demo-live-body{grid-template-columns:1fr}}
+.demo-live-code{background:var(--code);padding:16px}
+.demo-live-code textarea{width:100%;min-height:150px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E6EDF3;resize:none;line-height:1.8}
+.demo-live-preview{background:var(--w);padding:16px;border-left:1px solid var(--line);overflow:hidden}
+.dlp-label{font-size:11px;color:var(--light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+.console-out{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);line-height:1.7;min-height:60px;white-space:pre-wrap;word-break:break-all}
+.console-line{padding:3px 0;border-bottom:1px solid var(--line)}.console-line:last-child{border-bottom:none}
+.console-line.log{color:var(--text)}.console-line.err{color:#FF5F57}.console-line.warn{color:#FFBD2E}
+.run-btn{margin-top:10px;padding:7px 16px;background:var(--grad);color:white;border:none;border-radius:16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(37,99,235,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(37,99,235,0.04);border-bottom:1px solid rgba(37,99,235,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(37,99,235,0.08);color:var(--j2);border:1px solid rgba(37,99,235,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--j2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:200px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--j2)}
+.exo-actions{display:flex;gap:10px}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);color:var(--j1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(37,99,235,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--j2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(37,99,235,0.05);border-radius:10px 10px 10px 3px;border:1px solid rgba(37,99,235,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--j2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">JavaScript — de zero a la maitrise</div>
+    <div class="header-meta">Module 3 · Operateurs et conditions</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--j2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:24%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">JavaScript · Module 3</div>
+    <div class="mod-header-title">Operateurs et <em>conditions.</em></div>
+    <div class="mod-header-sub">Les operateurs permettent de comparer et combiner des valeurs. Les conditions (if/else, switch, ternaire) permettent d'executer du code differemment selon les situations. C'est la logique de base de tout programme.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">Operateurs</div>
+    <div class="partie-tab" onclick="switchPartie(2)">Comparaisons</div>
+    <div class="partie-tab" onclick="switchPartie(3)">if / else if / else</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Ternaire et switch</div>
+    <div class="partie-tab" onclick="switchPartie(5)">Exercice</div>
+  </div>
+
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">Les operateurs — <em>calculer et manipuler des valeurs.</em></span>
+      <p>Les operateurs arithmetiques (+, -, *, /, %) fonctionnent comme en mathematiques. Les operateurs d'assignation raccourcissent le code. Les operateurs logiques (&&, ||, !) combinent des conditions.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Operateurs</div></div>
+    <div class="code-body"><pre><span class="cm">// Operateurs arithmetiques</span>
+<span class="kw">const</span> <span class="var">prix</span> <span class="op">=</span> <span class="nm">65000</span>;
+<span class="kw">const</span> <span class="var">quantite</span> <span class="op">=</span> <span class="nm">0.5</span>;
+
+<span class="var">prix</span> <span class="op">+</span> <span class="nm">1000</span>    <span class="cm">// → 66000 (addition)</span>
+<span class="var">prix</span> <span class="op">-</span> <span class="nm">5000</span>    <span class="cm">// → 60000 (soustraction)</span>
+<span class="var">prix</span> <span class="op">*</span> <span class="var">quantite</span> <span class="cm">// → 32500 (multiplication)</span>
+<span class="var">prix</span> <span class="op">/</span> <span class="nm">2</span>        <span class="cm">// → 32500 (division)</span>
+<span class="nm">65003</span> <span class="op">%</span> <span class="nm">1000</span>   <span class="cm">// → 3 (modulo = reste)</span>
+<span class="nm">2</span> <span class="op">**</span> <span class="nm">10</span>         <span class="cm">// → 1024 (puissance)</span>
+
+<span class="cm">// Operateurs d'assignation</span>
+<span class="kw">let</span> <span class="var">krt</span> <span class="op">=</span> <span class="nm">248</span>;
+<span class="var">krt</span> <span class="op">+=</span> <span class="nm">5</span>;   <span class="cm">// krt = krt + 5 = 253</span>
+<span class="var">krt</span> <span class="op">-=</span> <span class="nm">10</span>;  <span class="cm">// krt = krt - 10 = 243</span>
+<span class="var">krt</span> <span class="op">*=</span> <span class="nm">2</span>;   <span class="cm">// krt = krt * 2 = 486</span>
+<span class="var">krt</span><span class="op">++</span>;      <span class="cm">// krt = krt + 1 (increment)</span>
+<span class="var">krt</span><span class="op">--</span>;      <span class="cm">// krt = krt - 1 (decrement)</span>
+
+<span class="cm">// Operateurs logiques</span>
+<span class="bool">true</span> <span class="op">&&</span> <span class="bool">true</span>   <span class="cm">// → true  (ET — les deux)</span>
+<span class="bool">true</span> <span class="op">||</span> <span class="bool">false</span>  <span class="cm">// → true  (OU — au moins un)</span>
+<span class="op">!</span><span class="bool">true</span>          <span class="cm">// → false (NON — inverse)</span></pre></div></div>
+    <div class="demo-live">
+      <div class="demo-live-head">⚡ Console live — calculs crypto</div>
+      <div class="demo-live-body">
+        <div class="demo-live-code">
+          <textarea id="liveCode1">const prix = 65000;
+const quantite = 0.25;
+let krt = 248;
+
+console.log('Valeur portfolio:', prix * quantite, '$');
+console.log('Frais 0.1%:', prix * 0.001, '$');
+
+krt += 5;
+console.log('KRT apres bonus:', krt);
+
+// Modulo utile pour alterner
+for(let i=0;i<4;i++){
+  console.log(i % 2 === 0 ? 'pair' : 'impair');
+}</textarea>
+          <button class="run-btn" onclick="runCode('liveCode1','out1')">▶ Executer</button>
+        </div>
+        <div class="demo-live-preview"><div class="dlp-label">Console</div><div class="console-out" id="out1"></div></div>
+      </div>
+    </div>
+    <div class="fun-fact"><div class="ff-icon">🔢</div><div><div class="ff-title">Le modulo en trading</div><div class="ff-text">L'operateur modulo (%) retourne le reste d'une division. 65003 % 1000 = 3 (les centimes apres les milliers). En trading ca sert a calculer les niveaux de support sur des chiffres ronds, a faire des barres de progression (valeur % max), ou a alterner des elements (index % 2 === 0 pour les pairs). C'est aussi la base de la cryptographie — le chiffrement RSA repose entierement sur des modulos de grands nombres.</div></div></div>
+  </div>
+
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">Comparaisons — <em>=== pas ==.</em></span>
+      <p>Les operateurs de comparaison retournent un booleen (true ou false). La regle la plus importante : utilise toujours === (egalite stricte) au lieu de == (egalite laxiste). == fait de la coercition de type et produit des resultats surprenants.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Comparaisons</div></div>
+    <div class="code-body"><pre><span class="cm">// Comparaisons de base</span>
+<span class="nm">65000</span> <span class="op">></span> <span class="nm">60000</span>   <span class="cm">// → true  (superieur)</span>
+<span class="nm">65000</span> <span class="op"><</span> <span class="nm">70000</span>   <span class="cm">// → true  (inferieur)</span>
+<span class="nm">65000</span> <span class="op">>=</span> <span class="nm">65000</span>  <span class="cm">// → true  (superieur ou egal)</span>
+<span class="nm">65000</span> <span class="op"><=</span> <span class="nm">64999</span>  <span class="cm">// → false (inferieur ou egal)</span>
+
+<span class="cm">// === (strict) vs == (laxiste)</span>
+<span class="nm">42</span> <span class="op">===</span> <span class="nm">42</span>     <span class="cm">// → true  (meme valeur, meme type)</span>
+<span class="st">'42'</span> <span class="op">===</span> <span class="nm">42</span>  <span class="cm">// → false (string != number)</span>
+<span class="st">'42'</span> <span class="op">==</span> <span class="nm">42</span>   <span class="cm">// → true  (== convertit les types !)</span>
+<span class="nm">0</span> <span class="op">==</span> <span class="bool">false</span>   <span class="cm">// → true  (bug potentiel !)</span>
+<span class="nm">0</span> <span class="op">===</span> <span class="bool">false</span>  <span class="cm">// → false (correct)</span>
+
+<span class="cm">// Inequalite</span>
+<span class="nm">42</span> <span class="op">!==</span> <span class="nm">43</span>    <span class="cm">// → true  (different strict)</span>
+<span class="nm">42</span> <span class="op">!=</span> <span class="nm">43</span>     <span class="cm">// → true  (evite aussi)</span>
+
+<span class="cm">// Combiner avec &&, ||</span>
+<span class="kw">const</span> <span class="var">prix</span> <span class="op">=</span> <span class="nm">65000</span>;
+<span class="var">prix</span> <span class="op">></span> <span class="nm">60000</span> <span class="op">&&</span> <span class="var">prix</span> <span class="op"><</span> <span class="nm">70000</span>  <span class="cm">// → true (entre 60k et 70k)</span>
+<span class="var">prix</span> <span class="op"><</span> <span class="nm">50000</span> <span class="op">||</span> <span class="var">prix</span> <span class="op">></span> <span class="nm">80000</span>  <span class="cm">// → false (pas extremes)</span></pre></div></div>
+    <div class="hl"><span class="hlt">Toujours === et !==</span>Le double egal == fait de la coercition de type : il convertit les valeurs avant de comparer. Ca cree des bugs tres difficiles a debugger. La regle simple : utilise toujours === et !==. C'est la convention de tous les linters (ESLint) et des projets serieux.</div>
+  </div>
+
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">if / else if / else — <em>prendre des decisions.</em></span>
+      <p>if execute du code si une condition est vraie. else si elle est fausse. else if pour tester plusieurs conditions en cascade. C'est la structure de controle la plus fondamentale de la programmation.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — if / else</div></div>
+    <div class="code-body"><pre><span class="kw">const</span> <span class="var">prix</span> <span class="op">=</span> <span class="nm">65000</span>;
+<span class="kw">const</span> <span class="var">objectif</span> <span class="op">=</span> <span class="nm">70000</span>;
+<span class="kw">const</span> <span class="var">stopLoss</span> <span class="op">=</span> <span class="nm">60000</span>;
+
+<span class="cm">// if simple</span>
+<span class="kw">if</span> (<span class="var">prix</span> <span class="op">>=</span> <span class="var">objectif</span>) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Objectif atteint — take profit'</span>);
+}
+
+<span class="cm">// if / else</span>
+<span class="kw">if</span> (<span class="var">prix</span> <span class="op">>=</span> <span class="var">objectif</span>) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Take profit'</span>);
+} <span class="kw">else</span> {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Position ouverte'</span>);
+}
+
+<span class="cm">// if / else if / else</span>
+<span class="kw">if</span> (<span class="var">prix</span> <span class="op">>=</span> <span class="var">objectif</span>) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Vendre — objectif atteint'</span>);
+} <span class="kw">else if</span> (<span class="var">prix</span> <span class="op"><=</span> <span class="var">stopLoss</span>) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Stop loss — couper la perte'</span>);
+} <span class="kw">else</span> {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">`Prix : ${<span class="var">prix</span>} — position maintenue`</span>);
+}
+
+<span class="cm">// Conditions multiples</span>
+<span class="kw">const</span> <span class="var">krt</span> <span class="op">=</span> <span class="nm">250</span>;
+<span class="kw">const</span> <span class="var">estActif</span> <span class="op">=</span> <span class="bool">true</span>;
+
+<span class="kw">if</span> (<span class="var">krt</span> <span class="op">>=</span> <span class="nm">200</span> <span class="op">&&</span> <span class="var">estActif</span>) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Eligible a la certification'</span>);
+}</pre></div></div>
+    <div class="demo-live">
+      <div class="demo-live-head">⚡ Console live — logique de trading</div>
+      <div class="demo-live-body">
+        <div class="demo-live-code">
+          <textarea id="liveCode3">const prix = 65000;
+const objectif = 70000;
+const stopLoss = 60000;
+const variation24h = -2.3;
+
+if (prix >= objectif) {
+  console.log('🎯 Take profit');
+} else if (prix <= stopLoss) {
+  console.log('🛑 Stop loss');
+} else {
+  console.log(`⏳ En position : ${prix} $`);
+}
+
+if (variation24h < -5) {
+  console.log('⚠️ Forte baisse — surveiller');
+} else if (variation24h > 5) {
+  console.log('🚀 Forte hausse — surveiller');
+} else {
+  console.log(`📊 Variation normale : ${variation24h}%`);
+}</textarea>
+          <button class="run-btn" onclick="runCode('liveCode3','out3')">▶ Executer</button>
+        </div>
+        <div class="demo-live-preview"><div class="dlp-label">Console</div><div class="console-out" id="out3"></div></div>
+      </div>
+    </div>
+    <div class="fun-fact"><div class="ff-icon">🧠</div><div><div class="ff-title">Truthy et Falsy</div><div class="ff-text">En JavaScript, les conditions ne doivent pas etre strictement true ou false. if(valeur) evalue valeur comme truthy ou falsy. Falsy : 0, '', null, undefined, NaN, false. Tout le reste est truthy. Exemple : if(krt) execute si krt n'est pas 0 ou null. if(nom) execute si nom n'est pas une string vide. C'est tres utilise pour tester si quelque chose "existe".</div></div></div>
+  </div>
+
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">Ternaire et switch — <em>des conditions plus concises.</em></span>
+      <p>L'operateur ternaire condense un if/else en une ligne. switch compare une valeur contre plusieurs cas. Les deux ont des situations ou ils sont plus lisibles que if/else.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Ternaire et switch</div></div>
+    <div class="code-body"><pre><span class="cm">// Ternaire : condition ? siVrai : siFaux</span>
+<span class="kw">const</span> <span class="var">prix</span> <span class="op">=</span> <span class="nm">65000</span>;
+<span class="kw">const</span> <span class="var">signal</span> <span class="op">=</span> <span class="var">prix</span> <span class="op">></span> <span class="nm">70000</span> <span class="op">?</span> <span class="st">'SELL'</span> <span class="op">:</span> <span class="st">'HOLD'</span>;
+<span class="cm">// Si prix > 70000 → 'SELL', sinon → 'HOLD'</span>
+
+<span class="cm">// Dans un template literal</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="st">`Signal : ${<span class="var">prix</span> <span class="op">></span> <span class="nm">70000</span> <span class="op">?</span> <span class="st">'SELL'</span> <span class="op">:</span> <span class="st">'HOLD'</span>}`</span>);
+
+<span class="cm">// Switch — comparer contre plusieurs cas</span>
+<span class="kw">const</span> <span class="var">crypto</span> <span class="op">=</span> <span class="st">'BTC'</span>;
+
+<span class="kw">switch</span> (<span class="var">crypto</span>) {
+  <span class="kw">case</span> <span class="st">'BTC'</span>:
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Bitcoin — 65 000 $'</span>);
+    <span class="kw">break</span>;
+  <span class="kw">case</span> <span class="st">'ETH'</span>:
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Ethereum — 3 200 $'</span>);
+    <span class="kw">break</span>;
+  <span class="kw">case</span> <span class="st">'SOL'</span>:
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Solana — 170 $'</span>);
+    <span class="kw">break</span>;
+  <span class="kw">default</span>:
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Crypto inconnue'</span>);
+}
+
+<span class="cm">// Nullish coalescing ?? — valeur par defaut</span>
+<span class="kw">const</span> <span class="var">prixAPI</span> <span class="op">=</span> <span class="kw">null</span>;
+<span class="kw">const</span> <span class="var">prixAffiche</span> <span class="op">=</span> <span class="var">prixAPI</span> <span class="op">??</span> <span class="st">'Chargement...'</span>;
+<span class="cm">// → 'Chargement...' (si prixAPI est null ou undefined)</span></pre></div></div>
+    <div class="hl"><span class="hlt">Le ?? nullish coalescing</span>?? retourne la valeur de droite seulement si la valeur de gauche est null ou undefined. Contrairement a ||, il ne se declenche pas pour 0 ou false. Parfait pour les valeurs par defaut : const krt = donneesUtilisateur.krt ?? 0. Si krt est 0 (valeur legitime), || retournerait 0 → faux. ?? retourne 0 correctement.</div>
+  </div>
+
+  <div class="content" id="partie5" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Analyseur de signal de trading</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Ecris un analyseur qui prend un prix d'entree, un objectif et un stop-loss, et affiche le signal correct avec une analyse.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton code doit</div><ul>
+          <li>Declarer prix, objectif, stopLoss, variation24h</li>
+          <li>Utiliser if / else if / else pour determiner le signal (buy/sell/hold)</li>
+          <li>Utiliser un operateur ternaire quelque part</li>
+          <li>Utiliser && ou || dans au moins une condition</li>
+          <li>Afficher un message complet avec template literal</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="const prix = 65000;&#10;const objectif = 72000;&#10;const stopLoss = 60000;&#10;const variation = 2.5;&#10;&#10;// Ton analyseur ici..."></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">JS · Conditions</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur les operateurs et conditions JS ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=5;
+function switchPartie(n){for(var i=1;i<=tp;i++){var el=document.getElementById('partie'+i);if(el)el.style.display='none';var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');}var t=document.getElementById('partie'+n);if(t)t.style.display='block';var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');cp=n;updateNav();window.scrollTo(0,0);}
+function terminerModule(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js3']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nextPartie(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js3']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';document.getElementById('globalFill').style.width=(24+Math.round((cp/tp)*8))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}}
+var speaking=false;
+function toggleListen(){var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');if(!speaking){var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);u.lang='fr-FR';u.rate=0.88;u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';}else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}}
+function runCode(codeId, outId){
+  var code=document.getElementById(codeId).value;
+  var out=document.getElementById(outId);out.innerHTML='';
+  var logs=[];
+  var fakeConsole={log:function(){logs.push({t:'log',v:Array.from(arguments).map(function(a){return typeof a==='object'?JSON.stringify(a):String(a);}).join(' ')});},warn:function(){logs.push({t:'warn',v:Array.from(arguments).join(' ')});},error:function(){logs.push({t:'err',v:Array.from(arguments).join(' ')});},clear:function(){logs=[];}};
+  try{var fn=new Function('console',code);fn(fakeConsole);}catch(e){logs.push({t:'err',v:'Erreur: '+e.message});}
+  logs.forEach(function(l){var d=document.createElement('div');d.className='console-line '+l.t;d.textContent=(l.t==='warn'?'⚠ ':l.t==='err'?'✕ ':'')+l.v;out.appendChild(d);});
+  if(!logs.length){var d=document.createElement('div');d.className='console-line log';d.textContent='(aucune sortie)';out.appendChild(d);}
+}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){var t=iaInp.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;},600);}
+function getR(q){var q2=q.toLowerCase();if(q2.includes('===')||q2.includes('==')||q2.includes('strict'))return '=== (strict) compare valeur ET type : "42" === 42 → false. == (laxiste) convertit les types avant de comparer : "42" == 42 → true. Utilise TOUJOURS === et !== pour eviter les bugs. Les linters comme ESLint signalent == comme une erreur.';if(q2.includes('ternaire')||q2.includes('?'))return 'Ternaire : condition ? siVrai : siFaux. En une ligne. Ex: const signal = prix > 70000 ? "SELL" : "HOLD". Idéal pour les valeurs simples. Evite les ternaires imbriques — pas lisible.';if(q2.includes('switch'))return 'switch compare une valeur contre plusieurs cas avec case. Chaque case doit finir par break sinon l\'execution "tombe" dans le cas suivant. default s\'execute si aucun case ne correspond. Utilise switch quand tu as 3+ comparaisons contre la meme variable.';if(q2.includes('&&')||q2.includes('||'))return '&& (ET) = les DEUX doivent etre vrais. || (OU) = AU MOINS UN doit etre vrai. ! (NON) inverse. Evaluation paresseuse : false && ... n\'evalue pas la droite. true || ... n\'evalue pas la droite.';return 'if(condition){} else if(autre){} else{}. Conditions: >, <, >=, <=, ===, !==. Logique: &&, ||, !. Ternaire: cond ? vrai : faux. Switch pour comparer meme variable a plusieurs valeurs.';}
+iaSend.addEventListener('click',sendIa);iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){var input=document.getElementById('exoInput').value.toLowerCase();var fb=document.getElementById('exoFeedback');var hasVars=input.includes('prix')&&(input.includes('objectif')||input.includes('stoploss')||input.includes('stop_loss'));var hasIfElse=input.includes('if')&&input.includes('else');var hasTernaire=input.includes('?')&&input.includes(':');var hasLogic=input.includes('&&')||input.includes('||');var hasTemplate=input.includes('`')&&input.includes('${');var score=[hasVars,hasIfElse,hasTernaire,hasLogic,hasTemplate].filter(Boolean).length;if(score>=4){fb.className='exo-feedback ok';fb.innerHTML='Parfait ! Tu sais construire une logique conditionnelle complete. C\'est la base de tout algorithme de trading — des conditions empilees qui prennent des decisions.';}else{fb.className='exo-feedback ko';fb.innerHTML='Il manque : '+(hasVars?'':'variables prix/objectif/stopLoss, ')+(hasIfElse?'':'if...else, ')+(hasTernaire?'':'operateur ternaire ?, ')+(hasLogic?'':'&& ou ||, ')+(hasTemplate?'':'template literal ${} ');}fb.style.display='block';}
+function showIndice(){var fb=document.getElementById('exoFeedback');fb.className='exo-feedback ko';fb.innerHTML='Indice :<br>const prix = 65000;<br>const objectif = 72000;<br>const stopLoss = 60000;<br>const variation = 2.5;<br><br>let signal;<br>if (prix >= objectif) { signal = "SELL"; }<br>else if (prix <= stopLoss) { signal = "BUY" ; }<br>else { signal = "HOLD"; }<br><br>const tendance = variation > 0 ? "hausse" : "baisse";<br>console.log(`Signal : ${signal} — marche en ${tendance}`);<br>if (Math.abs(variation) > 5 && signal === "HOLD") { console.warn("Forte volatilite !"); }';fb.style.display='block';}
+updateNav();
+</script>
+</body>
+</html>

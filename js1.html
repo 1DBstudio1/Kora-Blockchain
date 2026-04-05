@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS — Module 1 — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--j1:#1A3A6B;--j2:#2563EB;--j3:#60A5FA;--grad:linear-gradient(135deg,#1A3A6B 0%,#2563EB 50%,#60A5FA 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(37,99,235,0.05);border-radius:20px;border:1px solid rgba(37,99,235,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--j2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.12);color:var(--j1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--j2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--j1);font-weight:500;border-bottom-color:var(--j2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(37,99,235,0.04);border-left:3px solid var(--j2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(26,58,107,0.04),rgba(37,99,235,0.04));border:1px solid rgba(37,99,235,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--j1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#161b22}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#E6EDF3}
+.kw{color:#FF7B72}.fn{color:#D2A8FF}.st{color:#A5D6FF}.nm{color:#79C0FF}.cm{color:#8B949E;font-style:italic}.op{color:#FF7B72}.bool{color:#79C0FF}.var{color:#FFA657}
+.demo-live{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.demo-live-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.demo-live-body{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:560px){.demo-live-body{grid-template-columns:1fr}}
+.demo-live-code{background:var(--code);padding:16px}
+.demo-live-code textarea{width:100%;min-height:140px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E6EDF3;resize:none;line-height:1.8}
+.demo-live-preview{background:var(--w);padding:16px;border-left:1px solid var(--line);overflow:hidden}
+.dlp-label{font-size:11px;color:var(--light);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
+.console-out{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);line-height:1.7;min-height:60px;white-space:pre-wrap;word-break:break-all}
+.console-line{padding:3px 0;border-bottom:1px solid var(--line)}
+.console-line:last-child{border-bottom:none}
+.console-line.log{color:var(--text)}
+.console-line.err{color:#FF5F57}
+.console-line.warn{color:#FFBD2E}
+.run-btn{margin-top:10px;padding:7px 16px;background:var(--grad);color:white;border:none;border-radius:16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(37,99,235,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(37,99,235,0.04);border-bottom:1px solid rgba(37,99,235,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(37,99,235,0.08);color:var(--j2);border:1px solid rgba(37,99,235,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--j2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:160px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--j2)}
+.exo-actions{display:flex;gap:10px}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);color:var(--j1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(37,99,235,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--j2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(37,99,235,0.05);border-radius:10px 10px 10px 3px;border:1px solid rgba(37,99,235,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--j2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">JavaScript — de zero a la maitrise</div>
+    <div class="header-meta">Module 1 · C'est quoi JavaScript</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--j2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:8%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">JavaScript · Module 1</div>
+    <div class="mod-header-title">C'est quoi <em>JavaScript ?</em></div>
+    <div class="mod-header-sub">HTML structure, CSS habille, JavaScript fait agir. C'est le seul langage qui tourne nativement dans le navigateur. Aujourd'hui il tourne aussi cote serveur, dans les applis mobiles, et dans les IA. Le langage le plus deploy au monde.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">Le role de JS</div>
+    <div class="partie-tab" onclick="switchPartie(2)">Comment l'integrer</div>
+    <div class="partie-tab" onclick="switchPartie(3)">console.log</div>
+    <div class="partie-tab" onclick="switchPartie(4)">La console DevTools</div>
+    <div class="partie-tab" onclick="switchPartie(5)">Exercice</div>
+  </div>
+
+  <!-- PARTIE 1 -->
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">HTML structure. CSS habille. <em>JavaScript fait agir.</em></span>
+      <p>JavaScript c'est ce qui rend les pages web interactives. Sans JS, une page web est un document statique — elle s'affiche, point. Avec JS, tu peux repondre aux clics, charger des donnees, animer des elements, valider des formulaires, tout ca sans recharger la page.</p>
+      <p>Quelques exemples concrets de ce que JS fait en ce moment pendant que tu lis ces lignes : la barre de progression en haut qui s'update, le bouton "Ecouter" qui active la synthese vocale, la Kora IA qui repond a tes questions, la sauvegarde de ta progression dans localStorage.</p>
+    </div>
+    <div class="hl"><span class="hlt">Le trio du web</span>HTML = squelette (structure et contenu). CSS = peau (apparence et mise en page). JavaScript = muscles et cerveau (comportement et logique). Les trois fonctionnent ensemble. JS peut lire et modifier le HTML et le CSS en temps reel — c'est ca sa vraie puissance.</div>
+    <div class="fun-fact"><div class="ff-icon">⚡</div><div><div class="ff-title">Cree en 10 jours</div><div class="ff-text">Brendan Eich a cree JavaScript en 10 jours en 1995 pour Netscape. Il s'appelait d'abord Mocha, puis LiveScript, puis JavaScript — un nom marketing pour surfer sur la popularite de Java. Java et JavaScript n'ont aucun rapport, comme car et carpet. Aujourd'hui JavaScript est le langage le plus utilise au monde selon GitHub, et tourne dans les serveurs (Node.js), les apps mobiles (React Native), les extensions de navigateur, et meme les microscontroleurs.</div></div></div>
+  </div>
+
+  <!-- PARTIE 2 -->
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">Trois facons d'integrer JS — <em>une seule est la bonne pratique.</em></span>
+      <p>Comme le CSS, JS peut etre integre de trois facons : fichier externe, balise script dans le HTML, ou inline sur un element. Et comme le CSS, le fichier externe est la bonne pratique en production.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">HTML — Integrer JavaScript</div></div>
+    <div class="code-body"><pre><span class="cm">/* Methode 1 — Fichier externe (recommande) */</span>
+&lt;script src=<span class="st">"script.js"</span> defer&gt;&lt;/script&gt;
+<span class="cm">/* defer = execute apres que le HTML est parse */</span>
+<span class="cm">/* Mettre juste avant &lt;/body&gt; ou dans &lt;head&gt; avec defer */</span>
+
+<span class="cm">/* Methode 2 — Script inline */</span>
+&lt;script&gt;
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Bonjour Kora'</span>);
+&lt;/script&gt;
+
+<span class="cm">/* Methode 3 — Inline sur element (a eviter) */</span>
+&lt;button onclick=<span class="st">"alert('clic!')"</span>&gt;Clic&lt;/button&gt;</pre></div></div>
+    <div class="hl"><span class="hlt">Pourquoi defer ?</span>Sans defer, le navigateur s'arrete de parser le HTML pour executer le JS — ce qui peut ralentir l'affichage. defer dit : "parse le JS mais execute-le seulement apres que tout le HTML est charge". C'est toujours ce qu'on veut. async execute des que le fichier est telecharge, sans attendre le HTML — utile pour les scripts independants du DOM.</div>
+    <div class="fun-fact"><div class="ff-icon">📁</div><div><div class="ff-title">La structure typique d'un projet</div><div class="ff-text">Dans un vrai projet web tu as typiquement : index.html (structure), style.css (apparence), script.js (comportement). Le HTML importe le CSS dans le head et le JS juste avant la fermeture body. Pour des projets plus grands, tu as des dossiers js/, css/, images/. Kora Academy utilise les balises script inline pour simplifier — un seul fichier HTML par module.</div></div></div>
+  </div>
+
+  <!-- PARTIE 3 -->
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">console.log — <em>ton meilleur ami en JavaScript.</em></span>
+      <p>console.log affiche un message dans la console du navigateur. C'est le premier outil de tout developpeur JS. Tu l'utilises pour debugger, verifier des valeurs, comprendre ce qui se passe dans ton code.</p>
+      <p>La console est visible dans les DevTools de ton navigateur — F12 ou clic droit → Inspecter → Console.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — console</div></div>
+    <div class="code-body"><pre><span class="cm">// Afficher du texte</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Bonjour Kora'</span>);
+
+<span class="cm">// Afficher des nombres</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="nm">42</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="nm">3.14</span>);
+
+<span class="cm">// Afficher plusieurs valeurs</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Prix BTC :'</span>, <span class="nm">65000</span>);
+
+<span class="cm">// Autres methodes de console</span>
+<span class="fn">console</span>.<span class="fn">error</span>(<span class="st">'Une erreur !'</span>);   <span class="cm">// Affiche en rouge</span>
+<span class="fn">console</span>.<span class="fn">warn</span>(<span class="st">'Attention !'</span>);    <span class="cm">// Affiche en jaune</span>
+<span class="fn">console</span>.<span class="fn">table</span>([<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>]);       <span class="cm">// Affiche un tableau</span>
+<span class="fn">console</span>.<span class="fn">clear</span>();                 <span class="cm">// Vide la console</span></pre></div></div>
+    <div class="demo-live">
+      <div class="demo-live-head">⚡ Console live — ecris du JS et execute</div>
+      <div class="demo-live-body">
+        <div class="demo-live-code">
+          <textarea id="liveCode3">console.log('Bonjour Kora !');
+console.log('2 + 2 =', 2 + 2);
+console.log('BTC :', 65000, '$');
+console.warn('Ceci est un warning');
+console.error('Ceci est une erreur');</textarea>
+          <button class="run-btn" onclick="runCode3()">▶ Executer</button>
+        </div>
+        <div class="demo-live-preview">
+          <div class="dlp-label">Console</div>
+          <div class="console-out" id="out3"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fun-fact"><div class="ff-icon">🔍</div><div><div class="ff-title">console.log en production</div><div class="ff-text">En developpement tu mets des console.log partout pour debugger. En production (site en ligne), il faut les retirer — ils peuvent exposer des informations sensibles et ralentir legerelement les perfs. Des outils comme ESLint peuvent t'avertir si tu oublies des console.log. Pour les logs permanents (erreurs importantes), utilise des services comme Sentry qui capturent les erreurs en production.</div></div></div>
+  </div>
+
+  <!-- PARTIE 4 -->
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">Les DevTools — <em>la console de ton navigateur.</em></span>
+      <p>Les DevTools (outils developpeur) sont integres dans tous les navigateurs modernes. C'est ton environnement de travail principal quand tu developpes en JS. La console est l'onglet le plus utilise — tu peux y taper du JS directement et voir le resultat instantanement.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">DevTools — Comment acceder et utiliser</div></div>
+    <div class="code-body"><pre><span class="cm">// Ouvrir les DevTools</span>
+<span class="cm">// Chrome/Edge : F12 ou Ctrl+Shift+I (Cmd+Option+I sur Mac)</span>
+<span class="cm">// Firefox : F12</span>
+<span class="cm">// Ou : clic droit sur la page → Inspecter</span>
+
+<span class="cm">// Dans l'onglet Console, tu peux taper directement :</span>
+<span class="nm">2</span> <span class="op">+</span> <span class="nm">2</span>          <span class="cm">// → 4</span>
+<span class="st">'Kora'</span>.<span class="fn">toUpperCase</span>()  <span class="cm">// → 'KORA'</span>
+<span class="fn">alert</span>(<span class="st">'Bonjour'</span>)  <span class="cm">// → Ouvre une popup</span>
+
+<span class="cm">// Les DevTools ont aussi :</span>
+<span class="cm">// Elements : voir et modifier le HTML/CSS en live</span>
+<span class="cm">// Network : voir les requetes HTTP</span>
+<span class="cm">// Sources : debugger le JS avec des breakpoints</span>
+<span class="cm">// Application : voir localStorage, cookies</span></pre></div></div>
+    <div class="hl"><span class="hlt">L'onglet Elements</span>Dans Elements (ou Inspecteur sur Firefox), tu peux cliquer sur n'importe quel element de la page et voir son HTML et CSS. Tu peux meme les modifier en live — utile pour tester des changements CSS sans toucher aux fichiers. Les modifications disparaissent au rechargement.</div>
+    <div class="fun-fact"><div class="ff-icon">🛠</div><div><div class="ff-title">Les DevTools comme terrain de jeu</div><div class="ff-text">La console des DevTools est le meilleur endroit pour apprendre JS rapidement. Tu peux taper du code et voir le resultat instantanement. Essaie : ouvre la console (F12) et tape document.body.style.background = 'red'. La page devient rouge. C'est la puissance de JS appliquee en direct sur une vraie page web. Tout ce que tu vois dans ce module Kora est accessible et modifiable depuis la console.</div></div></div>
+  </div>
+
+  <!-- PARTIE 5 -->
+  <div class="content" id="partie5" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Tes premiers console.log</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Ecris du JavaScript qui affiche des informations sur toi et le marche crypto en ce moment dans la console.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton code doit</div><ul>
+          <li>Afficher ton prenom avec console.log</li>
+          <li>Afficher "BTC : " suivi d'un prix en dollars</li>
+          <li>Afficher le resultat d'un calcul (prix * quantite par exemple)</li>
+          <li>Utiliser au moins un console.warn ou console.error</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="// Ecris ton JavaScript ici...&#10;console.log('Mon prenom : ...');&#10;console.log('BTC :', ...);&#10;console.warn('...');"></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">JS · Module 1</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Bienvenue en JavaScript. Questions sur le module ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=5;
+function switchPartie(n){for(var i=1;i<=tp;i++){var el=document.getElementById('partie'+i);if(el)el.style.display='none';var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');}var t=document.getElementById('partie'+n);if(t)t.style.display='block';var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');cp=n;updateNav();window.scrollTo(0,0);}
+function terminerModule(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js1']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nextPartie(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js1']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';document.getElementById('globalFill').style.width=(8+Math.round((cp/tp)*8))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}}
+var speaking=false;
+function toggleListen(){var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');if(!speaking){var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);u.lang='fr-FR';u.rate=0.88;u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';}else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}}
+function runCode3(){
+  var code=document.getElementById('liveCode3').value;
+  var out=document.getElementById('out3');out.innerHTML='';
+  var logs=[];
+  var fakeConsole={log:function(){logs.push({t:'log',v:Array.from(arguments).join(' ')});},warn:function(){logs.push({t:'warn',v:Array.from(arguments).join(' ')});},error:function(){logs.push({t:'err',v:Array.from(arguments).join(' ')});},clear:function(){logs=[];}};
+  try{var fn=new Function('console',code);fn(fakeConsole);}catch(e){logs.push({t:'err',v:'Erreur: '+e.message});}
+  logs.forEach(function(l){var d=document.createElement('div');d.className='console-line '+l.t;d.textContent=(l.t==='warn'?'⚠ ':l.t==='err'?'✕ ':'')+l.v;out.appendChild(d);});
+  if(!logs.length){var d=document.createElement('div');d.className='console-line log';d.textContent='(aucune sortie)';out.appendChild(d);}
+}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){var t=iaInp.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;},600);}
+function getR(q){var q2=q.toLowerCase();if(q2.includes('defer')||q2.includes('async'))return 'defer execute le script apres que tout le HTML est parse — preservant l\'ordre des scripts. async execute des que telecharge sans attendre le HTML. En pratique : defer pour les scripts qui manipulent le DOM, async pour les scripts independants (analytics, pub).';if(q2.includes('console'))return 'console.log() affiche dans la console DevTools. Tu peux passer plusieurs arguments separés par des virgules : console.log("Prix:", 65000). console.warn() affiche en jaune, console.error() en rouge. Ouvre F12 pour voir la console.';if(q2.includes('node')||q2.includes('serveur'))return 'Node.js c\'est JavaScript qui tourne cote serveur — en dehors du navigateur. Ca permet de faire des APIs, des serveurs web, des scripts en ligne de commande. Le meme langage, un contexte different. npm (Node Package Manager) est le gestionnaire de paquets de l\'ecosysteme Node.';return 'JavaScript = interactivite dans le navigateur. Il peut modifier le HTML/CSS, repondre aux evenements, charger des donnees depuis des APIs, stocker des donnees localement. C\'est le seul langage natif du web cote client.';}
+iaSend.addEventListener('click',sendIa);iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){var input=document.getElementById('exoInput').value.toLowerCase();var fb=document.getElementById('exoFeedback');var hasLog=(input.match(/console\.log/g)||[]).length>=2;var hasBtc=input.includes('btc')||input.includes('bitcoin');var hasCalc=/\d+\s*[\*\+\-\/]\s*\d/.test(input)||input.includes('*')||input.includes('+');var hasWarnOrErr=input.includes('console.warn')||input.includes('console.error');var score=[hasLog,hasBtc,hasCalc,hasWarnOrErr].filter(Boolean).length;if(score>=3){fb.className='exo-feedback ok';fb.innerHTML='Parfait ! Tu sais utiliser console.log pour afficher des valeurs. C\'est la base du debugging JS — tu vas l\'utiliser dans chaque module qui suit.';}else{fb.className='exo-feedback ko';fb.innerHTML='Il manque : '+(hasLog?'':'console.log x2, ')+(hasBtc?'':'mention BTC ou bitcoin, ')+(hasCalc?'':'un calcul (ex: 65000 * 0.5), ')+(hasWarnOrErr?'':'console.warn ou console.error.');}fb.style.display='block';}
+function showIndice(){var fb=document.getElementById('exoFeedback');fb.className='exo-feedback ko';fb.innerHTML='Indice :<br>console.log("Mon prenom : Valentin");<br>console.log("BTC :", 65000, "$");<br>console.log("Portfolio :", 65000 * 0.5, "$");<br>console.warn("Marche volatile !");';fb.style.display='block';}
+updateNav();
+</script>
+</body>
+</html>

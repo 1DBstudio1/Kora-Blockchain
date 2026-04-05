@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS — Module 8 — Evenements — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--j1:#1A3A6B;--j2:#2563EB;--j3:#60A5FA;--grad:linear-gradient(135deg,#1A3A6B 0%,#2563EB 50%,#60A5FA 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(37,99,235,0.05);border-radius:20px;border:1px solid rgba(37,99,235,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--j2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.12);color:var(--j1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--j2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--j1);font-weight:500;border-bottom-color:var(--j2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(37,99,235,0.04);border-left:3px solid var(--j2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(26,58,107,0.04),rgba(37,99,235,0.04));border:1px solid rgba(37,99,235,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--j1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#161b22}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#E6EDF3}
+.kw{color:#FF7B72}.fn{color:#D2A8FF}.st{color:#A5D6FF}.nm{color:#79C0FF}.cm{color:#8B949E;font-style:italic}.op{color:#FF7B72}.bool{color:#79C0FF}.var{color:#FFA657}
+/* Event demos */
+.event-demo{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.event-demo-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.event-demo-body{padding:20px;background:var(--w)}
+.event-zone{background:var(--bg);border-radius:10px;padding:16px;margin-bottom:14px;min-height:60px}
+.event-log{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);max-height:80px;overflow-y:auto;line-height:1.6}
+.ev-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ev-btn{padding:8px 14px;border-radius:14px;border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.15s}
+.ev-primary{background:var(--grad);color:white}
+.ev-secondary{background:rgba(37,99,235,0.08);color:var(--j1);border:1px solid rgba(37,99,235,0.15)}
+.ev-inp{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;flex:1;min-width:140px;transition:border-color 0.15s}
+.ev-inp:focus{border-color:var(--j2)}
+/* Mini app */
+.mini-app{border-radius:14px;overflow:hidden;border:2px solid rgba(37,99,235,0.15);margin:24px 0}
+.mini-app-head{padding:14px 18px;background:rgba(37,99,235,0.04);border-bottom:1px solid rgba(37,99,235,0.1);font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.mini-app-body{padding:20px;background:var(--w)}
+.ma-input-row{display:flex;gap:8px;margin-bottom:12px}
+.ma-input{padding:10px 14px;border:1px solid var(--line);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;flex:1;transition:border-color 0.15s}
+.ma-input:focus{border-color:var(--j2)}
+.ma-btn{padding:10px 20px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.ma-list{display:flex;flex-direction:column;gap:8px}
+.ma-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border-radius:8px;font-size:13px}
+.ma-item-ticker{font-weight:600;color:var(--j1);font-family:'JetBrains Mono',monospace;width:48px}
+.ma-item-prix{flex:1;color:var(--muted)}
+.ma-item-del{width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,95,87,0.1);color:#C0392B;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(37,99,235,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(37,99,235,0.04);border-bottom:1px solid rgba(37,99,235,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(37,99,235,0.08);color:var(--j2);border:1px solid rgba(37,99,235,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--j2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:220px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--j2)}
+.exo-actions{display:flex;gap:10px}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);color:var(--j1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(37,99,235,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--j2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(37,99,235,0.05);border-radius:10px 10px 10px 3px;border:1px solid rgba(37,99,235,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--j2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">JavaScript — de zero a la maitrise</div>
+    <div class="header-meta">Module 8 · Evenements</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--j2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:64%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">JavaScript · Module 8</div>
+    <div class="mod-header-title">Les <em>evenements.</em></div>
+    <div class="mod-header-sub">Les evenements c'est ce qui rend une page interactive. Clic, frappe clavier, soumission de formulaire, survol — chaque interaction utilisateur declenche un evenement que JS peut intercepter et traiter. C'est le coeur de l'interactivite web.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">addEventListener</div>
+    <div class="partie-tab" onclick="switchPartie(2)">L'objet event</div>
+    <div class="partie-tab" onclick="switchPartie(3)">Evenements de formulaire</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Delegation d'evenements</div>
+    <div class="partie-tab" onclick="switchPartie(5)">Exercice</div>
+  </div>
+
+  <!-- PARTIE 1 -->
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">addEventListener — <em>ecouter les interactions utilisateur.</em></span>
+      <p>addEventListener attache un "ecouteur" a un element. Quand l'evenement se produit, la fonction callback est appelee. C'est la methode standard — plus flexible que les attributs onclick dans le HTML.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — addEventListener</div></div>
+    <div class="code-body"><pre><span class="kw">const</span> <span class="var">btn</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#mon-btn'</span>);
+
+<span class="cm">// Syntaxe de base</span>
+<span class="var">btn</span>.<span class="fn">addEventListener</span>(<span class="st">'click'</span>, <span class="kw">function</span>() {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Clique !'</span>);
+});
+
+<span class="cm">// Avec arrow function (recommande)</span>
+<span class="var">btn</span>.<span class="fn">addEventListener</span>(<span class="st">'click'</span>, () <span class="op">=></span> {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">'Clique !'</span>);
+});
+
+<span class="cm">// Evenements courants</span>
+<span class="var">el</span>.<span class="fn">addEventListener</span>(<span class="st">'click'</span>, fn);       <span class="cm">// Clic</span>
+<span class="var">el</span>.<span class="fn">addEventListener</span>(<span class="st">'dblclick'</span>, fn);    <span class="cm">// Double clic</span>
+<span class="var">el</span>.<span class="fn">addEventListener</span>(<span class="st">'mouseenter'</span>, fn);  <span class="cm">// Survol (entree)</span>
+<span class="var">el</span>.<span class="fn">addEventListener</span>(<span class="st">'mouseleave'</span>, fn);  <span class="cm">// Survol (sortie)</span>
+<span class="var">inp</span>.<span class="fn">addEventListener</span>(<span class="st">'input'</span>, fn);      <span class="cm">// Frappe dans input</span>
+<span class="var">inp</span>.<span class="fn">addEventListener</span>(<span class="st">'change'</span>, fn);     <span class="cm">// Valeur changee</span>
+<span class="var">inp</span>.<span class="fn">addEventListener</span>(<span class="st">'keydown'</span>, fn);    <span class="cm">// Touche pressee</span>
+<span class="var">form</span>.<span class="fn">addEventListener</span>(<span class="st">'submit'</span>, fn);    <span class="cm">// Formulaire soumis</span>
+<span class="fn">document</span>.<span class="fn">addEventListener</span>(<span class="st">'DOMContentLoaded'</span>, fn); <span class="cm">// Page chargee</span>
+
+<span class="cm">// Supprimer un ecouteur</span>
+<span class="var">btn</span>.<span class="fn">removeEventListener</span>(<span class="st">'click'</span>, <span class="var">maFonction</span>);</pre></div></div>
+    <div class="event-demo">
+      <div class="event-demo-head">⚡ Demo — evenements en live</div>
+      <div class="event-demo-body">
+        <div class="event-zone">
+          <div class="event-log" id="ev-log1">En attente d'evenements...</div>
+        </div>
+        <div class="ev-row">
+          <button class="ev-btn ev-primary" id="ev-btn1">Clic</button>
+          <button class="ev-btn ev-secondary" id="ev-btn2">Double clic</button>
+          <input class="ev-inp" id="ev-inp1" placeholder="Frappe ici (input event)">
+        </div>
+      </div>
+    </div>
+    <div class="hl"><span class="hlt">addEventListener vs onclick</span>onclick dans le HTML (onclick="maFonction()") ne peut avoir qu'un seul handler. addEventListener peut en avoir plusieurs sur le meme evenement. addEventListener permet aussi de supprimer le listener. En production, toujours utiliser addEventListener — jamais les attributs HTML.</div>
+  </div>
+
+  <!-- PARTIE 2 -->
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">L'objet event — <em>les details de ce qui s'est passe.</em></span>
+      <p>Le callback d'un event listener recoit automatiquement un objet event (souvent appele e ou evt). Cet objet contient toutes les informations sur l'evenement — quelle touche a ete pressee, ou le clic a eu lieu, quel element a declenche l'evenement.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — L'objet event</div></div>
+    <div class="code-body"><pre><span class="var">btn</span>.<span class="fn">addEventListener</span>(<span class="st">'click'</span>, (<span class="var">e</span>) <span class="op">=></span> {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">e</span>.<span class="var">type</span>);        <span class="cm">// → 'click'</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">e</span>.<span class="var">target</span>);      <span class="cm">// L'element qui a recu le clic</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">e</span>.<span class="var">clientX</span>);    <span class="cm">// Position X du clic</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">e</span>.<span class="var">clientY</span>);    <span class="cm">// Position Y du clic</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">e</span>.<span class="var">timeStamp</span>);  <span class="cm">// Timestamp</span>
+});
+
+<span class="cm">// Evenement clavier</span>
+<span class="var">input</span>.<span class="fn">addEventListener</span>(<span class="st">'keydown'</span>, (<span class="var">e</span>) <span class="op">=></span> {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">e</span>.<span class="var">key</span>);      <span class="cm">// 'Enter', 'a', 'Escape'...</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">e</span>.<span class="var">code</span>);     <span class="cm">// 'KeyA', 'Enter'...</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">e</span>.<span class="var">ctrlKey</span>);  <span class="cm">// true si Ctrl appuye</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">e</span>.<span class="var">shiftKey</span>); <span class="cm">// true si Shift appuye</span>
+
+  <span class="cm">// Valider sur Enter</span>
+  <span class="kw">if</span> (<span class="var">e</span>.<span class="var">key</span> <span class="op">===</span> <span class="st">'Enter'</span>) <span class="fn">soumettre</span>();
+
+  <span class="cm">// Raccourci Ctrl+S</span>
+  <span class="kw">if</span> (<span class="var">e</span>.<span class="var">ctrlKey</span> <span class="op">&&</span> <span class="var">e</span>.<span class="var">key</span> <span class="op">===</span> <span class="st">'s'</span>) {
+    <span class="var">e</span>.<span class="fn">preventDefault</span>(); <span class="cm">// Bloquer le comportement par defaut</span>
+    <span class="fn">sauvegarder</span>();
+  }
+});</pre></div></div>
+    <div class="event-demo">
+      <div class="event-demo-head">⚡ Demo — inspect l'objet event</div>
+      <div class="event-demo-body">
+        <div class="event-zone">
+          <div class="event-log" id="ev-log2">Clique ou frappe pour voir l'objet event...</div>
+        </div>
+        <div class="ev-row">
+          <button class="ev-btn ev-primary" id="ev-btn3">Inspecte mon event</button>
+          <input class="ev-inp" id="ev-inp2" placeholder="Frappe une touche">
+        </div>
+      </div>
+    </div>
+    <div class="fun-fact"><div class="ff-icon">🛑</div><div><div class="ff-title">preventDefault et stopPropagation</div><div class="ff-text">e.preventDefault() empeche le comportement par defaut du navigateur. Sur un formulaire, ca empeche le rechargement de page. Sur un lien, ca empeche la navigation. Sur Ctrl+S, ca empeche la boite de dialogue de sauvegarde. e.stopPropagation() empeche l'evenement de "remonter" vers les elements parents (bubbling). Utilise l'un ou l'autre selon le besoin.</div></div></div>
+  </div>
+
+  <!-- PARTIE 3 -->
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">Evenements de formulaire — <em>la validation en temps reel.</em></span>
+      <p>Les formulaires ont des evenements specifiques. submit pour la soumission, input pour chaque frappe, change pour quand la valeur change apres que l'utilisateur quitte le champ, focus et blur pour l'activation/desactivation.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Formulaires</div></div>
+    <div class="code-body"><pre><span class="kw">const</span> <span class="var">form</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'form'</span>);
+<span class="kw">const</span> <span class="var">input</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#montant'</span>);
+<span class="kw">const</span> <span class="var">msg</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#message'</span>);
+
+<span class="cm">// Submit — toujours preventDefault sur les formulaires JS</span>
+<span class="var">form</span>.<span class="fn">addEventListener</span>(<span class="st">'submit'</span>, (<span class="var">e</span>) <span class="op">=></span> {
+  <span class="var">e</span>.<span class="fn">preventDefault</span>(); <span class="cm">// Evite le rechargement de page</span>
+  <span class="kw">const</span> <span class="var">valeur</span> <span class="op">=</span> <span class="var">input</span>.<span class="var">value</span>.<span class="fn">trim</span>();
+  <span class="kw">if</span> (<span class="op">!</span><span class="var">valeur</span>) <span class="kw">return</span>; <span class="cm">// Valider</span>
+  <span class="fn">traiter</span>(<span class="var">valeur</span>);
+  <span class="var">input</span>.<span class="var">value</span> <span class="op">=</span> <span class="st">''</span>; <span class="cm">// Vider le champ</span>
+});
+
+<span class="cm">// input — en temps reel, a chaque frappe</span>
+<span class="var">input</span>.<span class="fn">addEventListener</span>(<span class="st">'input'</span>, (<span class="var">e</span>) <span class="op">=></span> {
+  <span class="kw">const</span> <span class="var">val</span> <span class="op">=</span> <span class="kw">parseFloat</span>(<span class="var">e</span>.<span class="var">target</span>.<span class="var">value</span>);
+  <span class="kw">if</span> (<span class="var">val</span> <span class="op"><</span> <span class="nm">0</span>) {
+    <span class="var">msg</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">'Montant negatif !'</span>;
+    <span class="var">msg</span>.<span class="var">style</span>.<span class="var">color</span> <span class="op">=</span> <span class="st">'red'</span>;
+  } <span class="kw">else</span> {
+    <span class="var">msg</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">`Valeur : ${(val <span class="op">*</span> <span class="nm">65000</span>).toFixed(<span class="nm">0</span>)} $`</span>;
+    <span class="var">msg</span>.<span class="var">style</span>.<span class="var">color</span> <span class="op">=</span> <span class="st">'green'</span>;
+  }
+});
+
+<span class="cm">// Entrer sur Enter dans un input</span>
+<span class="var">input</span>.<span class="fn">addEventListener</span>(<span class="st">'keydown'</span>, (<span class="var">e</span>) <span class="op">=></span> {
+  <span class="kw">if</span> (<span class="var">e</span>.<span class="var">key</span> <span class="op">===</span> <span class="st">'Enter'</span>) <span class="var">form</span>.<span class="fn">dispatchEvent</span>(<span class="kw">new</span> <span class="fn">Event</span>(<span class="st">'submit'</span>));
+});</pre></div></div>
+    <div class="mini-app">
+      <div class="mini-app-head">Mini-app — Suivi de portfolio</div>
+      <div class="mini-app-body">
+        <div class="ma-input-row">
+          <input class="ma-input" id="ma-ticker" placeholder="Ticker (ex: BTC)" maxlength="6">
+          <input class="ma-input" id="ma-prix" type="number" placeholder="Prix $" style="width:120px;flex:none">
+          <button class="ma-btn" id="ma-add">Ajouter</button>
+        </div>
+        <div class="ma-list" id="ma-list">
+          <div style="font-size:13px;color:var(--muted);text-align:center;padding:12px">Ajoute une crypto...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTIE 4 -->
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">Delegation d'evenements — <em>un seul listener pour tous les enfants.</em></span>
+      <p>Plutot que d'ajouter un listener sur chaque element d'une liste, tu ajoutes un seul listener sur le parent. Quand l'evenement remonte (bubbling), tu verifies quel enfant l'a declenche avec event.target. C'est plus performant et fonctionne meme pour les elements ajoutes dynamiquement.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Delegation d'evenements</div></div>
+    <div class="code-body"><pre><span class="cm">// SANS delegation (a eviter) — 1 listener par element</span>
+<span class="fn">document</span>.<span class="fn">querySelectorAll</span>(<span class="st">'.card'</span>).<span class="fn">forEach</span>(<span class="var">card</span> <span class="op">=></span> {
+  <span class="var">card</span>.<span class="fn">addEventListener</span>(<span class="st">'click'</span>, () <span class="op">=></span> {});
+});
+<span class="cm">// Probleme : les nouvelles cards n'ont pas de listener !</span>
+
+<span class="cm">// AVEC delegation — 1 listener sur le parent</span>
+<span class="kw">const</span> <span class="var">liste</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'.liste'</span>);
+
+<span class="var">liste</span>.<span class="fn">addEventListener</span>(<span class="st">'click'</span>, (<span class="var">e</span>) <span class="op">=></span> {
+  <span class="cm">// Verifier quel enfant a recu le clic</span>
+  <span class="kw">const</span> <span class="var">card</span> <span class="op">=</span> <span class="var">e</span>.<span class="var">target</span>.<span class="fn">closest</span>(<span class="st">'.card'</span>);
+  <span class="kw">if</span> (<span class="op">!</span><span class="var">card</span>) <span class="kw">return</span>;
+
+  <span class="kw">const</span> <span class="var">id</span> <span class="op">=</span> <span class="var">card</span>.<span class="fn">dataset</span>.<span class="var">id</span>;
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">`Card ${<span class="var">id</span>} cliquee`</span>);
+});
+
+<span class="cm">// closest — remonte jusqu'a trouver un ancetre matching</span>
+<span class="var">e</span>.<span class="var">target</span>.<span class="fn">closest</span>(<span class="st">'.card'</span>); <span class="cm">// Ancetre .card le plus proche</span>
+
+<span class="cm">// Gerer plusieurs types d'actions</span>
+<span class="var">liste</span>.<span class="fn">addEventListener</span>(<span class="st">'click'</span>, (<span class="var">e</span>) <span class="op">=></span> {
+  <span class="kw">if</span> (<span class="var">e</span>.<span class="var">target</span>.<span class="fn">matches</span>(<span class="st">'.btn-delete'</span>)) {
+    <span class="var">e</span>.<span class="var">target</span>.<span class="fn">closest</span>(<span class="st">'.item'</span>).<span class="fn">remove</span>();
+  }
+  <span class="kw">if</span> (<span class="var">e</span>.<span class="var">target</span>.<span class="fn">matches</span>(<span class="st">'.btn-edit'</span>)) {
+    <span class="fn">ouvrirModal</span>(<span class="var">e</span>.<span class="var">target</span>.<span class="fn">closest</span>(<span class="st">'.item'</span>));
+  }
+});</pre></div></div>
+    <div class="hl"><span class="hlt">closest() — l'outil indispensable</span>element.closest('.selecteur') remonte dans le DOM jusqu'a trouver un ancetre correspondant au selecteur. Dans un listener delegue, si l'utilisateur clique sur un span a l'interieur d'un div.card, event.target sera le span. closest('.card') remontera jusqu'au div.card parent. C'est la cle de la delegation robuste.</div>
+    <div class="fun-fact"><div class="ff-icon">🔼</div><div><div class="ff-title">Le bubbling — les evenements remontent</div><div class="ff-text">Quand tu cliques sur un element, l'evenement "remonte" vers le haut : element → parent → grand-parent → ... → document. C'est le "bubbling". La delegation exploite ce comportement — un listener sur le parent capte tous les clics sur ses enfants. C'est particulierement utile pour les listes generees dynamiquement : les nouveaux elements heritent automatiquement du listener parent.</div></div></div>
+  </div>
+
+  <!-- PARTIE 5 -->
+  <div class="content" id="partie5" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Mini app interactive</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Ecris le JS d'une mini application avec des evenements. L'app permet d'ajouter des alertes de prix crypto et de les supprimer — tout en JS avec les evenements vus dans ce module.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton code doit avoir</div><ul>
+          <li>addEventListener sur un bouton (click) pour ajouter une alerte</li>
+          <li>addEventListener sur un input (input ou keydown) pour la saisie</li>
+          <li>event.preventDefault() sur la soumission d'un form ou d'un clic</li>
+          <li>Lire input.value et l'utiliser pour generer du HTML</li>
+          <li>Delegation d'evenements ou removeEventListener pour la suppression</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="// Mini app alertes crypto&#10;const input = document.querySelector('#ticker-input');&#10;const btnAjouter = document.querySelector('#btn-ajouter');&#10;const liste = document.querySelector('#alertes-liste');&#10;&#10;btnAjouter.addEventListener('click', () => {&#10;  const ticker = input.value.trim().toUpperCase();&#10;  if (!ticker) return;&#10;  ajouterAlerte(ticker);&#10;  input.value = '';&#10;});&#10;&#10;input.addEventListener('keydown', (e) => {&#10;  if (e.key === 'Enter') btnAjouter.click();&#10;});&#10;&#10;function ajouterAlerte(ticker) {&#10;  const item = document.createElement('div');&#10;  item.innerHTML = `&lt;span&gt;${ticker}&lt;/span&gt;&lt;button class=&quot;del&quot;&gt;✕&lt;/button&gt;`;&#10;  liste.appendChild(item);&#10;}&#10;&#10;liste.addEventListener('click', (e) => {&#10;  if (e.target.matches('.del')) {&#10;    e.target.closest('div').remove();&#10;  }&#10;});"></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">JS · Evenements</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur les evenements JS ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=5;
+function switchPartie(n){for(var i=1;i<=tp;i++){var el=document.getElementById('partie'+i);if(el)el.style.display='none';var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');}var t=document.getElementById('partie'+n);if(t)t.style.display='block';var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');cp=n;updateNav();window.scrollTo(0,0);}
+function terminerModule(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js8']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nextPartie(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js8']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';document.getElementById('globalFill').style.width=(64+Math.round((cp/tp)*8))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}}
+var speaking=false;
+function toggleListen(){var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');if(!speaking){var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);u.lang='fr-FR';u.rate=0.88;u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';}else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}}
+// Demo partie 1
+var log1=document.getElementById('ev-log1');
+var btn1=document.getElementById('ev-btn1');var btn2=document.getElementById('ev-btn2');var inp1=document.getElementById('ev-inp1');
+function addLog(id,msg){var el=document.getElementById(id);el.innerHTML='<span style="color:var(--j2)">'+new Date().toLocaleTimeString()+'</span> '+msg+'<br>'+el.innerHTML;if(el.innerHTML.length>800)el.innerHTML=el.innerHTML.substring(0,800);}
+if(btn1)btn1.addEventListener('click',function(){addLog('ev-log1','click sur "Clic"');});
+if(btn2)btn2.addEventListener('dblclick',function(){addLog('ev-log1','dblclick sur "Double clic"');});
+if(inp1)inp1.addEventListener('input',function(e){addLog('ev-log1','input → valeur: "'+e.target.value+'"');});
+// Demo partie 2
+var log2=document.getElementById('ev-log2');
+var btn3=document.getElementById('ev-btn3');var inp2=document.getElementById('ev-inp2');
+if(btn3)btn3.addEventListener('click',function(e){addLog('ev-log2','click → type:'+e.type+' clientX:'+e.clientX+' clientY:'+e.clientY);});
+if(inp2)inp2.addEventListener('keydown',function(e){addLog('ev-log2','keydown → key:'+e.key+' ctrl:'+e.ctrlKey+' shift:'+e.shiftKey);});
+// Mini app partie 3
+var portfolio=[];
+function renderPortfolio(){var list=document.getElementById('ma-list');if(!list)return;if(portfolio.length===0){list.innerHTML='<div style="font-size:13px;color:var(--muted);text-align:center;padding:12px">Ajoute une crypto...</div>';return;}list.innerHTML=portfolio.map(function(p,i){return'<div class="ma-item"><span class="ma-item-ticker">'+p.ticker+'</span><span class="ma-item-prix">'+p.prix.toLocaleString('fr-FR')+' $</span><button class="ma-item-del" data-idx="'+i+'">✕</button></div>';}).join('');}
+var maAdd=document.getElementById('ma-add');var maTicker=document.getElementById('ma-ticker');var maPrix=document.getElementById('ma-prix');var maList=document.getElementById('ma-list');
+if(maAdd)maAdd.addEventListener('click',function(){var t=(maTicker.value||'').trim().toUpperCase();var p=parseFloat(maPrix.value)||0;if(!t||!p)return;portfolio.push({ticker:t,prix:p});maTicker.value='';maPrix.value='';renderPortfolio();});
+if(maTicker)maTicker.addEventListener('keydown',function(e){if(e.key==='Enter'&&maAdd)maAdd.click();});
+if(maList)maList.addEventListener('click',function(e){var btn=e.target.closest('[data-idx]');if(!btn)return;var idx=parseInt(btn.dataset.idx);portfolio.splice(idx,1);renderPortfolio();});
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){var t=iaInp.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;},600);}
+function getR(q){var q2=q.toLowerCase();if(q2.includes('addeventlistener'))return 'el.addEventListener("type", callback). Types courants: click, dblclick, mouseenter, mouseleave, input, change, keydown, keyup, submit, focus, blur, scroll. Le callback recoit automatiquement l\'objet event. removeEventListener pour supprimer.';if(q2.includes('preventdefault'))return 'e.preventDefault() empeche le comportement par defaut. Sur form submit → empeche le rechargement. Sur lien → empeche la navigation. Sur Ctrl+S → empeche la boite de dialogue. Indispensable sur les formulaires traites par JS.';if(q2.includes('delegation')||q2.includes('bubbling'))return 'Le bubbling : l\'evenement remonte du cible vers ses parents. La delegation : ajoute le listener sur le parent, verifie e.target dans le callback. closest(".selecteur") remonte pour trouver l\'ancetre. Parfait pour les listes dynamiques.';if(q2.includes('event.target')||q2.includes('e.target'))return 'e.target = l\'element qui a recu l\'evenement (peut etre un enfant). e.currentTarget = l\'element sur lequel le listener est attache. closest(".classe") remonte depuis e.target jusqu\'a trouver un ancetre matching.';return 'addEventListener("type", fn). event.target = element cible. event.key pour clavier. e.preventDefault() bloque le defaut. Delegation = listener sur parent, verifie e.target. closest() remonte le DOM.';}
+iaSend.addEventListener('click',sendIa);iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){var input=document.getElementById('exoInput').value.toLowerCase();var fb=document.getElementById('exoFeedback');var hasAddEvent=input.includes('addeventlistener');var hasClick=input.includes("'click'")||input.includes('"click"');var hasInput=input.includes("'input'")||input.includes('"input"')||input.includes("'keydown'")||input.includes('"keydown"');var hasPreventDefault=input.includes('preventdefault')||input.includes('e.key');var hasInputVal=input.includes('.value');var hasDelegOrRemove=input.includes('closest')||input.includes('removeeventlistener')||input.includes('e.target');var score=[hasAddEvent,hasClick,hasInput,hasPreventDefault,hasInputVal,hasDelegOrRemove].filter(Boolean).length;if(score>=4){fb.className='exo-feedback ok';fb.innerHTML='Parfait ! Tu maitrises les evenements JS. DOM + Evenements ensemble c\'est tout ce qu\'il faut pour construire des interfaces interactives completes.';}else{fb.className='exo-feedback ko';fb.innerHTML='Il manque : '+(hasAddEvent?'':'addEventListener, ')+(hasClick?'':'event click, ')+(hasInput?'':'event input ou keydown, ')+(hasPreventDefault?'':'e.preventDefault() ou gestion Enter, ')+(hasInputVal?'':'.value, ')+(hasDelegOrRemove?'':'delegation avec closest ou e.target.');}fb.style.display='block';}
+function showIndice(){var fb=document.getElementById('exoFeedback');fb.className='exo-feedback ko';fb.innerHTML='const input = document.querySelector("#input");<br>const btn = document.querySelector("#btn");<br>const liste = document.querySelector("#liste");<br><br>btn.addEventListener("click", () => {<br>&nbsp;&nbsp;const val = input.value.trim();<br>&nbsp;&nbsp;if (!val) return;<br>&nbsp;&nbsp;liste.innerHTML += `&lt;div class="item"&gt;${val}&lt;button class="del"&gt;✕&lt;/button&gt;&lt;/div&gt;`;<br>&nbsp;&nbsp;input.value = "";<br>});<br>input.addEventListener("keydown", e => { if (e.key === "Enter") btn.click(); });<br>liste.addEventListener("click", e => { if (e.target.matches(".del")) e.target.closest(".item").remove(); });';fb.style.display='block';}
+updateNav();
+</script>
+</body>
+</html>
