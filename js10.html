@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS — Module 10 — LocalStorage — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--j1:#1A3A6B;--j2:#2563EB;--j3:#60A5FA;--grad:linear-gradient(135deg,#1A3A6B 0%,#2563EB 50%,#60A5FA 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(37,99,235,0.05);border-radius:20px;border:1px solid rgba(37,99,235,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--j2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.12);color:var(--j1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--j2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--j1);font-weight:500;border-bottom-color:var(--j2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(37,99,235,0.04);border-left:3px solid var(--j2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(26,58,107,0.04),rgba(37,99,235,0.04));border:1px solid rgba(37,99,235,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--j1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#161b22}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#E6EDF3}
+.kw{color:#FF7B72}.fn{color:#D2A8FF}.st{color:#A5D6FF}.nm{color:#79C0FF}.cm{color:#8B949E;font-style:italic}.op{color:#FF7B72}.bool{color:#79C0FF}.var{color:#FFA657}
+.ls-demo{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.ls-demo-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.ls-demo-body{padding:20px;background:var(--w)}
+.ls-preview{background:var(--bg);border-radius:10px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:12px;min-height:60px;margin-bottom:12px;line-height:1.7;word-break:break-all}
+.ls-controls{display:flex;gap:8px;flex-wrap:wrap}
+.ls-btn{padding:8px 14px;border-radius:14px;border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer}
+.ls-btn-p{background:var(--grad);color:white}
+.ls-btn-s{background:rgba(37,99,235,0.08);color:var(--j1);border:1px solid rgba(37,99,235,0.15)}
+.ls-btn-d{background:rgba(255,95,87,0.08);color:#C0392B;border:1px solid rgba(255,95,87,0.2)}
+.ls-inp{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;flex:1;min-width:100px}
+.ls-inp:focus{border-color:var(--j2)}
+.mini-portfolio{border-radius:14px;overflow:hidden;border:2px solid rgba(37,99,235,0.15);margin:24px 0}
+.mp-head{padding:14px 18px;background:rgba(37,99,235,0.04);border-bottom:1px solid rgba(37,99,235,0.1);display:flex;align-items:center;justify-content:space-between}
+.mp-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.mp-badge{font-size:11px;color:var(--j2);font-family:'JetBrains Mono',monospace}
+.mp-body{padding:20px;background:var(--w)}
+.mp-row{display:flex;gap:8px;margin-bottom:12px}
+.mp-input{padding:9px 12px;border:1px solid var(--line);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.15s}
+.mp-input:focus{border-color:var(--j2)}
+.mp-btn{padding:9px 16px;background:var(--grad);color:white;border:none;border-radius:16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;white-space:nowrap}
+.mp-list{display:flex;flex-direction:column;gap:6px}
+.mp-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:8px;font-size:13px}
+.mp-ticker{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--j1);width:44px;flex-shrink:0}
+.mp-qty{flex:1;color:var(--muted)}
+.mp-val{font-weight:500;color:var(--text)}
+.mp-del{width:26px;height:26px;border-radius:50%;border:none;background:rgba(255,95,87,0.1);color:#C0392B;cursor:pointer;font-size:13px;flex-shrink:0}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(37,99,235,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(37,99,235,0.04);border-bottom:1px solid rgba(37,99,235,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(37,99,235,0.08);color:var(--j2);border:1px solid rgba(37,99,235,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--j2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:220px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--j2)}
+.exo-actions{display:flex;gap:10px}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);color:var(--j1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(37,99,235,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--j2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(37,99,235,0.05);border-radius:10px 10px 10px 3px;border:1px solid rgba(37,99,235,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--j2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">JavaScript — de zero a la maitrise</div>
+    <div class="header-meta">Module 10 · LocalStorage</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--j2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:80%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">JavaScript · Module 10</div>
+    <div class="mod-header-title"><em>LocalStorage.</em></div>
+    <div class="mod-header-sub">LocalStorage permet de stocker des donnees dans le navigateur de l'utilisateur — meme apres fermeture. Preferences, progression, portfolio, theme — tout ce qui doit persister sans serveur. C'est exactement ce que Kora utilise pour ta progression.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/4</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">API localStorage</div>
+    <div class="partie-tab" onclick="switchPartie(2)">JSON et objets</div>
+    <div class="partie-tab" onclick="switchPartie(3)">Pattern complet</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Exercice</div>
+  </div>
+
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">localStorage — <em>stocker des donnees dans le navigateur.</em></span>
+      <p>localStorage est une API navigateur qui stocke des paires cle:valeur. Les donnees persistent apres fermeture du navigateur et rechargement de page. Limite : environ 5MB, strings seulement (pas d'objets directement).</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — localStorage</div></div>
+    <div class="code-body"><pre><span class="cm">// Ecrire</span>
+<span class="fn">localStorage</span>.<span class="fn">setItem</span>(<span class="st">'theme'</span>, <span class="st">'dark'</span>);
+<span class="fn">localStorage</span>.<span class="fn">setItem</span>(<span class="st">'krt'</span>, <span class="st">'248'</span>);
+
+<span class="cm">// Lire</span>
+<span class="kw">const</span> <span class="var">theme</span> <span class="op">=</span> <span class="fn">localStorage</span>.<span class="fn">getItem</span>(<span class="st">'theme'</span>);
+<span class="cm">// → 'dark' (string)</span>
+
+<span class="cm">// Si la cle n'existe pas → null</span>
+<span class="fn">localStorage</span>.<span class="fn">getItem</span>(<span class="st">'inexistant'</span>); <span class="cm">// → null</span>
+
+<span class="cm">// Supprimer une cle</span>
+<span class="fn">localStorage</span>.<span class="fn">removeItem</span>(<span class="st">'theme'</span>);
+
+<span class="cm">// Tout supprimer (attention !)</span>
+<span class="fn">localStorage</span>.<span class="fn">clear</span>();
+
+<span class="cm">// Voir toutes les cles</span>
+<span class="fn">Object</span>.<span class="fn">keys</span>(<span class="fn">localStorage</span>);
+
+<span class="cm">// Nombre d'entrees</span>
+<span class="fn">localStorage</span>.<span class="fn">length</span>;</pre></div></div>
+    <div class="ls-demo">
+      <div class="ls-demo-head">⚡ Demo interactive — localStorage en live</div>
+      <div class="ls-demo-body">
+        <div class="ls-preview" id="ls-preview">Clique sur Lire pour voir le contenu...</div>
+        <div class="ls-controls">
+          <input class="ls-inp" id="ls-key" placeholder="Cle" value="kora_test">
+          <input class="ls-inp" id="ls-val" placeholder="Valeur" value="hello">
+          <button class="ls-btn ls-btn-p" onclick="lsSet()">Ecrire</button>
+          <button class="ls-btn ls-btn-s" onclick="lsGet()">Lire</button>
+          <button class="ls-btn ls-btn-d" onclick="lsDel()">Supprimer</button>
+        </div>
+      </div>
+    </div>
+    <div class="hl"><span class="hlt">localStorage vs sessionStorage vs cookies</span>localStorage persiste indefiniment jusqu'a suppression manuelle. sessionStorage disparait a la fermeture de l'onglet. Les cookies ont une date d'expiration et sont envoyes au serveur a chaque requete (utilises pour l'auth). Pour les preferences et donnees non-sensibles cote client : localStorage. Pour les tokens d'authentification : cookies HttpOnly (plus securises).</div>
+  </div>
+
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">Stocker des objets — <em>JSON.stringify et JSON.parse.</em></span>
+      <p>localStorage ne stocke que des strings. Pour stocker un objet ou un tableau, il faut le convertir en string JSON avec JSON.stringify(), et le re-convertir en objet avec JSON.parse() quand on le lit.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Stocker des objets</div></div>
+    <div class="code-body"><pre><span class="kw">const</span> <span class="var">portfolio</span> <span class="op">=</span> [
+  { <span class="var">ticker</span>: <span class="st">'BTC'</span>, <span class="var">quantite</span>: <span class="nm">0.5</span> },
+  { <span class="var">ticker</span>: <span class="st">'ETH'</span>, <span class="var">quantite</span>: <span class="nm">2</span> },
+];
+
+<span class="cm">// Sauvegarder un tableau/objet</span>
+<span class="fn">localStorage</span>.<span class="fn">setItem</span>(
+  <span class="st">'portfolio'</span>,
+  <span class="fn">JSON</span>.<span class="fn">stringify</span>(<span class="var">portfolio</span>)
+);
+<span class="cm">// Stocke : '[{"ticker":"BTC","quantite":0.5},...]'</span>
+
+<span class="cm">// Lire un tableau/objet</span>
+<span class="kw">const</span> <span class="var">raw</span> <span class="op">=</span> <span class="fn">localStorage</span>.<span class="fn">getItem</span>(<span class="st">'portfolio'</span>);
+<span class="kw">const</span> <span class="var">data</span> <span class="op">=</span> <span class="fn">JSON</span>.<span class="fn">parse</span>(<span class="var">raw</span>);
+<span class="cm">// data est maintenant un vrai tableau JS</span>
+
+<span class="cm">// Pattern securise avec valeur par defaut</span>
+<span class="kw">function</span> <span class="fn">lirePortfolio</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> <span class="var">raw</span> <span class="op">=</span> <span class="fn">localStorage</span>.<span class="fn">getItem</span>(<span class="st">'portfolio'</span>);
+    <span class="kw">return</span> <span class="var">raw</span> <span class="op">?</span> <span class="fn">JSON</span>.<span class="fn">parse</span>(<span class="var">raw</span>) : [];
+  } <span class="kw">catch</span> {
+    <span class="kw">return</span> []; <span class="cm">// JSON.parse peut planter si donnee corrompue</span>
+  }
+}
+
+<span class="cm">// C'est exactement comme ca que Kora sauvegarde ta progression</span>
+<span class="kw">const</span> <span class="var">prog</span> <span class="op">=</span> <span class="fn">JSON</span>.<span class="fn">parse</span>(<span class="fn">localStorage</span>.<span class="fn">getItem</span>(<span class="st">'kora_prog'</span>) <span class="op">||</span> <span class="st">'{}'</span>);
+<span class="var">prog</span>.<span class="var">js10</span> <span class="op">=</span> <span class="nm">99</span>;
+<span class="fn">localStorage</span>.<span class="fn">setItem</span>(<span class="st">'kora_prog'</span>, <span class="fn">JSON</span>.<span class="fn">stringify</span>(<span class="var">prog</span>));</pre></div></div>
+    <div class="fun-fact"><div class="ff-icon">🔍</div><div><div class="ff-title">Inspecter localStorage dans DevTools</div><div class="ff-text">Dans les DevTools (F12), va dans l'onglet Application → Local Storage → ton domaine. Tu vois toutes les cles et valeurs stockees. Tu peux les modifier directement dans l'interface. C'est tres utile pour debugger. Essaie maintenant : ouvre F12 et cherche kora_prog — tu verras ta progression dans tous les modules Kora en JSON.</div></div></div>
+  </div>
+
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">Pattern complet — <em>une mini-app avec persistance.</em></span>
+      <p>Le pattern classique avec localStorage : charger les donnees au demarrage, les modifier en memoire, sauvegarder a chaque changement. L'app ci-dessous garde ton portfolio meme si tu recharges la page.</p>
+    </div>
+    <div class="mini-portfolio">
+      <div class="mp-head">
+        <div class="mp-title">Portfolio persistant</div>
+        <div class="mp-badge" id="mp-count">0 positions</div>
+      </div>
+      <div class="mp-body">
+        <div class="mp-row">
+          <input class="mp-input" id="mp-ticker" placeholder="BTC" maxlength="6" style="width:80px;flex:none">
+          <input class="mp-input" id="mp-qty" type="number" placeholder="Quantite" style="flex:1">
+          <button class="mp-btn" id="mp-add">+ Ajouter</button>
+        </div>
+        <div class="mp-list" id="mp-list">
+          <div style="font-size:13px;color:var(--muted);text-align:center;padding:12px">Aucune position. Recharge la page — elles restent !</div>
+        </div>
+      </div>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Pattern localStorage complet</div></div>
+    <div class="code-body"><pre><span class="cm">// 1. Charger au demarrage</span>
+<span class="kw">let</span> <span class="var">portfolio</span> <span class="op">=</span> <span class="fn">charger</span>(<span class="st">'mon_portfolio'</span>, []);
+
+<span class="cm">// 2. Fonction de chargement securisee</span>
+<span class="kw">function</span> <span class="fn">charger</span>(<span class="var">cle</span>, <span class="var">defaut</span>) {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> <span class="var">val</span> <span class="op">=</span> <span class="fn">localStorage</span>.<span class="fn">getItem</span>(<span class="var">cle</span>);
+    <span class="kw">return</span> <span class="var">val</span> <span class="op">?</span> <span class="fn">JSON</span>.<span class="fn">parse</span>(<span class="var">val</span>) : <span class="var">defaut</span>;
+  } <span class="kw">catch</span> { <span class="kw">return</span> <span class="var">defaut</span>; }
+}
+
+<span class="cm">// 3. Fonction de sauvegarde</span>
+<span class="kw">function</span> <span class="fn">sauvegarder</span>(<span class="var">cle</span>, <span class="var">valeur</span>) {
+  <span class="fn">localStorage</span>.<span class="fn">setItem</span>(<span class="var">cle</span>, <span class="fn">JSON</span>.<span class="fn">stringify</span>(<span class="var">valeur</span>));
+}
+
+<span class="cm">// 4. Ajouter et sauvegarder</span>
+<span class="kw">function</span> <span class="fn">ajouterPosition</span>(<span class="var">ticker</span>, <span class="var">qty</span>) {
+  <span class="var">portfolio</span>.<span class="fn">push</span>({ <span class="var">ticker</span>, <span class="var">qty</span> });
+  <span class="fn">sauvegarder</span>(<span class="st">'mon_portfolio'</span>, <span class="var">portfolio</span>);
+  <span class="fn">afficher</span>(); <span class="cm">// Re-render le DOM</span>
+}
+
+<span class="cm">// 5. Supprimer et sauvegarder</span>
+<span class="kw">function</span> <span class="fn">supprimerPosition</span>(<span class="var">index</span>) {
+  <span class="var">portfolio</span>.<span class="fn">splice</span>(<span class="var">index</span>, <span class="nm">1</span>);
+  <span class="fn">sauvegarder</span>(<span class="st">'mon_portfolio'</span>, <span class="var">portfolio</span>);
+  <span class="fn">afficher</span>();
+}</pre></div></div>
+  </div>
+
+  <div class="content" id="partie4" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Systeme de preferences persistant</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Cree un systeme de preferences utilisateur qui persiste avec localStorage. L'utilisateur choisit son theme, sa devise et ses cryptos favorites — tout est sauvegarde automatiquement.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton code doit</div><ul>
+          <li>Lire les preferences au chargement avec localStorage.getItem + JSON.parse</li>
+          <li>Sauvegarder avec localStorage.setItem + JSON.stringify</li>
+          <li>Utiliser un objet pour grouper toutes les preferences</li>
+          <li>Gerer le cas ou la cle n'existe pas (valeur par defaut)</li>
+          <li>Utiliser try/catch pour securiser le JSON.parse</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="// Systeme de preferences&#10;const CLE = 'kora_prefs';&#10;&#10;function chargerPrefs() {&#10;  try {&#10;    const raw = localStorage.getItem(CLE);&#10;    return raw ? JSON.parse(raw) : { theme: 'light', devise: 'USD', favoris: [] };&#10;  } catch {&#10;    return { theme: 'light', devise: 'USD', favoris: [] };&#10;  }&#10;}&#10;&#10;function sauvegarderPrefs(prefs) {&#10;  localStorage.setItem(CLE, JSON.stringify(prefs));&#10;}&#10;&#10;let prefs = chargerPrefs();&#10;console.log('Preferences chargees:', prefs);&#10;&#10;prefs.theme = 'dark';&#10;prefs.favoris.push('BTC');&#10;sauvegarderPrefs(prefs);&#10;console.log('Sauvegarde OK');&#10;console.log('Relit:', chargerPrefs());"></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">JS · LocalStorage</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur localStorage ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 4</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=4;
+function switchPartie(n){for(var i=1;i<=tp;i++){var el=document.getElementById('partie'+i);if(el)el.style.display='none';var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');}var t=document.getElementById('partie'+n);if(t)t.style.display='block';var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');cp=n;updateNav();window.scrollTo(0,0);}
+function terminerModule(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js10']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nextPartie(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js10']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';document.getElementById('globalFill').style.width=(80+Math.round((cp/tp)*8))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}}
+var speaking=false;
+function toggleListen(){var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');if(!speaking){var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);u.lang='fr-FR';u.rate=0.88;u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';}else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}}
+// LS demo
+function lsSet(){var k=document.getElementById('ls-key').value;var v=document.getElementById('ls-val').value;if(!k)return;try{localStorage.setItem(k,v);document.getElementById('ls-preview').textContent='Ecrit : "'+k+'" = "'+v+'"';}catch(e){document.getElementById('ls-preview').textContent='Erreur: '+e.message;}}
+function lsGet(){var k=document.getElementById('ls-key').value;var v=localStorage.getItem(k);document.getElementById('ls-preview').textContent=v!==null?'"'+k+'" = "'+v+'"':'"'+k+'" n\'existe pas (null)';}
+function lsDel(){var k=document.getElementById('ls-key').value;localStorage.removeItem(k);document.getElementById('ls-preview').textContent='"'+k+'" supprime';}
+// Mini portfolio
+var MP_KEY='kora_js10_portfolio';
+function chargerMP(){try{var r=localStorage.getItem(MP_KEY);return r?JSON.parse(r):[];}catch{return[];}}
+function sauvegarderMP(p){try{localStorage.setItem(MP_KEY,JSON.stringify(p));}catch(e){}}
+var mpData=chargerMP();
+function renderMP(){var list=document.getElementById('mp-list');var count=document.getElementById('mp-count');if(!list)return;count.textContent=mpData.length+' position'+(mpData.length>1?'s':'');if(mpData.length===0){list.innerHTML='<div style="font-size:13px;color:var(--muted);text-align:center;padding:12px">Aucune position. Recharge la page — elles restent !</div>';return;}list.innerHTML=mpData.map(function(p,i){return'<div class="mp-item"><span class="mp-ticker">'+p.ticker+'</span><span class="mp-qty">'+p.qty+' unites</span><button class="mp-del" data-idx="'+i+'">✕</button></div>';}).join('');}
+renderMP();
+var mpAdd=document.getElementById('mp-add');var mpTicker=document.getElementById('mp-ticker');var mpQty=document.getElementById('mp-qty');var mpList=document.getElementById('mp-list');
+if(mpAdd)mpAdd.addEventListener('click',function(){var t=(mpTicker.value||'').trim().toUpperCase();var q=parseFloat(mpQty.value)||0;if(!t||!q)return;mpData.push({ticker:t,qty:q});sauvegarderMP(mpData);mpTicker.value='';mpQty.value='';renderMP();});
+if(mpList)mpList.addEventListener('click',function(e){var btn=e.target.closest('[data-idx]');if(!btn)return;var idx=parseInt(btn.dataset.idx);mpData.splice(idx,1);sauvegarderMP(mpData);renderMP();});
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){var t=iaInp.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;},600);}
+function getR(q){var q2=q.toLowerCase();if(q2.includes('json.stringify')||q2.includes('json.parse'))return 'JSON.stringify(objet) convertit un objet en string JSON pour le stocker. JSON.parse(string) reconvertit la string en objet. Toujours entourer JSON.parse de try/catch — si la string est corrompue ca plante. Pattern : JSON.parse(localStorage.getItem("cle") || "defaut").';if(q2.includes('sessionstorage'))return 'sessionStorage = meme API que localStorage mais disparait a la fermeture de l\'onglet. localStorage persiste indefiniment. sessionStorage utile pour les donnees temporaires de session (formulaire multi-etapes, panier temporaire).';if(q2.includes('5mb')||q2.includes('limit'))return 'localStorage est limite a environ 5MB selon le navigateur. Pour plus de donnees : IndexedDB (API plus complexe mais sans limite pratique). Pour les petits projets, 5MB est largement suffisant — un objet JSON de preferences est quelques ko au maximum.';return 'localStorage.setItem("cle", valeur). localStorage.getItem("cle"). localStorage.removeItem("cle"). Pour les objets : JSON.stringify() avant set, JSON.parse() apres get. Toujours try/catch sur le parse. Les donnees persistent jusqu\'a suppression manuelle.';}
+iaSend.addEventListener('click',sendIa);iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){var input=document.getElementById('exoInput').value.toLowerCase();var fb=document.getElementById('exoFeedback');var hasSet=input.includes('setitem');var hasGet=input.includes('getitem');var hasStringify=input.includes('json.stringify');var hasParse=input.includes('json.parse');var hasTryCatch=input.includes('try')&&input.includes('catch');var hasDefault=input.includes('?')&&input.includes(':')||input.includes('||');var score=[hasSet,hasGet,hasStringify,hasParse,hasTryCatch,hasDefault].filter(Boolean).length;if(score>=4){fb.className='exo-feedback ok';fb.innerHTML='Parfait ! Tu maitrises localStorage. C\'est exactement le pattern que Kora utilise pour ta progression — setItem avec JSON.stringify, getItem avec JSON.parse, valeur par defaut si null.';}else{fb.className='exo-feedback ko';fb.innerHTML='Il manque : '+(hasSet?'':'localStorage.setItem, ')+(hasGet?'':'localStorage.getItem, ')+(hasStringify?'':'JSON.stringify, ')+(hasParse?'':'JSON.parse, ')+(hasTryCatch?'':'try/catch, ')+(hasDefault?'':'valeur par defaut (|| ou ternaire).');}fb.style.display='block';}
+function showIndice(){var fb=document.getElementById('exoFeedback');fb.className='exo-feedback ko';fb.innerHTML='const CLE = "mes_prefs";<br>function charger() { try { const r = localStorage.getItem(CLE); return r ? JSON.parse(r) : { theme:"light", favoris:[] }; } catch { return { theme:"light", favoris:[] }; } }<br>function sauvegarder(p) { localStorage.setItem(CLE, JSON.stringify(p)); }<br>let prefs = charger();<br>prefs.theme = "dark"; prefs.favoris.push("BTC");<br>sauvegarder(prefs);';fb.style.display='block';}
+updateNav();
+</script>
+</body>
+</html>

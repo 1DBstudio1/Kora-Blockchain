@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS — Module 12 — Evaluation finale — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--j1:#1A3A6B;--j2:#2563EB;--j3:#60A5FA;--grad:linear-gradient(135deg,#1A3A6B 0%,#2563EB 50%,#60A5FA 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(37,99,235,0.05);border-radius:20px;border:1px solid rgba(37,99,235,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.eval-header{padding:48px 28px 36px;border-bottom:1px solid var(--line);background:var(--w);text-align:center}
+.eval-badge-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--j2);font-weight:500;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px}
+.eval-badge-label::before,.eval-badge-label::after{content:'';width:24px;height:1.5px;background:var(--grad)}
+.eval-title{font-family:'Fraunces',serif;font-size:34px;font-weight:300;letter-spacing:-1px;margin-bottom:12px;line-height:1.15}
+.eval-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.eval-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:520px;margin:0 auto 24px}
+.modules-used{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.mu-tag{padding:5px 12px;border-radius:20px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.1);color:var(--j1);font-size:12px;font-weight:500}
+.content{padding:36px 28px}
+.mission-card{border-radius:16px;overflow:hidden;border:2px solid rgba(37,99,235,0.15);margin:24px 0;background:var(--w)}
+.mc-head{padding:20px 24px;background:linear-gradient(135deg,rgba(26,58,107,0.05),rgba(37,99,235,0.03));border-bottom:1px solid rgba(37,99,235,0.1)}
+.mc-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--j2);font-weight:500;margin-bottom:8px}
+.mc-title{font-family:'Fraunces',serif;font-size:20px;font-weight:400;margin-bottom:6px}
+.mc-sub{font-size:13px;color:var(--muted);line-height:1.6}
+.mc-body{padding:24px}
+.mc-section{margin-bottom:20px}
+.mc-section:last-child{margin-bottom:0}
+.mc-section-title{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.mc-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.mc-list li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.mc-list li::before{content:'→';color:var(--j2);flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11px;margin-top:2px}
+.mc-list li code{background:var(--bg);padding:1px 5px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#D2A8FF;border:1px solid var(--line)}
+.editeur-zone{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:20px 0}
+.ez-tabs{display:flex;border-bottom:1px solid var(--line);background:var(--bg)}
+.ez-tab{padding:10px 16px;font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);font-family:'DM Sans',sans-serif;background:transparent;border-top:none;border-left:none;border-right:none;transition:all 0.15s}
+.ez-tab.active{color:var(--j1);border-bottom-color:var(--j2)}
+.ez-editor{background:var(--code)}
+.ez-editor textarea{width:100%;min-height:320px;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E6EDF3;resize:vertical;line-height:1.8;padding:20px;box-sizing:border-box}
+.criteres-section{margin:28px 0}
+.criteres-title{font-family:'Fraunces',serif;font-size:18px;font-weight:400;margin-bottom:6px}
+.criteres-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+.criteres-list{display:flex;flex-direction:column;gap:8px}
+.crit{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:var(--w);border:1px solid var(--line);transition:all 0.2s}
+.crit.pass{border-color:#28CA41;background:rgba(40,202,65,0.04)}
+.crit.fail{border-color:#FF5F57;background:rgba(255,95,87,0.04)}
+.crit-dot{width:10px;height:10px;border-radius:50%;background:var(--line);flex-shrink:0;transition:background 0.2s}
+.crit.pass .crit-dot{background:#28CA41}
+.crit.fail .crit-dot{background:#FF5F57}
+.crit-num{font-size:11px;color:var(--light);font-family:'JetBrains Mono',monospace;flex-shrink:0;width:24px}
+.crit-text{font-size:13px;flex:1;line-height:1.4}
+.crit-pts{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.score-zone{margin:24px 0;padding:24px;border-radius:16px;text-align:center;display:none}
+.score-zone.show{display:block}
+.score-zone.perfect{background:linear-gradient(135deg,rgba(40,202,65,0.08),rgba(40,202,65,0.04));border:2px solid rgba(40,202,65,0.25)}
+.score-zone.good{background:rgba(37,99,235,0.04);border:1px solid rgba(37,99,235,0.12)}
+.score-num{font-family:'Fraunces',serif;font-size:52px;font-weight:300;letter-spacing:-2px;margin-bottom:6px}
+.score-label{font-size:17px;font-weight:500;margin-bottom:6px}
+.score-sub{font-size:13px;color:var(--muted);margin-bottom:18px}
+.krt-bonus{display:none;padding:10px 16px;border-radius:10px;background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.2);font-size:14px;color:var(--j1);font-weight:500;margin-bottom:16px}
+.btn-certif{padding:14px 32px;background:var(--grad);color:white;border:none;border-radius:24px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;display:none}
+.certif-card{margin:32px 0;padding:40px 32px;border-radius:20px;background:linear-gradient(135deg,#0A0A1A,#0A1A3A);border:2px solid rgba(96,165,250,0.3);text-align:center;display:none;position:relative;overflow:hidden}
+.certif-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 25% 35%,rgba(96,165,250,0.08),transparent 55%)}
+.certif-icon{font-size:52px;margin-bottom:16px;position:relative}
+.certif-badge-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(96,165,250,0.7);margin-bottom:8px;position:relative}
+.certif-title{font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:rgba(255,255,255,0.9);margin-bottom:12px;position:relative}
+.certif-name{font-family:'Fraunces',serif;font-size:32px;font-weight:600;background:linear-gradient(135deg,#60A5FA,#93C5FD);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;position:relative}
+.certif-module{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:24px;position:relative}
+.certif-seal{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:24px;background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.3);color:rgba(96,165,250,0.9);font-size:13px;font-weight:500;position:relative}
+.actions-zone{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.btn-verif{padding:12px 28px;background:var(--grad);color:white;border:none;border-radius:22px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer}
+.btn-terminer{padding:12px 24px;background:var(--w);color:var(--j1);border:2px solid var(--j1);border-radius:22px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:none}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-home{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;display:none}
+@media(max-width:700px){.content{padding:22px 16px}.eval-header{padding:32px 16px 28px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.eval-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">JavaScript — de zero a la maitrise</div>
+    <div class="header-meta">Module 12 · Evaluation finale</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--j2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:95%"></div></div>
+<main class="main">
+  <div class="eval-header">
+    <div class="eval-badge-label">Evaluation finale</div>
+    <div class="eval-title">Construit une <em>mini-app complète.</em></div>
+    <div class="eval-sub">Tu as appris tout JavaScript. La mission finale : construire une app de suivi crypto fonctionnelle en JS pur — DOM, evenements, fetch, localStorage. Tout en un.</div>
+    <div class="modules-used">
+      <span class="mu-tag">DOM</span><span class="mu-tag">Evenements</span><span class="mu-tag">Fetch API</span>
+      <span class="mu-tag">localStorage</span><span class="mu-tag">async/await</span><span class="mu-tag">Tableaux</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="mission-card">
+      <div class="mc-head">
+        <div class="mc-label">La mission</div>
+        <div class="mc-title">App de suivi de portfolio</div>
+        <div class="mc-sub">Une application complete qui permet d'ajouter des positions, de charger les prix depuis CoinGecko, et de tout sauvegarder dans localStorage. L'utilisateur peut fermer la page et retrouver son portfolio intact.</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-section">
+          <div class="mc-section-title">Fonctionnalites requises</div>
+          <ul class="mc-list">
+            <li>Ajouter une position : ticker, prix d'entree, quantite</li>
+            <li>Afficher la liste des positions avec valeur actuelle</li>
+            <li>Charger les prix live depuis CoinGecko avec <code>fetch</code></li>
+            <li>Calculer et afficher le PnL de chaque position</li>
+            <li>Supprimer une position (delegation d'evenements)</li>
+            <li>Tout persister dans <code>localStorage</code></li>
+          </ul>
+        </div>
+        <div class="mc-section">
+          <div class="mc-section-title">Note sur 20 — 15/20 = certification + 5 KRT</div>
+          <ul class="mc-list">
+            <li>20 criteres evalues automatiquement</li>
+            <li>15/20 minimum pour la certification JavaScript</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="editeur-zone">
+      <div class="ez-tabs">
+        <button class="ez-tab active" onclick="switchTab('js')">script.js</button>
+        <button class="ez-tab" onclick="switchTab('html')">index.html (optionnel)</button>
+      </div>
+      <div class="ez-editor" id="tabJs">
+        <textarea id="jsCode" placeholder="// Ecris ton JS ici...&#10;// Exemple de structure :&#10;&#10;const CLE = 'mon_portfolio';&#10;const CGIDS = { BTC:'bitcoin', ETH:'ethereum', SOL:'solana', BNB:'binancecoin' };&#10;&#10;// State&#10;let portfolio = charger();&#10;&#10;// Persistence&#10;function charger() {&#10;  try { return JSON.parse(localStorage.getItem(CLE)) || []; }&#10;  catch { return []; }&#10;}&#10;function sauvegarder() {&#10;  localStorage.setItem(CLE, JSON.stringify(portfolio));&#10;}&#10;&#10;// API&#10;async function rafraichirPrix() {&#10;  // ...&#10;}&#10;&#10;// Render&#10;function render() {&#10;  // ...&#10;}&#10;&#10;// Handlers&#10;document.querySelector('#btn-ajouter')?.addEventListener('click', () => {&#10;  // ...&#10;});"></textarea>
+      </div>
+      <div class="ez-editor" id="tabHtml" style="display:none">
+        <textarea id="htmlCode" placeholder="<!-- HTML optionnel pour l'apercu -->"></textarea>
+      </div>
+    </div>
+
+    <div class="actions-zone">
+      <button class="btn-verif" onclick="verifierCode()">Verifier mon code</button>
+      <button class="btn-terminer" id="btnTerminer" onclick="terminerFormation()">Terminer JavaScript</button>
+    </div>
+
+    <div class="criteres-section">
+      <div class="criteres-title">Criteres — 20 points</div>
+      <div class="criteres-sub">15/20 minimum pour la certification JS.</div>
+      <div class="criteres-list">
+        <div class="crit" id="c1"><div class="crit-dot"></div><span class="crit-num">01</span><div class="crit-text">Variables avec const et let (pas de var)</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c2"><div class="crit-dot"></div><span class="crit-num">02</span><div class="crit-text">Au moins un tableau pour stocker les positions</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c3"><div class="crit-dot"></div><span class="crit-num">03</span><div class="crit-text">Au moins un objet {ticker, entree, qty} par position</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c4"><div class="crit-dot"></div><span class="crit-num">04</span><div class="crit-text">Fonction de chargement localStorage avec JSON.parse</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c5"><div class="crit-dot"></div><span class="crit-num">05</span><div class="crit-text">Fonction de sauvegarde avec JSON.stringify + setItem</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c6"><div class="crit-dot"></div><span class="crit-num">06</span><div class="crit-text">Valeur par defaut si localStorage vide (|| [] ou ternaire)</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c7"><div class="crit-dot"></div><span class="crit-num">07</span><div class="crit-text">async function avec await fetch()</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c8"><div class="crit-dot"></div><span class="crit-num">08</span><div class="crit-text">Verification res.ok avant res.json()</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c9"><div class="crit-dot"></div><span class="crit-num">09</span><div class="crit-text">try/catch sur la requete fetch</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c10"><div class="crit-dot"></div><span class="crit-num">10</span><div class="crit-text">document.querySelector pour selectionner des elements</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c11"><div class="crit-dot"></div><span class="crit-num">11</span><div class="crit-text">addEventListener sur bouton ou formulaire</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c12"><div class="crit-dot"></div><span class="crit-num">12</span><div class="crit-text">Lire input.value pour obtenir la saisie utilisateur</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c13"><div class="crit-dot"></div><span class="crit-num">13</span><div class="crit-text">Mise a jour DOM avec textContent ou innerHTML</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c14"><div class="crit-dot"></div><span class="crit-num">14</span><div class="crit-text">Generation dynamique d'elements (map + innerHTML ou createElement)</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c15"><div class="crit-dot"></div><span class="crit-num">15</span><div class="crit-text">Delegation d'evenements ou listener sur chaque item</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c16"><div class="crit-dot"></div><span class="crit-num">16</span><div class="crit-text">Calcul PnL : (prixActuel - entree) * quantite</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c17"><div class="crit-dot"></div><span class="crit-num">17</span><div class="crit-text">reduce() ou boucle for pour le total du portfolio</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c18"><div class="crit-dot"></div><span class="crit-num">18</span><div class="crit-text">Arrow functions (=>) utilisees</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c19"><div class="crit-dot"></div><span class="crit-num">19</span><div class="crit-text">Template literals avec ${} pour construire le HTML</div><span class="crit-pts">1pt</span></div>
+        <div class="crit" id="c20"><div class="crit-dot"></div><span class="crit-num">20</span><div class="crit-text">Code suffisamment complet (+500 caracteres)</div><span class="crit-pts">1pt</span></div>
+      </div>
+    </div>
+
+    <div class="score-zone" id="scoreZone">
+      <div class="score-num" id="scoreNum">0/20</div>
+      <div class="score-label" id="scoreLabel">Continue !</div>
+      <div class="score-sub" id="scoreSub">Regarde les criteres en rouge.</div>
+      <div class="krt-bonus" id="krtBonus">◈ +5 KRT credites — Score superieur a 15/20 !</div>
+      <div style="margin-top:16px">
+        <button class="btn-certif" id="btnCertif" onclick="obtenirCertif()">Obtenir ma certification JS</button>
+      </div>
+    </div>
+
+    <div class="certif-card" id="certifCard">
+      <div class="certif-icon">⚡</div>
+      <div class="certif-badge-label">Certification Kora Academy</div>
+      <div class="certif-title">a completement maitrise</div>
+      <div class="certif-name" id="certifName">Kora Apprenant</div>
+      <div class="certif-module">
+        <strong style="color:white">JavaScript — de zero a la maitrise</strong><br>
+        12 modules complets · DOM, Evenements, Fetch, LocalStorage<br>
+        <span style="color:rgba(255,255,255,0.4);font-size:12px">Chapitre 3 · Formation Le Code</span>
+      </div>
+      <div class="certif-seal">⚡ Certifie — Kora Academy 2026</div>
+    </div>
+  </div>
+</main>
+
+<div class="nav-bottom">
+  <button class="nav-prev" onclick="history.back()">← Retour</button>
+  <div style="font-size:12px;color:var(--muted)">Evaluation JS finale</div>
+  <button class="nav-home" id="navHome" onclick="window.location.href='academy.html'">Retour Academy</button>
+</div>
+
+<script>
+function switchTab(t){
+  document.getElementById('tabJs').style.display=t==='js'?'block':'none';
+  document.getElementById('tabHtml').style.display=t==='html'?'block':'none';
+  document.querySelectorAll('.ez-tab').forEach(function(el,i){el.classList.toggle('active',i===(t==='js'?0:1));});
+}
+function verifierCode(){
+  var code=document.getElementById('jsCode').value.toLowerCase();
+  var sz=document.getElementById('scoreZone');
+  var checks=[
+    !code.includes('var ')&&(code.includes('const ')||code.includes('let ')),
+    code.includes('[')&&(code.includes('push')||code.includes('portfolio')||code.includes('positions')),
+    code.includes('{')&&(code.includes('ticker')||code.includes('entree')||code.includes('qty')||code.includes('quantite')),
+    code.includes('getitem')&&code.includes('json.parse'),
+    code.includes('setitem')&&code.includes('json.stringify'),
+    code.includes('|| []')||code.includes('|| {}')||code.includes('? json')||code.includes("|| '[]'"),
+    code.includes('async')&&code.includes('await fetch'),
+    code.includes('res.ok')||code.includes('response.ok'),
+    code.includes('try')&&code.includes('catch'),
+    code.includes('queryselector'),
+    code.includes('addeventlistener'),
+    code.includes('.value'),
+    code.includes('textcontent')||code.includes('innerhtml'),
+    code.includes('.map(')||code.includes('createelement'),
+    code.includes('addeventlistener')&&(code.includes('closest')||code.includes('e.target')||code.includes('evt.target')),
+    (code.includes('prixactuel')||code.includes('actuel')||code.includes('current'))&&(code.includes('-')&&code.includes('entree'))||code.includes('pnl'),
+    code.includes('.reduce(')||code.includes('total')&&code.includes('for'),
+    code.includes('=>'),
+    code.includes('`')&&code.includes('${'),
+    code.length>500
+  ];
+  var score=checks.filter(Boolean).length;
+  checks.forEach(function(ok,i){var el=document.getElementById('c'+(i+1));if(el){el.classList.toggle('pass',ok);el.classList.toggle('fail',!ok);}});
+  sz.classList.add('show');
+  document.getElementById('scoreNum').textContent=score+'/20';
+  if(score>=15){
+    sz.className='score-zone show perfect';
+    document.getElementById('scoreLabel').textContent=score===20?'Score parfait !':'Excellent ! '+score+'/20';
+    document.getElementById('scoreSub').textContent='Tu as depasse 15/20. Ton JS est solide.';
+    document.getElementById('btnCertif').style.display='inline-block';
+    document.getElementById('btnTerminer').style.display='inline-flex';
+    document.getElementById('navHome').style.display='inline-block';
+    document.getElementById('krtBonus').style.display='block';
+    document.getElementById('globalFill').style.width='100%';
+    try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['krt']=(d['krt']||248)+5;d['js12']=99;localStorage.setItem('kora_prog',JSON.stringify(d));document.getElementById('krtVal').textContent=d['krt']+' KRT';}catch(e){}
+  }else{
+    sz.className='score-zone show good';
+    document.getElementById('scoreLabel').textContent=score+'/20';
+    document.getElementById('scoreSub').textContent='Il te faut 15/20. Regarde les criteres en rouge.';
+    document.getElementById('btnCertif').style.display='none';
+    document.getElementById('krtBonus').style.display='none';
+  }
+  sz.scrollIntoView({behavior:'smooth'});
+}
+function obtenirCertif(){
+  document.getElementById('certifCard').style.display='block';
+  document.getElementById('certifCard').scrollIntoView({behavior:'smooth'});
+}
+function terminerFormation(){
+  try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js12']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}
+  window.location.href='academy.html';
+}
+try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}
+</script>
+</body>
+</html>

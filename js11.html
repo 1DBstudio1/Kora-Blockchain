@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS — Module 11 — Mini-app crypto — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--j1:#1A3A6B;--j2:#2563EB;--j3:#60A5FA;--grad:linear-gradient(135deg,#1A3A6B 0%,#2563EB 50%,#60A5FA 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(37,99,235,0.05);border-radius:20px;border:1px solid rgba(37,99,235,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--j2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.12);color:var(--j1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--j2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--j1);font-weight:500;border-bottom-color:var(--j2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(37,99,235,0.04);border-left:3px solid var(--j2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(26,58,107,0.04),rgba(37,99,235,0.04));border:1px solid rgba(37,99,235,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--j1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#161b22}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#E6EDF3}
+.kw{color:#FF7B72}.fn{color:#D2A8FF}.st{color:#A5D6FF}.nm{color:#79C0FF}.cm{color:#8B949E;font-style:italic}.op{color:#FF7B72}.bool{color:#79C0FF}.var{color:#FFA657}
+/* App complete */
+.app-container{border-radius:16px;overflow:hidden;border:2px solid rgba(37,99,235,0.2);margin:24px 0;background:var(--w)}
+.app-header{padding:16px 20px;background:linear-gradient(135deg,rgba(26,58,107,0.08),rgba(37,99,235,0.05));border-bottom:1px solid rgba(37,99,235,0.1);display:flex;align-items:center;justify-content:space-between}
+.app-title{font-family:'Fraunces',serif;font-size:18px;font-weight:400}
+.app-total{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--j1);font-weight:600}
+.app-body{padding:20px}
+.app-row{display:flex;gap:8px;margin-bottom:16px}
+.app-input{padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;flex:1;transition:border-color 0.15s}
+.app-input:focus{border-color:var(--j2)}
+.app-btn{padding:10px 18px;background:var(--grad);color:white;border:none;border-radius:16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.app-refresh{padding:10px 14px;background:rgba(37,99,235,0.08);color:var(--j1);border:1px solid rgba(37,99,235,0.2);border-radius:16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.app-list{display:flex;flex-direction:column;gap:8px}
+.app-item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg);border-radius:10px;transition:background 0.15s}
+.app-item:hover{background:rgba(37,99,235,0.04)}
+.ai-dot{width:10px;height:10px;border-radius:50%;background:var(--j2);flex-shrink:0}
+.ai-ticker{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--j1);width:48px;flex-shrink:0;font-size:13px}
+.ai-qty{font-size:12px;color:var(--muted);flex-shrink:0;width:80px}
+.ai-prix{font-size:13px;color:var(--text);flex:1}
+.ai-pnl{font-size:12px;font-weight:500;flex-shrink:0}
+.ai-pnl.up{color:#28CA41}.ai-pnl.down{color:#FF5F57}
+.ai-del{width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,95,87,0.08);color:#C0392B;cursor:pointer;font-size:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.app-status{font-size:11px;color:var(--muted);text-align:center;padding:8px;font-family:'JetBrains Mono',monospace}
+.app-empty{font-size:13px;color:var(--muted);text-align:center;padding:20px}
+.step-label{font-size:10px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.step-label::before{content:'';width:10px;height:1.5px;background:var(--grad)}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(37,99,235,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(37,99,235,0.04);border-bottom:1px solid rgba(37,99,235,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(37,99,235,0.08);color:var(--j2);border:1px solid rgba(37,99,235,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--j2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:200px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--j2)}
+.exo-actions{display:flex;gap:10px}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);color:var(--j1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(37,99,235,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--j2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(37,99,235,0.05);border-radius:10px 10px 10px 3px;border:1px solid rgba(37,99,235,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--j2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">JavaScript — de zero a la maitrise</div>
+    <div class="header-meta">Module 11 · Mini-app crypto</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--j2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:88%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">JavaScript · Module 11</div>
+    <div class="mod-header-title">Mini-app <em>crypto.</em></div>
+    <div class="mod-header-sub">On combine tout ce qu'on a appris : DOM, evenements, fetch, localStorage. Le resultat : un vrai tracker de portfolio crypto qui charge les prix en live et persiste les donnees. C'est un projet complet.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:25%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/4</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">Architecture</div>
+    <div class="partie-tab" onclick="switchPartie(2)">L'app en live</div>
+    <div class="partie-tab" onclick="switchPartie(3)">Le code complet</div>
+    <div class="partie-tab" onclick="switchPartie(4)">Exercice final</div>
+  </div>
+
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">Architecturer une app — <em>avant d'ecrire une ligne de code.</em></span>
+      <p>Avant de coder, on planifie. L'architecture de la mini-app se divise en trois parties : les donnees (state), l'affichage (render), et les actions (handlers). Cette separation rend le code maintenable et previsible.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Architecture de l'app</div></div>
+    <div class="code-body"><pre><span class="cm">// ===== STATE =====</span>
+<span class="cm">// Toutes les donnees en un seul endroit</span>
+<span class="kw">let</span> <span class="var">portfolio</span> <span class="op">=</span> <span class="fn">charger</span>(<span class="st">'portfolio'</span>, []);
+<span class="cm">// { ticker, entree, quantite, prixActuel }</span>
+
+<span class="cm">// ===== PERSISTENCE =====</span>
+<span class="kw">function</span> <span class="fn">charger</span>(<span class="var">cle</span>, <span class="var">defaut</span>) {
+  <span class="kw">try</span> { <span class="kw">return</span> <span class="fn">JSON</span>.<span class="fn">parse</span>(<span class="fn">localStorage</span>.<span class="fn">getItem</span>(<span class="var">cle</span>)) <span class="op">||</span> <span class="var">defaut</span>; }
+  <span class="kw">catch</span> { <span class="kw">return</span> <span class="var">defaut</span>; }
+}
+<span class="kw">function</span> <span class="fn">sauvegarder</span>() {
+  <span class="fn">localStorage</span>.<span class="fn">setItem</span>(<span class="st">'portfolio'</span>, <span class="fn">JSON</span>.<span class="fn">stringify</span>(<span class="var">portfolio</span>));
+}
+
+<span class="cm">// ===== API =====</span>
+<span class="kw">async function</span> <span class="fn">actualiserPrix</span>() {
+  <span class="kw">const</span> <span class="var">ids</span> <span class="op">=</span> <span class="var">portfolio</span>.<span class="fn">map</span>(<span class="var">p</span> <span class="op">=></span> <span class="var">p</span>.<span class="var">coingeckoId</span>).<span class="fn">join</span>(<span class="st">','</span>);
+  <span class="kw">const</span> <span class="var">res</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">`https://api.coingecko.com/api/v3/simple/price?ids=${<span class="var">ids</span>}&vs_currencies=usd`</span>);
+  <span class="kw">const</span> <span class="var">data</span> <span class="op">=</span> <span class="kw">await</span> <span class="var">res</span>.<span class="fn">json</span>();
+  <span class="var">portfolio</span>.<span class="fn">forEach</span>(<span class="var">p</span> <span class="op">=></span> {
+    <span class="var">p</span>.<span class="var">prixActuel</span> <span class="op">=</span> <span class="var">data</span>[<span class="var">p</span>.<span class="var">coingeckoId</span>]?.<span class="var">usd</span> <span class="op">||</span> <span class="var">p</span>.<span class="var">prixActuel</span>;
+  });
+}
+
+<span class="cm">// ===== RENDER =====</span>
+<span class="kw">function</span> <span class="fn">render</span>() {
+  <span class="kw">const</span> <span class="var">container</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#app'</span>);
+  <span class="kw">const</span> <span class="var">total</span> <span class="op">=</span> <span class="var">portfolio</span>.<span class="fn">reduce</span>((<span class="var">acc</span>, <span class="var">p</span>) <span class="op">=></span> <span class="var">acc</span> <span class="op">+</span> <span class="var">p</span>.<span class="var">prixActuel</span> <span class="op">*</span> <span class="var">p</span>.<span class="var">quantite</span>, <span class="nm">0</span>);
+  <span class="var">container</span>.<span class="var">innerHTML</span> <span class="op">=</span> <span class="var">portfolio</span>.<span class="fn">map</span>((<span class="var">p</span>, <span class="var">i</span>) <span class="op">=></span> <span class="fn">renderItem</span>(<span class="var">p</span>, <span class="var">i</span>)).<span class="fn">join</span>(<span class="st">''</span>);
+}
+
+<span class="cm">// ===== HANDLERS =====</span>
+<span class="kw">async function</span> <span class="fn">ajouterPosition</span>() {
+  <span class="var">portfolio</span>.<span class="fn">push</span>({ <span class="var">ticker</span>: <span class="st">'BTC'</span>, <span class="var">entree</span>: <span class="nm">60000</span>, <span class="var">quantite</span>: <span class="nm">0.5</span> });
+  <span class="fn">sauvegarder</span>();
+  <span class="kw">await</span> <span class="fn">actualiserPrix</span>();
+  <span class="fn">render</span>();
+}</pre></div></div>
+    <div class="hl"><span class="hlt">State — Source of truth unique</span>Toutes les donnees dans un seul objet ou tableau (le "state"). Le DOM n'est qu'un reflet de ce state. Quand quelque chose change, tu modifies le state puis tu appelles render() pour mettre a jour le DOM. C'est la base de tous les frameworks modernes (React, Vue, Svelte). Comprendre ca maintenant, c'est comprendre React demain.</div>
+  </div>
+
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">L'app en action — <em>tracker de portfolio crypto.</em></span>
+      <p>L'application ci-dessous utilise tous les modules JS ensemble. Ajoute des positions, rafraichis les prix depuis CoinGecko, supprime des positions. Les donnees persistent avec localStorage — recharge la page, elles sont toujours la.</p>
+    </div>
+    <div class="app-container">
+      <div class="app-header">
+        <div class="app-title">Portfolio Tracker</div>
+        <div class="app-total" id="app-total">0.00 $</div>
+      </div>
+      <div class="app-body">
+        <div class="app-row">
+          <input class="app-input" id="app-ticker" placeholder="BTC, ETH..." maxlength="8">
+          <input class="app-input" id="app-entree" type="number" placeholder="Prix entree $" style="width:130px;flex:none">
+          <input class="app-input" id="app-qty" type="number" placeholder="Qte" style="width:80px;flex:none" step="any">
+          <button class="app-btn" id="app-add">Ajouter</button>
+        </div>
+        <div class="app-row" style="justify-content:space-between;align-items:center;margin-bottom:8px">
+          <button class="app-refresh" onclick="appRefresh()">↻ Prix live</button>
+          <span class="app-status" id="app-status">Prêt</span>
+        </div>
+        <div class="app-list" id="app-list">
+          <div class="app-empty">Ajoute ta premiere position !</div>
+        </div>
+      </div>
+    </div>
+    <div class="fun-fact"><div class="ff-icon">🚀</div><div><div class="ff-title">Tu viens de construire une vraie app</div><div class="ff-text">Ce tracker utilise des appels API reels (CoinGecko), de la persistance (localStorage), une UI generee dynamiquement (DOM + evenements), et une architecture avec separation state/render/handlers. C'est exactement ce qu'on voit dans des projets professionnels. La difference entre ca et une app React c'est juste la gestion du state qui est automatisee par le framework.</div></div></div>
+  </div>
+
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">Le code — <em>ligne par ligne.</em></span>
+      <p>Voici le code complet de l'app. Lis-le et reconnais chaque pattern appris dans les modules precedents. Chaque partie fait une chose precise.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Code complet du tracker</div></div>
+    <div class="code-body"><pre><span class="cm">// ---- STATE ----</span>
+<span class="kw">const</span> <span class="var">CLE</span> <span class="op">=</span> <span class="st">'kora_portfolio'</span>;
+<span class="kw">const</span> <span class="var">COINGECKO_IDS</span> <span class="op">=</span> {
+  <span class="var">BTC</span>: <span class="st">'bitcoin'</span>, <span class="var">ETH</span>: <span class="st">'ethereum'</span>, <span class="var">SOL</span>: <span class="st">'solana'</span>,
+  <span class="var">BNB</span>: <span class="st">'binancecoin'</span>, <span class="var">XRP</span>: <span class="st">'ripple'</span>
+};
+<span class="kw">let</span> <span class="var">portfolio</span> <span class="op">=</span> <span class="fn">charger</span>();
+
+<span class="cm">// ---- PERSISTENCE ----</span>
+<span class="kw">function</span> <span class="fn">charger</span>() {
+  <span class="kw">try</span> { <span class="kw">return</span> <span class="fn">JSON</span>.<span class="fn">parse</span>(<span class="fn">localStorage</span>.<span class="fn">getItem</span>(<span class="var">CLE</span>)) <span class="op">||</span> []; }
+  <span class="kw">catch</span> { <span class="kw">return</span> []; }
+}
+<span class="kw">function</span> <span class="fn">sauvegarder</span>() {
+  <span class="fn">localStorage</span>.<span class="fn">setItem</span>(<span class="var">CLE</span>, <span class="fn">JSON</span>.<span class="fn">stringify</span>(<span class="var">portfolio</span>));
+}
+
+<span class="cm">// ---- API ----</span>
+<span class="kw">async function</span> <span class="fn">refreshPrix</span>() {
+  <span class="kw">if</span> (<span class="op">!</span><span class="var">portfolio</span>.<span class="fn">length</span>) <span class="kw">return</span>;
+  <span class="kw">const</span> <span class="var">ids</span> <span class="op">=</span> [...<span class="kw">new</span> <span class="fn">Set</span>(<span class="var">portfolio</span>.<span class="fn">map</span>(<span class="var">p</span> <span class="op">=></span> <span class="var">COINGECKO_IDS</span>[<span class="var">p</span>.<span class="var">ticker</span>]).<span class="fn">filter</span>(<span class="fn">Boolean</span>))].<span class="fn">join</span>(<span class="st">','</span>);
+  <span class="kw">const</span> <span class="var">res</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">`https://api.coingecko.com/api/v3/simple/price?ids=${<span class="var">ids</span>}&vs_currencies=usd`</span>);
+  <span class="kw">const</span> <span class="var">data</span> <span class="op">=</span> <span class="kw">await</span> <span class="var">res</span>.<span class="fn">json</span>();
+  <span class="var">portfolio</span>.<span class="fn">forEach</span>(<span class="var">p</span> <span class="op">=></span> {
+    <span class="kw">const</span> <span class="var">id</span> <span class="op">=</span> <span class="var">COINGECKO_IDS</span>[<span class="var">p</span>.<span class="var">ticker</span>];
+    <span class="kw">if</span> (<span class="var">id</span> <span class="op">&&</span> <span class="var">data</span>[<span class="var">id</span>]) <span class="var">p</span>.<span class="var">prixActuel</span> <span class="op">=</span> <span class="var">data</span>[<span class="var">id</span>].<span class="var">usd</span>;
+  });
+  <span class="fn">sauvegarder</span>();
+}
+
+<span class="cm">// ---- RENDER ----</span>
+<span class="kw">function</span> <span class="fn">render</span>() {
+  <span class="kw">const</span> <span class="var">total</span> <span class="op">=</span> <span class="var">portfolio</span>.<span class="fn">reduce</span>((<span class="var">a</span>,<span class="var">p</span>) <span class="op">=></span> <span class="var">a</span> <span class="op">+</span> (<span class="var">p</span>.<span class="var">prixActuel</span><span class="op">||</span><span class="var">p</span>.<span class="var">entree</span>)<span class="op">*</span><span class="var">p</span>.<span class="var">qty</span>, <span class="nm">0</span>);
+  <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#total'</span>).<span class="var">textContent</span> <span class="op">=</span> <span class="st">`${<span class="var">total</span>.<span class="fn">toLocaleString</span>(<span class="st">'fr-FR'</span>, {<span class="var">maximumFractionDigits</span>:<span class="nm">0</span>})} $`</span>;
+  <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#liste'</span>).<span class="var">innerHTML</span> <span class="op">=</span>
+    <span class="var">portfolio</span>.<span class="fn">length</span> <span class="op">?</span>
+    <span class="var">portfolio</span>.<span class="fn">map</span>((<span class="var">p</span>, <span class="var">i</span>) <span class="op">=></span> {
+      <span class="kw">const</span> <span class="var">val</span> <span class="op">=</span> (<span class="var">p</span>.<span class="var">prixActuel</span><span class="op">||</span><span class="var">p</span>.<span class="var">entree</span>) <span class="op">*</span> <span class="var">p</span>.<span class="var">qty</span>;
+      <span class="kw">const</span> <span class="var">pnl</span> <span class="op">=</span> (<span class="var">p</span>.<span class="var">prixActuel</span> <span class="op">?</span> (<span class="var">p</span>.<span class="var">prixActuel</span><span class="op">-</span><span class="var">p</span>.<span class="var">entree</span>)<span class="op">*</span><span class="var">p</span>.<span class="var">qty</span> : <span class="nm">0</span>);
+      <span class="kw">return</span> <span class="st">`&lt;div class="item" data-i="${<span class="var">i</span>}"&gt;${<span class="var">p</span>.<span class="var">ticker</span>} — ${<span class="var">val</span>.<span class="fn">toFixed</span>(<span class="nm">0</span>)} $ (${<span class="var">pnl</span><span class="op">>=</span><span class="nm">0</span>?<span class="st">'+'</span>:<span class="st">''</span>}${<span class="var">pnl</span>.<span class="fn">toFixed</span>(<span class="nm">0</span>)})&lt;/div&gt;`</span>;
+    }).<span class="fn">join</span>(<span class="st">''</span>) :
+    <span class="st">'&lt;div&gt;Ajoute une position...&lt;/div&gt;'</span>;
+}</pre></div></div>
+    <div class="hl"><span class="hlt">La sequence fondamentale</span>1. Modifier le state (portfolio). 2. Sauvegarder (localStorage). 3. Actualiser les prix si necessaire (API). 4. Re-render le DOM. Cet ordre est toujours le meme. C'est la sequence que React, Vue et tous les frameworks moderne automatisent avec leur systeme de reactivite.</div>
+  </div>
+
+  <div class="content" id="partie4" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">Etends l'application</span><span class="exo-badge">Exercice final</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Tu as le tracker de base. Etends-le avec de nouvelles fonctionnalites. Choisis parmi les extensions proposees et implemente-les en JS pur.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton code doit integrer au moins 3 de ces extensions</div><ul>
+          <li>Filtrer par variation positive/negative (filter() sur le portfolio)</li>
+          <li>Trier par valeur decroissante (sort() sur le portfolio)</li>
+          <li>Calculer le PnL total en % (reduce + formule)</li>
+          <li>Afficher une alerte si une position perd plus de 10%</li>
+          <li>Ajouter un bouton "Exporter JSON" qui genere le portfolio en JSON</li>
+          <li>Recherche par ticker (filter + DOM)</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="// Extension 1 — Trier par valeur&#10;function trierParValeur() {&#10;  const trie = [...portfolio].sort((a, b) => {&#10;    const valA = (a.prixActuel || a.entree) * a.qty;&#10;    const valB = (b.prixActuel || b.entree) * b.qty;&#10;    return valB - valA;&#10;  });&#10;  return trie;&#10;}&#10;&#10;// Extension 2 — PnL total&#10;function calculerPnlTotal() {&#10;  return portfolio.reduce((acc, p) => {&#10;    if (!p.prixActuel) return acc;&#10;    return acc + (p.prixActuel - p.entree) * p.qty;&#10;  }, 0);&#10;}&#10;&#10;// Extension 3 — Alerte pertes&#10;function checkAlertes() {&#10;  portfolio.forEach(p => {&#10;    if (!p.prixActuel) return;&#10;    const pctChange = (p.prixActuel - p.entree) / p.entree * 100;&#10;    if (pctChange < -10) {&#10;      console.warn(`${p.ticker}: -${Math.abs(pctChange).toFixed(1)}% — Stop loss ?`);&#10;    }&#10;  });&#10;}"></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">JS · Mini-app</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! On construit l'app finale. Questions ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 4</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=4;
+function switchPartie(n){for(var i=1;i<=tp;i++){var el=document.getElementById('partie'+i);if(el)el.style.display='none';var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');}var t=document.getElementById('partie'+n);if(t)t.style.display='block';var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');cp=n;updateNav();window.scrollTo(0,0);}
+function terminerModule(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js11']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nextPartie(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js11']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';document.getElementById('globalFill').style.width=(88+Math.round((cp/tp)*6))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}}
+var speaking=false;
+function toggleListen(){var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');if(!speaking){var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);u.lang='fr-FR';u.rate=0.88;u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';}else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}}
+// Mini-app live
+var APP_KEY='kora_tracker_app';
+var CGIDS={BTC:'bitcoin',ETH:'ethereum',SOL:'solana',BNB:'binancecoin',XRP:'ripple',SUI:'sui',TAO:'bittensor'};
+var appData=[];
+try{appData=JSON.parse(localStorage.getItem(APP_KEY))||[];}catch(e){}
+function appSave(){try{localStorage.setItem(APP_KEY,JSON.stringify(appData));}catch(e){}}
+function appRender(){
+  var list=document.getElementById('app-list');
+  var total=document.getElementById('app-total');
+  if(!list)return;
+  var tot=appData.reduce(function(a,p){return a+(p.actuel||p.entree)*p.qty;},0);
+  if(total)total.textContent=tot.toLocaleString('fr-FR',{maximumFractionDigits:0})+' $';
+  if(!appData.length){list.innerHTML='<div class="app-empty">Ajoute ta premiere position !</div>';return;}
+  list.innerHTML=appData.map(function(p,i){
+    var val=((p.actuel||p.entree)*p.qty);
+    var pnl=p.actuel?(p.actuel-p.entree)*p.qty:0;
+    var pnlCls=pnl>=0?'up':'down';
+    return '<div class="app-item"><div class="ai-dot"></div><span class="ai-ticker">'+p.ticker+'</span><span class="ai-qty">'+p.qty+' u.</span><span class="ai-prix">'+(p.actuel?'$'+(p.actuel.toLocaleString()):'Prix: $'+p.entree)+'</span><span class="ai-pnl '+pnlCls+'">'+(pnl>=0?'+':'')+pnl.toFixed(0)+' $</span><button class="ai-del" data-idx="'+i+'">✕</button></div>';
+  }).join('');
+}
+var appAdd=document.getElementById('app-add');
+var appTicker=document.getElementById('app-ticker');
+var appEntree=document.getElementById('app-entree');
+var appQty=document.getElementById('app-qty');
+var appList=document.getElementById('app-list');
+if(appAdd)appAdd.addEventListener('click',function(){
+  var t=(appTicker.value||'').trim().toUpperCase();
+  var e=parseFloat(appEntree.value)||0;
+  var q=parseFloat(appQty.value)||0;
+  if(!t||!e||!q)return;
+  appData.push({ticker:t,entree:e,qty:q,actuel:null});
+  appSave();appRender();appTicker.value='';appEntree.value='';appQty.value='';
+});
+if(appList)appList.addEventListener('click',function(e){var b=e.target.closest('[data-idx]');if(!b)return;var i=parseInt(b.dataset.idx);appData.splice(i,1);appSave();appRender();});
+async function appRefresh(){
+  var status=document.getElementById('app-status');
+  if(!appData.length){if(status)status.textContent='Aucune position';return;}
+  if(status)status.textContent='Chargement...';
+  var ids=[...new Set(appData.map(function(p){return CGIDS[p.ticker];}).filter(Boolean))].join(',');
+  try{
+    var res=await fetch('https://api.coingecko.com/api/v3/simple/price?ids='+ids+'&vs_currencies=usd');
+    var data=await res.json();
+    appData.forEach(function(p){var id=CGIDS[p.ticker];if(id&&data[id])p.actuel=data[id].usd;});
+    appSave();appRender();
+    if(status)status.textContent='Mis a jour: '+new Date().toLocaleTimeString();
+  }catch(err){if(status)status.textContent='Erreur API';}
+}
+appRender();
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){var t=iaInp.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;},600);}
+function getR(q){var q2=q.toLowerCase();if(q2.includes('state')||q2.includes('architecture'))return 'L\'architecture state/render/handlers : le state est l\'unique source de verite (un tableau ou objet). Quand ca change : modifier le state, sauvegarder, appeler render(). Render() lit le state et met a jour le DOM. C\'est la base de React — useState est juste une version reactive de cette idee.';if(q2.includes('sort'))return 'sort avec un comparateur : array.sort((a, b) => b.valeur - a.valeur) trie par valeur decroissante. Toujours utiliser [...portfolio].sort() (spread) pour ne pas muter l\'original.';return 'Mini-app = State (donnees) + Render (DOM) + Handlers (actions) + API (donnees live) + localStorage (persistance). Chaque module JS que tu as appris a sa place dans cette architecture.';}
+iaSend.addEventListener('click',sendIa);iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){var input=document.getElementById('exoInput').value.toLowerCase();var fb=document.getElementById('exoFeedback');var hasSort=input.includes('.sort(');var hasReduce=input.includes('.reduce(');var hasFilter=input.includes('.filter(');var hasAlert=input.includes('warn')||input.includes('alerte')||input.includes('stop');var hasExport=input.includes('json.stringify')||input.includes('export');var hasSearch=input.includes('search')||input.includes('recherche')||input.includes('includes(');var count=[hasSort,hasReduce,hasFilter,hasAlert,hasExport,hasSearch].filter(Boolean).length;if(count>=3){fb.className='exo-feedback ok';fb.innerHTML='Excellent ! Tu as implemente '+count+'/6 extensions. Tu combines maintenant toutes les briques JS sur un vrai projet. Tu es pret pour l\'evaluation finale.';}else{fb.className='exo-feedback ko';fb.innerHTML='Il faut au moins 3 extensions. Tu en as '+count+'/6. Essaie : sort(), reduce() pour le PnL, et filter() ou warn() pour les alertes.';}fb.style.display='block';}
+function showIndice(){var fb=document.getElementById('exoFeedback');fb.className='exo-feedback ko';fb.innerHTML='// Trier par valeur<br>const trie = [...portfolio].sort((a,b) => (b.actuel||b.entree)*b.qty - (a.actuel||a.entree)*a.qty);<br><br>// PnL total<br>const pnl = portfolio.reduce((acc,p) => acc + (p.actuel ? (p.actuel-p.entree)*p.qty : 0), 0);<br><br>// Alertes<br>portfolio.forEach(p => { if(p.actuel && (p.actuel-p.entree)/p.entree*100 < -10) console.warn(p.ticker+" en stop loss"); });';fb.style.display='block';}
+updateNav();
+</script>
+</body>
+</html>

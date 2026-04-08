@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JS — Module 9 — Fetch et APIs — Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--j1:#1A3A6B;--j2:#2563EB;--j3:#60A5FA;--grad:linear-gradient(135deg,#1A3A6B 0%,#2563EB 50%,#60A5FA 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(37,99,235,0.05);border-radius:20px;border:1px solid rgba(37,99,235,0.1);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--j2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-0.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.12);color:var(--j1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width 0.4s}
+.mod-prog-txt{font-size:12px;color:var(--j2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--j1);font-weight:500;border-bottom-color:var(--j2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc strong{font-weight:500}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(37,99,235,0.04);border-left:3px solid var(--j2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:linear-gradient(135deg,rgba(26,58,107,0.04),rgba(37,99,235,0.04));border:1px solid rgba(37,99,235,0.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}.ff-title{font-size:13px;font-weight:500;color:var(--j1);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.05);margin:24px 0}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#161b22}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9;color:#E6EDF3}
+.kw{color:#FF7B72}.fn{color:#D2A8FF}.st{color:#A5D6FF}.nm{color:#79C0FF}.cm{color:#8B949E;font-style:italic}.op{color:#FF7B72}.bool{color:#79C0FF}.var{color:#FFA657}
+.fetch-demo{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:24px 0}
+.fetch-demo-head{padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.fetch-demo-body{padding:20px;background:var(--w)}
+.fetch-result{background:var(--bg);border-radius:10px;padding:14px;min-height:80px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);line-height:1.7;margin-bottom:12px}
+.fetch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:12px}
+.fetch-card{background:var(--w);border:1px solid var(--line);border-radius:10px;padding:12px}
+.fc-name{font-size:11px;color:var(--muted);margin-bottom:4px}
+.fc-val{font-size:16px;font-weight:500;color:var(--text)}
+.fc-var{font-size:12px;margin-top:2px}
+.fc-var.up{color:#28CA41}.fc-var.down{color:#FF5F57}
+.fetch-btn{padding:8px 16px;background:var(--grad);color:white;border:none;border-radius:16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;margin-right:8px}
+.fetch-btn-sec{padding:8px 14px;background:rgba(37,99,235,0.08);color:var(--j1);border:1px solid rgba(37,99,235,0.15);border-radius:16px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
+.fetch-status{font-size:11px;color:var(--muted);margin-left:8px}
+.exercice{border-radius:14px;overflow:hidden;border:1px solid rgba(37,99,235,0.15);margin:32px 0}
+.exo-head{padding:16px 20px;background:rgba(37,99,235,0.04);border-bottom:1px solid rgba(37,99,235,0.1);display:flex;align-items:center;gap:10px}
+.exo-icon{font-size:20px}.exo-title{font-family:'Fraunces',serif;font-size:16px;font-weight:400}
+.exo-badge{margin-left:auto;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(37,99,235,0.08);color:var(--j2);border:1px solid rgba(37,99,235,0.12)}
+.exo-body{padding:22px;background:var(--w)}
+.exo-context{font-size:14px;line-height:1.7;margin-bottom:18px}
+.exo-mission{padding:16px 18px;background:var(--bg);border-radius:10px;border:1px solid var(--line);margin-bottom:20px}
+.exo-mission-title{font-size:11px;font-weight:500;color:var(--j2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.exo-mission ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exo-mission li{font-size:13px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.exo-mission li::before{content:'-->';color:var(--j2);flex-shrink:0;margin-top:1px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.exo-textarea{width:100%;min-height:220px;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.15s;margin-bottom:14px;line-height:1.7}
+.exo-textarea:focus{border-color:var(--j2)}
+.exo-actions{display:flex;gap:10px}
+.btn-valider{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-indice{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.exo-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13px;line-height:1.6}
+.exo-feedback.ok{background:rgba(40,202,65,0.08);border:1px solid rgba(40,202,65,0.2);color:#1A6B3A}
+.exo-feedback.ko{background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);color:var(--j1)}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,0.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;background:rgba(37,99,235,0.03)}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--j2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.55;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(37,99,235,0.05);border-radius:10px 10px 10px 3px;border:1px solid rgba(37,99,235,0.08)}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--j2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up 0.4s ease both}.content{animation:up 0.4s ease 0.08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">JavaScript — de zero a la maitrise</div>
+    <div class="header-meta">Module 9 · Fetch et APIs</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--j2)">◈</span><span class="krt-val" id="krtVal">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:72%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">JavaScript · Module 9</div>
+    <div class="mod-header-title">Fetch et <em>APIs.</em></div>
+    <div class="mod-header-sub">fetch() permet de charger des donnees depuis des APIs en temps reel. Prix crypto en direct, meteo, donnees financieres — tout ca arrive par des requetes HTTP. C'est la connexion entre ton app et le monde reel.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="btnListen" onclick="toggleListen()"><span>🔊</span><span id="listenTxt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="modProgFill" style="width:20%"></div></div><span class="mod-prog-txt" id="modProgTxt">Partie 1/5</span></div>
+    </div>
+  </div>
+  <div class="parties-nav">
+    <div class="partie-tab active" onclick="switchPartie(1)">C'est quoi une API</div>
+    <div class="partie-tab" onclick="switchPartie(2)">fetch et async/await</div>
+    <div class="partie-tab" onclick="switchPartie(3)">Gestion d'erreurs</div>
+    <div class="partie-tab" onclick="switchPartie(4)">API crypto en live</div>
+    <div class="partie-tab" onclick="switchPartie(5)">Exercice</div>
+  </div>
+
+  <div class="content" id="partie1">
+    <div class="bloc">
+      <span class="big">Une API — <em>un restaurant qui sert des donnees.</em></span>
+      <p>Une API (Application Programming Interface) c'est un serveur qui expose des donnees via des URLs. Tu fais une requete HTTP vers une URL, le serveur repond avec des donnees en JSON. Exactement comme commander dans un restaurant — tu commandes (requete), le serveur apporte (reponse JSON).</p>
+      <p>Exemples concrets : CoinGecko expose les prix de toutes les cryptos. OpenWeatherMap expose la meteo. GitHub expose les repos. Twitter expose les tweets. Toutes ces apps que tu utilises exposent des APIs.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">HTTP — Les bases des requetes</div></div>
+    <div class="code-body"><pre><span class="cm">// Une requete HTTP c'est :</span>
+<span class="cm">// URL : ou on envoie la requete</span>
+<span class="cm">// Methode : GET (lire), POST (creer), PUT (modifier), DELETE (supprimer)</span>
+<span class="cm">// Headers : metadonnees (auth token, type de contenu...)</span>
+<span class="cm">// Body : donnees envoyees (pour POST/PUT)</span>
+
+<span class="cm">// Exemple : API CoinGecko (publique, sans auth)</span>
+<span class="cm">// GET https://api.coingecko.com/api/v3/simple/price</span>
+<span class="cm">//   ?ids=bitcoin,ethereum</span>
+<span class="cm">//   &vs_currencies=usd</span>
+<span class="cm">//   &include_24hr_change=true</span>
+
+<span class="cm">// Reponse JSON :</span>
+<span class="cm">// {</span>
+<span class="cm">//   "bitcoin": { "usd": 65000, "usd_24h_change": 2.3 },</span>
+<span class="cm">//   "ethereum": { "usd": 3200, "usd_24h_change": -1.1 }</span>
+<span class="cm">// }</span>
+
+<span class="cm">// Status codes HTTP</span>
+<span class="cm">// 200 OK — succes</span>
+<span class="cm">// 201 Created — cree avec succes</span>
+<span class="cm">// 400 Bad Request — requete invalide</span>
+<span class="cm">// 401 Unauthorized — pas authentifie</span>
+<span class="cm">// 404 Not Found — ressource inexistante</span>
+<span class="cm">// 500 Server Error — erreur cote serveur</span></pre></div></div>
+    <div class="fun-fact"><div class="ff-icon">🌐</div><div><div class="ff-title">REST vs GraphQL</div><div class="ff-text">La majorite des APIs publiques sont des APIs REST : des URLs structurees avec des methodes HTTP. GraphQL est une alternative ou tu specifies exactement quelles donnees tu veux dans la requete. GitHub, Twitter et Shopify proposent les deux. Pour debuter, les APIs REST sont plus simples — tu appelles une URL et tu recois du JSON.</div></div></div>
+  </div>
+
+  <div class="content" id="partie2" style="display:none">
+    <div class="bloc">
+      <span class="big">fetch et async/await — <em>charger des donnees de facon asynchrone.</em></span>
+      <p>fetch() est asynchrone — ca prend du temps de faire une requete reseau. JavaScript ne bloque pas en attendant. async/await permet d'ecrire ce code asynchrone comme s'il etait synchrone, de facon lisible.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — fetch et async/await</div></div>
+    <div class="code-body"><pre><span class="cm">// fetch retourne une Promise</span>
+<span class="cm">// async/await simplifie la gestion des Promises</span>
+
+<span class="kw">async function</span> <span class="fn">getPrixBTC</span>() {
+  <span class="cm">// await attend que fetch soit termine</span>
+  <span class="kw">const</span> <span class="var">response</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(
+    <span class="st">'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'</span>
+  );
+
+  <span class="cm">// Convertir la reponse en JSON</span>
+  <span class="kw">const</span> <span class="var">data</span> <span class="op">=</span> <span class="kw">await</span> <span class="var">response</span>.<span class="fn">json</span>();
+
+  <span class="cm">// Acceder aux donnees</span>
+  <span class="kw">const</span> <span class="var">prix</span> <span class="op">=</span> <span class="var">data</span>.<span class="var">bitcoin</span>.<span class="var">usd</span>;
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">`BTC : ${<span class="var">prix</span>} $`</span>);
+  <span class="kw">return</span> <span class="var">prix</span>;
+}
+
+<span class="cm">// Appeler la fonction</span>
+<span class="fn">getPrixBTC</span>();
+
+<span class="cm">// Avec plusieurs cryptos</span>
+<span class="kw">async function</span> <span class="fn">getMarket</span>() {
+  <span class="kw">const</span> <span class="var">res</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(
+    <span class="st">'https://api.coingecko.com/api/v3/simple/price'</span> <span class="op">+</span>
+    <span class="st">'?ids=bitcoin,ethereum,solana'</span> <span class="op">+</span>
+    <span class="st">'&vs_currencies=usd'</span> <span class="op">+</span>
+    <span class="st">'&include_24hr_change=true'</span>
+  );
+  <span class="kw">const</span> <span class="var">data</span> <span class="op">=</span> <span class="kw">await</span> <span class="var">res</span>.<span class="fn">json</span>();
+
+  <span class="cm">// data = { bitcoin: {usd: 65000, usd_24h_change: 2.3}, ... }</span>
+  <span class="kw">for</span> (<span class="kw">const</span> [<span class="var">coin</span>, <span class="var">info</span>] <span class="kw">of</span> <span class="fn">Object</span>.<span class="fn">entries</span>(<span class="var">data</span>)) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="st">`${<span class="var">coin</span>}: ${<span class="var">info</span>.<span class="var">usd</span>} $ (${<span class="var">info</span>.<span class="var">usd_24h_change</span>.<span class="fn">toFixed</span>(<span class="nm">2</span>)}%)`</span>);
+  }
+}</pre></div></div>
+    <div class="hl"><span class="hlt">await = "attends que ca soit fini"</span>await stoppe l'execution de la fonction async jusqu'a ce que la Promise soit resolue. Mais ca ne bloque PAS le reste du JS — les autres evenements continuent de fonctionner. C'est la magie de l'asynchrone : tu attends la reponse reseau sans bloquer l'interface utilisateur.</div>
+  </div>
+
+  <div class="content" id="partie3" style="display:none">
+    <div class="bloc">
+      <span class="big">Gestion d'erreurs — <em>try/catch et les cas qui foires.</em></span>
+      <p>Les requetes reseau peuvent echouer — pas de connexion, API down, URL incorrecte, rate limit. Il faut toujours gerer les erreurs pour ne pas casser l'interface utilisateur et donner un feedback comprehensible.</p>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — try/catch avec fetch</div></div>
+    <div class="code-body"><pre><span class="kw">async function</span> <span class="fn">getPrix</span>(<span class="var">coin</span>) {
+  <span class="kw">try</span> {
+    <span class="cm">// Afficher un loader</span>
+    <span class="var">statusEl</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">'Chargement...'</span>;
+
+    <span class="kw">const</span> <span class="var">res</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">`https://api.coingecko.com/api/v3/simple/price?ids=${<span class="var">coin</span>}&vs_currencies=usd`</span>);
+
+    <span class="cm">// Verifier le status HTTP</span>
+    <span class="kw">if</span> (<span class="op">!</span><span class="var">res</span>.<span class="var">ok</span>) {
+      <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="st">`Erreur HTTP : ${<span class="var">res</span>.<span class="var">status</span>}`</span>);
+    }
+
+    <span class="kw">const</span> <span class="var">data</span> <span class="op">=</span> <span class="kw">await</span> <span class="var">res</span>.<span class="fn">json</span>();
+    <span class="var">statusEl</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">'OK'</span>;
+    <span class="kw">return</span> <span class="var">data</span>;
+
+  } <span class="kw">catch</span> (<span class="var">error</span>) {
+    <span class="cm">// Erreur reseau OU erreur HTTP</span>
+    <span class="fn">console</span>.<span class="fn">error</span>(<span class="st">'Erreur fetch :'</span>, <span class="var">error</span>.<span class="var">message</span>);
+    <span class="var">statusEl</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">'Erreur de connexion'</span>;
+    <span class="kw">return</span> <span class="kw">null</span>; <span class="cm">// Valeur par defaut</span>
+  }
+}
+
+<span class="cm">// fetch ne rejette PAS sur les erreurs HTTP (404, 500)</span>
+<span class="cm">// Il faut verifier res.ok (true si status 200-299)</span>
+<span class="cm">// Il rejette seulement sur les erreurs reseau (pas de connexion)</span>
+
+<span class="cm">// Loading state pattern</span>
+<span class="kw">async function</span> <span class="fn">chargerDonnees</span>() {
+  <span class="var">btn</span>.<span class="var">disabled</span> <span class="op">=</span> <span class="bool">true</span>;
+  <span class="var">btn</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">'Chargement...'</span>;
+  <span class="kw">try</span> {
+    <span class="kw">const</span> <span class="var">data</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetchData</span>();
+    <span class="fn">afficher</span>(<span class="var">data</span>);
+  } <span class="kw">finally</span> {
+    <span class="var">btn</span>.<span class="var">disabled</span> <span class="op">=</span> <span class="bool">false</span>;
+    <span class="var">btn</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">'Rafraichir'</span>;
+  }
+}</pre></div></div>
+    <div class="fun-fact"><div class="ff-icon">⚠️</div><div><div class="ff-title">res.ok — le piege classique</div><div class="ff-text">fetch() ne rejette pas sur les erreurs HTTP. Si le serveur repond 404 ou 500, fetch() resout quand meme la Promise (pas d'erreur lancee). Tu dois verifier res.ok (true si status 200-299) ou res.status. Ce comportement surprend tous les debutants. Toujours verifier if(!res.ok) throw new Error(res.status) avant d'appeler res.json().</div></div></div>
+  </div>
+
+  <div class="content" id="partie4" style="display:none">
+    <div class="bloc">
+      <span class="big">API CoinGecko en live — <em>donnees reelles depuis une vraie API.</em></span>
+      <p>CoinGecko propose une API publique gratuite sans cle. Tu peux charger les prix de toutes les cryptos en temps reel. Clique sur "Actualiser" pour faire une vraie requete HTTP.</p>
+    </div>
+    <div class="fetch-demo">
+      <div class="fetch-demo-head">⚡ Demo live — prix crypto depuis CoinGecko</div>
+      <div class="fetch-demo-body">
+        <div class="fetch-grid" id="fetch-grid">
+          <div class="fetch-card"><div class="fc-name">BTC</div><div class="fc-val" id="fc-btc">--</div><div class="fc-var" id="fc-btc-var">--</div></div>
+          <div class="fetch-card"><div class="fc-name">ETH</div><div class="fc-val" id="fc-eth">--</div><div class="fc-var" id="fc-eth-var">--</div></div>
+          <div class="fetch-card"><div class="fc-name">SOL</div><div class="fc-val" id="fc-sol">--</div><div class="fc-var" id="fc-sol-var">--</div></div>
+          <div class="fetch-card"><div class="fc-name">BNB</div><div class="fc-val" id="fc-bnb">--</div><div class="fc-var" id="fc-bnb-var">--</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button class="fetch-btn" onclick="fetchPrix()">Actualiser les prix</button>
+          <span class="fetch-status" id="fetch-status">En attente...</span>
+        </div>
+      </div>
+    </div>
+    <div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JavaScript — Le code exact de cette demo</div></div>
+    <div class="code-body"><pre><span class="kw">async function</span> <span class="fn">fetchPrix</span>() {
+  <span class="kw">const</span> <span class="var">status</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">'#fetch-status'</span>);
+  <span class="var">status</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">'Chargement...'</span>;
+
+  <span class="kw">try</span> {
+    <span class="kw">const</span> <span class="var">res</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(
+      <span class="st">'https://api.coingecko.com/api/v3/simple/price'</span> <span class="op">+</span>
+      <span class="st">'?ids=bitcoin,ethereum,solana,binancecoin'</span> <span class="op">+</span>
+      <span class="st">'&vs_currencies=usd&include_24hr_change=true'</span>
+    );
+    <span class="kw">if</span> (<span class="op">!</span><span class="var">res</span>.<span class="var">ok</span>) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="var">res</span>.<span class="var">status</span>);
+    <span class="kw">const</span> <span class="var">data</span> <span class="op">=</span> <span class="kw">await</span> <span class="var">res</span>.<span class="fn">json</span>();
+
+    <span class="cm">// Mettre a jour le DOM</span>
+    <span class="kw">const</span> <span class="var">coins</span> <span class="op">=</span> {
+      bitcoin: <span class="st">'btc'</span>, ethereum: <span class="st">'eth'</span>,
+      solana: <span class="st">'sol'</span>, binancecoin: <span class="st">'bnb'</span>
+    };
+    <span class="kw">for</span> (<span class="kw">const</span> [<span class="var">id</span>, <span class="var">short</span>] <span class="kw">of</span> <span class="fn">Object</span>.<span class="fn">entries</span>(<span class="var">coins</span>)) {
+      <span class="kw">const</span> <span class="var">d</span> <span class="op">=</span> <span class="var">data</span>[<span class="var">id</span>];
+      <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">`#fc-${<span class="var">short</span>}`</span>).<span class="var">textContent</span> <span class="op">=</span>
+        <span class="st">`$${<span class="var">d</span>.<span class="var">usd</span>.<span class="fn">toLocaleString</span>()}`</span>;
+      <span class="kw">const</span> <span class="var">varEl</span> <span class="op">=</span> <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="st">`#fc-${<span class="var">short</span>}-var`</span>);
+      <span class="kw">const</span> <span class="var">v</span> <span class="op">=</span> <span class="var">d</span>.<span class="var">usd_24h_change</span>.<span class="fn">toFixed</span>(<span class="nm">2</span>);
+      <span class="var">varEl</span>.<span class="var">textContent</span> <span class="op">=</span> (<span class="var">v</span> <span class="op">></span> <span class="nm">0</span> <span class="op">?</span> <span class="st">'+'</span> : <span class="st">''</span>) <span class="op">+</span> <span class="var">v</span> <span class="op">+</span> <span class="st">'%'</span>;
+      <span class="var">varEl</span>.<span class="var">className</span> <span class="op">=</span> <span class="st">'fc-var '</span> <span class="op">+</span> (<span class="var">v</span> <span class="op">></span> <span class="nm">0</span> <span class="op">?</span> <span class="st">'up'</span> : <span class="st">'down'</span>);
+    }
+    <span class="var">status</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">`Mis a jour : ${<span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toLocaleTimeString</span>()}`</span>;
+  } <span class="kw">catch</span> (<span class="var">err</span>) {
+    <span class="var">status</span>.<span class="var">textContent</span> <span class="op">=</span> <span class="st">'Erreur : '</span> <span class="op">+</span> <span class="var">err</span>.<span class="var">message</span>;
+  }
+}</pre></div></div>
+  </div>
+
+  <div class="content" id="partie5" style="display:none">
+    <div class="exercice">
+      <div class="exo-head"><span class="exo-icon">🎯</span><span class="exo-title">App de prix crypto avec fetch</span><span class="exo-badge">Exercice</span></div>
+      <div class="exo-body">
+        <div class="exo-context">Ecris une fonction qui charge les prix depuis une API et affiche les resultats dans le DOM. Gere les etats de chargement et les erreurs.</div>
+        <div class="exo-mission"><div class="exo-mission-title">Ton code doit avoir</div><ul>
+          <li>Une fonction async avec await fetch()</li>
+          <li>Verification de res.ok avant res.json()</li>
+          <li>try/catch pour gerer les erreurs</li>
+          <li>Mise a jour du DOM avec les donnees recues</li>
+          <li>Un etat de chargement visible (loading / done)</li>
+        </ul></div>
+        <textarea class="exo-textarea" id="exoInput" placeholder="async function chargerPrix() {&#10;  const status = document.querySelector('#status');&#10;  status.textContent = 'Chargement...';&#10;&#10;  try {&#10;    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');&#10;    if (!res.ok) throw new Error(`HTTP ${res.status}`);&#10;    const data = await res.json();&#10;&#10;    const prix = data.bitcoin.usd;&#10;    document.querySelector('#prix').textContent = `BTC : ${prix.toLocaleString()} $`;&#10;    status.textContent = 'Mis a jour : ' + new Date().toLocaleTimeString();&#10;  } catch (err) {&#10;    status.textContent = 'Erreur : ' + err.message;&#10;    console.error(err);&#10;  }&#10;}&#10;&#10;chargerPrix();"></textarea>
+        <div class="exo-actions"><button class="btn-valider" onclick="validerExo()">Valider</button><button class="btn-indice" onclick="showIndice()">Indice</button></div>
+        <div class="exo-feedback" id="exoFeedback"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ia-aide">
+  <div class="ia-panel" id="iaPanel">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">JS · Fetch et APIs</div></div></div>
+    <div class="ia-msgs" id="iaMsgs"><div class="ia-msg ia-a">Salut ! Questions sur fetch et les APIs ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="iaInp" type="text" placeholder="Pose ta question..."><button class="ia-send" id="iaSend">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="toggleIa()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="btnPrev" onclick="prevPartie()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="navCurrent">Partie 1 sur 5</div>
+  <button class="nav-next" id="btnNext" onclick="nextPartie()">Suivant</button>
+</div>
+
+<script>
+var cp=1;var tp=5;
+function switchPartie(n){for(var i=1;i<=tp;i++){var el=document.getElementById('partie'+i);if(el)el.style.display='none';var tab=document.querySelectorAll('.partie-tab')[i-1];if(tab)tab.classList.remove('active');}var t=document.getElementById('partie'+n);if(t)t.style.display='block';var tt=document.querySelectorAll('.partie-tab')[n-1];if(tt)tt.classList.add('active');cp=n;updateNav();window.scrollTo(0,0);}
+function terminerModule(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js9']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nextPartie(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['js9']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}switchPartie(cp+1);}else{terminerModule();}}
+function prevPartie(){if(cp>1)switchPartie(cp-1);}
+function updateNav(){document.getElementById('btnPrev').style.visibility=cp>1?'visible':'hidden';document.getElementById('btnNext').textContent=cp===tp?'Terminer le module':'Suivant';document.getElementById('navCurrent').textContent='Partie '+cp+' sur '+tp;document.getElementById('modProgTxt').textContent='Partie '+cp+'/'+tp;document.getElementById('modProgFill').style.width=(cp/tp*100)+'%';document.getElementById('globalFill').style.width=(72+Math.round((cp/tp)*8))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('krtVal').textContent=(d['krt']||248)+' KRT';}catch(e){}}
+var speaking=false;
+function toggleListen(){var btn=document.getElementById('btnListen'),txt=document.getElementById('listenTxt');if(!speaking){var u=new SpeechSynthesisUtterance(document.getElementById('partie'+cp).innerText);u.lang='fr-FR';u.rate=0.88;u.onend=function(){speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';};speechSynthesis.speak(u);speaking=true;btn.classList.add('playing');txt.textContent='Stop';}else{speechSynthesis.cancel();speaking=false;btn.classList.remove('playing');txt.textContent='Ecouter';}}
+async function fetchPrix(){
+  var status=document.getElementById('fetch-status');
+  if(status)status.textContent='Chargement...';
+  try{
+    var res=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd&include_24hr_change=true');
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    var data=await res.json();
+    var map={bitcoin:'btc',ethereum:'eth',solana:'sol',binancecoin:'bnb'};
+    for(var id in map){
+      var s=map[id];var d=data[id];
+      if(!d)continue;
+      var el=document.getElementById('fc-'+s);
+      if(el)el.textContent='$'+d.usd.toLocaleString();
+      var ve=document.getElementById('fc-'+s+'-var');
+      if(ve){var v=(d.usd_24h_change||0).toFixed(2);ve.textContent=(v>0?'+':'')+v+'%';ve.className='fc-var '+(v>0?'up':'down');}
+    }
+    if(status)status.textContent='Mis a jour : '+new Date().toLocaleTimeString();
+  }catch(err){if(status)status.textContent='Erreur: '+err.message;}
+}
+function toggleIa(){document.getElementById('iaPanel').classList.toggle('open');}
+var iaInp=document.getElementById('iaInp'),iaSend=document.getElementById('iaSend'),iaMsgs=document.getElementById('iaMsgs');
+function sendIa(){var t=iaInp.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;iaMsgs.appendChild(u);iaInp.value='';iaMsgs.scrollTop=iaMsgs.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent=getR(t);iaMsgs.appendChild(a);iaMsgs.scrollTop=iaMsgs.scrollHeight;},600);}
+function getR(q){var q2=q.toLowerCase();if(q2.includes('async')||q2.includes('await'))return 'async function = fonction qui peut contenir await. await = attend que la Promise soit resolue. Ca ne bloque pas le navigateur — seulement la fonction async est en pause. Tu ne peux utiliser await que dans une fonction async.';if(q2.includes('res.ok')||q2.includes('status'))return 'fetch ne lance pas d\'erreur sur les codes HTTP 4xx et 5xx. Il faut verifier res.ok (true si 200-299) ou res.status. Si !res.ok : throw new Error(res.status) pour que le catch l\'attrape.';if(q2.includes('json')||q2.includes('parse'))return 'res.json() parse le body de la reponse en JSON. C\'est une Promise donc il faut await. Equivalent de JSON.parse() mais asynchrone. res.text() pour du texte brut. res.blob() pour des fichiers binaires.';if(q2.includes('cors')||q2.includes('cross'))return 'CORS (Cross-Origin Resource Sharing) : le navigateur bloque les requetes vers un autre domaine par defaut. L\'API doit autoriser ton domaine dans ses headers CORS. En developpement, utilise un proxy ou une API qui autorise * (toutes origines).';return 'fetch(url) retourne une Promise. await fetch() attend la reponse. await res.json() parse le JSON. try/catch pour les erreurs. Toujours verifier res.ok avant res.json().';}
+iaSend.addEventListener('click',sendIa);iaInp.addEventListener('keydown',function(e){if(e.key==='Enter')sendIa();});
+function validerExo(){var input=document.getElementById('exoInput').value.toLowerCase();var fb=document.getElementById('exoFeedback');var hasAsync=input.includes('async');var hasAwait=input.includes('await fetch');var hasOk=input.includes('res.ok')||input.includes('response.ok');var hasTryCatch=input.includes('try')&&input.includes('catch');var hasDom=input.includes('textcontent')||input.includes('innerhtml');var hasStatus=input.includes('chargement')||input.includes('loading')||input.includes('status');var score=[hasAsync,hasAwait,hasOk,hasTryCatch,hasDom,hasStatus].filter(Boolean).length;if(score>=4){fb.className='exo-feedback ok';fb.innerHTML='Parfait ! Tu sais charger des donnees depuis une API et les afficher dans le DOM. C\'est la base de toute app web moderne — dashboard crypto, meteo, news...';}else{fb.className='exo-feedback ko';fb.innerHTML='Il manque : '+(hasAsync?'':'async function, ')+(hasAwait?'':'await fetch(), ')+(hasOk?'':'verification res.ok, ')+(hasTryCatch?'':'try/catch, ')+(hasDom?'':'mise a jour DOM, ')+(hasStatus?'':'etat de chargement.');}fb.style.display='block';}
+function showIndice(){var fb=document.getElementById('exoFeedback');fb.className='exo-feedback ko';fb.innerHTML='async function chargerPrix() {<br>&nbsp;&nbsp;const status = document.querySelector("#status");<br>&nbsp;&nbsp;status.textContent = "Chargement...";<br>&nbsp;&nbsp;try {<br>&nbsp;&nbsp;&nbsp;&nbsp;const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");<br>&nbsp;&nbsp;&nbsp;&nbsp;if (!res.ok) throw new Error(`HTTP ${res.status}`);<br>&nbsp;&nbsp;&nbsp;&nbsp;const data = await res.json();<br>&nbsp;&nbsp;&nbsp;&nbsp;document.querySelector("#prix").textContent = `BTC : ${data.bitcoin.usd.toLocaleString()} $`;<br>&nbsp;&nbsp;&nbsp;&nbsp;status.textContent = "Mis a jour : " + new Date().toLocaleTimeString();<br>&nbsp;&nbsp;} catch(err) { status.textContent = "Erreur : " + err.message; }<br>}';fb.style.display='block';}
+updateNav();
+</script>
+</body>
+</html>
