@@ -3,514 +3,406 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kora Academy — Formations</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Kora Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,wght@0,300;0,400;1,400&family=JetBrains+Mono&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%)}
-*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+:root{--bg:#FAFAFA;--white:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--arc:#6BAED6;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%)}
+*{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;padding-bottom:80px}
-
-/* HEADER */
-.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
-.header-logo{font-family:'Fraunces',serif;font-size:17px;font-weight:600;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.header-right{display:flex;align-items:center;gap:10px;margin-left:auto}
-.krt-badge{display:flex;align-items:center;gap:5px;padding:5px 12px;background:rgba(107,31,42,0.05);border-radius:20px;border:1px solid rgba(107,31,42,0.1)}
-.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width 0.6s ease}
-
-/* HERO */
-.hero{padding:32px 20px 24px;max-width:740px;margin:0 auto}
-.hero-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.hero-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
-.hero-title{font-family:'Fraunces',serif;font-size:clamp(24px,5vw,38px);font-weight:300;letter-spacing:-1px;line-height:1.15;margin-bottom:8px}
-.hero-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:460px;margin-bottom:20px}
-.hero-stats{display:flex;gap:20px;flex-wrap:wrap}
-.stat{display:flex;flex-direction:column;gap:2px}
-.stat-val{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.stat-label{font-size:11px;color:var(--muted)}
-
-/* CONTINUER SECTION */
-.continuer-section{padding:0 20px 20px;max-width:740px;margin:0 auto}
-.continuer-card{padding:18px 20px;background:var(--w);border-radius:16px;border:1px solid rgba(107,31,42,0.12);display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.2s;text-decoration:none}
-.continuer-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(107,31,42,0.1);border-color:rgba(107,31,42,0.2)}
-.cc-icon{width:44px;height:44px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:white}
-.cc-info{flex:1;min-width:0}
-.cc-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:3px}
-.cc-title{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cc-sub{font-size:12px;color:var(--muted);margin-top:2px}
-.cc-arrow{font-size:18px;color:var(--b2);flex-shrink:0}
-
-/* CATEGORIES NAV */
-.cat-nav-wrap{position:sticky;top:56px;z-index:90;background:var(--w);border-bottom:1px solid var(--line)}
-.cat-nav{display:flex;overflow-x:auto;padding:0 20px;max-width:740px;margin:0 auto}
-.cat-nav::-webkit-scrollbar{height:0}
-.cat-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:6px}
-.cat-tab.active{color:var(--b1);font-weight:500;border-bottom-color:var(--b2)}
-.cat-tab-dot{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background 0.2s}
-.cat-tab.active .cat-tab-dot{background:var(--b2)}
-.cat-tab-pct{font-size:10px;color:var(--light);font-family:'JetBrains Mono',monospace}
-
-/* FORMATION VIEW */
-.formation-view{display:none;max-width:740px;margin:0 auto;padding:0 20px}
-.formation-view.active{display:block}
-
-.formation-header{padding:24px 0 16px;display:flex;align-items:flex-start;gap:14px}
-.fh-icon-wrap{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.fh-info{flex:1}
-.fh-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--b2);font-weight:500;margin-bottom:4px}
-.fh-title{font-family:'Fraunces',serif;font-size:22px;font-weight:300;letter-spacing:-0.5px;margin-bottom:4px;line-height:1.2}
-.fh-sub{font-size:13px;color:var(--muted);line-height:1.5}
-.fh-progress-row{display:flex;align-items:center;gap:10px;margin-top:10px}
-.fh-bar{flex:1;height:5px;background:var(--line);border-radius:3px;overflow:hidden}
-.fh-bar-fill{height:100%;background:var(--grad);border-radius:3px;transition:width 0.4s}
-.fh-pct{font-size:12px;font-weight:500;color:var(--b2);font-family:'JetBrains Mono',monospace}
-
-.chapters-list{display:flex;flex-direction:column;gap:20px;padding-bottom:40px}
-
-.chapter-block{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--w)}
-.chapter-head{padding:14px 18px;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-.ch-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:500}
-.ch-pct{font-size:11px;color:var(--b2);font-family:'JetBrains Mono',monospace}
-
-.modules-grid{display:flex;flex-direction:column;gap:0}
-.module-row{display:flex;align-items:center;padding:13px 18px;border-bottom:1px solid var(--line);cursor:pointer;text-decoration:none;color:inherit;transition:background 0.12s;position:relative}
-.module-row:last-child{border-bottom:none}
-.module-row:hover{background:rgba(107,31,42,0.03)}
-.module-row.locked{opacity:0.45;cursor:not-allowed;pointer-events:none}
-.module-row.active-module{background:rgba(107,31,42,0.04)}
-.mr-status{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-right:12px;border:1.5px solid var(--line);background:var(--w);transition:all 0.2s}
-.module-row.done .mr-status{background:var(--grad);border:none;color:white}
-.module-row.in-progress .mr-status{border-color:var(--b2);background:rgba(107,31,42,0.06);color:var(--b2)}
-.module-row.locked .mr-status{background:var(--bg);color:var(--light)}
-.mr-info{flex:1;min-width:0}
-.mr-num{font-size:10px;color:var(--light);font-family:'JetBrains Mono',monospace;margin-bottom:2px}
-.mr-title{font-size:13px;font-weight:400;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.module-row.done .mr-title{color:var(--muted)}
-.mr-right{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:8px}
-.mr-badge{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:500}
-.mr-badge.new{background:rgba(196,98,45,0.1);color:var(--b2);border:1px solid rgba(196,98,45,0.15)}
-.mr-badge.eval{background:rgba(107,31,42,0.08);color:var(--b1);border:1px solid rgba(107,31,42,0.12)}
-.mr-progress-mini{width:36px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
-.mr-progress-mini-fill{height:100%;background:var(--b2);border-radius:2px}
-.mr-arrow{font-size:14px;color:var(--light)}
-.module-row.done .mr-arrow{color:#28CA41}
-.module-row.in-progress .mr-arrow{color:var(--b2)}
-
-/* Couleurs par formation */
-.icon-code{background:linear-gradient(135deg,#6B1F2A,#C4622D)}
-.icon-js{background:linear-gradient(135deg,#1A3A6B,#2563EB)}
-.icon-node{background:linear-gradient(135deg,#0A2A1A,#16A34A)}
-.icon-python{background:linear-gradient(135deg,#1A4A2A,#2ECC71)}
-.icon-debug{background:linear-gradient(135deg,#4A1A6B,#9B59B6)}
-.icon-cyber{background:linear-gradient(135deg,#4A0A0A,#C0392B)}
-
-/* BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:10px 20px;display:flex;justify-content:space-around;z-index:80}
-.bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 12px;border-radius:12px;transition:background 0.15s;text-decoration:none;color:var(--muted);font-size:11px;border:none;background:transparent;font-family:'DM Sans',sans-serif}
-.bn-item.active{color:var(--b1)}
-.bn-item.active .bn-icon{color:var(--b1)}
-.bn-icon{font-size:20px;color:var(--light)}
-
-@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.formation-view.active{animation:up 0.3s ease both}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.header-top{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--line)}
+.logo{height:38px;border-radius:8px;padding:3px;box-shadow:0 0 0 1.5px var(--b2),0 0 0 3px rgba(232,149,109,.2);cursor:pointer}
+.prog-wrap{display:flex;align-items:center;gap:8px}
+.prog-bar{width:90px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .4s;width:0%}
+.prog-pct{font-size:.75rem;color:var(--muted)}
+.breadcrumb{display:flex;align-items:center;gap:8px;padding:9px 20px;font-size:.82rem;color:var(--muted);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.bc-link{cursor:pointer;transition:color .15s}.bc-link:hover{color:var(--b1)}
+.bcsep{color:var(--line)}.bcactive{color:var(--b1);font-weight:500}
+.nav-etapes{display:flex;align-items:center;padding:0 16px;overflow-x:auto;border-bottom:1px solid var(--line)}
+.nav-etapes::-webkit-scrollbar{height:0}
+.etape-btn{display:flex;align-items:center;gap:5px;padding:9px 11px;font-size:.78rem;font-family:'DM Sans',sans-serif;color:var(--light);background:transparent;border:none;cursor:pointer;white-space:nowrap;position:relative;transition:color .2s}
+.etape-btn.done{color:var(--b2)}.etape-btn.active{color:var(--b1);font-weight:500}
+.etape-btn.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--grad);border-radius:2px 2px 0 0}
+.etape-dot{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:600;flex-shrink:0}
+.etape-dot.done{background:var(--grad);color:#fff}.etape-dot.active{background:rgba(107,31,42,.1);color:var(--b1);border:1.5px solid var(--b1)}.etape-dot.lock{background:var(--line);color:var(--light)}
+.page{display:none}.page.active{display:block}
+.wrap{max-width:640px;margin:0 auto;padding:1.8rem 1.2rem}
+.home-hero{text-align:center;padding:2.5rem 1.2rem 1.5rem;max-width:640px;margin:0 auto}
+.home-hero h2{font-family:'Fraunces',serif;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:300;letter-spacing:-.03em;line-height:1.3;margin-bottom:.8rem}
+.home-hero p{font-size:.9rem;color:var(--muted);line-height:1.7;max-width:440px;margin:0 auto 2rem}
+.blocs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;padding:0 1.2rem 2rem;max-width:900px;margin:0 auto}
+.bloc-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:1.4rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.bloc-card:hover{border-color:rgba(196,98,45,.3);transform:translateY(-2px);box-shadow:0 6px 20px rgba(107,31,42,.07)}
+.bloc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad);opacity:0;transition:opacity .2s}
+.bloc-card:hover::before{opacity:1}
+.bloc-icon{font-size:1.8rem;margin-bottom:.8rem}.bloc-name{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:400;color:var(--text);margin-bottom:.4rem}
+.bloc-desc{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.bloc-meta{display:flex;align-items:center;justify-content:space-between}
+.bloc-count{font-size:.75rem;color:var(--light)}
+.bloc-prog-bar{width:60px;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.bloc-prog-fill{height:100%;background:var(--grad);border-radius:2px}
+.bloc-header{padding:1.4rem 1.2rem .8rem;max-width:640px;margin:0 auto}
+.bloc-header h2{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:400;color:var(--text);margin-bottom:.3rem}
+.bloc-header p{font-size:.85rem;color:var(--muted)}
+.lecons-list{display:flex;flex-direction:column;gap:8px;padding:0 1.2rem;max-width:640px;margin:0 auto}
+.lecon-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--white);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:all .15s}
+.lecon-item:hover{border-color:rgba(196,98,45,.25);background:#FFFAF8}
+.lecon-item.done{border-color:rgba(76,175,80,.2);background:#F5FBF5}
+.lecon-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:600;flex-shrink:0;background:var(--grad);color:#fff}
+.lecon-num.done-num{background:linear-gradient(135deg,#4caf50,#81c784)}
+.lecon-info{flex:1}.lecon-title{font-size:.9rem;font-weight:400;color:var(--text);margin-bottom:2px}
+.lecon-sub{font-size:.75rem;color:var(--muted)}
+.lecon-badge{font-size:.7rem;padding:2px 8px;border-radius:10px;font-weight:500}
+.badge-new{color:var(--b2);background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.2)}
+.badge-done{color:#2e7d32;background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.2)}
+.lesson-tag{display:inline-flex;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3);border-radius:20px;padding:3px 12px;margin-bottom:10px}
+h1.lt{font-family:'Fraunces',serif;font-size:clamp(1.4rem,3.5vw,1.9rem);font-weight:400;letter-spacing:-.03em;line-height:1.2;margin-bottom:1.8rem}
+.grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:italic}
+.screen{display:none}.screen.active{display:block}
+.card{border:1px solid var(--line);border-radius:14px;padding:1.4rem;margin-bottom:1.2rem;background:var(--white)}
+.card-warm{background:rgba(107,31,42,.03);border-color:rgba(107,31,42,.1)}
+.card-blue{background:rgba(107,174,214,.04);border-color:rgba(107,174,214,.2)}
+.slabel{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--b2);margin-bottom:.8rem}
+.btext{font-size:.93rem;line-height:1.75;color:var(--text);margin-bottom:1rem}
+.hint{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;background:rgba(107,31,42,.04);border-radius:8px;border:1px solid rgba(107,31,42,.08);margin-top:.6rem}
+.hint-text{font-size:.85rem;color:var(--b1);line-height:1.6}
+.exbl{margin-bottom:1rem}
+.exbl-lbl{font-size:.7rem;color:var(--b2);font-family:'JetBrains Mono',monospace;letter-spacing:.06em;margin-bottom:.3rem;text-transform:uppercase}
+.regles{display:flex;flex-direction:column;gap:6px;margin-bottom:1.2rem}
+.regle{display:flex;gap:12px;align-items:flex-start;padding:9px 12px;border-radius:8px}
+.regle:nth-child(odd){background:#FAFAFA}
+.rprop{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--b1);min-width:120px;flex-shrink:0}
+.reff{font-size:.83rem;color:var(--muted);line-height:1.55}
+pre{background:#FDF6F0;border:1px solid rgba(107,31,42,.1);border-left:3px solid var(--b2);border-radius:10px;padding:1rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.85;color:var(--text);overflow-x:auto;white-space:pre;margin-bottom:1rem}
+.btn{display:inline-flex;align-items:center;gap:6px;border-radius:22px;padding:10px 22px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
+.btn-p{background:var(--grad);color:#fff}.btn-o{background:transparent;color:var(--b1);border:1px solid rgba(107,31,42,.25)}
+.btn-g{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.btn:disabled{opacity:.35;cursor:default}
+.brow{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem}
+.tag{display:inline-flex;border-radius:20px;padding:3px 12px;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.tag-a{color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3)}
+.tag-b{color:var(--b2);background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.25)}
+.tag-memo{color:#7B5EA7;background:rgba(123,94,167,.1);border:1px solid rgba(123,94,167,.25)}
+.tag-debug{color:#E67E22;background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25)}
+.trow{display:flex;gap:8px;margin-bottom:1.2rem;flex-wrap:wrap}
+.opts{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--white);cursor:pointer;font-size:.88rem;font-family:'DM Sans',sans-serif;color:var(--muted);text-align:left;transition:all .15s;width:100%}
+.opt:hover{border-color:var(--b2);color:var(--b1);background:#FDF6F0}
+.opt.sel{border-color:var(--b2);color:var(--b1);background:#FDF6F0}
+.opt.ok{border-color:#4caf50;color:#2e7d32;background:#F0F8F0;cursor:default}
+.opt.ko{border-color:#e57373;color:#c62828;background:#FDF0F0;cursor:default}
+.oltr{font-family:'Fraunces',serif;opacity:.45;flex-shrink:0;width:20px;margin-top:1px}
+.irow{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1rem}
+.igrp label{font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
+.igrp input{border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:.85rem;font-family:'JetBrains Mono',monospace;background:var(--white);color:var(--text);outline:none;width:190px;transition:border-color .2s}
+.igrp input:focus{border-color:var(--b2)}.igrp input.ok{border-color:#4caf50;background:#F0F8F0}.igrp input.ko{border-color:#e57373;background:#FDF0F0}
+.memo-input{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--text);outline:none;resize:vertical;min-height:70px;margin:.8rem 0 .5rem;transition:border-color .2s}
+.memo-input:focus{border-color:rgba(123,94,167,.5)}
+.btn-memo{border-radius:20px;padding:8px 18px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
+.btn-memo-ok{background:rgba(76,175,80,.1);color:#2e7d32;border:1px solid rgba(76,175,80,.3)}
+.btn-memo-ko{background:rgba(229,115,115,.1);color:#c62828;border:1px solid rgba(229,115,115,.3)}
+.fb{border-radius:10px;padding:1rem;margin-top:10px}
+.fb.ok{background:#F0F8F0;border:1px solid #4caf50}.fb.ko{background:#FDF0F0;border:1px solid #e57373}
+.fb-t{font-weight:600;font-size:.9rem;margin-bottom:5px}
+.fb.ok .fb-t{color:#2e7d32}.fb.ko .fb-t{color:#c62828}
+.fb-x{color:var(--muted);font-size:.85rem;line-height:1.65}
+.resume-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:1.2rem}
+.resume-item{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:1rem}
+.resume-icon{font-size:1.1rem;margin-bottom:.4rem}
+.resume-key{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--b1);margin-bottom:.3rem;font-weight:500}
+.resume-val{font-size:.82rem;color:var(--muted);line-height:1.55}
+.rfooter{border-top:1px solid rgba(107,31,42,.1);padding-top:1rem;margin-top:.5rem}
+.rfooter p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.eval-card{background:linear-gradient(135deg,rgba(107,31,42,.04),rgba(232,149,109,.06));border:1px solid rgba(196,98,45,.2);border-radius:16px;padding:1.6rem;text-align:center;margin:1.5rem 1.2rem}
+.eval-card h3{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:400;color:var(--text);margin-bottom:.5rem}
+.eval-card p{font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.eval-lock{font-size:.82rem;color:var(--light);margin-top:.5rem}
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:200;padding:6px 0}
+.mob-inner{display:flex;justify-content:space-around}
+.mob-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.68rem;color:var(--light);cursor:pointer;padding:4px 16px;transition:color .15s}
+.mob-item.active{color:var(--b1)}.mob-ic{font-size:1.4rem;line-height:1.2}
+@media(max-width:680px){.mob-nav{display:block}}
+@media(max-width:480px){.regle{flex-direction:column;gap:3px}.rprop{min-width:auto}.wrap{padding:1.4rem .9rem}.blocs-grid{grid-template-columns:1fr;padding:0 .9rem 1.5rem}}
 </style>
 </head>
 <body>
-
-<header class="header">
-  <div class="header-logo">Kora</div>
-  <div class="header-right">
-    <div class="krt-badge">
-      <span style="font-size:11px;color:var(--b2)">◈</span>
-      <span class="krt-val" id="krtVal">248 KRT</span>
+<div class="header">
+  <div class="header-top">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="logo.jpg" alt="Kora" class="logo" onclick="showHome()">
+      <span style="font-family:'Fraunces',serif;font-size:1rem;color:var(--text)" id="headerTitle">Kora Academy</span>
+    </div>
+    <div class="prog-wrap" id="progWrap" style="display:none">
+      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+      <span class="prog-pct" id="progPct">0%</span>
     </div>
   </div>
-</header>
-<div class="global-progress"><div class="global-progress-fill" id="globalFill" style="width:0%"></div></div>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-label">Kora Academy</div>
-  <div class="hero-title">Apprends. <em>Gagnes.</em></div>
-  <div class="hero-sub">Des formations completes du code a l'IA. Chaque module valide = KRT gagnes.</div>
-  <div class="hero-stats">
-    <div class="stat"><span class="stat-val" id="stat-modules">0</span><span class="stat-label">Modules termines</span></div>
-    <div class="stat"><span class="stat-val" id="stat-pct">0%</span><span class="stat-label">Progression globale</span></div>
-    <div class="stat"><span class="stat-val" id="stat-krt">248</span><span class="stat-label">KRT accumules</span></div>
+  <div class="breadcrumb" id="breadcrumb"><span class="bcactive">Formations</span></div>
+  <div class="nav-etapes" id="navEtapes" style="display:none"></div>
+</div>
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <h2>Apprendre n'a jamais autant <em class="grad">rapport&eacute;.</em></h2>
+    <p>Des formations compl&egrave;tes avec exercices interactifs. Chaque notion expliqu&eacute;e, chaque erreur corrig&eacute;e imm&eacute;diatement.</p>
+  </div>
+  <div class="blocs-grid" id="blocsGrid"></div>
+</div>
+<div class="page" id="page-bloc">
+  <div class="bloc-header"><h2 id="blocTitle"></h2><p id="blocDesc"></p></div>
+  <div class="lecons-list" id="leconsList"></div>
+  <div id="evalZone"></div>
+</div>
+<div class="page" id="page-lecon">
+  <div class="wrap">
+    <div class="lesson-tag" id="leconTag"></div>
+    <h1 class="lt" id="leconH1"></h1>
+    <div id="leconScreens"></div>
   </div>
 </div>
-
-<!-- CONTINUER CARD -->
-<div class="continuer-section">
-  <a class="continuer-card" id="continuerCard" href="#">
-    <div class="cc-icon" id="continuerIcon">▶</div>
-    <div class="cc-info">
-      <div class="cc-label">Continuer</div>
-      <div class="cc-title" id="continuerTitle">Chargement...</div>
-      <div class="cc-sub" id="continuerSub"></div>
-    </div>
-    <div class="cc-arrow">→</div>
-  </a>
+<div class="mob-nav">
+  <div class="mob-inner">
+    <div class="mob-item" onclick="window.location.href='index.html'"><span class="mob-ic">&#8962;</span>Accueil</div>
+    <div class="mob-item active" onclick="showHome()"><span class="mob-ic">&#10010;</span>Formation</div>
+    <div class="mob-item" onclick="window.location.href='index.html'"><span class="mob-ic">&#9711;</span>Profil</div>
+  </div>
 </div>
-
-<!-- CATEGORIES NAV -->
-<div class="cat-nav-wrap">
-  <div class="cat-nav" id="catNav"></div>
-</div>
-
-<!-- FORMATION VIEWS -->
-<div id="formationViews"></div>
-
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-  <button class="bn-item active" onclick="goToAcademy()">
-    <span class="bn-icon">📚</span>Formation
-  </button>
-  <a class="bn-item" href="index.html">
-    <span class="bn-icon">👤</span>Profil
-  </a>
-</div>
-
 <script>
-// =============================================
-// CONFIGURATION DES FORMATIONS
-// =============================================
-var FORMATIONS = [
-  {
-    id: 'codage',
-    label: 'Le Code',
-    icon: '💻',
-    iconClass: 'icon-code',
-    description: 'HTML, CSS, JavaScript et Python — de zero a la pratique',
-    chapitres: [
-      {
-        id: 'html', label: 'Chapitre 1 — HTML', modules: [
-          {id:'codage1', titre:'Introduction HTML', file:'formation-codage.html'},
-          {id:'codage2', titre:'Texte et typographie', file:'formation-codage2.html'},
-          {id:'codage3', titre:'Liens et images', file:'formation-codage3.html'},
-          {id:'codage4', titre:'Listes et tableaux', file:'formation-codage4.html'},
-          {id:'codage5', titre:'Formulaires', file:'formation-codage5.html'},
-          {id:'codage6', titre:'Structure semantique', file:'formation-codage6.html'},
-          {id:'codage7', titre:'Pratique reelle', file:'formation-codage7.html'},
-          {id:'codage8', titre:'Evaluation HTML', file:'formation-codage8.html', badge:'eval'},
-        ]
-      },
-      {
-        id: 'css', label: 'Chapitre 2 — CSS', modules: [
-          {id:'css1', titre:'C\'est quoi le CSS', file:'css1.html'},
-          {id:'css2', titre:'Les selecteurs', file:'css2.html'},
-          {id:'css3', titre:'Couleurs et fonds', file:'css3.html'},
-          {id:'css4', titre:'Texte et typographie', file:'css4.html'},
-          {id:'css5', titre:'Le modele de boite', file:'css5.html'},
-          {id:'css6', titre:'Display et visibilite', file:'css6.html'},
-          {id:'css7', titre:'Position et z-index', file:'css7.html'},
-          {id:'css8', titre:'Flexbox', file:'css8.html'},
-          {id:'css9', titre:'CSS Grid', file:'css9.html'},
-          {id:'css10', titre:'Responsive et media queries', file:'css10.html'},
-          {id:'css11', titre:'Pseudo-classes', file:'css11.html'},
-          {id:'css12', titre:'Variables CSS', file:'css12.html'},
-          {id:'css13', titre:'Transitions et animations', file:'css13.html'},
-          {id:'css14', titre:'Pratique reelle', file:'css14.html'},
-          {id:'css15', titre:'Evaluation CSS', file:'css15.html', badge:'eval'},
-        ]
-      },
-      {
-        id: 'js', label: 'Chapitre 3 — JavaScript', modules: [
-          {id:'js1', titre:'C\'est quoi JavaScript', file:'js1.html'},
-          {id:'js2', titre:'Variables et types', file:'js2.html'},
-          {id:'js3', titre:'Operateurs et conditions', file:'js3.html'},
-          {id:'js4', titre:'Fonctions', file:'js4.html'},
-          {id:'js5', titre:'Tableaux et objets', file:'js5.html'},
-          {id:'js6', titre:'Boucles', file:'js6.html'},
-          {id:'js7', titre:'Le DOM', file:'js7.html'},
-          {id:'js8', titre:'Evenements', file:'js8.html'},
-          {id:'js9', titre:'Fetch et APIs', file:'js9.html'},
-          {id:'js10', titre:'LocalStorage', file:'js10.html'},
-          {id:'js11', titre:'Mini-app crypto', file:'js11.html'},
-          {id:'js12', titre:'Evaluation JavaScript', file:'js12.html', badge:'eval'},
-        ]
-      },
-      {
-        id: 'node', label: 'Chapitre 4 — Node.js Back-end', modules: [
-          {id:'node1',  titre:"C'est quoi Node.js",          file:'node1.html'},
-          {id:'node2',  titre:'Modules et systeme de fichiers', file:'node2.html'},
-          {id:'node3',  titre:'Premier serveur Express',     file:'node3.html'},
-          {id:'node4',  titre:'Middleware et architecture',  file:'node4.html'},
-          {id:'node5',  titre:'Base de donnees SQLite',      file:'node5.html'},
-          {id:'node6',  titre:'Authentification JWT',        file:'node6.html'},
-          {id:'node7',  titre:'API REST complete Kora',      file:'node7.html'},
-          {id:'node8',  titre:'Reseau social et deploiement',file:'node8.html'},
-          {id:'node9',  titre:'PostgreSQL et Prisma en prod',file:'node9.html'},
-          {id:'node10', titre:'Blockchain et tokens KRT',    file:'node10.html'},
-          {id:'node11', titre:'Kora MVP — tout assembler',   file:'node11.html'},
-          {id:'node12', titre:'Evaluation Node.js',          file:'node12.html', badge:'eval'},
-        ]
-      },
-      {
-        id: 'debug', label: 'Chapitre 5 — Debogage', bientot: true, modules: [
-          {id:'debug1', titre:'DevTools et console', file:'debug1.html', bientot:true},
-          {id:'debug2', titre:'Erreurs courantes', file:'debug2.html', bientot:true},
-          {id:'debug3', titre:'Breakpoints et inspection', file:'debug3.html', bientot:true},
-        ]
-      },
-      {
-        id: 'cyber', label: 'Chapitre 6 — Cybersecurite', bientot: true, modules: [
-          {id:'cyber1', titre:'HTTPS et chiffrement', file:'cyber1.html', bientot:true},
-          {id:'cyber2', titre:'XSS et injections', file:'cyber2.html', bientot:true},
-          {id:'cyber3', titre:'Bonnes pratiques', file:'cyber3.html', bientot:true},
-        ]
-      }
-    ]
-  },
-  {
-    id: 'crypto',
-    label: 'Crypto & Trading',
-    icon: '₿',
-    iconClass: 'icon-js',
-    description: 'Comprendre et trader les cryptomonnaies',
-    bientot: true,
-    chapitres: []
-  },
-  {
-    id: 'finance',
-    label: 'Finance & Invest.',
-    icon: '📈',
-    iconClass: 'icon-python',
-    description: 'Budget, investissement, liberte financiere',
-    bientot: true,
-    chapitres: []
+const BLOCS = [{"id":"js","icon":"&#9889;","name":"JavaScript","desc":"Variables, types, conditions, boucles, fonctions, tableaux, objets, DOM, &#233;v&#233;nements, classes, async, fetch, modules.","lecons":[{"id":"js-1","num":1,"tag":"JavaScript &middot; Le&ccedil;on 1","title":"Les variables","sub":"Stocker et r&eacute;utiliser des donn&eacute;es","pourquoi":"Une variable est une bo&icirc;te avec un nom. Tu y mets une valeur &mdash; texte, nombre &mdash; et tu peux l&rsquo;utiliser partout. Sans variables, tout serait &eacute;crit en dur.","exemple":"DB Studio : nom du client, prix, pages. Kora : tokens, score. Ce sont toutes des variables.","exemples":[{"label":"const &mdash; fixe","code":"const nomClient = 'Hotel Le Napoleon';\nconst prixBase = 1200;\nconsole.log(nomClient);"},{"label":"let &mdash; change","code":"let pages = 5;\nlet total = pages * prixBase;\npages = pages + 2; // modifier\ntotal = pages * prixBase; // recalcul"},{"label":"var &mdash; eviter","code":"// var imprev\nvar x = 10;\nif(true) { var x = 20; } // bug global!\nconsole.log(x); // 20 bug\n\n// let correct\nlet y = 10;\nif(true) { let y = 20; } // local\nconsole.log(y); // 10"}],"regles":[{"prop":"const","expl":"Valeur fixe. Ne change pas. Par d&eacute;faut."},{"prop":"let","expl":"Valeur modifiable. Pour compteurs et &eacute;tats."},{"prop":"var","expl":"Obsol&egrave;te. Probl&egrave;mes de port&eacute;e. Ne jamais utiliser."}],"code":"const nomSite = 'Kora';\nconst annee = 2026;\n\nlet score = 0;\nscore = score + 10; // OK\nscore += 5; // raccourci\n\n// const interdit la reassignation\n// const nomSite = 'autre'; // ERREUR\n\nconst [prenom, nom] = ['Val', 'D'];\nconsole.log(prenom); // Val","exercices":[{"type":"qcm","question":"Tu stockes l'URL de l'API Kora qui ne changera jamais. Tu utilises quoi ?","options":["var apiUrl = 'url'","let apiUrl = 'url'","const apiUrl = 'url'","apiUrl = 'url'"],"bonne":2,"explication":"const est parfait pour les valeurs fixes. Il empeche les modifications accidentelles."},{"type":"completion","question":"Cree un compteur de tokens qui commence a 0 et peut augmenter :","labels":["mot-cle","valeur initiale"],"bonnes":["let","0"],"template":"[A] tokens = [B];\ntokens = tokens + 15;\nconsole.log(tokens); // 15"},{"type":"memo","question":"Declare une constante vitesse avec la valeur 300.","bonne":"const vitesse = 300;","indice":"mot-cle nom = valeur ;","explication":"const vitesse = 300; &mdash; mot-cl&eacute;, nom, =, valeur, point-virgule."},{"type":"debug","question":"Ce code plante. Trouve l'erreur :","codeFaux":"const compteur = 0;\ncompteur = compteur + 1; // erreur\nconsole.log(compteur);","codeCorrige":"let compteur = 0;\ncompteur = compteur + 1;\nconsole.log(compteur);","options":["console.log incorrect","const doit etre let (valeur modifiable)","compteur + 1 invalide","Point-virgule manquant"],"bonne":1,"explication":"const interdit toute reassignation. Utiliser let pour les valeurs qui changent."}],"resume":[{"icon":"&#128230;","key":"const","val":"Valeur fixe. Par d&eacute;faut."},{"icon":"&#128260;","key":"let","val":"Valeur modifiable."},{"icon":"&#9888;&#65039;","key":"var","val":"Obsol&egrave;te &mdash; jamais."},{"icon":"&#128161;","key":"R&egrave;gle","val":"const d&rsquo;abord. let si modification."}]},{"id":"js-2","num":2,"tag":"JavaScript &middot; Le&ccedil;on 2","title":"Les types de donn&eacute;es","sub":"Ce que JavaScript peut stocker","pourquoi":"Chaque variable a un type. JS est dynamiquement typ&eacute; mais comprendre les types &eacute;vite des bugs : '5' + 3 = '53' au lieu de 8.","exemple":"Un formulaire renvoie toujours du texte. Sans convertir, '5' + 3 = '53'. Bug classique sur les formulaires de commande.","exemples":[{"label":"Types primitifs","code":"const texte = 'Kora';      // string\nconst nombre = 2026;        // number\nconst vrai = true;          // boolean\nconst rien = null;          // null\nconst indefini = undefined; // undefined"},{"label":"typeof","code":"console.log(typeof 'Kora'); // string\nconsole.log(typeof 42);    // number\nconsole.log(typeof true);  // boolean\nconsole.log(typeof null);  // object <- bug JS historique"},{"label":"Conversion","code":"const input = '42'; // vient d'un formulaire\nconst prix = Number(input); // 42\n\n// Piege !\nconsole.log('5' + 3);         // '53'\nconsole.log(Number('5') + 3); // 8"}],"regles":[{"prop":"string","expl":"Texte. Guillemets simples, doubles ou backticks."},{"prop":"number","expl":"Entier ou d&eacute;cimal. Un seul type en JS."},{"prop":"boolean","expl":"true ou false."},{"prop":"null","expl":"Absence de valeur intentionnelle."},{"prop":"typeof","expl":"Retourne le type en string."}],"code":"const prenom = 'Val';\nconst bio = `Fondatrice de ${prenom}`;\nconst age = 22;\nconst estConnecte = true;\n\nconsole.log(typeof prenom); // string\nconsole.log(typeof age);    // number\n\n// Piege !\nconsole.log('5' + 3);         // '53'\nconsole.log(Number('5') + 3); // 8","exercices":[{"type":"qcm","question":"Un formulaire HTML renvoie toujours le type... ?","options":["number","boolean","string","undefined"],"bonne":2,"explication":"Tous les inputs retournent des strings. Convertir avec Number() avant les calculs."},{"type":"completion","question":"Convertis l'input en nombre pour calculer le prix :","labels":["conversion","calcul"],"bonnes":["Number","prix * 2"],"template":"const input = document.querySelector('#qte').value;\nconst qte = [A](input);\nconst total = [B];\nconsole.log(total);"},{"type":"memo","question":"Afficher le type de la variable 'score' dans la console.","bonne":"console.log(typeof score);","indice":"console.log( typeof nom_variable )","explication":"typeof est un operateur. typeof score sans parentheses autour de score."},{"type":"debug","question":"Le total est '310' au lieu de 30. Trouve pourquoi :","codeFaux":"const qte = '3';  // input\nconst prix = 10;\nconst total = qte + prix;\nconsole.log(total); // '310'","codeCorrige":"const qte = Number('3');\nconst prix = 10;\nconst total = qte + prix;\nconsole.log(total); // 30","options":["prix doit etre string","qte doit etre converti avec Number()","+ doit etre *","console.log incorrect"],"bonne":1,"explication":"'3' + 10 = '310' (concatenation). Number('3') + 10 = 30 (addition)."}],"resume":[{"icon":"&#128221;","key":"string","val":"Texte"},{"icon":"&#128290;","key":"number","val":"Entier ou d&eacute;cimal"},{"icon":"&#9989;","key":"boolean","val":"true ou false"},{"icon":"&#128269;","key":"typeof","val":"Identifier le type"},{"icon":"&#9888;&#65039;","key":"Pi&egrave;ge","val":"'5' + 3 = '53' &mdash; toujours convertir"}]},{"id":"js-3","num":3,"tag":"JavaScript &middot; Le&ccedil;on 3","title":"Les conditions","sub":"D&eacute;cisions dans le code","pourquoi":"Sans conditions, le code fait toujours la m&ecirc;me chose. if/else permet d&rsquo;ex&eacute;cuter du code diff&eacute;rent selon la situation.","exemple":"Kora : if (tokens >= 50) { debloquer(); } else { upgrade(); }","exemples":[{"label":"if / else if / else","code":"const score = 75;\n\nif (score >= 90) {\n  console.log('Excellent');\n} else if (score >= 70) {\n  console.log('Bien');\n} else {\n  console.log('Insuffisant');\n}"},{"label":"Comparaisons","code":"5 === 5    // true - strict\n5 == '5'   // true - laxe (eviter)\n5 !== 3    // true\ntrue && true  // true - ET\ntrue || false // true - OU\n!true         // false - NON"},{"label":"Ternaire","code":"const age = 22;\nconst statut = age >= 18 ? 'adulte' : 'mineur';\n// 'adulte'"}],"regles":[{"prop":"if / else","expl":"Structure de base."},{"prop":"=== / !==","expl":"Comparaison stricte. Toujours pr&eacute;f&eacute;rer."},{"prop":"&amp;&amp; / || / !","expl":"ET / OU / NON."},{"prop":"ternaire ? :","expl":"Condition sur une ligne."}],"code":"const tokens = 120;\nconst estConnecte = true;\n\nif (tokens >= 100) {\n  console.log('Formation debloquee');\n} else {\n  console.log('Insuffisant');\n}\n\n// Conditions multiples\nif (estConnecte && tokens >= 50) {\n  afficherFormation();\n}\n\n// Ternaire\nconst badge = tokens > 200 ? 'Expert' : 'Debutant';","exercices":[{"type":"qcm","question":"Difference entre == et === ?","options":["Aucune","== verifie type+valeur","=== verifie type+valeur, == est laxe","=== pour strings seulement"],"bonne":2,"explication":"=== verifie type ET valeur. == convertit puis compare. Toujours utiliser ===."},{"type":"completion","question":"Si tokens > 50 ET estPremium, afficher la formation :","labels":["operateur","appel"],"bonnes":["&&","afficherFormation()"],"template":"if (tokens > 50 [A] estPremium) {\n  [B];\n}"},{"type":"memo","question":"Ternaire : 'connecte' si estConnecte true, sinon 'deconnecte'.","bonne":"const statut = estConnecte ? 'connecte' : 'deconnecte';","indice":"const nom = condition ? vrai : faux","explication":"Le ternaire est un if/else sur une ligne."},{"type":"debug","question":"La condition ne fonctionne pas. Trouve :","codeFaux":"const score = 100;\nif (score = 100) {\n  console.log('Parfait');\n}","codeCorrige":"const score = 100;\nif (score === 100) {\n  console.log('Parfait');\n}","options":["console.log mal place","= est assignation pas comparaison - utiliser ===","score doit etre string","Accolades mal placees"],"bonne":1,"explication":"if (score = 100) assigne 100. Pour comparer : ===."}],"resume":[{"icon":"&#128256;","key":"if/else","val":"Base des conditions"},{"icon":"&#9878;&#65039;","key":"===","val":"Stricte &mdash; toujours pr&eacute;f&eacute;rer =="},{"icon":"&#128279;","key":"&amp;&amp; / ||","val":"Combiner conditions"},{"icon":"&#9889;","key":"ternaire","val":"condition ? vrai : faux"}]},{"id":"js-4","num":4,"tag":"JavaScript &middot; Le&ccedil;on 4","title":"Les boucles","sub":"R&eacute;p&eacute;ter sans se r&eacute;p&eacute;ter","pourquoi":"Sans boucle, afficher 100 posts = &eacute;crire le m&ecirc;me code 100 fois. Les boucles automatisent.","exemple":"Kora : pour chaque formation, cr&eacute;er une carte HTML. C&rsquo;est forEach ou map.","exemples":[{"label":"for classique","code":"for (let i = 0; i < 5; i++) {\n  console.log('Lecon ' + (i + 1));\n}\n// Lecon 1, 2, 3, 4, 5"},{"label":"forEach","code":"const formations = ['JS', 'CSS', 'React'];\n\nformations.forEach((f) => {\n  console.log('Formation : ' + f);\n});"},{"label":"while","code":"let tokens = 0;\n\nwhile (tokens < 100) {\n  tokens += 10;\n  console.log(tokens);\n}\n// 10, 20, ..., 100"}],"regles":[{"prop":"for","expl":"Nombre d&rsquo;it&eacute;rations connu. Init ; condition ; incr&eacute;mentation."},{"prop":"forEach","expl":"Tableau : fonction pour chaque &eacute;l&eacute;ment."},{"prop":"for...of","expl":"Parcourt les valeurs &mdash; plus lisible."},{"prop":"while","expl":"R&eacute;p&egrave;te tant que condition vraie."},{"prop":"break","expl":"Arr&ecirc;te imm&eacute;diatement."}],"code":"const lecons = ['Variables', 'Types', 'Conditions'];\n\n// forEach - le plus courant\nlecons.forEach((lecon, i) => {\n  console.log(`${i + 1}. ${lecon}`);\n});\n\n// for...of - propre\nfor (const lecon of lecons) {\n  console.log(lecon);\n}\n\n// for classique\nfor (let i = 0; i < lecons.length; i++) {\n  console.log(lecons[i]);\n}","exercices":[{"type":"qcm","question":"Tu as 50 posts a afficher. Quelle boucle ?","options":["while","for classique","forEach ou for...of","for...in"],"bonne":2,"explication":"forEach et for...of sont faits pour les tableaux. Plus lisibles. for...in = objets."},{"type":"completion","question":"Affiche chaque formation :","labels":["methode","parametre"],"bonnes":["forEach","formation"],"template":"const formations = ['JS', 'CSS', 'React'];\nformations.[A]((formation) => {\n  console.log([B]);\n});"},{"type":"memo","question":"Boucle for de 0 a 4 (5 iterations).","bonne":"for (let i = 0; i < 5; i++) {\n  // code\n}","indice":"for ( init ; condition ; incrementation ) { }","explication":"i commence a 0, continue tant que i < 5, augmente de 1."},{"type":"debug","question":"Boucle infinie :","codeFaux":"let i = 0;\nwhile (i < 10) {\n  console.log(i);\n  // i jamais modifie\n}","codeCorrige":"let i = 0;\nwhile (i < 10) {\n  console.log(i);\n  i++;\n}","options":["while -> for","Manque i++","console.log plante","Condition fausse"],"bonne":1,"explication":"Sans i++, i reste a 0, condition toujours vraie - boucle infinie."}],"resume":[{"icon":"&#128290;","key":"for","val":"Nombre connu"},{"icon":"&#128203;","key":"forEach","val":"Tableau &mdash; le plus courant"},{"icon":"&#128257;","key":"while","val":"Jusqu&rsquo;a condition fausse"},{"icon":"&#9940;","key":"break","val":"Sortir imm&eacute;diatement"}]},{"id":"js-5","num":5,"tag":"JavaScript &middot; Le&ccedil;on 5","title":"Les fonctions","sub":"R&eacute;utiliser et organiser","pourquoi":"Une fonction est un bloc de code avec un nom. Au lieu de copier-coller, tu &eacute;cris une fois et tu appelles.","exemple":"DB Studio : calculerPrix(pages, options). Une seule modification suffit pour tout.","exemples":[{"label":"3 syntaxes","code":"// Declaration\nfunction saluer(nom) { return 'Bonjour ' + nom; }\n\n// Expression\nconst saluer2 = function(nom) { return 'Bonjour ' + nom; };\n\n// Arrow function - moderne\nconst saluer3 = (nom) => 'Bonjour ' + nom;"},{"label":"Valeurs par defaut","code":"function prix(pages, tarif = 200) {\n  return pages * tarif;\n}\nconsole.log(prix(5));      // 1000\nconsole.log(prix(5, 300)); // 1500"},{"label":"Sans return = undefined","code":"function rien() {\n  console.log('pas de return');\n}\nconsole.log(rien()); // undefined"}],"regles":[{"prop":"function nom()","expl":"D&eacute;claration. Hoisting."},{"prop":"const nom = () =>","expl":"Arrow function. Syntaxe moderne."},{"prop":"return","expl":"Retourne et stoppe la fonction."},{"prop":"param = valeur","expl":"Valeur par d&eacute;faut si argument absent."}],"code":"const calculerRemise = (prix, remise = 0.1) => {\n  return prix - (prix * remise);\n};\n\nconsole.log(calculerRemise(1200));       // 1080\nconsole.log(calculerRemise(1200, 0.25)); // 900\n\n// Retourner un objet\nconst creerClient = (nom, budget) => ({\n  nom,\n  budget,\n  premium: budget > 2000\n});\n\nconsole.log(creerClient('Marc', 2500).premium); // true","exercices":[{"type":"qcm","question":"Difference entre function et arrow function ?","options":["Arrow sans parametres","Arrow plus courte, ne lie pas son propre this","function ne peut pas retourner","Aucune"],"bonne":1,"explication":"Arrow functions plus courtes. Difference technique : elles heritent du this du contexte parent."},{"type":"completion","question":"Fonction qui calcule TTC :","labels":["declaration","calcul"],"bonnes":["const","prix * (1 + tva)"],"template":"[A] calculerTTC = (prix, tva = 0.20) => {\n  return [B];\n};\nconsole.log(calculerTTC(100)); // 120"},{"type":"memo","question":"Arrow function 'doubler' qui retourne n * 2.","bonne":"const doubler = (n) => n * 2;","indice":"const nom = (param) => expression","explication":"Corps en une expression = retour implicite sans accolades."},{"type":"debug","question":"Retourne undefined :","codeFaux":"const additionner = (a, b) => {\n  const result = a + b;\n};\nconsole.log(additionner(3, 4)); // undefined","codeCorrige":"const additionner = (a, b) => {\n  const result = a + b;\n  return result;\n};\nconsole.log(additionner(3, 4)); // 7","options":["Parametres invalides","Manque return","const interdit","Accolades inutiles"],"bonne":1,"explication":"Sans return, toujours undefined. Le resultat est perdu."}],"resume":[{"icon":"&#127959;&#65039;","key":"function nom()","val":"D&eacute;claration &mdash; hoisting"},{"icon":"&#9889;","key":"const nom = () =>","val":"Arrow &mdash; moderne"},{"icon":"&#8617;&#65039;","key":"return","val":"Retourne et stoppe"},{"icon":"&#127919;","key":"param = defaut","val":"Valeur si argument absent"}]},{"id":"js-6","num":6,"tag":"JavaScript &middot; Le&ccedil;on 6","title":"Les tableaux","sub":"Listes de donn&eacute;es","pourquoi":"Posts, formations, tokens &mdash; tout se stocke dans des tableaux. Structure la plus utilis&eacute;e en JS.","exemple":"L&rsquo;API Kora retourne un tableau de posts. Tu parcoures pour afficher chacun.","exemples":[{"label":"Creer et acceder","code":"const formations = ['JS', 'CSS', 'React'];\nconsole.log(formations[0]);    // 'JS'\nconsole.log(formations.length); // 3"},{"label":"Ajouter/supprimer","code":"const panier = ['HTML', 'CSS'];\npanier.push('JS');      // fin\npanier.pop();           // supprime dernier\npanier.unshift('Intro'); // debut"},{"label":"map, filter, find","code":"const scores = [45, 82, 91, 33, 76];\n\nconst doubles = scores.map(s => s * 2);\nconst bons = scores.filter(s => s >= 70); // [82,91,76]\nconst top = scores.find(s => s >= 90);    // 91"}],"regles":[{"prop":"array[index]","expl":"Acc&egrave;s. Index commence &agrave; 0."},{"prop":".push()","expl":"Ajoute &agrave; la fin."},{"prop":".map(fn)","expl":"Transforme chaque &eacute;l&eacute;ment."},{"prop":".filter(fn)","expl":"Garde les &eacute;l&eacute;ments qui passent."},{"prop":".find(fn)","expl":"Premier &eacute;l&eacute;ment qui correspond."}],"code":"const posts = [\n  { id: 1, auteur: 'Val', likes: 284, verifie: true },\n  { id: 2, auteur: 'Marc', likes: 47, verifie: false },\n];\n\nconst auteurs = posts.map(p => p.auteur);\n// ['Val', 'Marc']\n\nconst verifies = posts.filter(p => p.verifie);\n// [{id:1...}]\n\nconst top = posts.find(p => p.likes > 200);\n// {id:1, auteur:'Val'...}","exercices":[{"type":"qcm","question":"Garder les formations avec completion > 80%. Quelle methode ?","options":[".map()",".find()",".filter()",".push()"],"bonne":2,"explication":".filter() cree un nouveau tableau avec les elements qui passent le test."},{"type":"completion","question":"Extraire les titres des lecons :","labels":["methode","propriete"],"bonnes":["map","l.titre"],"template":"const lecons = [\n  { titre: 'Variables', duree: 10 },\n  { titre: 'Boucles', duree: 15 },\n];\nconst titres = lecons.[A](l => [B]);"},{"type":"memo","question":"Filtre 'scores' pour garder les valeurs > 70.","bonne":"const bons = scores.filter(s => s > 70);","indice":".filter( element => condition )","explication":"filter retourne true pour garder, false pour exclure."},{"type":"debug","question":"Plante avec 'Cannot read properties of undefined' :","codeFaux":"const fruits = ['pomme', 'banane', 'cerise'];\nconsole.log(fruits[3]); // plante","codeCorrige":"const fruits = ['pomme', 'banane', 'cerise'];\nconsole.log(fruits[2]); // 'cerise'","options":["Tableau mal declare","Index 3 inexistant - dernier est 2","console.log incompatible","Virgule manquante"],"bonne":1,"explication":"3 elements = indices 0,1,2. fruits[3] retourne undefined."}],"resume":[{"icon":"&#128203;","key":"array[0]","val":"Index commence &agrave; 0"},{"icon":"&#10133;","key":".push()","val":"Ajouter &agrave; la fin"},{"icon":"&#128260;","key":".map()","val":"Transformer chaque &eacute;l&eacute;ment"},{"icon":"&#128269;","key":".filter()","val":"Garder selon condition"},{"icon":"&#127919;","key":".find()","val":"Premier qui correspond"}]},{"id":"js-7","num":7,"tag":"JavaScript &middot; Le&ccedil;on 7","title":"Les objets","sub":"Donn&eacute;es complexes","pourquoi":"Un objet regroupe des donn&eacute;es li&eacute;es. Nom, email, tokens d&rsquo;un user &mdash; tout dans un seul objet.","exemple":"Post Kora : { auteur, texte, likes, verifie }. User : { nom, email, tokens }.","exemples":[{"label":"Creer et acceder","code":"const user = {\n  nom: 'Val',\n  email: 'val@kora.io',\n  tokens: 248,\n};\nconsole.log(user.nom);      // 'Val'\nconsole.log(user['email']); // 'val@kora.io'"},{"label":"Destructuration","code":"const { nom, tokens } = user;\nconsole.log(nom);    // 'Val'\nconsole.log(tokens); // 248"},{"label":"Spread","code":"// Mettre a jour sans muter\nconst updated = { ...user, tokens: 300 };\nconsole.log(Object.keys(user));\n// ['nom', 'email', 'tokens']"}],"regles":[{"prop":"objet.prop","expl":"Notation point&eacute;e."},{"prop":"const {a,b} = obj","expl":"D&eacute;structuration."},{"prop":"{...obj}","expl":"Spread &mdash; copier."},{"prop":"Object.keys()","expl":"Tableau des cl&eacute;s."}],"code":"const formation = {\n  titre: 'JavaScript',\n  lecons: 15,\n  completee: false,\n  progression(done) {\n    return Math.round((done / this.lecons) * 100) + '%';\n  }\n};\n\nconsole.log(formation.titre);          // 'JavaScript'\nconsole.log(formation.progression(6)); // '40%'\n\nconst { titre, lecons } = formation;\nconst updated = { ...formation, completee: true };","exercices":[{"type":"qcm","question":"Extraire 'nom' et 'email' en une ligne ?","options":["const nom=u.nom; const email=u.email;","const {nom, email} = user;","const [nom, email] = user;","Object.extract()"],"bonne":1,"explication":"const {nom, email} = user; - destructuration en une ligne."},{"type":"completion","question":"Cree un objet post et accede aux likes :","labels":["propriete","acces"],"bonnes":["likes","post.likes"],"template":"const post = {\n  auteur: 'Val',\n  [A]: 284,\n};\nconsole.log([B]); // 284"},{"type":"memo","question":"Destructure 'titre' et 'duree' de l'objet 'cours'.","bonne":"const { titre, duree } = cours;","indice":"const { prop1, prop2 } = objet","explication":"Equivalent a deux lignes de const."},{"type":"debug","question":"Mise a jour plante :","codeFaux":"const config = { theme: 'light' };\nconfig = { ...config, theme: 'dark' };","codeCorrige":"const config = { theme: 'light' };\nconst newConfig = { ...config, theme: 'dark' };","options":["Spread invalide","const ne peut pas etre reassigne - nouvelle variable","Guillemets","Virgule"],"bonne":1,"explication":"config est const. Creer newConfig a la place."}],"resume":[{"icon":"&#128450;&#65039;","key":"objet.prop","val":"Notation point&eacute;e"},{"icon":"&#128230;","key":"destructuration","val":"const {a,b} = obj"},{"icon":"&#128260;","key":"spread","val":"{...obj}"},{"icon":"&#128273;","key":"Object.keys()","val":"Lister les propri&eacute;t&eacute;s"}]},{"id":"js-8","num":8,"tag":"JavaScript &middot; Le&ccedil;on 8","title":"Le DOM","sub":"Manipuler la page HTML","pourquoi":"Le DOM est la page HTML en objets JS. Tu peux modifier le texte, changer le style, ajouter/supprimer des &eacute;l&eacute;ments.","exemple":"Menu burger Le Napol&eacute;on : s&eacute;lectionner bouton, &eacute;couter clic, ajouter classe 'ouvert'.","exemples":[{"label":"Selectionner","code":"// Un seul\nconst titre = document.querySelector('h1');\nconst btn = document.querySelector('.btn');\n\n// Plusieurs\nconst btns = document.querySelectorAll('.btn');"},{"label":"Modifier","code":"titre.textContent = 'Nouveau titre';\ntitre.innerHTML = 'Titre <strong>gras</strong>';\n\nconst img = document.querySelector('img');\nimg.setAttribute('src', 'nouveau.jpg');"},{"label":"classList","code":"const menu = document.querySelector('.menu');\nmenu.classList.add('ouvert');\nmenu.classList.remove('ouvert');\nmenu.classList.toggle('ouvert');\nmenu.classList.contains('ouvert'); // true/false"}],"regles":[{"prop":"querySelector()","expl":"Premier &eacute;l&eacute;ment ou null."},{"prop":"querySelectorAll()","expl":"Tous les &eacute;l&eacute;ments &mdash; NodeList."},{"prop":".textContent","expl":"Lire/modifier le texte."},{"prop":".innerHTML","expl":"Lire/modifier le HTML."},{"prop":".classList","expl":"add / remove / toggle / contains."}],"code":"const score = document.querySelector('#score');\nconst cartes = document.querySelectorAll('.carte');\n\nscore.textContent = '248 KRT';\n\ncartes.forEach((carte) => {\n  carte.classList.add('visible');\n});\n\n// Creer et ajouter\nconst div = document.createElement('div');\ndiv.className = 'post';\ndiv.textContent = 'Mon post';\ndocument.querySelector('.feed').appendChild(div);\n\n// Supprimer\ndocument.querySelector('.spam').remove();","exercices":[{"type":"qcm","question":"Selectionner TOUS les elements .post ?","options":["document.querySelector('.post')","document.querySelectorAll('.post')","document.getElementById('.post')","document.getElements('.post')"],"bonne":1,"explication":"querySelector = premier. querySelectorAll = tous (NodeList)."},{"type":"completion","question":"Selectionne le bouton et change son texte :","labels":["methode","propriete"],"bonnes":["querySelector","textContent"],"template":"const btn = document.[A]('#monBouton');\nbtn.[B] = 'Clique !';"},{"type":"memo","question":"Ajoute la classe 'actif' a l'element 'menu'.","bonne":"menu.classList.add('actif');","indice":"element.classList.add('nom')","explication":"classList.add() ajoute. remove() retire. toggle() bascule."},{"type":"debug","question":"Plante avec 'Cannot set properties of null' :","codeFaux":"const btn = document.querySelector('.bouton-submit');\nbtn.textContent = 'Envoye !';","codeCorrige":"const btn = document.querySelector('#bouton-submit');\nbtn.textContent = 'Envoye !';","options":["textContent inexistant","Selecteur incorrect - querySelector retourne null","Bouton dans form","Manque addEventListener"],"bonne":1,"explication":"Selecteur .bouton-submit (classe) devrait etre #bouton-submit (id)."}],"resume":[{"icon":"&#127919;","key":"querySelector()","val":"Premier ou null"},{"icon":"&#128203;","key":"querySelectorAll()","val":"Tous &mdash; NodeList"},{"icon":"&#9999;&#65039;","key":"textContent","val":"Texte"},{"icon":"&#127912;","key":"classList","val":"add / remove / toggle"}]},{"id":"js-9","num":9,"tag":"JavaScript &middot; Le&ccedil;on 9","title":"Les &eacute;v&eacute;nements","sub":"R&eacute;agir aux actions","pourquoi":"Sans &eacute;v&eacute;nements, la page est statique. Avec eux, elle r&eacute;agit aux clics, frappes, soumissions.","exemple":"Formulaire DB Studio : au clic Envoyer, intercepter, valider, envoyer sans rechargement.","exemples":[{"label":"addEventListener","code":"const btn = document.querySelector('#btn');\n\nbtn.addEventListener('click', (e) => {\n  console.log('Clique !', e.target);\n});"},{"label":"Evenements courants","code":"// Clic\nbtn.addEventListener('click', fn);\n\n// Input\ninput.addEventListener('input', (e) => {\n  console.log(e.target.value);\n});\n\n// Formulaire\nform.addEventListener('submit', (e) => {\n  e.preventDefault();\n});"},{"label":"Delegation","code":"const liste = document.querySelector('.feed');\nliste.addEventListener('click', (e) => {\n  if (e.target.classList.contains('btn-like')) {\n    e.target.textContent = 'liked';\n  }\n});"}],"regles":[{"prop":"addEventListener(evt,fn)","expl":"&Eacute;coute et ex&eacute;cute fn."},{"prop":"e.preventDefault()","expl":"Emp&ecirc;che le comportement par d&eacute;faut."},{"prop":"e.target","expl":"L&rsquo;&eacute;l&eacute;ment d&eacute;clencheur."},{"prop":"e.target.value","expl":"Valeur d&rsquo;un input."}],"code":"const burger = document.querySelector('.burger');\nconst nav = document.querySelector('nav');\n\nburger.addEventListener('click', () => {\n  nav.classList.toggle('ouvert');\n});\n\nconst form = document.querySelector('#contact');\nform.addEventListener('submit', (e) => {\n  e.preventDefault();\n  const nom = form.querySelector('#nom').value.trim();\n  if (!nom) { alert('Champ vide'); return; }\n  console.log({ nom });\n});","exercices":[{"type":"qcm","question":"Pourquoi e.preventDefault() sur un formulaire ?","options":["Empecher erreurs JS","Empecher le rechargement par defaut","Valider automatiquement","Envoyer par email"],"bonne":1,"explication":"Par defaut, soumission = rechargement. e.preventDefault() l'empeche."},{"type":"completion","question":"Menu burger :","labels":["evenement","methode classList"],"bonnes":["click","toggle"],"template":"burger.addEventListener('[A]', () => {\n  menu.classList.[B]('ouvert');\n});"},{"type":"memo","question":"Listener sur input qui affiche la valeur a chaque frappe.","bonne":"input.addEventListener('input', (e) => {\n  console.log(e.target.value);\n});","indice":"addEventListener('input', (e) => { e.target.value })","explication":"'input' se declenche a chaque frappe."},{"type":"debug","question":"Formulaire recharge la page :","codeFaux":"form.addEventListener('submit', () => {\n  const nom = form.querySelector('#nom').value;\n  envoyerDonnees(nom);\n});","codeCorrige":"form.addEventListener('submit', (e) => {\n  e.preventDefault();\n  const nom = form.querySelector('#nom').value;\n  envoyerDonnees(nom);\n});","options":["envoyerDonnees inexistant","Manque (e) et e.preventDefault()","Selecteur incorrect","addEventListener impossible"],"bonne":1,"explication":"Sans e.preventDefault(), comportement par defaut = rechargement."}],"resume":[{"icon":"&#128266;","key":"addEventListener()","val":"&Eacute;couter tout &eacute;v&eacute;nement"},{"icon":"&#128721;","key":"e.preventDefault()","val":"Bloquer comportement par d&eacute;faut"},{"icon":"&#127919;","key":"e.target","val":"&Eacute;l&eacute;ment d&eacute;clencheur"},{"icon":"&#9000;&#65039;","key":"Events","val":"click &middot; input &middot; submit &middot; keydown"}]},{"id":"js-10","num":10,"tag":"JavaScript &middot; Le&ccedil;on 10","title":"Les classes","sub":"Mod&egrave;les r&eacute;utilisables","pourquoi":"Une classe est un mod&egrave;le pour cr&eacute;er des objets de m&ecirc;me structure. class User une fois, new User() autant que n&eacute;cessaire.","exemple":"Kora : class Post { constructor(auteur, texte) } &mdash; chaque post est une instance.","exemples":[{"label":"Definir et instancier","code":"class Utilisateur {\n  constructor(nom, email) {\n    this.nom = nom;\n    this.email = email;\n    this.tokens = 0;\n  }\n  gagnerTokens(n) { this.tokens += n; }\n  profil() { return `${this.nom} - ${this.tokens} KRT`; }\n}\n\nconst val = new Utilisateur('Val', 'val@kora.io');\nval.gagnerTokens(50);\nconsole.log(val.profil()); // Val - 50 KRT"},{"label":"Heritage","code":"class Admin extends Utilisateur {\n  constructor(nom, email, niveau) {\n    super(nom, email); // parent d'abord !\n    this.niveau = niveau;\n  }\n  supprimer(post) { console.log(`${this.nom} supprime`); }\n}\n\nconst admin = new Admin('Marc', 'm@kora.io', 3);\nadmin.gagnerTokens(100); // methode heritee"}],"regles":[{"prop":"class Nom {}","expl":"PascalCase."},{"prop":"constructor()","expl":"Appel&eacute; &agrave; la cr&eacute;ation de l&rsquo;instance."},{"prop":"this.prop","expl":"Propri&eacute;t&eacute; de l&rsquo;instance."},{"prop":"new Classe()","expl":"Cr&eacute;er une instance."},{"prop":"extends / super()","expl":"H&eacute;ritage. super() appelle le parent."}],"code":"class Formation {\n  constructor(titre, lecons) {\n    this.titre = titre;\n    this.lecons = lecons;\n    this.completees = 0;\n  }\n  completerLecon() {\n    this.completees++;\n    console.log(`${this.completees}/${this.lecons}`);\n  }\n  get progression() {\n    return Math.round((this.completees / this.lecons) * 100);\n  }\n}\n\nconst js = new Formation('JavaScript', 15);\njs.completerLecon();\nconsole.log(js.progression); // 7","exercices":[{"type":"qcm","question":"Que fait 'this' dans constructor ?","options":["La classe elle-meme","L'instance en cours de creation","Le document","Le parent"],"bonne":1,"explication":"this dans constructor = l'instance creee. new User('Val') = this = le nouvel objet."},{"type":"completion","question":"Constructor de Post :","labels":["auteur","likes init"],"bonnes":["this.auteur = auteur","this.likes = 0"],"template":"class Post {\n  constructor(auteur, texte) {\n    [A];\n    this.texte = texte;\n    [B];\n  }\n}"},{"type":"memo","question":"Cree une instance de 'Produit' avec 'Laptop' et 999.","bonne":"const p = new Produit('Laptop', 999);","indice":"const var = new NomClasse( args );","explication":"Arguments passes au constructor."},{"type":"debug","question":"Heritage plante :","codeFaux":"class Admin extends User {\n  constructor(nom, role) {\n    this.role = role; // erreur\n    super(nom);\n  }\n}","codeCorrige":"class Admin extends User {\n  constructor(nom, role) {\n    super(nom); // AVANT this\n    this.role = role;\n  }\n}","options":["extends incorrect","super() doit etre AVANT this","this.role interdit","3 params max"],"bonne":1,"explication":"super() obligatoire AVANT this dans une sous-classe."}],"resume":[{"icon":"&#127963;&#65039;","key":"class","val":"Mod&egrave;le"},{"icon":"&#128295;","key":"constructor()","val":"Initialise les propri&eacute;t&eacute;s"},{"icon":"&#128070;","key":"this","val":"L&rsquo;instance courante"},{"icon":"&#129516;","key":"extends + super()","val":"H&eacute;ritage"}]},{"id":"js-11","num":11,"tag":"JavaScript &middot; Le&ccedil;on 11","title":"Scope et Closures","sub":"Port&eacute;e des variables","pourquoi":"Le scope d&eacute;termine o&ugrave; une variable est accessible. Les closures m&eacute;morisent l&rsquo;environnement de cr&eacute;ation.","exemple":"Compteur de likes Kora : chaque post a un compteur ind&eacute;pendant &mdash; une closure.","exemples":[{"label":"Scope local vs global","code":"const x = 'global';\nfunction fn() {\n  const x = 'local';\n  console.log(x); // 'local'\n}\nfn();\nconsole.log(x); // 'global' - inchange"},{"label":"Closure","code":"function creerCompteur() {\n  let count = 0;\n  return function() {\n    count++;\n    return count;\n  };\n}\nconst c1 = creerCompteur();\nconst c2 = creerCompteur();\nc1(); // 1\nc1(); // 2\nc2(); // 1 - independant"},{"label":"Factory","code":"function creerValidateur(min) {\n  return (val) => val >= min;\n}\nconst estAdulte = creerValidateur(18);\nconsole.log(estAdulte(22)); // true"}],"regles":[{"prop":"scope global","expl":"Accessible partout."},{"prop":"scope local","expl":"Dans sa fonction/bloc seulement."},{"prop":"closure","expl":"Fonction qui m&eacute;morise son contexte."},{"prop":"block scope","expl":"let/const limit&eacute;s &agrave; leur bloc {}."}],"code":"// var vs let - difference cruciale\nconst fns = [];\n\n// MAUVAIS - var partage\nfor (var i = 0; i < 3; i++) {\n  fns.push(() => console.log(i));\n}\nfns[0](); // 3 - mauvais\n\n// BON - let block-scoped\nconst fns2 = [];\nfor (let j = 0; j < 3; j++) {\n  fns2.push(() => console.log(j));\n}\nfns2[0](); // 0\nfns2[1](); // 1","exercices":[{"type":"qcm","question":"Qu'est-ce qu'une closure ?","options":["Fonction sans params","Fonction qui accede aux variables parent meme apres execution","Fonction sans return","Bloc entre accolades"],"bonne":1,"explication":"Capture les variables de son contexte. Memoire meme apres fin de la fonction externe."},{"type":"completion","question":"Factory de compteur :","labels":["variable","incrementer"],"bonnes":["let count = 0","count++; return count"],"template":"function creerCompteur() {\n  [A];\n  return function() {\n    [B];\n  };\n}"},{"type":"memo","question":"Fonction multiplierPar qui retourne une fonction multipliant par le facteur.","bonne":"const multiplierPar = (facteur) => (n) => n * facteur;","indice":"const fn = (facteur) => (n) => n * facteur","explication":"Double arrow. La closure memorise facteur."},{"type":"debug","question":"Toutes affichent 3 au lieu de 0,1,2 :","codeFaux":"const fns = [];\nfor (var i = 0; i < 3; i++) {\n  fns.push(() => console.log(i));\n}\nfns[0](); // 3","codeCorrige":"const fns = [];\nfor (let i = 0; i < 3; i++) {\n  fns.push(() => console.log(i));\n}\nfns[0](); // 0","options":["push incorrect","var partage - toutes voient i=3 final. Utiliser let","Arrow invalide","console dehors"],"bonne":1,"explication":"var function-scoped : i=3 a la fin. let block-scoped : chaque iteration a son propre i."}],"resume":[{"icon":"&#127758;","key":"scope global","val":"Partout"},{"icon":"&#127968;","key":"scope local","val":"Dans son bloc"},{"icon":"&#129504;","key":"closure","val":"M&eacute;morise son contexte"},{"icon":"&#9888;&#65039;","key":"var vs let","val":"function vs block scope"}]},{"id":"js-12","num":12,"tag":"JavaScript &middot; Le&ccedil;on 12","title":"Les Promises","sub":"Asynchrone sans bloquer","pourquoi":"JS est single-thread. Les Promises permettent des op&eacute;rations longues sans bloquer l&rsquo;interface.","exemple":"Kora charge les posts : la Promise lance la requ&ecirc;te, l&rsquo;UI reste r&eacute;active pendant l&rsquo;attente.","exemples":[{"label":"Creer et utiliser","code":"const p = new Promise((resolve, reject) => {\n  setTimeout(() => resolve('OK!'), 1000);\n});\n\np.then(data => console.log(data))\n .catch(err => console.error(err))\n .finally(() => console.log('Fin'));"},{"label":"Promise.all","code":"Promise.all([\n  fetch('/api/posts'),\n  fetch('/api/user'),\n]).then(([posts, user]) => {\n  console.log(posts, user);\n});"}],"regles":[{"prop":"new Promise()","expl":"resolve = succ&egrave;s, reject = &eacute;chec."},{"prop":".then(fn)","expl":"Si r&eacute;solue."},{"prop":".catch(fn)","expl":"Si rejet&eacute;e."},{"prop":".finally(fn)","expl":"Toujours."},{"prop":"Promise.all()","expl":"Attend toutes."}],"code":"function chargerUser(id) {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      if (id > 0) resolve({ id, nom: 'Val' });\n      else reject(new Error('ID invalide'));\n    }, 500);\n  });\n}\n\nchargerUser(1)\n  .then(user => user.nom)\n  .then(nom => console.log(nom))\n  .catch(err => console.error(err.message));","exercices":[{"type":"qcm","question":"3 etats d'une Promise ?","options":["start, loading, done","pending, fulfilled, rejected","new, active, closed","waiting, success, failed"],"bonne":1,"explication":"pending (attente), fulfilled (resolue - .then()), rejected (rejetee - .catch())."},{"type":"completion","question":"Gerer succes et erreur :","labels":[".then",".catch"],"bonnes":["data => console.log(data)","err => console.error(err)"],"template":"fetch('/api/posts')\n  .then(res => res.json())\n  .then([A])\n  .catch([B]);"},{"type":"memo","question":"Promise qui se resout avec 'OK' apres 1 seconde.","bonne":"const p = new Promise((resolve) => {\n  setTimeout(() => resolve('OK'), 1000);\n});","indice":"new Promise((resolve) => { setTimeout(() => resolve(val), ms) })","explication":"resolve(valeur) resout. setTimeout simule l'asynchrone."},{"type":"debug","question":"Erreurs ignorees :","codeFaux":"fetch('/api/data')\n  .then(res => res.json())\n  .then(data => traiter(data))\n// pas de .catch","codeCorrige":"fetch('/api/data')\n  .then(res => res.json())\n  .then(data => traiter(data))\n  .catch(err => console.error(err));","options":["fetch sans Promise","Manque .catch() - erreurs silencieuses","then -> done","res.json() incorrect"],"bonne":1,"explication":"Sans .catch(), erreurs silencieuses. Toujours terminer par .catch()."}],"resume":[{"icon":"&#9203;","key":"pending","val":"En attente"},{"icon":"&#9989;","key":"fulfilled","val":"R&eacute;solue &rarr; .then()"},{"icon":"&#10060;","key":"rejected","val":"Rejet&eacute;e &rarr; .catch()"},{"icon":"&#128279;","key":"chainer","val":".then().catch()"}]},{"id":"js-13","num":13,"tag":"JavaScript &middot; Le&ccedil;on 13","title":"Async / Await","sub":"Syntaxe moderne asynchrone","pourquoi":"async/await est du sucre sur les Promises. Code asynchrone qui ressemble &agrave; du synchrone &mdash; bien plus lisible.","exemple":"async function charger() { const res = await fetch(url); return await res.json(); }","exemples":[{"label":"async/await vs .then()","code":"// Promises - chaine\nfetch('/api/user').then(r => r.json()).then(d => console.log(d));\n\n// async/await - lineaire\nasync function charger() {\n  const res = await fetch('/api/user');\n  const data = await res.json();\n  console.log(data);\n}"},{"label":"try/catch","code":"async function chargerPost(id) {\n  try {\n    const res = await fetch(`/api/posts/${id}`);\n    if (!res.ok) throw new Error(`HTTP ${res.status}`);\n    return await res.json();\n  } catch (err) {\n    console.error(err.message);\n    return null;\n  }\n}"}],"regles":[{"prop":"async function","expl":"Retourne une Promise. Active await."},{"prop":"await","expl":"Attend la Promise sans bloquer."},{"prop":"try/catch","expl":"Capture les erreurs."},{"prop":"await Promise.all()","expl":"Plusieurs en parall&egrave;le."}],"code":"async function chargerFormations() {\n  try {\n    const res = await fetch('https://api.kora.io/formations');\n    if (!res.ok) throw new Error(`HTTP ${res.status}`);\n    const data = await res.json();\n    data.forEach(f => creerCarte(f));\n    return data;\n  } catch (err) {\n    console.error('Impossible :', err);\n  }\n}\n\nchargerFormations();","exercices":[{"type":"qcm","question":"Pourquoi await seulement dans async ?","options":["Restriction arbitraire","await suspend l'async sans bloquer le thread - impossible hors async","await = methode Promise","Performance"],"bonne":1,"explication":"await suspend la fonction async. Hors async, JS ne peut pas gerer cette suspension."},{"type":"completion","question":"Fonction async pour charger un user :","labels":["declaration","await fetch"],"bonnes":["async function","await fetch(`/api/users/${id}`)"],"template":"[A] getUser(id) {\n  try {\n    const res = [B];\n    return await res.json();\n  } catch(e) { console.error(e); }\n}"},{"type":"memo","question":"async getData qui fetch une URL et retourne le JSON.","bonne":"async function getData(url) {\n  const res = await fetch(url);\n  return await res.json();\n}","indice":"async function nom(url) { const res = await fetch(url); return await res.json(); }","explication":"Deux await : fetch() -> Response. .json() -> donnees."},{"type":"debug","question":"Plante avec 'await is only valid in async functions' :","codeFaux":"function charger() {\n  const res = await fetch('/api/data');\n  return res.json();\n}","codeCorrige":"async function charger() {\n  const res = await fetch('/api/data');\n  return res.json();\n}","options":["fetch deprecie","Manque async avant function","return doit avoir await","try/catch obligatoire"],"bonne":1,"explication":"await sans async = SyntaxError. Ajouter async."}],"resume":[{"icon":"&#9889;","key":"async function","val":"Retourne Promise &mdash; active await"},{"icon":"&#9208;&#65039;","key":"await","val":"Attend sans bloquer"},{"icon":"&#128737;&#65039;","key":"try/catch","val":"Capture les erreurs"},{"icon":"&#128640;","key":"Promise.all","val":"Parall&egrave;le"}]},{"id":"js-14","num":14,"tag":"JavaScript &middot; Le&ccedil;on 14","title":"Fetch API","sub":"Requ&ecirc;tes HTTP","pourquoi":"Fetch est l&rsquo;interface native pour les requ&ecirc;tes HTTP. Kora l&rsquo;utilise pour charger posts, envoyer formulaires.","exemple":"fetch('/api/posts') charge les posts. fetch(url, {method:'POST'}) envoie des donn&eacute;es.","exemples":[{"label":"GET","code":"const res = await fetch('https://api.kora.io/posts');\nconst posts = await res.json();\n\n// Avec headers\nconst res2 = await fetch('/api/protected', {\n  headers: { 'Authorization': 'Bearer token' }\n});"},{"label":"POST","code":"const res = await fetch('/api/posts', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({ texte: 'Mon post', auteur: 'Val' })\n});\nconst post = await res.json();"},{"label":"Verifier reponse","code":"const res = await fetch(url);\nif (!res.ok) {\n  throw new Error(`HTTP ${res.status}`);\n}\nreturn res.json();"}],"regles":[{"prop":"fetch(url)","expl":"GET par d&eacute;faut. Promise<Response>."},{"prop":"response.ok","expl":"true si 200-299."},{"prop":"response.json()","expl":"Parse en JSON."},{"prop":"method: 'POST'","expl":"GET, POST, PUT, DELETE."},{"prop":"JSON.stringify()","expl":"Objet JS &rarr; string JSON."}],"code":"async function api(url, options = {}) {\n  try {\n    const res = await fetch(url, {\n      headers: { 'Content-Type': 'application/json' },\n      ...options\n    });\n    if (!res.ok) throw new Error(`${res.status}`);\n    return await res.json();\n  } catch(err) {\n    console.error('API Error:', err);\n    throw err;\n  }\n}\n\nconst posts = await api('/api/posts');\nconst p = await api('/api/posts', {\n  method: 'POST',\n  body: JSON.stringify({ texte: 'Hello!' })\n});","exercices":[{"type":"qcm","question":"Pourquoi JSON.stringify() dans le body ?","options":["Compresser","fetch accepte seulement des strings - convertir l'objet","Chiffrer","Optionnel"],"bonne":1,"explication":"body HTTP = string. JSON.stringify() convertit. Sans ca, serveur recoit '[object Object]'."},{"type":"completion","question":"Fetch POST :","labels":["methode","corps"],"bonnes":["POST","JSON.stringify({ texte, auteur })"],"template":"const res = await fetch('/api/posts', {\n  method: '[A]',\n  headers: { 'Content-Type': 'application/json' },\n  body: [B]\n});"},{"type":"memo","question":"GET sur /api/formations qui retourne le JSON.","bonne":"const res = await fetch('/api/formations');\nconst data = await res.json();","indice":"await fetch(url) puis await response.json()","explication":"Deux etapes : fetch -> Response. .json() -> donnees."},{"type":"debug","question":"Serveur recoit JSON invalide :","codeFaux":"const res = await fetch('/api/post', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: { texte: 'Mon post' } // erreur\n});","codeCorrige":"const res = await fetch('/api/post', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({ texte: 'Mon post' })\n});","options":["method minuscules","Manque JSON.stringify()","Content-Type incorrect","headers tableau"],"bonne":1,"explication":"Sans JSON.stringify(), body = '[object Object]'. Serveur -> JSON invalide -> 400."}],"resume":[{"icon":"&#127760;","key":"fetch(url)","val":"GET &mdash; Promise<Response>"},{"icon":"&#9989;","key":"response.ok","val":"200-299"},{"icon":"&#128196;","key":"response.json()","val":"Parse le body"},{"icon":"&#128228;","key":"POST","val":"method + headers + JSON.stringify(body)"}]},{"id":"js-15","num":15,"tag":"JavaScript &middot; Le&ccedil;on 15","title":"Les modules ES6","sub":"Organiser son code en fichiers","pourquoi":"Sans modules, tout dans un seul fichier. Les modules permettent de d&eacute;couper, exporter, importer.","exemple":"DB Studio : utils.js, api.js, ui.js. Chaque fichier importe ce dont il a besoin.","exemples":[{"label":"Export nomme vs default","code":"// utils.js\nexport const PI = 3.14159;\nexport function calculerAire(r) { return PI * r * r; }\n\n// Default - un seul par fichier\nexport default class Config {\n  static API_URL = 'https://api.kora.io';\n}"},{"label":"Import","code":"// Nommes - accolades\nimport { calculerAire, PI } from './utils.js';\n\n// Default - sans accolades\nimport Config from './utils.js';\n\n// Combiner\nimport Config, { calculerAire } from './utils.js';"}],"regles":[{"prop":"export","expl":"Rend disponible."},{"prop":"export default","expl":"Principal. Un seul. Import sans accolades."},{"prop":"import { x } from","expl":"Nomm&eacute; &mdash; accolades."},{"prop":"import x from","expl":"Default &mdash; sans accolades."}],"code":"// api.js\nconst BASE = 'https://api.kora.io';\n\nexport async function getPosts() {\n  const res = await fetch(`${BASE}/posts`);\n  return res.json();\n}\n\nexport async function createPost(data) {\n  const res = await fetch(`${BASE}/posts`, {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data)\n  });\n  return res.json();\n}\n\n// ui.js\nimport { getPosts } from './api.js';\nasync function init() {\n  const posts = await getPosts();\n  afficherPosts(posts);\n}\ninit();","exercices":[{"type":"qcm","question":"Difference export vs export default ?","options":["Aucune","default exporte tout","export nomme = accolades. default = sans accolades, un seul par fichier","default incompatible function"],"bonne":2,"explication":"export nomme : plusieurs, import avec {}. default : un seul, import sans {}."},{"type":"completion","question":"Exporter et importer une fonction :","labels":["export","import"],"bonnes":["export","import { calculer }"],"template":"// math.js\n[A] function calculer(a, b) {\n  return a + b;\n}\n\n// app.js\n[B] from './math.js';\nconsole.log(calculer(3, 4)); // 7"},{"type":"memo","question":"Importer le default ET l'export nomme 'helper' depuis ./utils.js.","bonne":"import Utils, { helper } from './utils.js';","indice":"import Default, { nomme } from './fichier.js'","explication":"Default en premier sans accolades, puis nommes entre {}."},{"type":"debug","question":"Import echoue :","codeFaux":"// math.js\nexport default function additionner(a, b) {\n  return a + b;\n}\n// app.js\nimport { additionner } from './math.js'; // erreur","codeCorrige":"// app.js\nimport additionner from './math.js'; // sans accolades","options":["Chemin incorrect","default -> sans accolades","default incompatible","Manque type=module"],"bonne":1,"explication":"export default s'importe sans {}. Avec {}, JS cherche un export nomme."}],"resume":[{"icon":"&#128228;","key":"export","val":"Rendre disponible"},{"icon":"&#11088;","key":"export default","val":"Principal &mdash; un seul"},{"icon":"&#128229;","key":"import { x }","val":"Nomm&eacute; &mdash; accolades"},{"icon":"&#128230;","key":"import x","val":"Default &mdash; sans accolades"}]}]},{"id":"react","icon":"&#9883;&#65039;","name":"React et JSX","desc":"Composants, state, props, hooks. Interfaces modernes et dynamiques.","lecons":[{"id":"r-1","num":1,"tag":"React &middot; Le&ccedil;on 1","title":"Pourquoi React","sub":"Le probl&egrave;me r&eacute;solu","pourquoi":"JS vanilla devient chaotique pour les UI complexes. React : d&eacute;cris ce qui doit s&rsquo;afficher, React g&egrave;re le DOM.","exemple":"Dashboard Kora en temps r&eacute;el &mdash; composants autonomes au lieu de centaines de querySelector.","exemples":[{"label":"Declaratif vs imperatif","code":"// Vanilla - imperatif\ndocument.querySelector('#score').textContent = score;\nif (score > 100) badge.classList.add('gold');\n\n// React - declaratif\nfunction Score({ score }) {\n  return (\n    <div>\n      <span>{score}</span>\n      {score > 100 && <span>Top!</span>}\n    </div>\n  );\n}"},{"label":"Virtual DOM","code":"// React maintient une copie legere\n// Quand etat change :\n// 1. Calcule la nouvelle UI\n// 2. Compare (diffing)\n// 3. Applique seulement les changements"}],"regles":[{"prop":"Virtual DOM","expl":"Copie l&eacute;g&egrave;re. Diffing &rarr; patch minimal."},{"prop":"Composant","expl":"Fonction qui retourne JSX."},{"prop":"State","expl":"Donn&eacute;es qui d&eacute;clenchent re-render."},{"prop":"D&eacute;claratif","expl":"QUOI afficher, pas COMMENT."}],"code":"// Vanilla\ndocument.querySelector('#score').textContent = score;\n\n// React\nfunction Score({ score }) {\n  return (\n    <div>\n      <span>{score}</span>\n      {score > 100 && <span>Top!</span>}\n    </div>\n  );\n}","exercices":[{"type":"qcm","question":"Avantage principal du Virtual DOM ?","options":["Remplace le DOM","Calcule les changements minimaux - pas tout re-rendre","Animations rapides","CSS en JS"],"bonne":1,"explication":"Diffing : compare ancien/nouveau, applique seulement les changements necessaires."},{"type":"completion","question":"Vanilla vs React :","labels":["vanilla","React"],"bonnes":["document.querySelector('#titre').textContent = texte","<h1>{texte}</h1>"],"template":"// Imperatif\n[A];\n\n// Declaratif\nreturn [B];"},{"type":"memo","question":"Definition du Virtual DOM en une phrase.","bonne":"Le Virtual DOM est une copie legere du DOM reel que React utilise pour calculer les changements minimaux.","indice":"copie legere -> diffing -> changements minimaux","explication":"Copie -> comparer -> patch minimal sur le vrai DOM."},{"type":"debug","question":"Erreur conceptuelle :","codeFaux":"function Page() {\n  document.querySelector('h1').textContent = 'Nouveau';\n  return <h1>Titre</h1>;\n}","codeCorrige":"function Page() {\n  return <h1>Nouveau</h1>;\n}","options":["return interdit","Ne pas manipuler le DOM - laisser React","h1 invalide","querySelector impossible"],"bonne":1,"explication":"Dans React, jamais querySelector. Tout via JSX."}],"resume":[{"icon":"&#129504;","key":"Declaratif","val":"QUOI, pas COMMENT"},{"icon":"&#128260;","key":"Virtual DOM","val":"Copie &rarr; diffing &rarr; patch"},{"icon":"&#129513;","key":"Composants","val":"Fonctions JSX"},{"icon":"&#9889;","key":"Re-render","val":"Auto quand etat change"}]},{"id":"r-2","num":2,"tag":"React &middot; Le&ccedil;on 2","title":"Les composants","sub":"Blocs r&eacute;utilisables","pourquoi":"Un composant = fonction qui retourne JSX. D&eacute;couper l&rsquo;interface en blocs autonomes.","exemple":"Kora : Post, TokenBadge, NavBar. Chacun g&egrave;re sa logique.","exemples":[{"label":"Composant de base","code":"function Bouton({ texte, onClick }) {\n  return (\n    <button onClick={onClick}\n      style={{ background: '#C4622D', color: 'white' }}>\n      {texte}\n    </button>\n  );\n}\n\n<Bouton texte=\"Commencer\" onClick={demarrer} />"},{"label":"Composer","code":"function App() {\n  return (\n    <div>\n      <NavBar />\n      <main>\n        <Carte titre=\"JS\" lecons={15} />\n        <Carte titre=\"React\" lecons={10} />\n      </main>\n    </div>\n  );\n}"}],"regles":[{"prop":"function Nom()","expl":"PascalCase obligatoire."},{"prop":"return JSX","expl":"La description de l&rsquo;interface."},{"prop":"props","expl":"Donn&eacute;es du parent. Lecture seule."},{"prop":"{valeur}","expl":"Expression JS dans JSX."}],"code":"function Post({ auteur, texte, likes, verifie }) {\n  return (\n    <article className=\"post\">\n      <div>\n        <span>{auteur}</span>\n        {verifie && <span>OK</span>}\n      </div>\n      <p>{texte}</p>\n      <button>Likes: {likes}</button>\n    </article>\n  );\n}\n\nfunction Feed({ posts }) {\n  return (\n    <div className=\"feed\">\n      {posts.map(p => (\n        <Post key={p.id}\n          auteur={p.auteur} texte={p.texte}\n          likes={p.likes} verifie={p.verifie} />\n      ))}\n    </div>\n  );\n}","exercices":[{"type":"qcm","question":"Pourquoi PascalCase pour les composants ?","options":["Convention optionnelle","JSX distingue <Composant> (React) de <div> (HTML)","Lisibilite","Conflits variables"],"bonne":1,"explication":"<div> = HTML. <MonComposant> = React. Minuscule = traite comme HTML."},{"type":"completion","question":"Composant Badge :","labels":["props","contenu"],"bonnes":["{ texte }","<strong>{texte}</strong>"],"template":"function Badge([A]) {\n  return <span className=\"badge\">[B]</span>;\n}"},{"type":"memo","question":"Composant Titre qui recoit 'texte' et l'affiche dans h1.","bonne":"function Titre({ texte }) {\n  return <h1>{texte}</h1>;\n}","indice":"function Nom({ prop }) { return <balise>{prop}</balise>; }","explication":"Destructuration {texte} dans les params. {texte} insere dans JSX."},{"type":"debug","question":"Composant invisible :","codeFaux":"function carte({ titre }) {\n  return <div>{titre}</div>;\n}\n<carte titre=\"JS\" />","codeCorrige":"function Carte({ titre }) {\n  return <div>{titre}</div>;\n}\n<Carte titre=\"JS\" />","options":["className manque","PascalCase obligatoire - carte -> Carte","Props entre guillemets","Manque return"],"bonne":1,"explication":"carte minuscule = balise HTML inconnue. Carte majuscule = composant React."}],"resume":[{"icon":"&#129522;","key":"function Nom()","val":"Composant = fonction JSX"},{"icon":"&#128235;","key":"props","val":"Donnees du parent &mdash; lecture seule"},{"icon":"&#128292;","key":"PascalCase","val":"Majuscule obligatoire"},{"icon":"&#128221;","key":"{}","val":"Expressions JS dans JSX"}]},{"id":"r-3","num":3,"tag":"React &middot; Le&ccedil;on 3","title":"Le JSX","sub":"Syntaxe de React","pourquoi":"JSX ressemble &agrave; du HTML mais n&rsquo;en est pas. Babel le transforme en React.createElement(). Comprendre JSX &eacute;vite des bugs.","exemple":"div className='post' en JSX devient React.createElement('div', {className:'post'})","exemples":[{"label":"JSX vs HTML","code":"// HTML\n<div class=\"box\"><label for=\"email\">Email</label></div>\n\n// JSX - differences !\n<div className=\"box\">\n  <label htmlFor=\"email\">Email</label>\n</div>\n// class -> className / for -> htmlFor"},{"label":"Expressions","code":"const nom = 'Val';\nconst premium = true;\n\nreturn (\n  <div>\n    <h1>Bonjour {nom}</h1>\n    {premium && <span>Premium</span>}\n    <span>{premium ? 'Gold' : 'Free'}</span>\n  </div>\n);"},{"label":"Regles JSX","code":"// Un seul element racine\nreturn (\n  <>\n    <h1>Titre</h1>\n    <p>Texte</p>\n  </>\n);\n\n// Balises fermees\n<img src=\"photo.jpg\" alt=\"Photo\" />\n<br />"}],"regles":[{"prop":"className","expl":"class est reserv&eacute; JS &rarr; className."},{"prop":"htmlFor","expl":"for est reserv&eacute; JS &rarr; htmlFor."},{"prop":"{expression}","expl":"Ins&eacute;rer du JS dans JSX."},{"prop":"{cond &amp;&amp; JSX}","expl":"Rendu conditionnel."},{"prop":"&lt;&gt;&lt;/&gt;","expl":"Fragment &mdash; pas de div inutile."}],"code":"function ProfilKora({ user }) {\n  const { nom, tokens, premium, avatar } = user;\n  \n  return (\n    <div className=\"profil\">\n      <img src={avatar} alt={`Avatar de ${nom}`} />\n      \n      <h2>\n        {nom}\n        {premium && <span className=\"badge\">Premium</span>}\n      </h2>\n      \n      <p>{tokens} KRT</p>\n      \n      {!premium && (\n        <button>Passer Premium</button>\n      )}\n    </div>\n  );\n}","exercices":[{"type":"qcm","question":"Pourquoi className au lieu de class ?","options":["Convention","class est un mot-cle JS reserve - className evite le conflit","Plus court","class inexistant en HTML5"],"bonne":1,"explication":"class est reserve pour les classes ES6. En JSX, className remplace l'attribut HTML class."},{"type":"completion","question":"Affiche le badge Premium seulement si estPremium :","labels":["conditionnel","contenu"],"bonnes":["estPremium &&","<span className=\"badge\">Premium</span>"],"template":"function Header({ nom, estPremium }) {\n  return (\n    <header>\n      <h1>{nom}</h1>\n      {[A] ([B])}\n    </header>\n  );\n}"},{"type":"memo","question":"Fragment React contenant un h1 et un p.","bonne":"return (\n  <>\n    <h1>Titre</h1>\n    <p>Paragraphe</p>\n  </>\n);","indice":"<> elements </> - pas de div wrapper","explication":"<> </> = Fragment. Retourner plusieurs elements sans div inutile."},{"type":"debug","question":"JSX ne compile pas :","codeFaux":"function App() {\n  return (\n    <h1>Bonjour</h1>\n    <p>Bienvenue</p>\n  );\n}","codeCorrige":"function App() {\n  return (\n    <>\n      <h1>Bonjour</h1>\n      <p>Bienvenue</p>\n    </>\n  );\n}","options":["h1 et p incompatibles","Un seul element racine - utiliser Fragment <>","Virgules manquantes","return sans parenth"],"bonne":1,"explication":"JSX = un seul element racine par return. Wrapper dans <> </>."}],"resume":[{"icon":"&#127991;&#65039;","key":"className","val":"class &rarr; className"},{"icon":"&#128221;","key":"{}","val":"Expressions JS"},{"icon":"&#128256;","key":"&amp;&amp; / ternaire","val":"Rendu conditionnel"},{"icon":"&#128230;","key":"Fragment &lt;&gt;","val":"Pas de div inutile"}]},{"id":"r-4","num":4,"tag":"React &middot; Le&ccedil;on 4","title":"useState","sub":"G&eacute;rer l&rsquo;&eacute;tat","pourquoi":"useState m&eacute;morise des donn&eacute;es et d&eacute;clenche un re-render &agrave; chaque modification. Sans lui, composants statiques.","exemple":"Like Kora : setLikes(likes+1) &rarr; re-render &rarr; nouveau nombre affich&eacute; automatiquement.","exemples":[{"label":"Syntaxe","code":"import { useState } from 'react';\n\nfunction Compteur() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    <div>\n      <p>{count}</p>\n      <button onClick={() => setCount(count + 1)}>+1</button>\n    </div>\n  );\n}"},{"label":"Ne jamais muter","code":"// MAUVAIS\nconst [posts, setPosts] = useState([]);\nposts.push('Post'); // React ne re-rend pas !\n\n// BON - nouvelle valeur\nsetPosts([...posts, 'Post']);\n\n// MAUVAIS objet\nuser.nom = 'Val';\n// BON\nsetUser({ ...user, nom: 'Val' });"}],"regles":[{"prop":"const [val, setVal] = useState(init)","expl":"Etat + fonction de mise &agrave; jour."},{"prop":"setVal(nouvelleValeur)","expl":"Met &agrave; jour et d&eacute;clenche re-render."},{"prop":"setVal(prev => ...)","expl":"Base sur la valeur pr&eacute;c&eacute;dente."},{"prop":"Jamais muter","expl":"Toujours nouvelle valeur."}],"code":"function PostKora({ initialLikes, texte, auteur }) {\n  const [likes, setLikes] = useState(initialLikes);\n  const [likee, setLikee] = useState(false);\n  \n  const toggle = () => {\n    setLikes(prev => likee ? prev - 1 : prev + 1);\n    setLikee(prev => !prev);\n  };\n  \n  return (\n    <article>\n      <p><strong>{auteur}</strong></p>\n      <p>{texte}</p>\n      <button onClick={toggle}\n        className={likee ? 'liked' : ''}>\n        Likes: {likes}\n      </button>\n    </article>\n  );\n}","exercices":[{"type":"qcm","question":"Pourquoi setVal() plutot que modifier directement ?","options":["Plus rapide","React detecte les changements seulement via set - muter directement ne re-rend pas","Eviter erreurs syntaxe","Copie auto"],"bonne":1,"explication":"Muter directement = meme reference. React ne voit pas la difference. setVal() = nouvelle reference."},{"type":"completion","question":"Composant toggle :","labels":["initial","update"],"bonnes":["false","!ouvert"],"template":"function Toggle() {\n  const [ouvert, setOuvert] = useState([A]);\n  return (\n    <button onClick={() => setOuvert([B])}>\n      {ouvert ? 'Fermer' : 'Ouvrir'}\n    </button>\n  );\n}"},{"type":"memo","question":"useState pour un tableau de posts vide.","bonne":"const [posts, setPosts] = useState([]);","indice":"const [valeur, setValeur] = useState( initiale )","explication":"useState([]) - init avec tableau vide. Convention : posts / setPosts."},{"type":"debug","question":"Pas de mise a jour au clic :","codeFaux":"function Compteur() {\n  const [count, setCount] = useState(0);\n  function inc() {\n    count = count + 1; // erreur\n  }\n  return <button onClick={inc}>{count}</button>;\n}","codeCorrige":"function Compteur() {\n  const [count, setCount] = useState(0);\n  function inc() {\n    setCount(count + 1);\n  }\n  return <button onClick={inc}>{count}</button>;\n}","options":["onClick arrow","Mutation directe non detectee - utiliser setCount()","useState(null)","inc async"],"bonne":1,"explication":"count = const. React ne detecte pas. Seul setCount() declenche le re-render."}],"resume":[{"icon":"&#128190;","key":"useState(init)","val":"Etat avec valeur initiale"},{"icon":"&#128260;","key":"setVal()","val":"Met a jour &rarr; re-render"},{"icon":"&#9888;&#65039;","key":"Jamais muter","val":"Toujours nouvelle valeur"},{"icon":"&#128208;","key":"prev =>","val":"Base sur l'etat precedent"}]},{"id":"r-5","num":5,"tag":"React &middot; Le&ccedil;on 5","title":"useEffect","sub":"Effets de bord","pourquoi":"useEffect ex&eacute;cute du code apr&egrave;s le rendu : charger des donn&eacute;es, &eacute;v&eacute;nements, titre de page.","exemple":"Feed monte &rarr; useEffect charge les posts. userId change &rarr; useEffect recharge.","exemples":[{"label":"Tableau de dependances","code":"// [] - une seule fois au montage\nuseEffect(() => { chargerPosts(); }, []);\n\n// [dep] - quand dep change\nuseEffect(() => {\n  chargerProfil(userId);\n}, [userId]);\n\n// Sans [] - apres CHAQUE render (danger)\nuseEffect(() => { console.log('render'); });"},{"label":"Fetch au montage","code":"function ProfilPage({ userId }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n  \n  useEffect(() => {\n    async function charger() {\n      const res = await fetch(`/api/users/${userId}`);\n      setUser(await res.json());\n      setLoading(false);\n    }\n    charger();\n  }, [userId]);\n  \n  if (loading) return <p>Chargement...</p>;\n  return <div>{user.nom}</div>;\n}"}],"regles":[{"prop":"useEffect(fn, [])","expl":"Une fois au montage."},{"prop":"useEffect(fn, [dep])","expl":"Quand dep change."},{"prop":"useEffect(fn)","expl":"Apres chaque render &mdash; rarement voulu."},{"prop":"return () => {}","expl":"Cleanup au demontage."}],"code":"function Formation({ formationId }) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  \n  useEffect(() => {\n    setLoading(true);\n    fetch(`/api/formations/${formationId}`)\n      .then(res => res.json())\n      .then(d => { setData(d); setLoading(false); })\n      .catch(err => {\n        console.error(err);\n        setLoading(false);\n      });\n  }, [formationId]);\n  \n  if (loading) return <div>Chargement...</div>;\n  return <h1>{data.titre}</h1>;\n}","exercices":[{"type":"qcm","question":"Que se passe-t-il sans tableau de dependances ?","options":["Jamais execute","Une seule fois","Apres chaque render - souvent boucle infinie","Erreur"],"bonne":2,"explication":"Sans [], useEffect apres chaque render. Si setData() dedans -> re-render -> boucle infinie."},{"type":"completion","question":"useEffect pour charger au montage :","labels":["async interne","dependances"],"bonnes":["async function charger()","[]"],"template":"useEffect(() => {\n  [A] {\n    const data = await fetch('/api/posts').then(r => r.json());\n    setPosts(data);\n  }\n  charger();\n}, [B]);"},{"type":"memo","question":"useEffect qui met a jour document.title quand 'titre' change.","bonne":"useEffect(() => {\n  document.title = titre;\n}, [titre]);","indice":"useEffect( () => { effet }, [dependance] )","explication":"[titre] = re-executer quand titre change."},{"type":"debug","question":"Boucle infinie :","codeFaux":"function Posts() {\n  const [posts, setPosts] = useState([]);\n  \n  useEffect(() => {\n    fetch('/api/posts')\n      .then(r => r.json())\n      .then(data => setPosts(data));\n  }); // manque []\n}","codeCorrige":"useEffect(() => {\n  fetch('/api/posts')\n    .then(r => r.json())\n    .then(data => setPosts(data));\n}, []); // une seule fois","options":["fetch interdit dans useEffect","Manque [] - boucle infinie","setPosts interdit","then -> await"],"bonne":1,"explication":"Sans [], chaque render -> useEffect -> setPosts -> re-render -> infini."}],"resume":[{"icon":"&#128640;","key":"useEffect(fn, [])","val":"Une fois au montage"},{"icon":"&#128260;","key":"useEffect(fn, [dep])","val":"Quand dep change"},{"icon":"&#129529;","key":"return () => {}","val":"Cleanup au demontage"},{"icon":"&#9888;&#65039;","key":"Sans []","val":"Boucle infinie &mdash; toujours specifier"}]},{"id":"r-6","num":6,"tag":"React &middot; Le&ccedil;on 6","title":"Ev&eacute;nements React","sub":"Interactions utilisateur","pourquoi":"React g&egrave;re les &eacute;v&eacute;nements en camelCase avec des fonctions JS. Pas de strings, pas de rechargement.","exemple":"Bouton Like, formulaire, recherche &mdash; tout via des handlers React.","exemples":[{"label":"Handlers","code":"function PostCard({ post, onLike }) {\n  return (\n    <div>\n      <button onClick={() => onLike(post.id)}>\n        Likes: {post.likes}\n      </button>\n    </div>\n  );\n}"},{"label":"Formulaire","code":"function Form() {\n  const [nom, setNom] = useState('');\n  \n  const handleSubmit = (e) => {\n    e.preventDefault();\n    console.log(nom);\n  };\n  \n  return (\n    <form onSubmit={handleSubmit}>\n      <input value={nom}\n        onChange={(e) => setNom(e.target.value)} />\n      <button type=\"submit\">Envoyer</button>\n    </form>\n  );\n}"}],"regles":[{"prop":"onClick={fn}","expl":"Reference, pas appel. Pas de ()."},{"prop":"onChange={(e) =>}","expl":"Chaque frappe. e.target.value."},{"prop":"onSubmit={(e) =>}","expl":"Toujours e.preventDefault()."},{"prop":"camelCase","expl":"onclick &rarr; onClick. onchange &rarr; onChange."}],"code":"function RechercheKora() {\n  const [query, setQuery] = useState('');\n  \n  const handleChange = (e) => {\n    setQuery(e.target.value);\n  };\n  \n  const handleKeyDown = (e) => {\n    if (e.key === 'Escape') setQuery('');\n  };\n  \n  return (\n    <input\n      value={query}\n      onChange={handleChange}\n      onKeyDown={handleKeyDown}\n      placeholder=\"Rechercher...\"\n    />\n  );\n}","exercices":[{"type":"qcm","question":"Erreur dans onClick={handleClick()} ?","options":["handleClick inexistant","() appellent au rendu - il faut onClick={handleClick}","onClick en minuscules","Accolades incorrectes"],"bonne":1,"explication":"handleClick() = appel immediat au rendu. Il faut la reference : onClick={handleClick}."},{"type":"completion","question":"Input controle :","labels":["value","onChange"],"bonnes":["value={texte}","(e) => setTexte(e.target.value)"],"template":"const [texte, setTexte] = useState('');\n\nreturn (\n  <input\n    [A]\n    onChange={[B]}\n  />\n);"},{"type":"memo","question":"Button qui appelle 'supprimer' avec l'id 42.","bonne":"<button onClick={() => supprimer(42)}>Supprimer</button>","indice":"onClick={ () => fn(arg) }","explication":"Arrow function pour passer des arguments."},{"type":"debug","question":"Formulaire recharge la page :","codeFaux":"function Form() {\n  const handleSubmit = () => {\n    console.log('Envoye');\n  };\n  return <form onSubmit={handleSubmit}>...</form>;\n}","codeCorrige":"function Form() {\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    console.log('Envoye');\n  };\n  return <form onSubmit={handleSubmit}>...</form>;\n}","options":["onSubmit -> onClick","Manque (e) et e.preventDefault()","form non supporte","handleSubmit async"],"bonne":1,"explication":"Sans e.preventDefault(), comportement natif = rechargement."}],"resume":[{"icon":"&#128070;","key":"onClick","val":"Reference &mdash; pas d'appel ()"},{"icon":"&#9999;&#65039;","key":"onChange","val":"e.target.value"},{"icon":"&#128232;","key":"onSubmit","val":"Toujours e.preventDefault()"},{"icon":"&#128042;","key":"camelCase","val":"onClick, onChange, onSubmit..."}]},{"id":"r-7","num":7,"tag":"React &middot; Le&ccedil;on 7","title":"Listes et cl&eacute;s","sub":"Afficher des tableaux","pourquoi":"Afficher des listes se fait avec .map(). Chaque &eacute;l&eacute;ment doit avoir une key unique pour les mises &agrave; jour optimis&eacute;es.","exemple":"posts.map(p =&gt; Post key={p.id} /&gt;) &mdash; key permet &agrave; React de savoir lequel mettre &agrave; jour.","exemples":[{"label":"map dans JSX","code":"function Catalogue({ formations }) {\n  return (\n    <div>\n      {formations.map((f) => (\n        <div key={f.id} className=\"carte\">\n          <h3>{f.titre}</h3>\n          <p>{f.lecons} lecons</p>\n        </div>\n      ))}\n    </div>\n  );\n}"},{"label":"Key et vide","code":"// Toujours ID stable - pas l'index\nposts.map(p => <Post key={p.id} />)  // BON\n\n// Liste vide\n{liste.length === 0 && <p>Aucun element</p>}"}],"regles":[{"prop":".map(item => JSX)","expl":"Tableau &rarr; liste JSX."},{"prop":"key={id}","expl":"Unique et stable. Obligatoire."},{"prop":"{liste.length === 0 &amp;&amp;}","expl":"Message si liste vide."},{"prop":"{...item}","expl":"Spread toutes les props."}],"code":"function Feed({ posts, filtre }) {\n  const [tri, setTri] = useState('recent');\n  \n  const affiches = posts\n    .filter(p => filtre ? p.cat === filtre : true)\n    .sort((a,b) => tri === 'likes' ? b.likes-a.likes : b.id-a.id);\n  \n  return (\n    <>\n      <select onChange={(e) => setTri(e.target.value)}>\n        <option value=\"recent\">Recent</option>\n        <option value=\"likes\">Populaire</option>\n      </select>\n      \n      {affiches.length === 0\n        ? <p>Aucun post</p>\n        : affiches.map(p => <Post key={p.id} {...p} />)\n      }\n    </>\n  );\n}","exercices":[{"type":"qcm","question":"Pourquoi eviter l'index comme key ?","options":["Interdit en React","Si la liste est reordonnee, les index changent - React fait de mauvaises mises a jour","Index trop lents","Seules strings acceptees"],"bonne":1,"explication":"Supprimer le 2eme element change tous les index apres. React peut causer des bugs."},{"type":"completion","question":"Afficher une liste de posts :","labels":["methode","key"],"bonnes":["map","key={post.id}"],"template":"function Feed({ posts }) {\n  return (\n    <div>\n      {posts.[A](post => (\n        <Post [B] auteur={post.auteur} />\n      ))}\n    </div>\n  );\n}"},{"type":"memo","question":"Liste de noms dans des li avec key.","bonne":"const noms = ['Val', 'Marc'];\nreturn (\n  <ul>\n    {noms.map((nom, i) => (\n      <li key={i}>{nom}</li>\n    ))}\n  </ul>\n);","indice":".map((item, i) => <li key={i}>{item}</li>)","explication":"Index acceptable pour listes statiques. ID pour listes dynamiques."},{"type":"debug","question":"Warning: Each child needs a unique key :","codeFaux":"function List({ users }) {\n  return (\n    <ul>\n      {users.map(u => <li>{u.nom}</li>)}\n    </ul>\n  );\n}","codeCorrige":"function List({ users }) {\n  return (\n    <ul>\n      {users.map(u => <li key={u.id}>{u.nom}</li>)}\n    </ul>\n  );\n}","options":["ul non supporte","Manque key={u.id} sur chaque li","u.nom entre guillemets","map invalide"],"bonne":1,"explication":"Chaque element de .map() doit avoir key unique."}],"resume":[{"icon":"&#128450;&#65039;","key":".map()","val":"Tableau &rarr; JSX"},{"icon":"&#128273;","key":"key={id}","val":"Obligatoire &mdash; ID stable"},{"icon":"&#9888;&#65039;","key":"Pas d'index","val":"Eviter pour listes dynamiques"},{"icon":"&#128228;","key":"{...item}","val":"Spread toutes les props"}]},{"id":"r-8","num":8,"tag":"React &middot; Le&ccedil;on 8","title":"Formulaires contr&ocirc;l&eacute;s","sub":"Inputs li&eacute;s au state","pourquoi":"Formulaire contr&ocirc;l&eacute; = React est la source de v&eacute;rit&eacute;. value={state} + onChange = synchronisation parfaite.","exemple":"Inscription Kora : chaque champ est un &eacute;tat React. A la soumission, toutes les valeurs accessibles.","exemples":[{"label":"Input controle","code":"const [email, setEmail] = useState('');\n\n<input\n  type=\"email\"\n  value={email}\n  onChange={(e) => setEmail(e.target.value)}\n  placeholder=\"ton@email.fr\"\n/>"},{"label":"Handler generique","code":"const [form, setForm] = useState({ nom: '', email: '' });\n\nconst handleChange = (e) => {\n  setForm(prev => ({\n    ...prev,\n    [e.target.name]: e.target.value\n  }));\n};"}],"regles":[{"prop":"value={state}","expl":"React contr&ocirc;le la valeur."},{"prop":"onChange &rarr; setState","expl":"Sync &agrave; chaque frappe."},{"prop":"e.target.name","expl":"Handler g&eacute;n&eacute;rique multi-champs."},{"prop":"e.target.checked","expl":"Pour les checkboxes."}],"code":"function FormContact() {\n  const [fields, setFields] = useState({\n    nom: '', email: '', message: ''\n  });\n  const [sent, setSent] = useState(false);\n  \n  const handleChange = (e) => {\n    setFields(prev => ({\n      ...prev,\n      [e.target.name]: e.target.value\n    }));\n  };\n  \n  const handleSubmit = async (e) => {\n    e.preventDefault();\n    await fetch('/api/contact', {\n      method: 'POST',\n      body: JSON.stringify(fields)\n    });\n    setSent(true);\n  };\n  \n  if (sent) return <p>Envoye</p>;\n  \n  return (\n    <form onSubmit={handleSubmit}>\n      <input name=\"nom\" value={fields.nom} onChange={handleChange} />\n      <input name=\"email\" value={fields.email} onChange={handleChange} />\n      <button type=\"submit\">Envoyer</button>\n    </form>\n  );\n}","exercices":[{"type":"qcm","question":"Qu'est-ce qu'un formulaire controle ?","options":["Utilise useForm()","value={state} + onChange - React est source de verite","Valide les champs auto","HTML standard"],"bonne":1,"explication":"Controle = React controle la valeur via state. value lie au state, onChange met a jour."},{"type":"completion","question":"Input controle pour pseudo :","labels":["value","onChange"],"bonnes":["value={pseudo}","(e) => setPseudo(e.target.value)"],"template":"const [pseudo, setPseudo] = useState('');\n\nreturn (\n  <input\n    [A]\n    onChange={[B]}\n  />\n);"},{"type":"memo","question":"Handler generique pour objet form.","bonne":"const handleChange = (e) => {\n  setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));\n};","indice":"setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))","explication":"[e.target.name] = computed property. Si input.name='email' -> met a jour form.email."},{"type":"debug","question":"Input ne repond pas aux frappes :","codeFaux":"const [nom, setNom] = useState('');\nreturn <input value={nom} placeholder=\"Nom\" />;","codeCorrige":"const [nom, setNom] = useState('');\nreturn (\n  <input\n    value={nom}\n    onChange={(e) => setNom(e.target.value)}\n  />\n);","options":["value sans defaultValue","Sans onChange, React bloque les frappes","placeholder bloque","useState(null)"],"bonne":1,"explication":"value={state} sans onChange = React bloque les modifications."}],"resume":[{"icon":"&#127963;&#65039;","key":"Controle","val":"value={state} + onChange"},{"icon":"&#9999;&#65039;","key":"onChange","val":"Sync le state"},{"icon":"&#128203;","key":"e.target.name","val":"Handler generique multi-champs"},{"icon":"&#9989;","key":"Validation","val":"Dans handleSubmit"}]},{"id":"r-9","num":9,"tag":"React &middot; Le&ccedil;on 9","title":"Parent et Enfant","sub":"Props et callbacks","pourquoi":"Donn&eacute;es parent &rarr; enfant via props. Enfant &rarr; parent via callback. Sens unique.","exemple":"Feed poss&egrave;de les posts. Post appelle onLike que Feed lui a pass&eacute;.","exemples":[{"label":"Parent vers Enfant","code":"function App() {\n  const [tokens, setTokens] = useState(248);\n  return <TokenBadge montant={tokens} />;\n}\n\nfunction TokenBadge({ montant }) {\n  return <span>{montant} KRT</span>;\n}"},{"label":"Enfant vers Parent (callback)","code":"function Feed() {\n  const [posts, setPosts] = useState(data);\n  \n  const handleLike = (id) => {\n    setPosts(prev => prev.map(p =>\n      p.id === id ? { ...p, likes: p.likes + 1 } : p\n    ));\n  };\n  \n  return posts.map(p =>\n    <Post key={p.id} post={p} onLike={handleLike} />\n  );\n}\n\nfunction Post({ post, onLike }) {\n  return (\n    <button onClick={() => onLike(post.id)}>\n      Likes: {post.likes}\n    </button>\n  );\n}"}],"regles":[{"prop":"Parent &rarr; Enfant","expl":"Via props. Lecture seule."},{"prop":"Enfant &rarr; Parent","expl":"Via callback pass&eacute;e en prop."},{"prop":"Lifting state up","expl":"Remonter l&rsquo;&eacute;tat vers le parent commun."},{"prop":"props.children","expl":"Contenu entre les balises."}],"code":"function Catalogue() {\n  const [formations, setFormations] = useState(data);\n  const [selected, setSelected] = useState(null);\n  \n  const handleSelect = (id) => {\n    setSelected(formations.find(f => f.id === id));\n  };\n  \n  const handleComplete = (id) => {\n    setFormations(prev => prev.map(f =>\n      f.id === id ? { ...f, completee: true } : f\n    ));\n  };\n  \n  return (\n    <div>\n      {formations.map(f => (\n        <Carte key={f.id} f={f}\n          onSelect={handleSelect}\n          onComplete={handleComplete} />\n      ))}\n      {selected && <Detail f={selected} />}\n    </div>\n  );\n}","exercices":[{"type":"qcm","question":"Qu'est-ce que le lifting state up ?","options":["Optimiser les perfs","Remonter l'etat vers le parent commun quand plusieurs enfants en ont besoin","Supprimer le state","Utiliser Context"],"bonne":1,"explication":"Quand deux composants freres partagent l'etat, le remonter vers leur parent commun."},{"type":"completion","question":"Enfant appelle la callback avec l'id :","labels":["prop callback","appel"],"bonnes":["onSupprimer","onSupprimer(id)"],"template":"function Item({ id, texte, [A] }) {\n  return (\n    <div>\n      <span>{texte}</span>\n      <button onClick={() => [B]}>X</button>\n    </div>\n  );\n}"},{"type":"memo","question":"Composant Card qui accepte children.","bonne":"function Card({ children }) {\n  return <div className=\"card\">{children}</div>;\n}","indice":"function Nom({ children }) { return <div>{children}</div>; }","explication":"children = tout ce qui est entre les balises."},{"type":"debug","question":"Parent ne se met pas a jour au clic enfant :","codeFaux":"function Parent() {\n  const [count, setCount] = useState(0);\n  return <Enfant count={count} />;\n}\n\nfunction Enfant({ count }) {\n  return <button onClick={() => count + 1}>{count}</button>;\n}","codeCorrige":"function Parent() {\n  const [count, setCount] = useState(0);\n  return <Enfant count={count}\n    onInc={() => setCount(c => c+1)} />;\n}\n\nfunction Enfant({ count, onInc }) {\n  return <button onClick={onInc}>{count}</button>;\n}","options":["useState dans enfant","Passer callback - l'enfant ne peut pas modifier le state du parent","count + 1 incorrect","Props incompatibles"],"bonne":1,"explication":"count + 1 = expression sans effet. Passer une callback pour modifier le state du parent."}],"resume":[{"icon":"&#11015;&#65039;","key":"Parent &rarr; Enfant","val":"Via props &mdash; lecture seule"},{"icon":"&#11014;&#65039;","key":"Enfant &rarr; Parent","val":"Via callback en prop"},{"icon":"&#127959;&#65039;","key":"Lifting state up","val":"Etat vers le parent commun"},{"icon":"&#128118;","key":"children","val":"Contenu entre les balises"}]},{"id":"r-10","num":10,"tag":"React &middot; Le&ccedil;on 10","title":"Fetch et React","sub":"Donn&eacute;es dynamiques","pourquoi":"useState + useEffect + fetch = pattern fondamental pour afficher des donn&eacute;es d&rsquo;API.","exemple":"Catalogue Kora : useEffect fetche les formations au montage, stocke dans state, React affiche.","exemples":[{"label":"Pattern complet","code":"function ListePosts() {\n  const [posts, setPosts] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n  \n  useEffect(() => {\n    async function charger() {\n      try {\n        const res = await fetch('/api/posts');\n        const data = await res.json();\n        setPosts(data);\n      } catch(e) {\n        setErreur(e.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n    charger();\n  }, []);\n  \n  if (loading) return <div>Chargement...</div>;\n  if (erreur) return <div>Erreur : {erreur}</div>;\n  return posts.map(p => <Post key={p.id} {...p} />);\n}"},{"label":"Custom hook","code":"function useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n  \n  useEffect(() => {\n    fetch(url)\n      .then(r => r.json())\n      .then(d => { setData(d); setLoading(false); })\n      .catch(e => { setErreur(e.message); setLoading(false); });\n  }, [url]);\n  \n  return { data, loading, erreur };\n}\n\nconst { data: formations, loading } = useFetch('/api/formations');"}],"regles":[{"prop":"useState + useEffect + fetch","expl":"Le trio fondamental."},{"prop":"loading + erreur","expl":"Toujours g&eacute;rer les &eacute;tats interm&eacute;diaires."},{"prop":"finally {}","expl":"D&eacute;sactive le loading."},{"prop":"Custom hook","expl":"useFetch() pour r&eacute;utiliser la logique."}],"code":"function Formations() {\n  const [formations, setFormations] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n  \n  useEffect(() => {\n    async function charger() {\n      try {\n        const res = await fetch('https://api.kora.io/formations');\n        if (!res.ok) throw new Error(`HTTP ${res.status}`);\n        setFormations(await res.json());\n      } catch(e) {\n        setErreur(e.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n    charger();\n  }, []);\n  \n  if (loading) return <div>Chargement...</div>;\n  if (erreur) return <div>Erreur : {erreur}</div>;\n  \n  return (\n    <div className=\"grille\">\n      {formations.map(f => <Carte key={f.id} {...f} />)}\n    </div>\n  );\n}","exercices":[{"type":"qcm","question":"Pourquoi async DANS useEffect et pas useEffect async ?","options":["Convention","useEffect doit retourner undefined ou cleanup - pas une Promise","Performance","useEffect async inexistant"],"bonne":1,"explication":"useEffect retourne undefined ou cleanup. Async retourne une Promise. React ne sait pas quoi faire."},{"type":"completion","question":"Pattern data-fetching :","labels":["loading init","erreur"],"bonnes":["useState(true)","setErreur(e.message)"],"template":"const [data, setData] = useState(null);\nconst [loading, setLoading] = [A];\nconst [erreur, setErreur] = useState(null);\n\nuseEffect(() => {\n  fetch('/api/data')\n    .then(r => r.json())\n    .then(d => { setData(d); setLoading(false); })\n    .catch(e => { [B]; setLoading(false); });\n}, []);"},{"type":"memo","question":"Les 3 etats pour un fetch (data, loading, erreur).","bonne":"const [data, setData] = useState(null);\nconst [loading, setLoading] = useState(true);\nconst [erreur, setErreur] = useState(null);","indice":"data(null) + loading(true) + erreur(null)","explication":"Trio standard. loading=true pour afficher le spinner immediatement."},{"type":"debug","question":"Ne recharge pas quand userId change :","codeFaux":"function Profil({ userId }) {\n  const [user, setUser] = useState(null);\n  \n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(r => r.json())\n      .then(setUser);\n  }, []); // probleme\n}","codeCorrige":"useEffect(() => {\n  fetch(`/api/users/${userId}`)\n    .then(r => r.json())\n    .then(setUser);\n}, [userId]); // recharge si change","options":["fetch + template literal invalide","[] ne recharge pas quand userId change - ajouter [userId]","setUser incorrect","useEffect sans fetch"],"bonne":1,"explication":"[] = une seule fois. [userId] = re-executer si userId change."}],"resume":[{"icon":"&#128260;","key":"useState+useEffect+fetch","val":"Le trio fondamental"},{"icon":"&#9203;","key":"loading + erreur","val":"Toujours gerer"},{"icon":"&#129529;","key":"finally","val":"Desactive loading"},{"icon":"&#129437;","key":"Custom hook","val":"useFetch() &mdash; reutilisable"}]}]}];
+
+let currentBloc=null,currentLecon=null;
+const leconDone={},stepDone={},stepCurrent={},stepSel={};
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showHome(){
+  document.getElementById('navEtapes').style.display='none';
+  document.getElementById('progWrap').style.display='none';
+  document.getElementById('headerTitle').textContent='Kora Academy';
+  document.getElementById('breadcrumb').innerHTML='<span class="bcactive">Formations</span>';
+  renderGrid();showPage('home');
+}
+
+function showBloc(blocId){
+  currentBloc=BLOCS.find(b=>b.id===blocId);
+  document.getElementById('navEtapes').style.display='none';
+  document.getElementById('progWrap').style.display='none';
+  document.getElementById('headerTitle').textContent=currentBloc.name;
+  document.getElementById('breadcrumb').innerHTML='<span class="bc-link" onclick="showHome()">Formations</span><span class="bcsep"> &rsaquo; </span><span class="bcactive">'+currentBloc.name+'</span>';
+  document.getElementById('blocTitle').innerHTML=currentBloc.icon+' '+currentBloc.name;
+  document.getElementById('blocDesc').innerHTML=currentBloc.desc;
+  const done=currentBloc.lecons.filter(l=>leconDone[l.id]).length;
+  const total=currentBloc.lecons.length;
+  document.getElementById('leconsList').innerHTML=currentBloc.lecons.map((l,i)=>{
+    const d=leconDone[l.id];
+    return '<div class="lecon-item'+(d?' done':'')+'" onclick="showLecon(\x27'+l.id+'\x27)">'+
+      '<div class="lecon-num'+(d?' done-num':'')+'">'+(d?'✓':i+1)+'</div>'+
+      '<div class="lecon-info"><div class="lecon-title">'+l.title+'</div><div class="lecon-sub">'+l.sub+'</div></div>'+
+      '<span class="lecon-badge '+(d?'badge-done':'badge-new')+'">'+(d?'Terminée':'Nouveau')+'</span></div>';
+  }).join('');
+  const allDone=done===total&&total>0;
+  document.getElementById('evalZone').innerHTML='<div class="eval-card"><h3>&#127919; Évaluation '+currentBloc.name+'</h3>'+
+    '<p>Compl&egrave;te toutes les le&ccedil;ons pour d&eacute;bloquer l&#39;&eacute;valuation et gagner tes tokens KRT.</p>'+
+    (allDone?'<button class="btn btn-p" onclick="alert(\x27Evaluation a venir !\x27)">Commencer l&#39;&eacute;valuation &rarr;</button>':
+    '<button class="btn btn-g" disabled>Commencer l&#39;&eacute;valuation &rarr;</button><p class="eval-lock">'+done+'/'+total+' leçons terminées</p>')+'</div>';
+  showPage('bloc');
+}
+
+function showLecon(leconId){
+  let found=null;
+  for(const b of BLOCS){found=b.lecons.find(l=>l.id===leconId);if(found){currentBloc=b;break;}}
+  if(!found)return;
+  currentLecon=found;
+  if(!stepDone[leconId])stepDone[leconId]=new Set();
+  if(!stepCurrent[leconId])stepCurrent[leconId]='intro';
+  document.getElementById('leconTag').innerHTML=currentLecon.tag||'';
+  document.getElementById('leconH1').innerHTML=currentLecon.title+' &mdash; <span class="grad">'+currentLecon.sub+'</span>';
+  document.getElementById('headerTitle').textContent=currentLecon.title;
+  document.getElementById('breadcrumb').innerHTML='<span class="bc-link" onclick="showHome()">Formations</span><span class="bcsep"> &rsaquo; </span>'+
+    '<span class="bc-link" onclick="showBloc(\x27'+currentBloc.id+'\x27)">'+currentBloc.name+'</span><span class="bcsep"> &rsaquo; </span>'+
+    '<span class="bcactive">'+currentLecon.title+'</span>';
+  document.getElementById('progWrap').style.display='flex';
+  renderLecon();showPage('lecon');
+}
+
+function getORD(lecon){return['intro','cours',...lecon.exercices.map((_,i)=>'ex'+(i+1)),'resume'];}
+
+function renderLecon(){
+  if(!currentLecon)return;
+  const lid=currentLecon.id,ORD=getORD(currentLecon),cur=stepCurrent[lid];
+  const labels=['Intro','Cours',...currentLecon.exercices.map((_,i)=>'Ex.'+(i+1)),'Résumé'];
+  document.getElementById('navEtapes').style.display='flex';
+  document.getElementById('navEtapes').innerHTML=ORD.map((sid,i)=>{
+    const d=stepDone[lid].has(sid),a=sid===cur;
+    return '<button class="etape-btn '+(d?'done':a?'active':'')+'" onclick="goStep(\x27'+sid+'\x27)">'+
+      '<span class="etape-dot '+(d?'done':a?'active':'lock')+'">'+(d?'✓':i+1)+'</span>'+labels[i]+'</button>';
+  }).join('');
+  const pct=Math.round((ORD.indexOf(cur)/(ORD.length-1))*100);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progPct').textContent=pct+'%';
+  document.getElementById('leconScreens').innerHTML=renderScreen(cur,currentLecon,ORD);
+}
+
+function renderScreen(cur,lecon,ORD){
+  const lid=lecon.id,next=ORD[ORD.indexOf(cur)+1];
+  if(cur==='intro'){
+    const exs=(lecon.exemples||[]).map(ex=>'<div class="exbl"><div class="exbl-lbl">'+ex.label+'</div><pre>'+esc(ex.code)+'</pre></div>').join('');
+    return '<div class="screen active"><div class="card card-warm"><p class="slabel">Pourquoi tu as besoin de ça</p><p class="btext">'+lecon.pourquoi+'</p>'+
+      (lecon.exemple?'<div class="hint"><span style="color:var(--b3);flex-shrink:0;margin-top:2px">&#9672;</span><span class="hint-text">'+lecon.exemple+'</span></div>':'')+'</div>'+
+      (exs?'<div class="card"><p class="slabel">Exemples dans ce cours</p>'+exs+'</div>':'')+
+      '<button class="btn btn-p" onclick="goStep(\x27cours\x27)">Commencer &rarr;</button></div>';
   }
-];
-
-// =============================================
-// STATE
-// =============================================
-var prog = {};
-var krt = 248;
-var currentCat = 'codage';
-
-function chargerProg() {
-  try {
-    var raw = localStorage.getItem('kora_prog');
-    if (raw) { prog = JSON.parse(raw); krt = prog.krt || 248; }
-  } catch(e) {}
+  if(cur==='cours'){
+    const reg=lecon.regles.map((r,i)=>'<div class="regle"><span class="rprop">'+r.prop+'</span><span class="reff">'+r.expl+'</span></div>').join('');
+    return '<div class="screen active"><div class="card"><p class="slabel">Les règles à retenir</p><div class="regles">'+reg+'</div></div>'+
+      '<div class="card"><p class="slabel">Exemple — lis chaque ligne</p><pre>'+esc(lecon.code)+'</pre></div>'+
+      '<button class="btn btn-p" onclick="goStep(\x27ex1\x27)">Je comprends — exercice &rarr;</button></div>';
+  }
+  if(cur==='resume'){
+    const items=lecon.resume.map(r=>'<div class="resume-item"><div class="resume-icon">'+r.icon+'</div><div class="resume-key">'+r.key+'</div><div class="resume-val">'+r.val+'</div></div>').join('');
+    return '<div class="screen active"><div class="card card-warm"><p class="slabel">&#10022; Ce que tu retiens</p><div class="resume-grid">'+items+'</div>'+
+      '<div class="rfooter"><p>Les tokens KRT sont accordés à la fin de l&#39;&eacute;valuation du bloc selon ta note.</p></div></div>'+
+      '<div class="brow"><button class="btn btn-g" onclick="goStep(\x27intro\x27)">&#8592; Revoir</button>'+
+      '<button class="btn btn-p" onclick="finirLecon()">Leçon suivante &rarr;</button></div></div>';
+  }
+  const exIdx=parseInt(cur.replace('ex',''))-1;
+  const ex=lecon.exercices[exIdx];
+  const sk=lid+'-'+cur;
+  const typeLbl={qcm:'QCM',completion:'Compléter',memo:'Mémo',debug:'Déboguer'}[ex.type];
+  const tagC={qcm:'tag-b',completion:'tag-a',memo:'tag-memo',debug:'tag-debug'}[ex.type];
+  let inner='';
+  if(ex.type==='qcm'||ex.type==='debug'){
+    const opts=ex.options.map((o,i)=>'<button class="opt" id="opt-'+sk+'-'+i+'" onclick="selOpt(\x27'+sk+'\x27,'+i+')"><span class="oltr">'+['A','B','C','D'][i]+'.</span>'+o+'</button>').join('');
+    const codeF=ex.type==='debug'?'<p class="slabel" style="margin-top:.5rem">Code avec erreur</p><pre>'+esc(ex.codeFaux)+'</pre>':'';
+    const vFn=ex.type==='debug'?
+      'valDebug(\x27'+sk+'\x27,'+ex.bonne+',\x27'+next+'\x27,\x27'+escQ(ex.explication)+'\x27,\x27'+escQ(ex.codeCorrige)+'\x27)':
+      'valQCM(\x27'+sk+'\x27,'+ex.bonne+',\x27'+next+'\x27,\x27'+escQ(ex.explication)+'\x27)';
+    inner='<p class="btext">'+ex.question+'</p>'+codeF+'<div class="opts" id="opts-'+sk+'">'+opts+'</div><div id="fb-'+sk+'"></div><div class="brow"><button class="btn btn-p" id="val-'+sk+'" onclick="'+vFn+'" disabled>Valider &rarr;</button></div>';
+  }
+  if(ex.type==='completion'){
+    const inputs=ex.labels.map((lbl,i)=>'<div class="igrp"><label>'+['A','B','C'][i]+' &mdash; '+lbl+'</label><input id="inp-'+sk+'-'+i+'" placeholder="ta réponse…" oninput="upComp(\x27'+sk+'\x27,'+ex.labels.length+','+JSON.stringify(ex.bonnes)+','+JSON.stringify(ex.template)+')"></div>').join('');
+    const initPrev=ex.template.replace(/\[A\]/g,'[?]').replace(/\[B\]/g,'[?]').replace(/\[C\]/g,'[?]');
+    inner='<p class="btext">'+ex.question+'</p><div class="irow">'+inputs+'</div><pre id="prev-'+sk+'">'+esc(initPrev)+'</pre><div id="fb-'+sk+'"></div><div class="brow"><button class="btn btn-p" id="val-'+sk+'" onclick="valComp(\x27'+sk+'\x27,'+ex.labels.length+','+JSON.stringify(ex.bonnes)+',\x27'+next+'\x27)" disabled>Valider &rarr;</button></div>';
+  }
+  if(ex.type==='memo'){
+    inner='<p class="btext">'+ex.question+'</p><div class="card card-blue" style="text-align:center;padding:1.2rem;margin-bottom:1rem"><p style="font-size:.7rem;color:var(--arc);font-family:monospace;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem">INDICE</p><p style="font-family:Fraunces,serif;font-size:.95rem;color:var(--text)">'+ex.indice+'</p></div><textarea class="memo-input" id="memo-'+sk+'" placeholder="Écris ta réponse sans regarder le cours…" rows="3"></textarea><div id="fb-'+sk+'"></div><div class="brow"><button class="btn btn-p" onclick="valMemo(\x27'+sk+'\x27,\x27'+escQ(ex.bonne)+'\x27,\x27'+next+'\x27,\x27'+escQ(ex.explication)+'\x27)">Vérifier &rarr;</button><button class="btn btn-g" onclick="showMA(\x27'+sk+'\x27,\x27'+escQ(ex.bonne)+'\x27)">Voir la réponse</button></div>';
+  }
+  return '<div class="screen active"><div class="card"><div class="trow"><span class="tag tag-a">Exercice '+(exIdx+1)+' / '+lecon.exercices.length+'</span><span class="tag '+tagC+'">'+typeLbl+'</span></div>'+inner+'</div></div>';
 }
 
-function getModuleStatus(moduleId) {
-  var val = prog[moduleId];
-  if (val === 99) return 'done';
-  if (val && val > 0) return 'in-progress';
-  return 'locked';
+function goStep(sid){
+  if(!currentLecon)return;
+  const lid=currentLecon.id;
+  stepDone[lid].add(stepCurrent[lid]);
+  stepCurrent[lid]=sid;
+  renderLecon();window.scrollTo(0,0);
 }
 
-function getModuleProgress(moduleId) {
-  return prog[moduleId] || 0;
+function finirLecon(){
+  if(!currentLecon)return;
+  leconDone[currentLecon.id]=true;
+  showBloc(currentBloc.id);
 }
 
-// =============================================
-// CALCULS STATS
-// =============================================
-function calcStats() {
-  var totalModules = 0;
-  var doneModules = 0;
-  FORMATIONS.forEach(function(f) {
-    if (f.bientot) return;
-    f.chapitres.forEach(function(ch) {
-      if (ch.bientot) return;
-      ch.modules.forEach(function(m) {
-        if (m.bientot) return;
-        totalModules++;
-        if (getModuleStatus(m.id) === 'done') doneModules++;
-      });
-    });
+function selOpt(sk,idx){
+  stepSel[sk]=idx;
+  document.querySelectorAll('#opts-'+sk+' .opt').forEach(o=>o.classList.remove('sel'));
+  document.getElementById('opt-'+sk+'-'+idx)?.classList.add('sel');
+  const v=document.getElementById('val-'+sk);
+  if(v)v.disabled=false;
+}
+
+function valQCM(sk,bonne,next,expl){
+  const sel=stepSel[sk];if(sel===undefined)return;
+  const ok=sel===bonne;
+  document.querySelectorAll('#opts-'+sk+' .opt').forEach((o,i)=>{
+    o.onclick=null;o.style.cursor='default';
+    if(i===bonne)o.className='opt ok';
+    else if(i===sel&&!ok)o.className='opt ko';
   });
-  return { total: totalModules, done: doneModules, pct: totalModules ? Math.round(doneModules/totalModules*100) : 0 };
+  showFb(sk,ok,expl,next);
+  document.getElementById('val-'+sk).style.display='none';
 }
 
-function calcFormationProgress(formation) {
-  var total = 0; var done = 0;
-  if (formation.bientot) return 0;
-  formation.chapitres.forEach(function(ch) {
-    if (ch.bientot) return;
-    ch.modules.forEach(function(m) {
-      if (m.bientot) return;
-      total++;
-      if (getModuleStatus(m.id) === 'done') done++;
-    });
+function valDebug(sk,bonne,next,expl,codeCorrige){
+  const sel=stepSel[sk];if(sel===undefined)return;
+  const ok=sel===bonne;
+  document.querySelectorAll('#opts-'+sk+' .opt').forEach((o,i)=>{
+    o.onclick=null;o.style.cursor='default';
+    if(i===bonne)o.className='opt ok';
+    else if(i===sel&&!ok)o.className='opt ko';
   });
-  return total ? Math.round(done/total*100) : 0;
+  const extra='<div style="margin-top:1rem"><p class="slabel">Code corrigé</p><pre>'+esc(codeCorrige)+'</pre></div>';
+  showFb(sk,ok,expl,next,extra);
+  document.getElementById('val-'+sk).style.display='none';
 }
 
-function calcChapitreProgress(chapitre) {
-  var total = 0; var done = 0;
-  if (chapitre.bientot) return 0;
-  chapitre.modules.forEach(function(m) {
-    if (m.bientot) return;
-    total++;
-    if (getModuleStatus(m.id) === 'done') done++;
-  });
-  return total ? Math.round(done/total*100) : 0;
+function upComp(sk,n,bonnes,template){
+  let t=template;
+  for(let i=0;i<n;i++){const v=document.getElementById('inp-'+sk+'-'+i)?.value||['[?]','[?]','[?]'][i];t=t.replace(['[A]','[B]','[C]'][i],v);}
+  document.getElementById('prev-'+sk).textContent=t;
+  const filled=Array.from({length:n},(_,i)=>document.getElementById('inp-'+sk+'-'+i)?.value).every(Boolean);
+  const v=document.getElementById('val-'+sk);if(v)v.disabled=!filled;
 }
 
-// =============================================
-// TROUVER LE PROCHAIN MODULE
-// =============================================
-function nextModule() {
-  var result = null;
-  FORMATIONS.forEach(function(f) {
-    if (f.bientot || result) return;
-    f.chapitres.forEach(function(ch) {
-      if (ch.bientot || result) return;
-      ch.modules.forEach(function(m) {
-        if (m.bientot || result) return;
-        var st = getModuleStatus(m.id);
-        if (st !== 'done') {
-          if (!result) result = { module: m, formation: f, chapitre: ch };
-        }
-      });
-    });
-  });
-  return result;
+function valComp(sk,n,bonnes,next){
+  const vals=Array.from({length:n},(_,i)=>document.getElementById('inp-'+sk+'-'+i)?.value?.trim()?.toLowerCase());
+  const ok=vals.every((v,i)=>v===bonnes[i].toLowerCase());
+  Array.from({length:n},(_,i)=>{const e=document.getElementById('inp-'+sk+'-'+i);if(e){e.className=ok?'ok':'ko';e.disabled=true;}});
+  showFb(sk,ok,ok?'':'Réponses attendues : '+bonnes.join(' · '),next);
+  document.getElementById('val-'+sk).style.display='none';
 }
 
-// =============================================
-// RENDER UI
-// =============================================
-function renderCatNav() {
-  var nav = document.getElementById('catNav');
-  nav.innerHTML = FORMATIONS.map(function(f) {
-    var pct = calcFormationProgress(f);
-    var isActive = f.id === currentCat;
-    return '<button class="cat-tab'+(isActive?' active':'')+'" onclick="switchCat(\''+f.id+'\')" '+(f.bientot?'disabled':'')+' style="'+(f.bientot?'opacity:0.4':'')+'">'
-      +'<div class="cat-tab-dot"></div>'
-      +f.label
-      +(f.bientot?'<span style="font-size:10px;color:var(--light)"> · Bientot</span>':('<span class="cat-tab-pct">'+pct+'%</span>'))
-      +'</button>';
+function valMemo(sk,bonne,next,expl){
+  const input=document.getElementById('memo-'+sk)?.value?.trim();if(!input)return;
+  const fb=document.getElementById('fb-'+sk);
+  fb.innerHTML='<div class="card card-blue" style="margin-top:.8rem"><p class="slabel" style="color:var(--arc)">Ta réponse</p><pre style="background:transparent;border:none;padding:0">'+esc(input)+'</pre></div>'+
+    '<div class="card card-warm" style="margin-top:.8rem"><p class="slabel">Réponse attendue</p><pre style="background:transparent;border:none;padding:0">'+esc(bonne)+'</pre>'+
+    '<p style="font-size:.82rem;color:var(--muted);margin-top:.6rem;line-height:1.6">'+expl+'</p></div>'+
+    '<div class="brow" style="margin-top:1rem"><button class="btn-memo btn-memo-ok" onclick="goStep(\x27'+next+'\x27)">✓ J&#39;avais bon</button>'+
+    '<button class="btn-memo btn-memo-ko" onclick="goStep(\x27'+next+'\x27)">✗ À retenir</button></div>';
+  document.getElementById('memo-'+sk).style.display='none';
+}
+
+function showMA(sk,bonne){
+  document.getElementById('fb-'+sk).innerHTML='<div class="card card-warm" style="margin-top:.8rem"><p class="slabel">Réponse</p><pre style="background:transparent;border:none;padding:0">'+esc(bonne)+'</pre></div>';
+}
+
+function showFb(sk,ok,expl,next,extra=''){
+  const nb=ok?'<div class="brow"><button class="btn btn-o" onclick="goStep(\x27'+next+'\x27)">Suivant &rarr;</button></div>':
+    '<div class="brow"><button class="btn btn-g" onclick="rstStep(\x27'+sk+'\x27)">Réessayer</button></div>';
+  document.getElementById('fb-'+sk).innerHTML='<div class="fb '+(ok?'ok':'ko')+'"><p class="fb-t">'+(ok?'&#10003; Correct':'&#10007; Pas tout à fait')+'</p><p class="fb-x">'+expl+'</p>'+nb+'</div>'+extra;
+}
+
+function rstStep(sk){
+  stepSel[sk]=undefined;
+  document.querySelectorAll('#opts-'+sk+' .opt').forEach((o,i)=>{o.className='opt';o.style.cursor='pointer';o.onclick=()=>selOpt(sk,i);});
+  let i=0;while(document.getElementById('inp-'+sk+'-'+i)){const e=document.getElementById('inp-'+sk+'-'+i);e.value='';e.className='';e.disabled=false;i++;}
+  const v=document.getElementById('val-'+sk);if(v){v.style.display='inline-flex';v.disabled=true;}
+  document.getElementById('fb-'+sk).innerHTML='';
+}
+
+function renderGrid(){
+  document.getElementById('blocsGrid').innerHTML=BLOCS.map(b=>{
+    const done=b.lecons.filter(l=>leconDone[l.id]).length;
+    const pct=b.lecons.length?Math.round((done/b.lecons.length)*100):0;
+    return '<div class="bloc-card" onclick="showBloc(\x27'+b.id+'\x27)">'+
+      '<div class="bloc-icon">'+b.icon+'</div>'+
+      '<div class="bloc-name">'+b.name+'</div>'+
+      '<div class="bloc-desc">'+b.desc+'</div>'+
+      '<div class="bloc-meta"><span class="bloc-count">'+b.lecons.length+' leçon'+(b.lecons.length>1?'s':'')+'</span>'+
+      '<div class="bloc-prog-bar"><div class="bloc-prog-fill" style="width:'+pct+'%"></div></div></div></div>';
   }).join('');
 }
 
-function renderFormations() {
-  var container = document.getElementById('formationViews');
-  container.innerHTML = FORMATIONS.map(function(f) {
-    if (f.bientot) {
-      return '<div class="formation-view" id="view-'+f.id+'">'
-        +'<div class="formation-header">'
-        +'<div class="fh-icon-wrap '+f.iconClass+'">'+f.icon+'</div>'
-        +'<div class="fh-info"><div class="fh-label">Formation</div><div class="fh-title">'+f.label+'</div>'
-        +'<div class="fh-sub">'+f.description+'</div></div></div>'
-        +'<div style="padding:40px 0;text-align:center;color:var(--muted)"><div style="font-size:32px;margin-bottom:12px">🔒</div><div style="font-family:\'Fraunces\',serif;font-size:20px;margin-bottom:8px">Bientot disponible</div><div style="font-size:14px">Cette formation est en cours de creation. Reviens bientot !</div></div>'
-        +'</div>';
-    }
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escQ(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
 
-    var pct = calcFormationProgress(f);
-    var chapHTML = f.chapitres.map(function(ch) {
-      var chPct = calcChapitreProgress(ch);
-
-      var modulesHTML = ch.modules.map(function(m) {
-        if (m.bientot) {
-          return '<div class="module-row locked">'
-            +'<div class="mr-status">🔒</div>'
-            +'<div class="mr-info"><div class="mr-num">Module</div><div class="mr-title">'+m.titre+'</div></div>'
-            +'<div class="mr-right"><span class="mr-badge new">Bientot</span></div>'
-            +'</div>';
-        }
-        var st = getModuleStatus(m.id);
-        var p = getModuleProgress(m.id);
-        var icon = st==='done'?'✓':st==='in-progress'?'▶':'○';
-        var progressMini = '';
-        if (st==='in-progress' && p>0) {
-          var maxPart = m.id.startsWith('css')?15:m.id.startsWith('js')?12:m.id.startsWith('node')?12:8;
-          var pct2 = Math.round(p/maxPart*100);
-          progressMini = '<div class="mr-progress-mini"><div class="mr-progress-mini-fill" style="width:'+pct2+'%"></div></div>';
-        }
-        var arrow = st==='done'?'✓':st==='in-progress'?'→':'›';
-        var badgeHTML = m.badge?'<span class="mr-badge '+(m.badge==='eval'?'eval':'new')+'">'+m.badge+'</span>':'';
-        return '<a class="module-row '+st+'" href="'+m.file+'">'
-          +'<div class="mr-status">'+icon+'</div>'
-          +'<div class="mr-info">'
-          +'<div class="mr-num">Module '+(ch.modules.indexOf(m)+1)+'</div>'
-          +'<div class="mr-title">'+m.titre+'</div>'
-          +'</div>'
-          +'<div class="mr-right">'+badgeHTML+progressMini+'<span class="mr-arrow">'+arrow+'</span></div>'
-          +'</a>';
-      }).join('');
-
-      return '<div class="chapter-block">'
-        +'<div class="chapter-head">'
-        +'<span class="ch-label">'+ch.label+(ch.bientot?' · Bientot':' ')+'</span>'
-        +'<span class="ch-pct">'+chPct+'%</span>'
-        +'</div>'
-        +'<div class="modules-grid">'+modulesHTML+'</div>'
-        +'</div>';
-    }).join('');
-
-    return '<div class="formation-view" id="view-'+f.id+'">'
-      +'<div class="formation-header">'
-      +'<div class="fh-icon-wrap '+f.iconClass+'">'+f.icon+'</div>'
-      +'<div class="fh-info">'
-      +'<div class="fh-label">Formation</div>'
-      +'<div class="fh-title">'+f.label+'</div>'
-      +'<div class="fh-sub">'+f.description+'</div>'
-      +'<div class="fh-progress-row">'
-      +'<div class="fh-bar"><div class="fh-bar-fill" style="width:'+pct+'%"></div></div>'
-      +'<span class="fh-pct">'+pct+'%</span>'
-      +'</div>'
-      +'</div></div>'
-      +'<div class="chapters-list">'+chapHTML+'</div>'
-      +'</div>';
-  }).join('');
-}
-
-function renderStats() {
-  var stats = calcStats();
-  document.getElementById('stat-modules').textContent = stats.done;
-  document.getElementById('stat-pct').textContent = stats.pct + '%';
-  document.getElementById('stat-krt').textContent = krt;
-  document.getElementById('krtVal').textContent = krt + ' KRT';
-  document.getElementById('globalFill').style.width = stats.pct + '%';
-}
-
-function renderContinuer() {
-  var next = nextModule();
-  var card = document.getElementById('continuerCard');
-  if (!next) {
-    document.getElementById('continuerIcon').textContent = '🏆';
-    document.getElementById('continuerTitle').textContent = 'Formation complete !';
-    document.getElementById('continuerSub').textContent = 'Tu as tout termine — bravo !';
-    card.href = '#';
-    return;
-  }
-  var st = getModuleStatus(next.module.id);
-  document.getElementById('continuerIcon').textContent = st==='in-progress'?'▶':'▷';
-  document.getElementById('continuerTitle').textContent = next.module.titre;
-  document.getElementById('continuerSub').textContent = next.formation.label+' · '+next.chapitre.label;
-  card.href = next.module.file;
-}
-
-function switchCat(catId) {
-  currentCat = catId;
-  document.querySelectorAll('.formation-view').forEach(function(v){ v.classList.remove('active'); });
-  var view = document.getElementById('view-'+catId);
-  if (view) view.classList.add('active');
-  renderCatNav();
-}
-
-function goToAcademy() { window.scrollTo(0,0); }
-
-// =============================================
-// INIT
-// =============================================
-function init() {
-  chargerProg();
-  renderStats();
-  renderCatNav();
-  renderFormations();
-  renderContinuer();
-  switchCat('codage');
-}
-
-init();
+renderGrid();
 </script>
 </body>
 </html>
