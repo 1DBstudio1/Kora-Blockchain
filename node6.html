@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Node.js — Module 6 — Authentification JWT</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--n1:#0A2A1A;--n2:#16A34A;--grad:linear-gradient(135deg,#0A2A1A 0%,#16A34A 50%,#4ADE80 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(22,163,74,0.06);border-radius:20px;border:1px solid rgba(22,163,74,0.12);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width .4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--n2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(22,163,74,0.06);border:1px solid rgba(22,163,74,0.12);color:var(--n1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .4s}
+.mod-prog-txt{font-size:12px;color:var(--n2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--n1);font-weight:500;border-bottom-color:var(--n2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(22,163,74,0.04);border-left:3px solid var(--n2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--n2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:rgba(22,163,74,0.03);border:1px solid rgba(22,163,74,.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0}.ff-title{font-size:13px;font-weight:500;color:var(--n1);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;margin:24px 0;border:1px solid rgba(255,255,255,.05)}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#161b22}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:#E6EDF3}
+.quiz-card{border-radius:12px;overflow:hidden;border:1px solid rgba(22,163,74,.15);margin:16px 0}
+.quiz-q{padding:14px 18px;background:rgba(22,163,74,.04);font-size:14px;font-weight:500;line-height:1.5}
+.quiz-opts{padding:10px}
+.quiz-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;margin-bottom:5px;border:1px solid var(--line);background:var(--w);transition:all .12s}
+.quiz-opt:hover{border-color:var(--n2);background:rgba(22,163,74,.04)}
+.quiz-opt.correct{border-color:#16A34A;background:rgba(22,163,74,.08)}
+.quiz-opt.wrong{border-color:#FF5F57;background:rgba(255,95,87,.06)}
+.quiz-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px}
+.quiz-opt.correct .quiz-dot{background:#16A34A;border-color:#16A34A;color:white}
+.quiz-opt.wrong .quiz-dot{background:#FF5F57;border-color:#FF5F57;color:white}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(22,163,74,.3);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--n2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:180px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.5;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(22,163,74,.05);border-radius:10px 10px 10px 3px}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--n2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up .4s ease both}.content{animation:up .4s ease .08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">Node.js — Back-end Kora</div>
+    <div class="header-meta">Module 6 · Authentification JWT</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--n2)">◈</span><span class="krt-val" id="kv">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="gf" style="width:48%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">Node.js · Module 6/12</div>
+    <div class="mod-header-title"><em>Authentification JWT.</em></div>
+    <div class="mod-header-sub">Verifier qui tu es (auth) et ce que tu peux faire (autorisation). JWT est le standard pour les APIs modernes — stateless, securise, universel.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="bl" onclick="tl()"><span>🔊</span><span id="lt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="mpf" style="width:25%"></div></div><span class="mod-prog-txt" id="mpt">Partie 1/4</span></div>
+    </div>
+  </div>
+  <div class="parties-nav"><div class="partie-tab active" onclick="sp(1)">C'est quoi JWT</div><div class="partie-tab" onclick="sp(2)">Register et Login</div><div class="partie-tab" onclick="sp(3)">Routes protegees</div><div class="partie-tab" onclick="sp(4)">Exercice</div></div>
+  <div class="content" id="p1"><div class="bloc"><span class="big">JWT — <em>un token signe numeriquement.</em></span><p>Un JWT est une string en trois parties : header.payload.signature. Le payload contient les donnees (userId, role). La signature verifie l'integrite. Le serveur verifie sans BDD.</p></div><div class="hl"><span class="hlt">JWT vs Sessions</span>Sessions = un ID en BDD, pas scalable (un seul serveur). JWT = tout dans le token, stateless, scalable. Pour Kora : JWT pour l'API. Tokens courts (15min) + refresh tokens (30j) pour la securite optimale.</div><div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">JWT — Structure</div></div><div class="code-body"><pre>// npm install jsonwebtoken bcryptjs
+
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const SECRET = process.env.JWT_SECRET;
+
+// Creer un token
+function creerToken(userId, role) {
+  return jwt.sign(
+    { userId, role },     // Payload
+    SECRET,               // Secret
+    { expiresIn: '7d' }   // Expiration
+  );
+}
+// eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjF9.abc123
+
+// Verifier
+function verifier(token) {
+  try { return jwt.verify(token, SECRET); }
+  catch { return null; }
+}
+
+// Hasher un mot de passe
+async function hasher(password) {
+  return bcrypt.hash(password, 12);
+}
+
+// Verifier un mot de passe
+async function verifierPwd(password, hash) {
+  return bcrypt.compare(password, hash);
+}</pre></div></div><div class="fun-fact"><div class="ff-icon">🔑</div><div><div class="ff-title">Ne pas stocker JWT dans localStorage</div><div class="ff-text">localStorage est accessible par n'importe quel JS (risque XSS). Cookie HttpOnly non accessible en JS — meilleur choix. Pour une API mobile : localStorage acceptable si XSS securise. Pour Kora web : cookies HttpOnly.</div></div></div></div><div class="content" id="p2" style="display:none"><div class="bloc"><span class="big">Register et Login — <em>les deux routes fondamentales.</em></span><p>Register cree un compte avec mot de passe hache. Login verifie les credentials et retourne un JWT.</p></div><div class="hl"><span class="hlt">Securite mot de passe</span>Ne jamais stocker en clair. bcryptjs hash avec un salt aleatoire. Le hash est irreversible. Pour verifier : bcrypt.compare(pwd, hash). bcrypt est intentionnellement lent pour ralentir le brute force.</div><div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">Routes auth</div></div><div class="code-body"><pre>const router = require('express').Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+// POST /auth/register
+router.post('/register', async (req, res) =&gt; {
+  try {
+    const { nom, email, password } = req.body;
+    if (!nom || !email || !password)
+      return res.status(400).json({ error: 'Champs manquants' });
+    if (password.length &lt; 8)
+      return res.status(400).json({ error: 'Mdp trop court' });
+
+    const existe = trouverParEmail(email);
+    if (existe) return res.status(409).json({ error: 'Email utilise' });
+
+    const hash = await bcrypt.hash(password, 12);
+    const user = creerUser(nom, email, hash);
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+
+    res.status(201).json({ token, user: { id: user.id, nom, email } });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// POST /auth/login
+router.post('/login', async (req, res) =&gt; {
+  const { email, password } = req.body;
+  const user = trouverParEmail(email);
+  if (!user) return res.status(401).json({ error: 'Credentials invalides' });
+
+  const ok = await bcrypt.compare(password, user.password_hash);
+  if (!ok) return res.status(401).json({ error: 'Credentials invalides' });
+
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+  res.json({ token, user: { id: user.id, nom: user.nom } });
+});
+
+module.exports = router;</pre></div></div><div class="fun-fact"><div class="ff-icon">⏰</div><div><div class="ff-title">Refresh tokens</div><div class="ff-text">Access token : expiration courte (15min-1h). Refresh token : expiration longue (30j), stocke en BDD (revocable). Client utilise l'access token. Quand expire, envoie le refresh token pour en obtenir un nouveau sans reconnexion.</div></div></div></div><div class="content" id="p3" style="display:none"><div class="bloc"><span class="big">Routes protegees — <em>/me et beyond.</em></span><p>Avec le middleware auth, n'importe quelle route accede a req.user. La route /me retourne le profil sans que l'user precise son ID.</p></div><div class="hl"><span class="hlt">req.user partout</span>Une fois l'auth execute, req.user est disponible dans tous les handlers. req.user.userId, req.user.role. Tu ne passes jamais l'ID dans l'URL ou le body — le token contient cette info. Plus securise : un user ne peut pas acceder aux donnees d'un autre en changeant l'ID.</div><div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">Routes /me</div></div><div class="code-body"><pre>// GET /me
+router.get('/', auth, (req, res) =&gt; {
+  const user = getUserById(req.user.userId);
+  if (!user) return res.status(404).json({ error: 'Introuvable' });
+  res.json({
+    id: user.id,
+    nom: user.nom,
+    email: user.email,
+    krt: user.krt
+  });
+});
+
+// PUT /me — modifier son profil
+router.put('/', auth, async (req, res) =&gt; {
+  const { nom } = req.body;
+  const updated = updateUser(req.user.userId, { nom });
+  res.json(updated);
+});
+
+// Middleware admin
+const adminOnly = (req, res, next) =&gt; {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Acces refuse' });
+  }
+  next();
+};
+
+// Route admin
+app.get('/admin/users', auth, adminOnly, (req, res) =&gt; {
+  res.json(getAllUsers());
+});</pre></div></div><div class="fun-fact"><div class="ff-icon">🎯</div><div><div class="ff-title">401 vs 403</div><div class="ff-text">401 = pas authentifie. Client doit se connecter. 403 = authentifie mais pas les droits. 401 = 'Qui etes-vous ?'. 403 = 'Je vous connais mais non.' Client sait quoi faire : redirect vers login (401) ou afficher Acces refuse (403).</div></div></div></div><div class="content" id="p4" style="display:none"><div class="bloc"><span class="big">Exercice — <em>auth JWT.</em></span><p>Questions sur l'authentification.</p></div><div class="quiz-card"><div class="quiz-q">1. Hasher les mots de passe ?</div><div class="quiz-opts"><div class="quiz-opt" id="node6_3_0_0" onclick="ans('node6_3_0',0,true)"><div class="quiz-dot" id="node6_3_0d0">✓</div>bcryptjs</div><div class="quiz-opt" id="node6_3_0_1" onclick="ans('node6_3_0',1,false)"><div class="quiz-dot" id="node6_3_0d1"></div>hashjs</div><div class="quiz-opt" id="node6_3_0_2" onclick="ans('node6_3_0',2,false)"><div class="quiz-dot" id="node6_3_0d2"></div>crypto-password</div><div class="quiz-opt" id="node6_3_0_3" onclick="ans('node6_3_0',3,false)"><div class="quiz-dot" id="node6_3_0d3"></div>md5</div></div></div><div class="quiz-card"><div class="quiz-q">2. Envoyer JWT dans les headers ?</div><div class="quiz-opts"><div class="quiz-opt" id="node6_3_1_0" onclick="ans('node6_3_1',0,true)"><div class="quiz-dot" id="node6_3_1d0">✓</div>Authorization: Bearer token</div><div class="quiz-opt" id="node6_3_1_1" onclick="ans('node6_3_1',1,false)"><div class="quiz-dot" id="node6_3_1d1"></div>Token: token</div><div class="quiz-opt" id="node6_3_1_2" onclick="ans('node6_3_1',2,false)"><div class="quiz-dot" id="node6_3_1d2"></div>JWT: token</div><div class="quiz-opt" id="node6_3_1_3" onclick="ans('node6_3_1',3,false)"><div class="quiz-dot" id="node6_3_1d3"></div>Auth: token</div></div></div><div class="quiz-card"><div class="quiz-q">3. Payload d'un JWT ?</div><div class="quiz-opts"><div class="quiz-opt" id="node6_3_2_0" onclick="ans('node6_3_2',0,true)"><div class="quiz-dot" id="node6_3_2d0">✓</div>Donnees encodees (userId, role)</div><div class="quiz-opt" id="node6_3_2_1" onclick="ans('node6_3_2',1,false)"><div class="quiz-dot" id="node6_3_2d1"></div>Mot de passe chiffre</div><div class="quiz-opt" id="node6_3_2_2" onclick="ans('node6_3_2',2,false)"><div class="quiz-dot" id="node6_3_2d2"></div>Cle secrete</div><div class="quiz-opt" id="node6_3_2_3" onclick="ans('node6_3_2',3,false)"><div class="quiz-dot" id="node6_3_2d3"></div>Signature uniquement</div></div></div><div class="quiz-card"><div class="quiz-q">4. Status si token invalide ?</div><div class="quiz-opts"><div class="quiz-opt" id="node6_3_3_0" onclick="ans('node6_3_3',0,true)"><div class="quiz-dot" id="node6_3_3d0">✓</div>401</div><div class="quiz-opt" id="node6_3_3_1" onclick="ans('node6_3_3',1,false)"><div class="quiz-dot" id="node6_3_3d1"></div>403</div><div class="quiz-opt" id="node6_3_3_2" onclick="ans('node6_3_3',2,false)"><div class="quiz-dot" id="node6_3_3d2"></div>400</div><div class="quiz-opt" id="node6_3_3_3" onclick="ans('node6_3_3',3,false)"><div class="quiz-dot" id="node6_3_3d3"></div>500</div></div></div></div>
+</main>
+<div class="ia-aide">
+  <div class="ia-panel" id="ip">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">Node.js · Module 6</div></div></div>
+    <div class="ia-msgs" id="im"><div class="ia-msg ia-a">Salut ! Questions sur ce module Node.js ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="ii" placeholder="Pose ta question..."><button class="ia-send" id="is">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="tia()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="bp" onclick="pv()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="nc">Partie 1 sur 4</div>
+  <button class="nav-next" id="bn" onclick="nx()">Suivant</button>
+</div>
+<script>var cp=1,tp=4;
+function sp(n){for(var i=1;i<=tp;i++){var e=document.getElementById('p'+i);if(e)e.style.display='none';var t=document.querySelectorAll('.partie-tab')[i-1];if(t)t.classList.remove('active');}var x=document.getElementById('p'+n);if(x)x.style.display='block';var y=document.querySelectorAll('.partie-tab')[n-1];if(y)y.classList.add('active');cp=n;un();window.scrollTo(0,0);}
+function done(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['node6']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nx(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['node6']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}sp(cp+1);}else done();}
+function pv(){if(cp>1)sp(cp-1);}
+function un(){document.getElementById('bp').style.visibility=cp>1?'visible':'hidden';document.getElementById('bn').textContent=cp===tp?'Terminer':'Suivant';document.getElementById('nc').textContent='Partie '+cp+' sur '+tp;document.getElementById('mpt').textContent='Partie '+cp+'/4';document.getElementById('mpf').style.width=(cp/tp*100)+'%';document.getElementById('gf').style.width=(48+Math.round(cp/tp*8))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('kv').textContent=(d.krt||248)+' KRT';}catch(e){}}
+var sp2=false;
+function tl(){var b=document.getElementById('bl'),t=document.getElementById('lt');if(!sp2){var u=new SpeechSynthesisUtterance(document.getElementById('p'+cp).innerText);u.lang='fr-FR';u.rate=0.9;u.onend=function(){sp2=false;b.classList.remove('playing');t.textContent='Ecouter';};speechSynthesis.speak(u);sp2=true;b.classList.add('playing');t.textContent='Stop';}else{speechSynthesis.cancel();sp2=false;b.classList.remove('playing');t.textContent='Ecouter';}}
+function ans(qid,oi,ok){document.querySelectorAll('[id^="'+qid+'_"]').forEach(function(el,i){el.style.pointerEvents='none';var d=document.getElementById(qid+'d'+i);if(i===0){el.classList.add('correct');if(d)d.textContent='✓';}else if(i===oi&&!ok){el.classList.add('wrong');if(d)d.textContent='✕';}else el.style.opacity='.5';});}
+function tia(){document.getElementById('ip').classList.toggle('open');}
+var ii=document.getElementById('ii'),is2=document.getElementById('is'),im=document.getElementById('im');
+function sia(){var t=ii.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;im.appendChild(u);ii.value='';im.scrollTop=im.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent='Bonne question sur ce module Node.js ! Lis bien le code et n\'hesite pas a tester en local.';im.appendChild(a);im.scrollTop=im.scrollHeight;},600);}
+is2.addEventListener('click',sia);ii.addEventListener('keydown',function(e){if(e.key==='Enter')sia();});
+un();</script>
+</body>
+</html>

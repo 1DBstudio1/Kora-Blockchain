@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Node.js — Module 2 — Modules et systeme de fichiers</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--w:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--n1:#0A2A1A;--n2:#16A34A;--grad:linear-gradient(135deg,#0A2A1A 0%,#16A34A 50%,#4ADE80 100%);--code:#0D1117}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.header-back{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.header-info{flex:1;min-width:0}.header-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.header-meta{font-size:11px;color:var(--muted)}
+.header-krt{display:flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(22,163,74,0.06);border-radius:20px;border:1px solid rgba(22,163,74,0.12);flex-shrink:0}
+.krt-val{font-size:12px;font-weight:500;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.global-progress{height:3px;background:var(--line)}.global-progress-fill{height:100%;background:var(--grad);transition:width .4s ease}
+.main{padding:0 0 100px;max-width:740px;margin:0 auto}
+.module-header{padding:32px 28px 24px;border-bottom:1px solid var(--line);background:var(--w)}
+.mod-header-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--n2);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.mod-header-label::before{content:'';width:14px;height:1.5px;background:var(--grad)}
+.mod-header-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;letter-spacing:-.5px;line-height:1.2;margin-bottom:8px}
+.mod-header-title em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mod-header-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:20px}
+.mod-header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-listen{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:20px;background:rgba(22,163,74,0.06);border:1px solid rgba(22,163,74,0.12);color:var(--n1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.btn-listen.playing{background:var(--grad);color:white;border:none}
+.mod-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mod-prog-bar{width:100px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.mod-prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .4s}
+.mod-prog-txt{font-size:12px;color:var(--n2);font-weight:500}
+.parties-nav{display:flex;overflow-x:auto;border-bottom:1px solid var(--line);background:var(--w);padding:0 28px}
+.parties-nav::-webkit-scrollbar{height:0}
+.partie-tab{padding:13px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.partie-tab.active{color:var(--n1);font-weight:500;border-bottom-color:var(--n2)}
+.content{padding:36px 28px}
+.bloc p{font-size:15px;line-height:1.8;margin-bottom:16px}
+.bloc .big{font-size:18px;line-height:1.7;font-weight:300;margin-bottom:20px;display:block}
+.bloc .big em{font-style:italic;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hl{padding:18px 22px;border-radius:14px;background:rgba(22,163,74,0.04);border-left:3px solid var(--n2);margin:24px 0;font-size:14px;line-height:1.7}
+.hl .hlt{font-size:11px;font-weight:500;color:var(--n2);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block}
+.fun-fact{padding:20px 22px;border-radius:14px;background:rgba(22,163,74,0.03);border:1px solid rgba(22,163,74,.1);margin:24px 0;display:flex;gap:14px;align-items:flex-start}
+.ff-icon{font-size:24px;flex-shrink:0}.ff-title{font-size:13px;font-weight:500;color:var(--n1);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}.ff-text{font-size:14px;line-height:1.65}
+.code-bloc{border-radius:14px;overflow:hidden;margin:24px 0;border:1px solid rgba(255,255,255,.05)}
+.code-head{display:flex;align-items:center;padding:10px 16px;background:#161b22}
+.code-lang{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.4);font-family:'JetBrains Mono',monospace}
+.code-dots{display:flex;gap:5px;margin-right:auto}.cdot{width:10px;height:10px;border-radius:50%}.cd1{background:#FF5F57}.cd2{background:#FFBD2E}.cd3{background:#28CA41}
+.code-body{background:var(--code);padding:22px;overflow-x:auto}
+.code-body pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9;color:#E6EDF3}
+.quiz-card{border-radius:12px;overflow:hidden;border:1px solid rgba(22,163,74,.15);margin:16px 0}
+.quiz-q{padding:14px 18px;background:rgba(22,163,74,.04);font-size:14px;font-weight:500;line-height:1.5}
+.quiz-opts{padding:10px}
+.quiz-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;margin-bottom:5px;border:1px solid var(--line);background:var(--w);transition:all .12s}
+.quiz-opt:hover{border-color:var(--n2);background:rgba(22,163,74,.04)}
+.quiz-opt.correct{border-color:#16A34A;background:rgba(22,163,74,.08)}
+.quiz-opt.wrong{border-color:#FF5F57;background:rgba(255,95,87,.06)}
+.quiz-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px}
+.quiz-opt.correct .quiz-dot{background:#16A34A;border-color:#16A34A;color:white}
+.quiz-opt.wrong .quiz-dot{background:#FF5F57;border-color:#FF5F57;color:white}
+.ia-aide{position:fixed;bottom:80px;right:20px;z-index:50}
+@media(min-width:701px){.ia-aide{bottom:20px}}
+.ia-btn{width:52px;height:52px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(22,163,74,.3);display:flex;align-items:center;justify-content:center}
+.ia-panel{display:none;position:absolute;bottom:64px;right:0;width:290px;background:var(--w);border-radius:16px;border:1px solid var(--line);box-shadow:0 8px 32px rgba(0,0,0,.1);overflow:hidden}
+.ia-panel.open{display:block}
+.ia-panel-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px}
+.ia-av{width:30px;height:30px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:13px;color:white}
+.ia-name{font-family:'Fraunces',serif;font-size:14px}.ia-ctx{font-size:11px;color:var(--n2)}
+.ia-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:180px;overflow-y:auto}
+.ia-msgs::-webkit-scrollbar{width:0}
+.ia-msg{font-size:13px;line-height:1.5;padding:9px 12px;border-radius:10px;max-width:90%}
+.ia-a{background:rgba(22,163,74,.05);border-radius:10px 10px 10px 3px}
+.ia-u{background:var(--grad);color:white;border-radius:10px 10px 3px 10px;align-self:flex-end}
+.ia-row{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--line)}
+.ia-inp{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);outline:none}
+.ia-inp:focus{border-color:var(--n2)}
+.ia-inp::placeholder{color:var(--light)}
+.ia-send{width:32px;height:32px;border-radius:50%;background:var(--grad);border:none;color:white;font-size:13px;cursor:pointer}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:40}
+.nav-prev{padding:10px 18px;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-current{font-size:12px;color:var(--muted);text-align:center}
+.nav-next{padding:10px 22px;background:var(--grad);color:white;border:none;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+@media(max-width:700px){.content{padding:22px 16px}.module-header{padding:24px 16px 18px}.parties-nav{padding:0 16px}}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-header{animation:up .4s ease both}.content{animation:up .4s ease .08s both}
+</style>
+</head>
+<body>
+<header class="header">
+  <button class="header-back" onclick="history.back()">←</button>
+  <div class="header-info">
+    <div class="header-title">Node.js — Back-end Kora</div>
+    <div class="header-meta">Module 2 · Modules et systeme de fichiers</div>
+  </div>
+  <div class="header-krt"><span style="font-size:11px;color:var(--n2)">◈</span><span class="krt-val" id="kv">KRT</span></div>
+</header>
+<div class="global-progress"><div class="global-progress-fill" id="gf" style="width:16%"></div></div>
+<main class="main">
+  <div class="module-header">
+    <div class="mod-header-label">Node.js · Module 2/12</div>
+    <div class="mod-header-title"><em>Modules et systeme de fichiers.</em></div>
+    <div class="mod-header-sub">Structure ton code en modules reutilisables. Le module fs lit et ecrit des fichiers — utile pour les logs, configs, exports de donnees.</div>
+    <div class="mod-header-actions">
+      <button class="btn-listen" id="bl" onclick="tl()"><span>🔊</span><span id="lt">Ecouter</span></button>
+      <div class="mod-progress"><div class="mod-prog-bar"><div class="mod-prog-fill" id="mpf" style="width:25%"></div></div><span class="mod-prog-txt" id="mpt">Partie 1/4</span></div>
+    </div>
+  </div>
+  <div class="parties-nav"><div class="partie-tab active" onclick="sp(1)">Modules CommonJS</div><div class="partie-tab" onclick="sp(2)">Le module fs</div><div class="partie-tab" onclick="sp(3)">Pattern JSON</div><div class="partie-tab" onclick="sp(4)">Exercice</div></div>
+  <div class="content" id="p1"><div class="bloc"><span class="big">Modules — <em>diviser le code en fichiers.</em></span><p>Au lieu de tout mettre dans index.js, tu divises en modules. module.exports expose ce que le fichier partage. require() importe ce dont tu as besoin.</p></div><div class="hl"><span class="hlt">Structure projet Node</span>Un projet bien structure : index.js (entree), routes/ (endpoints API), controllers/ (logique), models/ (schemas BDD), middleware/ (auth, validation), utils/ (fonctions partagees), config/ (configuration). Commence simple et structure progressivement.</div><div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">module.exports et require</div></div><div class="code-body"><pre>// utils/crypto.js
+const calculerPnl = (entree, actuel, qte) =&gt; (actuel - entree) * qte;
+const formaterPrix = (p) =&gt; p.toLocaleString('fr-FR') + ' $';
+
+module.exports = { calculerPnl, formaterPrix };
+
+// ----
+// index.js
+const { calculerPnl, formaterPrix } = require('./utils/crypto');
+
+const pnl = calculerPnl(60000, 65000, 0.5);
+console.log('PnL:', formaterPrix(pnl)); // PnL: 2 500 $
+
+// Exporter une seule valeur
+// module.exports = maFonction;
+// const fn = require('./ma-fonction');</pre></div></div><div class="fun-fact"><div class="ff-icon">📁</div><div><div class="ff-title">ES Modules vs CommonJS</div><div class="ff-text">CommonJS (require) = standard historique. ES Modules (import/export) = standard moderne. React et Vue utilisent ES Modules. Pour activer dans Node : type: 'module' dans package.json. On garde CommonJS dans ce cours pour la compatibilite maximale avec les librairies.</div></div></div></div><div class="content" id="p2" style="display:none"><div class="bloc"><span class="big">Le module fs — <em>lire et ecrire des fichiers.</em></span><p>fs est un module natif Node.js — zero npm install. Il lit, cree, modifie et supprime des fichiers. Utile pour les logs, configs JSON, exports de donnees.</p></div><div class="hl"><span class="hlt">fs sync vs async</span>fs.readFileSync() bloque l'execution — simple mais bloque le serveur. fs.promises.readFile() est asynchrone — n'attend pas, n'bloque pas les autres requetes. En production toujours utiliser la version async.</div><div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">Module fs — lecture et ecriture</div></div><div class="code-body"><pre>const fs = require('fs');
+const path = require('path');
+
+// Lire (sync — pour les scripts simples)
+const raw = fs.readFileSync('data.json', 'utf8');
+const data = JSON.parse(raw);
+
+// Lire (async — production)
+async function lireData() {
+  const raw = await fs.promises.readFile('data.json', 'utf8');
+  return JSON.parse(raw);
+}
+
+// Ecrire
+const portfolio = [{ ticker: 'BTC', qty: 0.5 }];
+fs.writeFileSync('portfolio.json', JSON.stringify(portfolio, null, 2));
+
+// Verifier existence
+if (fs.existsSync('portfolio.json')) console.log('OK');
+
+// Creer dossier
+fs.mkdirSync('logs', { recursive: true });
+
+// Ajouter (append)
+fs.appendFileSync('app.log', new Date().toISOString() + '\n');</pre></div></div><div class="fun-fact"><div class="ff-icon">📄</div><div><div class="ff-title">path — eviter les bugs de chemins</div><div class="ff-text">path.join(__dirname, 'data', 'users.json') construit un chemin correct sur Windows et Linux. __dirname = dossier du fichier courant. Toujours utiliser path.join plutot que les concatenations — les slashes varient selon l'OS.</div></div></div></div><div class="content" id="p3" style="display:none"><div class="bloc"><span class="big">JSON comme BDD temporaire — <em>prototyper rapidement.</em></span><p>Avant d'avoir une vraie BDD, on stocke les donnees dans des fichiers JSON. Parfait pour commencer et comprendre la logique CRUD.</p></div><div class="hl"><span class="hlt">JSON BDD temporaire</span>Pour un prototype avec quelques utilisateurs, un fichier JSON suffit. Pour la production avec des milliers d'utilisateurs : PostgreSQL. L'avantage JSON : zero config, lisible, facile a debugger. L'inconvenient : pas de concurrence (deux requetes simultanees peuvent corrompre le fichier).</div><div class="code-bloc"><div class="code-head"><div class="code-dots"><div class="cdot cd1"></div><div class="cdot cd2"></div><div class="cdot cd3"></div></div><div class="code-lang">CRUD avec fichiers JSON</div></div><div class="code-body"><pre>const fs = require('fs');
+const path = require('path');
+const FILE = path.join(__dirname, 'data', 'users.json');
+
+function chargerUsers() {
+  try {
+    if (!fs.existsSync(FILE)) return [];
+    return JSON.parse(fs.readFileSync(FILE, 'utf8'));
+  } catch { return []; }
+}
+
+function sauvegarder(users) {
+  fs.mkdirSync(path.dirname(FILE), { recursive: true });
+  fs.writeFileSync(FILE, JSON.stringify(users, null, 2));
+}
+
+function creerUser(nom, email) {
+  const users = chargerUsers();
+  const user = { id: Date.now().toString(), nom, email, krt: 0 };
+  users.push(user);
+  sauvegarder(users);
+  return user;
+}
+
+function trouver(email) {
+  return chargerUsers().find(u =&gt; u.email === email);
+}
+
+const user = creerUser('Valentin', 'val@kora.fr');
+console.log('Cree:', user);</pre></div></div><div class="fun-fact"><div class="ff-icon">💾</div><div><div class="ff-title">Pourquoi pas localStorage</div><div class="ff-text">localStorage c'est cote navigateur. Le serveur Node.js n'y a pas acces. Les donnees serveur vivent sur le serveur — fichiers JSON, BDD, Redis. Cette separation est fondamentale : le serveur est la source de verite, le client affiche.</div></div></div></div><div class="content" id="p4" style="display:none"><div class="bloc"><span class="big">Exercice — <em>modules et fs.</em></span><p>Questions sur les modules Node.js et le systeme de fichiers.</p></div><div class="quiz-card"><div class="quiz-q">1. Comment exporter une fonction en CommonJS ?</div><div class="quiz-opts"><div class="quiz-opt" id="node2_3_0_0" onclick="ans('node2_3_0',0,true)"><div class="quiz-dot" id="node2_3_0d0">✓</div>module.exports = fn</div><div class="quiz-opt" id="node2_3_0_1" onclick="ans('node2_3_0',1,false)"><div class="quiz-dot" id="node2_3_0d1"></div>export fn</div><div class="quiz-opt" id="node2_3_0_2" onclick="ans('node2_3_0',2,false)"><div class="quiz-dot" id="node2_3_0d2"></div>exports fn</div><div class="quiz-opt" id="node2_3_0_3" onclick="ans('node2_3_0',3,false)"><div class="quiz-dot" id="node2_3_0d3"></div>node.export = fn</div></div></div><div class="quiz-card"><div class="quiz-q">2. Methode async pour lire un fichier ?</div><div class="quiz-opts"><div class="quiz-opt" id="node2_3_1_0" onclick="ans('node2_3_1',0,true)"><div class="quiz-dot" id="node2_3_1d0">✓</div>fs.promises.readFile()</div><div class="quiz-opt" id="node2_3_1_1" onclick="ans('node2_3_1',1,false)"><div class="quiz-dot" id="node2_3_1d1"></div>fs.readFileSync()</div><div class="quiz-opt" id="node2_3_1_2" onclick="ans('node2_3_1',2,false)"><div class="quiz-dot" id="node2_3_1d2"></div>fs.open()</div><div class="quiz-opt" id="node2_3_1_3" onclick="ans('node2_3_1',3,false)"><div class="quiz-dot" id="node2_3_1d3"></div>fs.load()</div></div></div><div class="quiz-card"><div class="quiz-q">3. A quoi sert __dirname ?</div><div class="quiz-opts"><div class="quiz-opt" id="node2_3_2_0" onclick="ans('node2_3_2',0,true)"><div class="quiz-dot" id="node2_3_2d0">✓</div>Chemin absolu du dossier courant</div><div class="quiz-opt" id="node2_3_2_1" onclick="ans('node2_3_2',1,false)"><div class="quiz-dot" id="node2_3_2d1"></div>Nom du fichier</div><div class="quiz-opt" id="node2_3_2_2" onclick="ans('node2_3_2',2,false)"><div class="quiz-dot" id="node2_3_2d2"></div>Chemin node_modules</div><div class="quiz-opt" id="node2_3_2_3" onclick="ans('node2_3_2',3,false)"><div class="quiz-dot" id="node2_3_2d3"></div>URL du serveur</div></div></div><div class="quiz-card"><div class="quiz-q">4. Pourquoi eviter readFileSync en prod ?</div><div class="quiz-opts"><div class="quiz-opt" id="node2_3_3_0" onclick="ans('node2_3_3',0,true)"><div class="quiz-dot" id="node2_3_3d0">✓</div>Ca bloque le serveur</div><div class="quiz-opt" id="node2_3_3_1" onclick="ans('node2_3_3',1,false)"><div class="quiz-dot" id="node2_3_3d1"></div>Ca ne fonctionne pas</div><div class="quiz-opt" id="node2_3_3_2" onclick="ans('node2_3_3',2,false)"><div class="quiz-dot" id="node2_3_3d2"></div>C'est plus lent</div><div class="quiz-opt" id="node2_3_3_3" onclick="ans('node2_3_3',3,false)"><div class="quiz-dot" id="node2_3_3d3"></div>Ca consume plus de RAM</div></div></div></div>
+</main>
+<div class="ia-aide">
+  <div class="ia-panel" id="ip">
+    <div class="ia-panel-header"><div class="ia-av">✦</div><div><div class="ia-name">Kora IA</div><div class="ia-ctx">Node.js · Module 2</div></div></div>
+    <div class="ia-msgs" id="im"><div class="ia-msg ia-a">Salut ! Questions sur ce module Node.js ?</div></div>
+    <div class="ia-row"><input class="ia-inp" id="ii" placeholder="Pose ta question..."><button class="ia-send" id="is">↑</button></div>
+  </div>
+  <button class="ia-btn" onclick="tia()">✦</button>
+</div>
+<div class="nav-bottom">
+  <button class="nav-prev" id="bp" onclick="pv()" style="visibility:hidden">← Precedent</button>
+  <div class="nav-current" id="nc">Partie 1 sur 4</div>
+  <button class="nav-next" id="bn" onclick="nx()">Suivant</button>
+</div>
+<script>var cp=1,tp=4;
+function sp(n){for(var i=1;i<=tp;i++){var e=document.getElementById('p'+i);if(e)e.style.display='none';var t=document.querySelectorAll('.partie-tab')[i-1];if(t)t.classList.remove('active');}var x=document.getElementById('p'+n);if(x)x.style.display='block';var y=document.querySelectorAll('.partie-tab')[n-1];if(y)y.classList.add('active');cp=n;un();window.scrollTo(0,0);}
+function done(){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['node2']=99;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}window.location.href='academy.html';}
+function nx(){if(cp<tp){try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');d['node2']=cp;localStorage.setItem('kora_prog',JSON.stringify(d));}catch(e){}sp(cp+1);}else done();}
+function pv(){if(cp>1)sp(cp-1);}
+function un(){document.getElementById('bp').style.visibility=cp>1?'visible':'hidden';document.getElementById('bn').textContent=cp===tp?'Terminer':'Suivant';document.getElementById('nc').textContent='Partie '+cp+' sur '+tp;document.getElementById('mpt').textContent='Partie '+cp+'/4';document.getElementById('mpf').style.width=(cp/tp*100)+'%';document.getElementById('gf').style.width=(16+Math.round(cp/tp*8))+'%';try{var d=JSON.parse(localStorage.getItem('kora_prog')||'{}');document.getElementById('kv').textContent=(d.krt||248)+' KRT';}catch(e){}}
+var sp2=false;
+function tl(){var b=document.getElementById('bl'),t=document.getElementById('lt');if(!sp2){var u=new SpeechSynthesisUtterance(document.getElementById('p'+cp).innerText);u.lang='fr-FR';u.rate=0.9;u.onend=function(){sp2=false;b.classList.remove('playing');t.textContent='Ecouter';};speechSynthesis.speak(u);sp2=true;b.classList.add('playing');t.textContent='Stop';}else{speechSynthesis.cancel();sp2=false;b.classList.remove('playing');t.textContent='Ecouter';}}
+function ans(qid,oi,ok){document.querySelectorAll('[id^="'+qid+'_"]').forEach(function(el,i){el.style.pointerEvents='none';var d=document.getElementById(qid+'d'+i);if(i===0){el.classList.add('correct');if(d)d.textContent='✓';}else if(i===oi&&!ok){el.classList.add('wrong');if(d)d.textContent='✕';}else el.style.opacity='.5';});}
+function tia(){document.getElementById('ip').classList.toggle('open');}
+var ii=document.getElementById('ii'),is2=document.getElementById('is'),im=document.getElementById('im');
+function sia(){var t=ii.value.trim();if(!t)return;var u=document.createElement('div');u.className='ia-msg ia-u';u.textContent=t;im.appendChild(u);ii.value='';im.scrollTop=im.scrollHeight;setTimeout(function(){var a=document.createElement('div');a.className='ia-msg ia-a';a.textContent='Bonne question sur ce module Node.js ! Lis bien le code et n\'hesite pas a tester en local.';im.appendChild(a);im.scrollTop=im.scrollHeight;},600);}
+is2.addEventListener('click',sia);ii.addEventListener('keydown',function(e){if(e.key==='Enter')sia();});
+un();</script>
+</body>
+</html>
