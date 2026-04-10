@@ -6,163 +6,135 @@
 <title>Kora Academy — React & JSX</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,wght@0,300;0,400;1,400&family=JetBrains+Mono&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#FAFAFA;--white:#FFF;--line:#EFEFEF;--text:#1A1A1A;
-  --muted:#737373;--light:#B0B0B0;
-  --b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--arc:#6BAED6;
-  --grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);
-  --ok:#4caf50;--ko:#e57373;
-}
+:root{--bg:#FAFAFA;--white:#FFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--arc:#6BAED6;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--ok:#4caf50;--ko:#e57373}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;padding-bottom:90px}
-a{text-decoration:none;color:inherit}
-
-/* ── HEADER ─────────────────────────────── */
-.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.hrow{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--line)}
+body{background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;font-weight:300;min-height:100vh;padding-bottom:90px}
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--line)}
 .logo{height:36px;border-radius:8px;padding:3px;box-shadow:0 0 0 1.5px var(--b2),0 0 0 3px rgba(232,149,109,.2);cursor:pointer}
-.htitle{font-family:'Fraunces',serif;font-size:.95rem;color:var(--text)}
+.htitle{font-family:"Fraunces",serif;font-size:.95rem;color:var(--text);margin-left:11px}
 .prog-wrap{display:flex;align-items:center;gap:8px}
 .pbar{width:80px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
-.pfill{height:100%;background:var(--grad);border-radius:2px;transition:width .4s}
+.pfill{height:100%;background:var(--grad);border-radius:2px;transition:width .4s;width:0%}
 .ppct{font-size:.72rem;color:var(--muted);min-width:28px;text-align:right}
-.bc{display:flex;align-items:center;gap:6px;padding:8px 18px;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--line);flex-wrap:wrap;min-height:36px}
+.bc{display:flex;align-items:center;gap:6px;padding:8px 18px;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--line);min-height:36px;flex-wrap:wrap}
 .bcl{cursor:pointer;transition:color .15s}.bcl:hover{color:var(--b1)}
 .bcs{color:var(--line)}.bca{color:var(--b1);font-weight:500}
 .etapes{display:flex;padding:0 14px;overflow-x:auto;border-bottom:1px solid var(--line)}
 .etapes::-webkit-scrollbar{height:0}
-.etape{display:flex;align-items:center;gap:5px;padding:8px 10px;font-size:.76rem;font-family:'DM Sans',sans-serif;color:var(--light);background:transparent;border:none;cursor:pointer;white-space:nowrap;position:relative;transition:color .2s}
+.etape{display:flex;align-items:center;gap:5px;padding:8px 10px;font-size:.76rem;font-family:"DM Sans",sans-serif;color:var(--light);background:transparent;border:none;cursor:pointer;white-space:nowrap;position:relative;transition:color .2s}
 .etape.done{color:var(--b2)}.etape.active{color:var(--b1);font-weight:500}
-.etape.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--grad);border-radius:2px 2px 0 0}
+.etape.active::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--grad);border-radius:2px 2px 0 0}
 .edot{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:600;flex-shrink:0}
 .edot.done{background:var(--grad);color:#fff}.edot.active{background:rgba(107,31,42,.1);color:var(--b1);border:1.5px solid var(--b1)}.edot.idle{background:var(--line);color:var(--light)}
-
-/* ── PAGES ──────────────────────────────── */
+/* PAGES */
 .page{display:none}.page.active{display:block}
-.wrap{max-width:640px;margin:0 auto;padding:1.6rem 1rem}
-
-/* ── HOME ───────────────────────────────── */
+.wrap{max-width:660px;margin:0 auto;padding:1.6rem 1rem}
+/* LIST */
 .hero{text-align:center;padding:2rem 1rem 1.2rem;max-width:600px;margin:0 auto}
-.hero h2{font-family:'Fraunces',serif;font-size:clamp(1.5rem,4vw,2rem);font-weight:300;letter-spacing:-.03em;line-height:1.3;margin-bottom:.7rem}
-.hero p{font-size:.87rem;color:var(--muted);line-height:1.7;max-width:420px;margin:0 auto 1.6rem}
-.stats-row{display:flex;justify-content:center;gap:20px;margin-bottom:1.8rem}
-.stat{text-align:center}
-.stat-n{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--b1)}
-.stat-l{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.bloc-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:1.3rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;margin:0 1rem 1.2rem}
-.bloc-card:hover{border-color:rgba(196,98,45,.3);transform:translateY(-2px);box-shadow:0 6px 20px rgba(107,31,42,.07)}
-.bloc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad);opacity:0;transition:opacity .2s}
-.bloc-card:hover::before{opacity:1}
-.bch{display:flex;align-items:center;gap:12px;margin-bottom:.8rem}
-.bci{font-size:1.6rem}.bcn{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:400}
-.bcd{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
-.bcmeta{display:flex;align-items:center;justify-content:space-between}
-.bcct{font-size:.74rem;color:var(--light)}
-.bcpb{width:70px;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
-.bcpf{height:100%;background:var(--grad);border-radius:2px;transition:width .4s}
-
-/* ── LECONS LIST ────────────────────────── */
-.llist{display:flex;flex-direction:column;gap:8px;padding:0 1rem;max-width:640px;margin:0 auto}
+.hero h2{font-family:"Fraunces",serif;font-size:clamp(1.5rem,4vw,2rem);font-weight:300;letter-spacing:-.03em;line-height:1.3;margin-bottom:.7rem}
+.hero p{font-size:.87rem;color:var(--muted);line-height:1.7;max-width:420px;margin:0 auto 1.4rem}
+.stats-row{display:flex;justify-content:center;gap:24px;margin-bottom:1.6rem}
+.stat-n{font-family:"Fraunces",serif;font-size:1.8rem;color:var(--b1);line-height:1}
+.stat-l{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.llist{display:flex;flex-direction:column;gap:8px;padding:0 1rem;max-width:660px;margin:0 auto}
 .litem{display:flex;align-items:center;gap:12px;padding:13px 15px;background:var(--white);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:all .15s}
 .litem:hover{border-color:rgba(196,98,45,.25);background:#FFFAF8}
 .litem.done{border-color:rgba(76,175,80,.2);background:#F5FBF5}
 .lnum{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:600;flex-shrink:0;background:var(--grad);color:#fff}
-.lnum.done-n{background:linear-gradient(135deg,#4caf50,#81c784)}
-.linfo{flex:1}
-.ltitle{font-size:.88rem;font-weight:400;color:var(--text);margin-bottom:2px}
+.lnum.ok{background:linear-gradient(135deg,#4caf50,#81c784)}
+.linfo{flex:1}.ltit{font-size:.88rem;font-weight:400;color:var(--text);margin-bottom:2px}
 .lsub{font-size:.73rem;color:var(--muted)}
 .lbadge{font-size:.68rem;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap}
-.badge-new{color:var(--b2);background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.2)}
-.badge-done{color:#2e7d32;background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.2)}
-
-/* ── LECON ──────────────────────────────── */
+.new{color:var(--b2);background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.2)}
+.fin{color:#2e7d32;background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.2)}
+/* LECON */
 .ltag{display:inline-flex;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3);border-radius:20px;padding:3px 11px;margin-bottom:10px}
-h1.lh{font-family:'Fraunces',serif;font-size:clamp(1.3rem,3.5vw,1.8rem);font-weight:400;letter-spacing:-.03em;line-height:1.2;margin-bottom:1.6rem}
+h1.lh{font-family:"Fraunces",serif;font-size:clamp(1.3rem,3.5vw,1.8rem);font-weight:400;letter-spacing:-.03em;line-height:1.2;margin-bottom:1.4rem}
 .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:italic}
 .screen{display:none}.screen.active{display:block}
 .card{border:1px solid var(--line);border-radius:14px;padding:1.3rem;margin-bottom:1rem;background:var(--white)}
 .card-warm{background:rgba(107,31,42,.03);border-color:rgba(107,31,42,.1)}
 .card-blue{background:rgba(107,174,214,.04);border-color:rgba(107,174,214,.2)}
-.slabel{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--b2);margin-bottom:.7rem;display:block}
+.card-green{background:rgba(76,175,80,.03);border-color:rgba(76,175,80,.15)}
+.slabel{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--b2);margin-bottom:.6rem;display:block}
 .btext{font-size:.92rem;line-height:1.75;color:var(--text);margin-bottom:.9rem}
-.hint{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;background:rgba(107,31,42,.04);border-radius:8px;border:1px solid rgba(107,31,42,.08);margin-top:.5rem}
+.hint{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;background:rgba(107,31,42,.04);border-radius:8px;border:1px solid rgba(107,31,42,.08);margin-top:.4rem}
 .htx{font-size:.84rem;color:var(--b1);line-height:1.6}
-.exbl{margin-bottom:.9rem}
-.exbl-lbl{font-size:.68rem;color:var(--b2);font-family:'JetBrains Mono',monospace;letter-spacing:.06em;margin-bottom:.3rem;text-transform:uppercase;display:block}
-pre{background:#FDF6F0;border:1px solid rgba(107,31,42,.1);border-left:3px solid var(--b2);border-radius:10px;padding:.9rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.85;color:var(--text);overflow-x:auto;white-space:pre;margin-bottom:.9rem}
+pre{background:#FDF6F0;border:1px solid rgba(107,31,42,.1);border-left:3px solid var(--b2);border-radius:10px;padding:.9rem 1rem;font-family:"JetBrains Mono",monospace;font-size:.78rem;line-height:1.85;color:var(--text);overflow-x:auto;white-space:pre;margin-bottom:.9rem}
+/* OBSERVE */
+.obs-wrap{display:flex;flex-direction:column;gap:0;margin-bottom:.8rem}
+.obs-line{display:flex;gap:0;font-family:"JetBrains Mono",monospace;font-size:.77rem;line-height:1.6}
+.obs-code{flex:1;background:#FDF6F0;padding:3px 10px;color:var(--text);white-space:pre;overflow-x:auto;min-width:0;border-left:3px solid var(--b2)}
+.obs-code.empty{background:#FAFAFA;border-left-color:var(--line)}
+.obs-comment{flex:0 0 45%;background:#F5F0FF;padding:3px 10px;font-size:.73rem;color:#5C3D8F;font-family:"DM Sans",sans-serif;line-height:1.5;display:flex;align-items:center;border-left:2px solid #D4C4F5}
+.obs-comment:empty{display:none}
+@media(max-width:600px){.obs-line{flex-direction:column}.obs-comment{flex:auto;border-left:none;border-top:1px solid #D4C4F5}}
+/* REGLES */
 .regles{display:flex;flex-direction:column;gap:5px;margin-bottom:1rem}
 .regle{display:flex;gap:10px;align-items:flex-start;padding:8px 11px;border-radius:8px}
 .regle:nth-child(odd){background:#FAFAFA}
-.rprop{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--b1);min-width:110px;flex-shrink:0}
+.rprop{font-family:"JetBrains Mono",monospace;font-size:.75rem;color:var(--b1);min-width:100px;flex-shrink:0}
 .reff{font-size:.82rem;color:var(--muted);line-height:1.5}
-
-/* ── BTNS ───────────────────────────────── */
-.btn{display:inline-flex;align-items:center;gap:6px;border-radius:22px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.86rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
+/* BTNS */
+.btn{display:inline-flex;align-items:center;gap:6px;border-radius:22px;padding:10px 20px;font-family:"DM Sans",sans-serif;font-size:.86rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
 .btn-p{background:var(--grad);color:#fff}.btn-p:hover{opacity:.88}
-.btn-o{background:transparent;color:var(--b1);border:1px solid rgba(107,31,42,.25)}.btn-o:hover{background:rgba(107,31,42,.05)}
-.btn-g{background:transparent;color:var(--muted);border:1px solid var(--line)}.btn-g:hover{background:#F5F5F5}
+.btn-o{background:transparent;color:var(--b1);border:1px solid rgba(107,31,42,.25)}
+.btn-g{background:transparent;color:var(--muted);border:1px solid var(--line)}
 .btn:disabled{opacity:.35;cursor:default}
 .brow{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
+/* EXERCICES */
+.ex-ctx{font-size:.82rem;color:var(--arc);background:rgba(107,174,214,.07);border:1px solid rgba(107,174,214,.2);border-radius:8px;padding:8px 12px;margin-bottom:.9rem;line-height:1.5}
+.trow{display:flex;gap:7px;margin-bottom:1rem;flex-wrap:wrap}
 .tag{display:inline-flex;border-radius:20px;padding:3px 11px;font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .tag-a{color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3)}
 .tag-b{color:var(--b2);background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.25)}
-.tag-memo{color:#7B5EA7;background:rgba(123,94,167,.1);border:1px solid rgba(123,94,167,.25)}
-.tag-debug{color:#E67E22;background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25)}
-.trow{display:flex;gap:7px;margin-bottom:1rem;flex-wrap:wrap}
-
-/* ── EXERCICES ──────────────────────────── */
 .opts{display:flex;flex-direction:column;gap:7px;margin-bottom:.9rem}
-.opt{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;border-radius:10px;border:1px solid var(--line);background:var(--white);cursor:pointer;font-size:.86rem;font-family:'DM Sans',sans-serif;color:var(--muted);text-align:left;transition:all .15s;width:100%}
-.opt:hover:not(:disabled){border-color:var(--b2);color:var(--b1);background:#FDF6F0}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;border-radius:10px;border:1px solid var(--line);background:var(--white);cursor:pointer;font-size:.86rem;font-family:"DM Sans",sans-serif;color:var(--muted);text-align:left;transition:all .15s;width:100%}
+.opt:hover:not([disabled]){border-color:var(--b2);color:var(--b1);background:#FDF6F0}
 .opt.sel{border-color:var(--b2);color:var(--b1);background:#FDF6F0}
 .opt.ok{border-color:var(--ok);color:#2e7d32;background:#F0F8F0}
 .opt.ko{border-color:var(--ko);color:#c62828;background:#FDF0F0}
-.oltr{font-family:'Fraunces',serif;opacity:.4;flex-shrink:0;width:18px;margin-top:1px}
+.oltr{font-family:"Fraunces",serif;opacity:.4;flex-shrink:0;width:18px;margin-top:1px}
 .irow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:.9rem}
-.igrp label{font-size:.73rem;color:var(--muted);display:block;margin-bottom:3px;font-family:'JetBrains Mono',monospace}
-.igrp input{border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:.83rem;font-family:'JetBrains Mono',monospace;background:var(--white);color:var(--text);outline:none;width:185px;transition:border-color .2s}
+.igrp label{font-size:.73rem;color:var(--muted);display:block;margin-bottom:3px;font-family:"JetBrains Mono",monospace}
+.igrp input{border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:.83rem;font-family:"JetBrains Mono",monospace;background:var(--white);color:var(--text);outline:none;width:200px;transition:border-color .2s}
 .igrp input:focus{border-color:var(--b2)}.igrp input.ok{border-color:var(--ok);background:#F0F8F0}.igrp input.ko{border-color:var(--ko);background:#FDF0F0}
-textarea.memo{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-family:'JetBrains Mono',monospace;font-size:.83rem;color:var(--text);outline:none;resize:vertical;min-height:65px;margin:.7rem 0 .4rem;transition:border-color .2s}
+pre.prev-tpl{background:#F5F0FF;border-color:#D4C4F5;border-left-color:#7B5EA7}
+.aide{font-size:.82rem;color:#5C3D8F;background:rgba(123,94,167,.06);border:1px solid rgba(123,94,167,.2);border-radius:8px;padding:8px 12px;margin:.6rem 0;line-height:1.5}
+textarea.memo{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-family:"JetBrains Mono",monospace;font-size:.83rem;color:var(--text);outline:none;resize:vertical;min-height:65px;margin:.7rem 0 .4rem;transition:border-color .2s}
 textarea.memo:focus{border-color:rgba(123,94,167,.5)}
-.btn-memo{border-radius:20px;padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
-.btn-ok{background:rgba(76,175,80,.1);color:#2e7d32;border:1px solid rgba(76,175,80,.3)}
-.btn-ko-m{background:rgba(229,115,115,.1);color:#c62828;border:1px solid rgba(229,115,115,.3)}
 .fb{border-radius:10px;padding:.9rem;margin-top:9px}
 .fb.ok{background:#F0F8F0;border:1px solid var(--ok)}.fb.ko{background:#FDF0F0;border:1px solid var(--ko)}
 .fbt{font-weight:600;font-size:.88rem;margin-bottom:4px}
 .fb.ok .fbt{color:#2e7d32}.fb.ko .fbt{color:#c62828}
 .fbx{color:var(--muted);font-size:.83rem;line-height:1.6}
-
-/* ── RESUME ─────────────────────────────── */
-.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:9px;margin-bottom:1rem}
+/* RESUME */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:9px;margin-bottom:1rem}
 .ri{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.9rem}
 .ric{font-size:1rem;margin-bottom:.3rem}
-.rik{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--b1);margin-bottom:.2rem;font-weight:500}
+.rik{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--b1);margin-bottom:.2rem;font-weight:500}
 .riv{font-size:.8rem;color:var(--muted);line-height:1.5}
 .rfooter{border-top:1px solid rgba(107,31,42,.1);padding-top:.9rem;margin-top:.4rem}
-.rfooter p{font-size:.8rem;color:var(--muted);line-height:1.6}
-
-/* ── EVAL ZONE ──────────────────────────── */
+/* EVAL */
 .eval-card{background:linear-gradient(135deg,rgba(107,31,42,.04),rgba(232,149,109,.06));border:1px solid rgba(196,98,45,.2);border-radius:16px;padding:1.5rem;text-align:center;margin:1.4rem 1rem}
-.eval-card h3{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:400;color:var(--text);margin-bottom:.4rem}
+.eval-card h3{font-family:"Fraunces",serif;font-size:1.05rem;font-weight:400;color:var(--text);margin-bottom:.4rem}
 .eval-card p{font-size:.83rem;color:var(--muted);line-height:1.6;margin-bottom:.9rem}
 .eval-lock{font-size:.8rem;color:var(--light);margin-top:.4rem}
-
-/* ── MOB NAV ────────────────────────────── */
+/* MOB NAV */
 .mobnav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:200;padding:5px 0}
 .mobi{display:flex;justify-content:space-around}
-.mitem{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.66rem;color:var(--light);cursor:pointer;padding:4px 14px;transition:color .15s}
+.mitem{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.66rem;color:var(--light);cursor:pointer;padding:4px 14px;transition:color .15s;text-decoration:none}
 .mitem.active{color:var(--b1)}.mic{font-size:1.3rem;line-height:1.2}
 @media(max-width:680px){.mobnav{display:block}}
 @media(max-width:480px){.regle{flex-direction:column;gap:2px}.rprop{min-width:auto}.wrap{padding:1.2rem .8rem}}
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
-<div class="header">
-  <div class="hrow">
-    <div style="display:flex;align-items:center;gap:11px">
+<div class="hdr">
+  <div class="hdr-top">
+    <div style="display:flex;align-items:center">
       <img src="logo.jpg" alt="Kora" class="logo" id="logoBtn">
       <span class="htitle" id="htitle">Kora Academy</span>
     </div>
@@ -175,14 +147,13 @@ textarea.memo:focus{border-color:rgba(123,94,167,.5)}
   <div class="etapes" id="etapes" style="display:none"></div>
 </div>
 
-<!-- PAGE : LISTE DES LECONS -->
 <div class="page active" id="page-list">
   <div class="hero">
-    <h2>React &amp; JSX &mdash; <em class="grad">10 le&ccedil;ons</em></h2>
-    <p>Du composant basique au fetch dynamique. Chaque le&ccedil;on contient des exercices interactifs et sauvegarde ta progression automatiquement.</p>
+    <h2>React &amp; JSX &mdash; <em class="grad">Apprendre en faisant</em></h2>
+    <p>10 le&#231;ons. Chacune : pourquoi, observe, r&#233;p&#232;te, adapte, cr&#233;e. Exemples tir&#233;s de Kora et DB Studio.</p>
     <div class="stats-row">
-      <div class="stat"><div class="stat-n" id="statDone">0</div><div class="stat-l">termin&eacute;es</div></div>
-      <div class="stat"><div class="stat-n">10</div><div class="stat-l">le&ccedil;ons</div></div>
+      <div class="stat"><div class="stat-n" id="statDone">0</div><div class="stat-l">termin&#233;es</div></div>
+      <div class="stat"><div class="stat-n">10</div><div class="stat-l">le&#231;ons</div></div>
       <div class="stat"><div class="stat-n" id="statPct">0%</div><div class="stat-l">progression</div></div>
     </div>
   </div>
@@ -190,7 +161,6 @@ textarea.memo:focus{border-color:rgba(123,94,167,.5)}
   <div id="evalZone"></div>
 </div>
 
-<!-- PAGE : LECON -->
 <div class="page" id="page-lecon">
   <div class="wrap">
     <div class="ltag" id="ltag"></div>
@@ -199,7 +169,6 @@ textarea.memo:focus{border-color:rgba(123,94,167,.5)}
   </div>
 </div>
 
-<!-- MOB NAV -->
 <div class="mobnav">
   <div class="mobi">
     <a href="index.html" class="mitem"><span class="mic">&#8962;</span>Accueil</a>
@@ -209,828 +178,157 @@ textarea.memo:focus{border-color:rgba(123,94,167,.5)}
 </div>
 
 <script>
-// ─── DATA ────────────────────────────────────────────────────────────
-const LECONS = [
-  {
-    id: "r1",
-    num: 1,
-    tag: "React &middot; Le&ccedil;on 1",
-    title: "Pourquoi React",
-    sub: "Le probl&egrave;me qu&rsquo;il r&eacute;sout",
-    pourquoi: "JS vanilla devient chaotique d&egrave;s que l&rsquo;interface devient complexe. React change de paradigme : tu d&eacute;cris &agrave; quoi l&rsquo;UI doit ressembler selon l&rsquo;&eacute;tat, et React se charge de mettre &agrave; jour le DOM.",
-    exemple: "Dashboard Kora en temps r&eacute;el &mdash; tokens, posts, notifications. Avec vanilla JS ce serait des centaines de querySelector. Avec React, chaque partie est un composant autonome.",
-    exemples: [
-      { label: "Vanilla vs React", code: "// Vanilla — imperatif : COMMENT faire\ndocument.querySelector('#score').textContent = score;\nif (score > 100) badge.classList.add('gold');\n\n// React — declaratif : QUOI afficher\nfunction Score({ score }) {\n  return (\n    <div>\n      <span>{score}</span>\n      {score > 100 && <span className=\"gold\">TOP</span>}\n    </div>\n  );\n}" }
-    ],
-    regles: [
-      { prop: "Virtual DOM", expl: "Copie legere du DOM. Diffing puis patch minimal sur le vrai DOM." },
-      { prop: "Composant", expl: "Fonction JS qui retourne du JSX. Brique reutilisable." },
-      { prop: "State", expl: "Donnees qui declenchent un re-render quand elles changent." },
-      { prop: "Declaratif", expl: "On decrit QUOI afficher, React gere COMMENT mettre a jour." }
-    ],
-    code: "// Probleme vanilla\nfunction updateLikes(id, val) {\n  document.querySelector('#post-' + id + ' .likes')\n    .textContent = val;\n  // Et si le post a ete supprime ? Bug silencieux.\n}\n\n// Solution React\nfunction Post({ id, texte, likes }) {\n  return (\n    <article id={'post-' + id}>\n      <p>{texte}</p>\n      <span className=\"likes\">{likes}</span>\n    </article>\n  );\n  // Si le post disparait, React le retire du DOM automatiquement.",
-    exercices: [
-      {
-        type: "qcm",
-        question: "Quel est l'avantage principal du Virtual DOM ?",
-        options: ["Il remplace completement le DOM HTML", "Il calcule les changements minimaux plutot que de tout re-rendre", "Il rend les animations automatiques", "Il permet d'ecrire du CSS en JS"],
-        bonne: 1,
-        explication: "Le Virtual DOM fait du diffing : compare l'ancien et le nouveau, applique uniquement les differences sur le vrai DOM. Moins d'operations = plus rapide."
-      },
-      {
-        type: "completion",
-        question: "Complete : approche imperative vs declarative",
-        labels: ["vanilla JS", "JSX React"],
-        bonnes: ["document.querySelector('#titre').textContent = texte", "<h1>{texte}</h1>"],
-        template: "// Imperatif\n[A];\n\n// Declaratif\nreturn [B];"
-      },
-      {
-        type: "memo",
-        question: "Definir le Virtual DOM en une phrase.",
-        bonne: "Le Virtual DOM est une copie legere du DOM reel que React utilise pour calculer les changements minimaux.",
-        indice: "copie legere → diffing → patch minimal",
-        explication: "React compare l'ancien et le nouveau Virtual DOM, puis applique seulement les differences sur le vrai DOM."
-      },
-      {
-        type: "debug",
-        question: "Erreur conceptuelle. Trouve :",
-        codeFaux: "function Page() {\n  document.querySelector('h1').textContent = 'Nouveau';\n  return <h1>Titre</h1>;\n}",
-        codeCorrige: "function Page() {\n  return <h1>Nouveau</h1>;\n}",
-        options: ["return est interdit ici", "Ne jamais manipuler le DOM directement dans React — laisser React gerer", "h1 est invalide en JSX", "querySelector ne fonctionne pas en React"],
-        bonne: 1,
-        explication: "Dans React, on ne touche JAMAIS au DOM avec querySelector. On decrit via JSX et React s'en charge."
-      }
-    ],
-    resume: [
-      { icon: "🧠", key: "Declaratif", val: "QUOI afficher, pas COMMENT" },
-      { icon: "🔄", key: "Virtual DOM", val: "Copie → diffing → patch minimal" },
-      { icon: "🧩", key: "Composants", val: "Fonctions JSX reutilisables" },
-      { icon: "⚡", key: "Re-render", val: "Auto quand state/props changent" }
-    ]
-  },
-  {
-    id: "r2",
-    num: 2,
-    tag: "React &middot; Le&ccedil;on 2",
-    title: "Les composants",
-    sub: "Blocs r&eacute;utilisables",
-    pourquoi: "Un composant = une fonction qui retourne du JSX. L&rsquo;id&eacute;e est de d&eacute;couper l&rsquo;interface en blocs autonomes et r&eacute;utilisables. Bouton, carte, nav &mdash; chacun est un composant.",
-    exemple: "Kora : &lt;Post&gt;, &lt;TokenBadge&gt;, &lt;NavBar&gt;. Chacun g&egrave;re sa propre logique et peut &ecirc;tre r&eacute;utilis&eacute; partout.",
-    exemples: [
-      { label: "Composant de base", code: "function Bouton({ texte, onClick }) {\n  return (\n    <button\n      onClick={onClick}\n      style={{ background: '#C4622D', color: 'white' }}>\n      {texte}\n    </button>\n  );\n}\n\n// Utilisation\n<Bouton texte=\"Commencer\" onClick={demarrer} />" },
-      { label: "Composer des composants", code: "function App() {\n  return (\n    <div>\n      <NavBar />\n      <main>\n        <CarteFormation titre=\"JS\" lecons={15} />\n        <CarteFormation titre=\"React\" lecons={10} />\n      </main>\n    </div>\n  );\n}" }
-    ],
-    regles: [
-      { prop: "function Nom()", expl: "PascalCase obligatoire. <div> = HTML, <Div> = composant React." },
-      { prop: "props", expl: "Donnees passees au composant. Lecture seule — jamais modifier directement." },
-      { prop: "{valeur}", expl: "Accolades = expression JS dans le JSX." },
-      { prop: "<Composant />", expl: "Utiliser comme une balise HTML. Auto-fermant si pas d'enfants." }
-    ],
-    code: "function Post({ auteur, texte, likes, verifie }) {\n  return (\n    <article className=\"post\">\n      <div className=\"header\">\n        <span>{auteur}</span>\n        {verifie && <span className=\"check\">OK</span>}\n      </div>\n      <p>{texte}</p>\n      <button>Likes : {likes}</button>\n    </article>\n  );\n}\n\nfunction Feed({ posts }) {\n  return (\n    <div className=\"feed\">\n      {posts.map(p => (\n        <Post\n          key={p.id}\n          auteur={p.auteur}\n          texte={p.texte}\n          likes={p.likes}\n          verifie={p.verifie}\n        />\n      ))}\n    </div>\n  );\n}",
-    exercices: [
-      {
-        type: "qcm",
-        question: "Pourquoi les noms de composants commencent-ils par une majuscule ?",
-        options: ["Convention optionnelle sans raison technique", "JSX distingue <Composant> (React) de <div> (HTML) par la casse", "Pour la lisibilite uniquement", "React l'impose pour les performances"],
-        bonne: 1,
-        explication: "<div> = balise HTML. <MonComposant> = composant React. Minuscule = traite comme balise HTML inconnue."
-      },
-      {
-        type: "completion",
-        question: "Complete le composant Badge :",
-        labels: ["destructuration props", "contenu"],
-        bonnes: ["{ texte }", "<strong>{texte}</strong>"],
-        template: "function Badge([A]) {\n  return (\n    <span className=\"badge\">[B]</span>\n  );\n}"
-      },
-      {
-        type: "memo",
-        question: "Ecrire un composant Titre qui recoit une prop 'texte' et l'affiche dans un h1.",
-        bonne: "function Titre({ texte }) {\n  return <h1>{texte}</h1>;\n}",
-        indice: "function Nom({ prop }) { return <balise>{prop}</balise>; }",
-        explication: "Destructuration {texte} dans les params extrait la prop. {texte} dans JSX insere sa valeur."
-      },
-      {
-        type: "debug",
-        question: "Le composant ne s'affiche pas. Trouve :",
-        codeFaux: "function carte({ titre }) {\n  return <div className=\"carte\">{titre}</div>;\n}\n\n<carte titre=\"JavaScript\" />",
-        codeCorrige: "function Carte({ titre }) {\n  return <div className=\"carte\">{titre}</div>;\n}\n\n<Carte titre=\"JavaScript\" />",
-        options: ["className doit etre class", "PascalCase obligatoire — carte doit s'appeler Carte", "Les props doivent etre entre guillemets", "Il manque un return"],
-        bonne: 1,
-        explication: "carte avec c minuscule = balise HTML inconnue. Carte avec C majuscule = composant React."
-      }
-    ],
-    resume: [
-      { icon: "🏗️", key: "function Nom()", val: "PascalCase — retourne du JSX" },
-      { icon: "📫", key: "props", val: "Donnees du parent — lecture seule" },
-      { icon: "🔤", key: "PascalCase", val: "Majuscule = composant React" },
-      { icon: "📝", key: "{}", val: "Expressions JS dans le JSX" }
-    ]
-  },
-  {
-    id: "r3",
-    num: 3,
-    tag: "React &middot; Le&ccedil;on 3",
-    title: "Le JSX",
-    sub: "La syntaxe de React",
-    pourquoi: "JSX ressemble &agrave; du HTML mais n&rsquo;en est pas. Babel le transforme en appels React.createElement(). Comprendre JSX &eacute;vite des heures de debugging.",
-    exemple: "&lt;div className=&quot;post&quot;&gt; devient React.createElement(&quot;div&quot;, {className:&quot;post&quot;}). Le HTML, c&rsquo;est du sucre syntaxique.",
-    exemples: [
-      { label: "JSX vs HTML — les differences", code: "// HTML\n<div class=\"box\">\n  <label for=\"email\">Email</label>\n</div>\n\n// JSX — attributs differents !\n<div className=\"box\">\n  <label htmlFor=\"email\">Email</label>\n</div>\n// class → className / for → htmlFor" },
-      { label: "Expressions et conditions", code: "const nom = 'Val';\nconst premium = true;\n\nreturn (\n  <div>\n    <h1>Bonjour {nom}</h1>\n    {premium && <span>Premium</span>}\n    <span>{premium ? 'Gold' : 'Free'}</span>\n  </div>\n);" },
-      { label: "Fragment — pas de div inutile", code: "// MAUVAIS — div inutile dans le DOM\nreturn (\n  <div>\n    <h1>Titre</h1>\n    <p>Texte</p>\n  </div>\n);\n\n// BON — Fragment invisible\nreturn (\n  <>\n    <h1>Titre</h1>\n    <p>Texte</p>\n  </>\n);" }
-    ],
-    regles: [
-      { prop: "className", expl: "class est un mot-cle JS reserve. JSX utilise className." },
-      { prop: "htmlFor", expl: "for est reserve. JSX utilise htmlFor pour les labels." },
-      { prop: "{expression}", expl: "N'importe quelle expression JS valide entre accolades." },
-      { prop: "{cond && JSX}", expl: "Afficher conditionnellement. Si cond est false, rien n'est rendu." },
-      { prop: "<></>", expl: "Fragment React. Wrapper sans ajouter de div dans le DOM." }
-    ],
-    code: "function ProfilKora({ user }) {\n  const { nom, tokens, premium } = user;\n\n  return (\n    <div className=\"profil\">\n      <h2>\n        {nom}\n        {premium && <span className=\"badge\">Premium</span>}\n      </h2>\n\n      <p className=\"tokens\">{tokens} KRT</p>\n\n      {!premium && (\n        <button className=\"upgrade\">Passer Premium</button>\n      )}\n    </div>\n  );\n}",
-    exercices: [
-      {
-        type: "qcm",
-        question: "Pourquoi className et non class en JSX ?",
-        options: ["Convention optionnelle", "class est un mot-cle JavaScript reserve — className evite le conflit", "className est plus rapide a ecrire", "class n'existe pas en HTML5"],
-        bonne: 1,
-        explication: "class est reserve pour les classes ES6. En JSX qui est du JS, utiliser class causerait des conflits. className est l'equivalent JSX de l'attribut HTML class."
-      },
-      {
-        type: "completion",
-        question: "Affiche le badge Premium seulement si estPremium est true :",
-        labels: ["operateur conditionnel", "contenu badge"],
-        bonnes: ["estPremium &&", "<span className=\"badge\">Premium</span>"],
-        template: "function Header({ nom, estPremium }) {\n  return (\n    <header>\n      <h1>{nom}</h1>\n      {[A] (\n        [B]\n      )}\n    </header>\n  );\n}"
-      },
-      {
-        type: "memo",
-        question: "Ecrire un Fragment React contenant un h1 et un paragraphe.",
-        bonne: "return (\n  <>\n    <h1>Titre</h1>\n    <p>Texte</p>\n  </>\n);",
-        indice: "<> elements </> — wrapper invisible",
-        explication: "<> </> est un Fragment React. Il permet de retourner plusieurs elements sans ajouter de div inutile dans le DOM."
-      },
-      {
-        type: "debug",
-        question: "Ce JSX ne compile pas. Trouve :",
-        codeFaux: "function App() {\n  return (\n    <h1>Bonjour</h1>\n    <p>Bienvenue sur Kora</p>\n  );\n}",
-        codeCorrige: "function App() {\n  return (\n    <>\n      <h1>Bonjour</h1>\n      <p>Bienvenue sur Kora</p>\n    </>\n  );\n}",
-        options: ["h1 et p ne peuvent pas coexister", "JSX doit avoir un seul element racine — utiliser un Fragment <>", "Il manque des virgules entre les elements", "return ne peut pas avoir de parentheses"],
-        bonne: 1,
-        explication: "JSX ne peut retourner qu'un seul element racine. Wrapper dans <> </> ou une div."
-      }
-    ],
-    resume: [
-      { icon: "🏷️", key: "className", val: "class → className en JSX" },
-      { icon: "📝", key: "{}", val: "Expressions JS" },
-      { icon: "🔀", key: "&& / ternaire", val: "Rendu conditionnel" },
-      { icon: "📦", key: "Fragment <>", val: "Wrapper sans div inutile" }
-    ]
-  },
-  {
-    id: "r4",
-    num: 4,
-    tag: "React &middot; Le&ccedil;on 4",
-    title: "useState",
-    sub: "G&eacute;rer l&rsquo;&eacute;tat local",
-    pourquoi: "useState est le hook fondamental. Il permet &agrave; un composant de m&eacute;moriser des donn&eacute;es et de d&eacute;clencher un re-render &agrave; chaque modification.",
-    exemple: "Like Kora : setLikes(likes + 1) → React re-rend le composant → nouveau nombre affich&eacute; automatiquement.",
-    exemples: [
-      { label: "La syntaxe", code: "import { useState } from 'react';\n\nfunction Compteur() {\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>{count}</p>\n      <button onClick={() => setCount(count + 1)}>+1</button>\n    </div>\n  );\n}" },
-      { label: "Ne jamais muter directement", code: "const [posts, setPosts] = useState([]);\n\n// MAUVAIS — React ne re-rend pas\nposts.push('Post 2');\n\n// BON — nouvelle reference\nsetPosts([...posts, 'Post 2']);\n\n// MAUVAIS objet\nuser.nom = 'Val';\n\n// BON\nsetUser({ ...user, nom: 'Val' });" }
-    ],
-    regles: [
-      { prop: "const [val, setVal] = useState(init)", expl: "Declarer un etat avec valeur initiale et setter." },
-      { prop: "setVal(nouvelleValeur)", expl: "Mettre a jour l'etat et declencher un re-render." },
-      { prop: "setVal(prev => ...)", expl: "Mise a jour basee sur la valeur precedente. Recommandee." },
-      { prop: "Jamais muter", expl: "Toujours creer une nouvelle valeur — jamais modifier directement." }
-    ],
-    code: "function PostKora({ initialLikes, texte, auteur }) {\n  const [likes, setLikes] = useState(initialLikes);\n  const [likee, setLikee] = useState(false);\n\n  const toggle = () => {\n    setLikes(prev => likee ? prev - 1 : prev + 1);\n    setLikee(prev => !prev);\n  };\n\n  return (\n    <article>\n      <p><strong>{auteur}</strong></p>\n      <p>{texte}</p>\n      <button\n        onClick={toggle}\n        className={likee ? 'liked' : ''}>\n        Likes : {likes}\n      </button>\n    </article>\n  );\n}",
-    exercices: [
-      {
-        type: "qcm",
-        question: "Pourquoi utiliser setVal() plutot que modifier la variable directement ?",
-        options: ["setVal est plus rapide", "React ne detecte les changements que via set — modifier directement ne declenche pas de re-render", "Pour eviter les erreurs de syntaxe", "setVal fait une copie automatique"],
-        bonne: 1,
-        explication: "Modifier directement = meme reference memoire. React ne voit pas la difference et ne re-rend pas. setVal() cree une nouvelle valeur et signale React."
-      },
-      {
-        type: "completion",
-        question: "Complete le composant toggle (ouvert/ferme) :",
-        labels: ["valeur initiale", "mise a jour"],
-        bonnes: ["false", "!ouvert"],
-        template: "function Toggle() {\n  const [ouvert, setOuvert] = useState([A]);\n\n  return (\n    <button onClick={() => setOuvert([B])}>\n      {ouvert ? 'Fermer' : 'Ouvrir'}\n    </button>\n  );\n}"
-      },
-      {
-        type: "memo",
-        question: "Declarer un etat 'posts' (tableau vide) avec useState.",
-        bonne: "const [posts, setPosts] = useState([]);",
-        indice: "const [valeur, setValeur] = useState( valeur_initiale )",
-        explication: "useState([]) initialise avec un tableau vide. Convention : posts / setPosts (set + nom avec majuscule)."
-      },
-      {
-        type: "debug",
-        question: "Le compteur ne se met pas a jour au clic :",
-        codeFaux: "function Compteur() {\n  const [count, setCount] = useState(0);\n\n  function incrementer() {\n    count = count + 1; // erreur\n  }\n\n  return <button onClick={incrementer}>{count}</button>;\n}",
-        codeCorrige: "function Compteur() {\n  const [count, setCount] = useState(0);\n\n  function incrementer() {\n    setCount(count + 1);\n  }\n\n  return <button onClick={incrementer}>{count}</button>;\n}",
-        options: ["onClick doit etre une arrow function", "Mutation directe de count non detectee — utiliser setCount()", "useState(0) devrait etre useState(null)", "incrementer doit etre async"],
-        bonne: 1,
-        explication: "count est const — impossible de le reecrire. Mais meme en let, React ne detecterait pas le changement. Il faut appeler setCount()."
-      }
-    ],
-    resume: [
-      { icon: "💾", key: "useState(init)", val: "Etat avec valeur initiale" },
-      { icon: "🔄", key: "setVal()", val: "Met a jour et declenche re-render" },
-      { icon: "⚠️", key: "Jamais muter", val: "Toujours nouvelle valeur" },
-      { icon: "📐", key: "prev =>", val: "Mise a jour basee sur l'etat precedent" }
-    ]
-  },
-  {
-    id: "r5",
-    num: 5,
-    tag: "React &middot; Le&ccedil;on 5",
-    title: "useEffect",
-    sub: "Les effets de bord",
-    pourquoi: "useEffect permet d&rsquo;ex&eacute;cuter du code apr&egrave;s le rendu : charger des donn&eacute;es, s&rsquo;abonner &agrave; un &eacute;v&eacute;nement, modifier le titre. Tout ce qui est ext&eacute;rieur &agrave; React.",
-    exemple: "Quand le Feed monte, useEffect charge les posts. Quand l&rsquo;userId change, useEffect recharge le profil.",
-    exemples: [
-      { label: "Les 3 formes", code: "// 1. Une seule fois au montage\nuseEffect(() => { chargerPosts(); }, []);\n\n// 2. Quand dep change\nuseEffect(() => {\n  chargerProfil(userId);\n}, [userId]);\n\n// 3. Sans tableau — apres CHAQUE render (danger)\nuseEffect(() => { console.log('render'); });" },
-      { label: "Fetch au montage", code: "function ProfilPage({ userId }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    async function charger() {\n      const res = await fetch('/api/users/' + userId);\n      setUser(await res.json());\n      setLoading(false);\n    }\n    charger();\n  }, [userId]);\n\n  if (loading) return <p>Chargement...</p>;\n  return <div>{user.nom}</div>;\n}" }
-    ],
-    regles: [
-      { prop: "useEffect(fn, [])", expl: "Execute fn une seule fois au montage du composant." },
-      { prop: "useEffect(fn, [dep])", expl: "Execute fn a chaque fois que dep change." },
-      { prop: "useEffect(fn)", expl: "Execute fn apres chaque render — rarement souhaite." },
-      { prop: "return () => {}", expl: "Cleanup : execute au demontage ou avant le prochain effet." }
-    ],
-    code: "function Formation({ formationId }) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    setLoading(true);\n\n    fetch('/api/formations/' + formationId)\n      .then(res => res.json())\n      .then(d => {\n        setData(d);\n        setLoading(false);\n      })\n      .catch(err => {\n        console.error(err);\n        setLoading(false);\n      });\n\n  }, [formationId]); // se relance si formationId change\n\n  if (loading) return <div>Chargement...</div>;\n  return <h1>{data.titre}</h1>;\n}",
-    exercices: [
-      {
-        type: "qcm",
-        question: "Que se passe-t-il si on omet le tableau de dependances dans useEffect ?",
-        options: ["useEffect ne s'execute jamais", "useEffect s'execute une seule fois", "useEffect s'execute apres chaque re-render — cause souvent des boucles infinies", "Une erreur est levee"],
-        bonne: 2,
-        explication: "Sans [], useEffect s'execute apres chaque render. Si l'effet met a jour le state → re-render → useEffect → boucle infinie."
-      },
-      {
-        type: "completion",
-        question: "Complete ce useEffect pour charger des posts au montage :",
-        labels: ["fonction async interne", "tableau dependances"],
-        bonnes: ["async function charger()", "[]"],
-        template: "useEffect(() => {\n  [A] {\n    const data = await fetch('/api/posts').then(r => r.json());\n    setPosts(data);\n  }\n  charger();\n}, [B]);"
-      },
-      {
-        type: "memo",
-        question: "Ecrire un useEffect qui met a jour document.title quand 'titre' change.",
-        bonne: "useEffect(() => {\n  document.title = titre;\n}, [titre]);",
-        indice: "useEffect( () => { effet }, [dependance] )",
-        explication: "[titre] en dependance = l'effet se re-execute quand titre change. document.title = effet de bord externe a React."
-      },
-      {
-        type: "debug",
-        question: "Ce useEffect cree une boucle infinie. Trouve :",
-        codeFaux: "function Posts() {\n  const [posts, setPosts] = useState([]);\n\n  useEffect(() => {\n    fetch('/api/posts')\n      .then(r => r.json())\n      .then(data => setPosts(data));\n  }); // probleme ici\n}",
-        codeCorrige: "useEffect(() => {\n  fetch('/api/posts')\n    .then(r => r.json())\n    .then(data => setPosts(data));\n}, []); // [] = une seule fois",
-        options: ["fetch ne fonctionne pas dans useEffect", "Il manque [] — sans lui l'effet tourne en boucle", "setPosts ne peut pas etre appele dans useEffect", "then doit etre remplace par await"],
-        bonne: 1,
-        explication: "Sans [], useEffect apres chaque render. setPosts declenche un re-render... boucle infinie."
-      }
-    ],
-    resume: [
-      { icon: "🚀", key: "useEffect(fn, [])", val: "Une fois au montage" },
-      { icon: "🔄", key: "useEffect(fn, [dep])", val: "Quand dep change" },
-      { icon: "🧹", key: "return () => {}", val: "Cleanup au demontage" },
-      { icon: "⚠️", key: "Sans []", val: "Boucle infinie — toujours specifier" }
-    ]
-  },
-  {
-    id: "r6",
-    num: 6,
-    tag: "React &middot; Le&ccedil;on 6",
-    title: "Ev&eacute;nements React",
-    sub: "G&eacute;rer les interactions",
-    pourquoi: "React g&egrave;re les &eacute;v&eacute;nements en camelCase avec des fonctions JS. onClick, onChange, onSubmit &mdash; logique identique au DOM vanilla mais int&eacute;gr&eacute;e dans JSX.",
-    exemple: "Bouton Like, formulaire de contact DB Studio, barre de recherche Kora &mdash; tout via des handlers React.",
-    exemples: [
-      { label: "Handlers et arguments", code: "function PostCard({ post, onLike }) {\n  return (\n    <div>\n      <button onClick={() => onLike(post.id)}>\n        Likes : {post.likes}\n      </button>\n    </div>\n  );\n}" },
-      { label: "Formulaire controle", code: "function Form() {\n  const [nom, setNom] = useState('');\n\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    console.log(nom);\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <input\n        value={nom}\n        onChange={(e) => setNom(e.target.value)}\n      />\n      <button type=\"submit\">Envoyer</button>\n    </form>\n  );\n}" }
-    ],
-    regles: [
-      { prop: "onClick={fn}", expl: "Passer la reference, pas l'appel. Pas de () a la fin." },
-      { prop: "onChange={(e) =>}", expl: "Declenche a chaque frappe. e.target.value = valeur actuelle." },
-      { prop: "onSubmit={(e) =>}", expl: "Toujours appeler e.preventDefault() en premier." },
-      { prop: "camelCase", expl: "onclick → onClick, onchange → onChange, onsubmit → onSubmit." }
-    ],
-    code: "function RechercheKora() {\n  const [query, setQuery] = useState('');\n\n  const handleChange = (e) => {\n    setQuery(e.target.value);\n  };\n\n  const handleKeyDown = (e) => {\n    if (e.key === 'Escape') setQuery('');\n  };\n\n  return (\n    <input\n      value={query}\n      onChange={handleChange}\n      onKeyDown={handleKeyDown}\n      placeholder=\"Rechercher...\"\n    />\n  );\n}",
-    exercices: [
-      {
-        type: "qcm",
-        question: "Quelle est l'erreur dans onClick={handleClick()} ?",
-        options: ["handleClick n'existe pas", "Les () appellent la fonction au rendu — il faut onClick={handleClick}", "onClick s'ecrit en minuscules", "Les accolades sont incorrectes"],
-        bonne: 1,
-        explication: "onClick={handleClick()} appelle handleClick() immediatement pendant le rendu. Il faut passer la reference : onClick={handleClick} ou onClick={() => handleClick()}."
-      },
-      {
-        type: "completion",
-        question: "Complete l'input controle pour le pseudo :",
-        labels: ["prop value", "handler onChange"],
-        bonnes: ["value={pseudo}", "(e) => setPseudo(e.target.value)"],
-        template: "const [pseudo, setPseudo] = useState('');\n\nreturn (\n  <input\n    [A]\n    onChange={[B]}\n    placeholder=\"Ton pseudo Kora\"\n  />\n);"
-      },
-      {
-        type: "memo",
-        question: "Ecrire un button qui appelle la fonction supprimer() avec l'id 42.",
-        bonne: "<button onClick={() => supprimer(42)}>Supprimer</button>",
-        indice: "onClick={ () => fn(arg) }",
-        explication: "Arrow function necessaire pour passer des arguments. onClick={supprimer(42)} appellerait immediatement au rendu."
-      },
-      {
-        type: "debug",
-        question: "Le formulaire recharge la page. Trouve :",
-        codeFaux: "function Form() {\n  const handleSubmit = () => {\n    console.log('Envoye');\n  };\n  return <form onSubmit={handleSubmit}>...</form>;\n}",
-        codeCorrige: "function Form() {\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    console.log('Envoye');\n  };\n  return <form onSubmit={handleSubmit}>...</form>;\n}",
-        options: ["onSubmit doit etre onClick", "Il manque (e) et e.preventDefault()", "form n'est pas supporte en React", "handleSubmit doit etre async"],
-        bonne: 1,
-        explication: "Sans e.preventDefault(), le comportement natif du formulaire s'execute : rechargement de page."
-      }
-    ],
-    resume: [
-      { icon: "👆", key: "onClick={fn}", val: "Reference — pas d'appel ()" },
-      { icon: "✏️", key: "onChange", val: "e.target.value a chaque frappe" },
-      { icon: "📨", key: "onSubmit", val: "Toujours e.preventDefault()" },
-      { icon: "🐪", key: "camelCase", val: "onClick, onChange, onSubmit..." }
-    ]
-  },
-  {
-    id: "r7",
-    num: 7,
-    tag: "React &middot; Le&ccedil;on 7",
-    title: "Listes et cl&eacute;s",
-    sub: "Afficher des tableaux de donn&eacute;es",
-    pourquoi: "Afficher une liste de posts, formations, users se fait avec .map(). Chaque &eacute;l&eacute;ment doit avoir une prop key unique &mdash; sans elle, React ne peut pas optimiser les mises &agrave; jour.",
-    exemple: "posts.map(p =&gt; &lt;Post key={p.id} {...p} /&gt;) &mdash; la key permet &agrave; React de savoir lequel mettre &agrave; jour.",
-    exemples: [
-      { label: "map dans JSX", code: "function Catalogue({ formations }) {\n  return (\n    <div>\n      {formations.map((f) => (\n        <div key={f.id} className=\"carte\">\n          <h3>{f.titre}</h3>\n          <p>{f.lecons} lecons</p>\n        </div>\n      ))}\n    </div>\n  );\n}" },
-      { label: "Pourquoi pas l'index comme key", code: "// EVITER — index instable si trie/filtre\nposts.map((p, index) => <Post key={index} />)\n\n// TOUJOURS — ID unique et stable\nposts.map(p => <Post key={p.id} />) " }
-    ],
-    regles: [
-      { prop: ".map(item => JSX)", expl: "Transformer un tableau en liste de composants JSX." },
-      { prop: "key={id}", expl: "Prop unique et stable. Obligatoire sur l'element racine de .map()." },
-      { prop: "{liste.length === 0 &&}", expl: "Afficher un message si la liste est vide." },
-      { prop: "{...item}", expl: "Spread — passer toutes les proprietes comme props." }
-    ],
-    code: "function Feed({ posts, filtre }) {\n  const affiches = filtre\n    ? posts.filter(p => p.cat === filtre)\n    : posts;\n\n  return (\n    <div className=\"feed\">\n      {affiches.length === 0\n        ? <p>Aucun post</p>\n        : affiches.map(p => (\n            <Post\n              key={p.id}\n              auteur={p.auteur}\n              texte={p.texte}\n              likes={p.likes}\n            />\n          ))\n      }\n    </div>\n  );\n}",
-    exercices: [
-      {
-        type: "qcm",
-        question: "Pourquoi eviter l'index du tableau comme key ?",
-        options: ["C'est interdit en React", "Si la liste est reordonnee, les index changent et React fait de mauvaises mises a jour", "Les index sont trop lents", "React n'accepte que des strings"],
-        bonne: 1,
-        explication: "Supprimer le 2eme element change tous les index apres lui. React voit des keys differentes et peut causer des bugs visuels ou resets d'etat."
-      },
-      {
-        type: "completion",
-        question: "Complete pour afficher une liste de posts :",
-        labels: ["methode tableau", "prop key"],
-        bonnes: ["map", "key={post.id}"],
-        template: "function Feed({ posts }) {\n  return (\n    <div>\n      {posts.[A](post => (\n        <Post\n          [B]\n          auteur={post.auteur}\n        />\n      ))}\n    </div>\n  );\n}"
-      },
-      {
-        type: "memo",
-        question: "Afficher une liste de noms dans des li avec key.",
-        bonne: "const noms = ['Val', 'Marc'];\nreturn (\n  <ul>\n    {noms.map((nom, i) => (\n      <li key={i}>{nom}</li>\n    ))}\n  </ul>\n);",
-        indice: ".map((item, index) => <li key={index}>{item}</li>)",
-        explication: "Index acceptable pour listes purement statiques. Pour listes dynamiques, toujours utiliser un ID."
-      },
-      {
-        type: "debug",
-        question: "Warning: Each child needs a unique key. Trouve :",
-        codeFaux: "function List({ users }) {\n  return (\n    <ul>\n      {users.map(u => (\n        <li>{u.nom}</li>\n      ))}\n    </ul>\n  );\n}",
-        codeCorrige: "function List({ users }) {\n  return (\n    <ul>\n      {users.map(u => (\n        <li key={u.id}>{u.nom}</li>\n      ))}\n    </ul>\n  );\n}",
-        options: ["ul n'est pas supporte", "Il manque la prop key sur chaque li", "u.nom doit etre entre guillemets", "map ne fonctionne pas dans le JSX"],
-        bonne: 1,
-        explication: "Chaque element de .map() doit avoir une key unique. Sans key, React affiche un warning et peut faire des re-renders incorrects."
-      }
-    ],
-    resume: [
-      { icon: "🗂️", key: ".map()", val: "Tableau → liste JSX" },
-      { icon: "🔑", key: "key={id}", val: "Obligatoire — ID stable" },
-      { icon: "⚠️", key: "Pas d'index", val: "Eviter pour listes dynamiques" },
-      { icon: "📤", key: "{...item}", val: "Spread toutes les props" }
-    ]
-  },
-  {
-    id: "r8",
-    num: 8,
-    tag: "React &middot; Le&ccedil;on 8",
-    title: "Formulaires contr&ocirc;l&eacute;s",
-    sub: "Inputs li&eacute;s au state",
-    pourquoi: "Un formulaire contr&ocirc;l&eacute; : chaque input est synchronis&eacute; avec le state React. React est la source de v&eacute;rit&eacute;. Validation, reset, soumission deviennent trivials.",
-    exemple: "Inscription Kora : chaque champ est un &eacute;tat React. &Agrave; la soumission, toutes les valeurs sont imm&eacute;diatement accessibles.",
-    exemples: [
-      { label: "Input controle basique", code: "const [email, setEmail] = useState('');\n\n<input\n  type=\"email\"\n  value={email}\n  onChange={(e) => setEmail(e.target.value)}\n  placeholder=\"ton@email.fr\"\n/>" },
-      { label: "Handler generique multi-champs", code: "const [form, setForm] = useState({ nom: '', email: '' });\n\nconst handleChange = (e) => {\n  setForm(prev => ({\n    ...prev,\n    [e.target.name]: e.target.value\n  }));\n};\n\n<input name=\"nom\" value={form.nom} onChange={handleChange} />\n<input name=\"email\" value={form.email} onChange={handleChange} />" }
-    ],
-    regles: [
-      { prop: "value={state}", expl: "L'input affiche la valeur du state — React controle." },
-      { prop: "onChange → setState", expl: "Met a jour le state a chaque frappe." },
-      { prop: "e.target.name", expl: "Handler generique — met a jour la propriete par nom." },
-      { prop: "e.target.checked", expl: "Pour les checkboxes — boolean." }
-    ],
-    code: "function FormContact() {\n  const [champs, setChamps] = useState({\n    nom: '', email: '', message: ''\n  });\n  const [envoye, setEnvoye] = useState(false);\n\n  const handleChange = (e) => {\n    setChamps(prev => ({\n      ...prev,\n      [e.target.name]: e.target.value\n    }));\n  };\n\n  const handleSubmit = async (e) => {\n    e.preventDefault();\n    await fetch('/api/contact', {\n      method: 'POST',\n      body: JSON.stringify(champs)\n    });\n    setEnvoye(true);\n  };\n\n  if (envoye) return <p>Message envoye !</p>;\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <input name=\"nom\" value={champs.nom} onChange={handleChange} />\n      <input name=\"email\" value={champs.email} onChange={handleChange} />\n      <button type=\"submit\">Envoyer</button>\n    </form>\n  );\n}",
-    exercices: [
-      {
-        type: "qcm",
-        question: "Qu'est-ce qui rend un formulaire controle en React ?",
-        options: ["L'utilisation de useForm()", "Chaque input a value lie au state et met a jour ce state via onChange", "La validation des champs", "L'utilisation d'un formulaire HTML standard"],
-        bonne: 1,
-        explication: "Controle = React est la source de verite. value={state} lie l'input au state. onChange met a jour le state a chaque frappe."
-      },
-      {
-        type: "completion",
-        question: "Complete cet input controle pour le champ pseudo :",
-        labels: ["prop value", "prop onChange"],
-        bonnes: ["value={pseudo}", "(e) => setPseudo(e.target.value)"],
-        template: "const [pseudo, setPseudo] = useState('');\n\nreturn (\n  <input\n    [A]\n    onChange={[B]}\n    placeholder=\"Ton pseudo Kora\"\n  />\n);"
-      },
-      {
-        type: "memo",
-        question: "Ecrire le handler generique qui met a jour l'objet form depuis e.target.name.",
-        bonne: "const handleChange = (e) => {\n  setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));\n};",
-        indice: "setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))",
-        explication: "[e.target.name] = computed property. Si l'input s'appelle email, ca met a jour form.email."
-      },
-      {
-        type: "debug",
-        question: "L'input ne repond pas aux frappes. Trouve :",
-        codeFaux: "const [nom, setNom] = useState('');\n\nreturn (\n  <input\n    value={nom}\n    placeholder=\"Ton nom\"\n  />\n);",
-        codeCorrige: "const [nom, setNom] = useState('');\n\nreturn (\n  <input\n    value={nom}\n    onChange={(e) => setNom(e.target.value)}\n    placeholder=\"Ton nom\"\n  />\n);",
-        options: ["value ne fonctionne pas sans defaultValue", "Sans onChange, React bloque les frappes — value + onChange sont inseparables", "placeholder empeche la saisie", "useState('') devrait etre useState(null)"],
-        bonne: 1,
-        explication: "value={state} sans onChange = React bloque toute modification. Les deux sont indissociables dans un composant controle."
-      }
-    ],
-    resume: [
-      { icon: "🎛️", key: "Controle", val: "value={state} + onChange" },
-      { icon: "✏️", key: "onChange", val: "Sync le state avec l'input" },
-      { icon: "📋", key: "e.target.name", val: "Handler generique multi-champs" },
-      { icon: "✅", key: "Validation", val: "Verifier dans handleSubmit" }
-    ]
-  },
-  {
-    id: "r9",
-    num: 9,
-    tag: "React &middot; Le&ccedil;on 9",
-    title: "Parent &harr; Enfant",
-    sub: "Props et callbacks",
-    pourquoi: "Les donn&eacute;es circulent dans un seul sens en React : parent vers enfant via props. Pour l&rsquo;inverse, on passe une fonction callback comme prop.",
-    exemple: "Feed (parent) poss&egrave;de les posts. Quand on like dans Post (enfant), Post appelle la callback handleLike pass&eacute;e par Feed.",
-    exemples: [
-      { label: "Parent vers Enfant", code: "function App() {\n  const [tokens, setTokens] = useState(248);\n  return <TokenBadge montant={tokens} />;\n}\n\nfunction TokenBadge({ montant }) {\n  return <span>{montant} KRT</span>;\n}" },
-      { label: "Enfant vers Parent — callback", code: "function Feed() {\n  const [posts, setPosts] = useState(data);\n\n  const handleLike = (id) => {\n    setPosts(prev => prev.map(p =>\n      p.id === id ? { ...p, likes: p.likes + 1 } : p\n    ));\n  };\n\n  return posts.map(p =>\n    <Post key={p.id} post={p} onLike={handleLike} />\n  );\n}\n\nfunction Post({ post, onLike }) {\n  return (\n    <button onClick={() => onLike(post.id)}>\n      Likes : {post.likes}\n    </button>\n  );\n}" }
-    ],
-    regles: [
-      { prop: "Parent vers Enfant", expl: "Via les props. Les donnees descendent dans l'arbre." },
-      { prop: "Enfant vers Parent", expl: "Via une fonction callback passee en prop." },
-      { prop: "Lifting state up", expl: "Remonter l'etat vers le parent commun quand plusieurs enfants en ont besoin." },
-      { prop: "props.children", expl: "Contenu JSX entre les balises d'un composant." }
-    ],
-    code: "function Catalogue() {\n  const [formations, setFormations] = useState(data);\n  const [selected, setSelected] = useState(null);\n\n  const handleSelect = (id) => {\n    setSelected(formations.find(f => f.id === id));\n  };\n\n  const handleComplete = (id) => {\n    setFormations(prev => prev.map(f =>\n      f.id === id ? { ...f, completee: true } : f\n    ));\n  };\n\n  return (\n    <div>\n      {formations.map(f => (\n        <Carte\n          key={f.id}\n          formation={f}\n          onSelect={handleSelect}\n          onComplete={handleComplete}\n        />\n      ))}\n      {selected && <Detail formation={selected} />}\n    </div>\n  );\n}",
-    exercices: [
-      {
-        type: "qcm",
-        question: "Qu'est-ce que le lifting state up ?",
-        options: ["Optimiser les performances", "Remonter l'etat vers le parent commun quand plusieurs enfants en ont besoin", "Supprimer le state d'un composant", "Utiliser le context React"],
-        bonne: 1,
-        explication: "Quand deux composants freres partagent le meme etat, on le remonte vers leur parent commun. Ce parent distribue via props et recoit les mises a jour via callbacks."
-      },
-      {
-        type: "completion",
-        question: "Complete l'enfant pour appeler la callback avec l'id :",
-        labels: ["prop callback", "appel avec argument"],
-        bonnes: ["onSupprimer", "onSupprimer(id)"],
-        template: "function Item({ id, texte, [A] }) {\n  return (\n    <div>\n      <span>{texte}</span>\n      <button onClick={() => [B]}>X</button>\n    </div>\n  );\n}"
-      },
-      {
-        type: "memo",
-        question: "Ecrire un composant Card qui accepte du contenu via props.children.",
-        bonne: "function Card({ children }) {\n  return <div className=\"card\">{children}</div>;\n}",
-        indice: "function Nom({ children }) { return <div>{children}</div>; }",
-        explication: "props.children contient tout ce qui est entre les balises : <Card><h2>Titre</h2></Card>."
-      },
-      {
-        type: "debug",
-        question: "Le parent ne se met pas a jour au clic. Trouve :",
-        codeFaux: "function Parent() {\n  const [count, setCount] = useState(0);\n  return <Enfant count={count} />;\n}\n\nfunction Enfant({ count }) {\n  return <button onClick={() => count + 1}>{count}</button>;\n}",
-        codeCorrige: "function Parent() {\n  const [count, setCount] = useState(0);\n  return <Enfant count={count} onInc={() => setCount(c => c + 1)} />;\n}\n\nfunction Enfant({ count, onInc }) {\n  return <button onClick={onInc}>{count}</button>;\n}",
-        options: ["useState doit etre dans l'enfant", "Il faut passer une callback onInc — l'enfant ne peut pas modifier le state du parent", "count + 1 est syntaxiquement invalide", "Les props ne fonctionnent pas dans ce cas"],
-        bonne: 1,
-        explication: "count + 1 est une expression sans effet. L'enfant ne peut pas modifier directement le state du parent — il faut une callback."
-      }
-    ],
-    resume: [
-      { icon: "⬇️", key: "Parent → Enfant", val: "Via props — lecture seule" },
-      { icon: "⬆️", key: "Enfant → Parent", val: "Via callback passee en prop" },
-      { icon: "🏗️", key: "Lifting state up", val: "Etat vers le parent commun" },
-      { icon: "👶", key: "children", val: "Contenu entre les balises" }
-    ]
-  },
-  {
-    id: "r10",
-    num: 10,
-    tag: "React &middot; Le&ccedil;on 10",
-    title: "Fetch + React",
-    sub: "Donn&eacute;es dynamiques",
-    pourquoi: "La combo useState + useEffect + fetch est le pattern fondamental pour afficher des donn&eacute;es d&rsquo;API en React. 90% des composants de Kora utilisent ce pattern.",
-    exemple: "Catalogue Kora : useEffect fetche les formations au montage, les stocke dans le state, React affiche automatiquement.",
-    exemples: [
-      { label: "Le pattern complet", code: "function ListePosts() {\n  const [posts, setPosts] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n\n  useEffect(() => {\n    async function charger() {\n      try {\n        const res = await fetch('/api/posts');\n        const data = await res.json();\n        setPosts(data);\n      } catch(e) {\n        setErreur(e.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n    charger();\n  }, []);\n\n  if (loading) return <div>Chargement...</div>;\n  if (erreur) return <div>Erreur : {erreur}</div>;\n  return posts.map(p => <Post key={p.id} {...p} />);\n}" },
-      { label: "Custom hook reutilisable", code: "function useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n\n  useEffect(() => {\n    fetch(url)\n      .then(r => r.json())\n      .then(d => { setData(d); setLoading(false); })\n      .catch(e => { setErreur(e.message); setLoading(false); });\n  }, [url]);\n\n  return { data, loading, erreur };\n}\n\n// Utilisation\nconst { data: formations, loading } = useFetch('/api/formations');" }
-    ],
-    regles: [
-      { prop: "useState + useEffect + fetch", expl: "Le trio fondamental pour les composants avec donnees." },
-      { prop: "loading + erreur", expl: "Toujours gerer les etats intermediaires." },
-      { prop: "finally {}", expl: "Desactive le loading dans tous les cas, succes ou echec." },
-      { prop: "Custom hook", expl: "Extraire la logique fetch en useFetch() pour la reutiliser." }
-    ],
-    code: "function Formations() {\n  const [formations, setFormations] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n\n  useEffect(() => {\n    async function charger() {\n      try {\n        const res = await fetch('https://api.kora.io/formations');\n        if (!res.ok) throw new Error('HTTP ' + res.status);\n        setFormations(await res.json());\n      } catch(e) {\n        setErreur(e.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n    charger();\n  }, []);\n\n  if (loading) return <div>Chargement...</div>;\n  if (erreur) return <div>Erreur : {erreur}</div>;\n\n  return (\n    <div className=\"grille\">\n      {formations.map(f => (\n        <CarteFormation key={f.id} {...f} />\n      ))}\n    </div>\n  );\n}",
-    exercices: [
-      {
-        type: "qcm",
-        question: "Pourquoi definir une fonction async DANS useEffect plutot que rendre useEffect async ?",
-        options: ["Convention sans raison", "useEffect doit retourner une fonction de cleanup ou undefined — pas une Promise", "Pour la performance", "useEffect async n'existe pas"],
-        bonne: 1,
-        explication: "useEffect retourne soit undefined, soit une fonction de cleanup. Une fonction async retourne une Promise. React ne sait pas quoi faire d'une Promise en retour."
-      },
-      {
-        type: "completion",
-        question: "Complete le pattern de data-fetching :",
-        labels: ["initialisation loading", "gestion erreur"],
-        bonnes: ["useState(true)", "setErreur(e.message)"],
-        template: "const [data, setData] = useState(null);\nconst [loading, setLoading] = [A];\nconst [erreur, setErreur] = useState(null);\n\nuseEffect(() => {\n  fetch('/api/data')\n    .then(r => r.json())\n    .then(d => { setData(d); setLoading(false); })\n    .catch(e => { [B]; setLoading(false); });\n}, []);"
-      },
-      {
-        type: "memo",
-        question: "Ecrire les 3 etats necessaires pour un fetch : data, loading, erreur.",
-        bonne: "const [data, setData] = useState(null);\nconst [loading, setLoading] = useState(true);\nconst [erreur, setErreur] = useState(null);",
-        indice: "data(null) + loading(true) + erreur(null) — 3 useState",
-        explication: "Trio standard. loading=true au depart pour afficher le spinner immediatement."
-      },
-      {
-        type: "debug",
-        question: "Le composant ne recharge pas quand userId change. Trouve :",
-        codeFaux: "function Profil({ userId }) {\n  const [user, setUser] = useState(null);\n\n  useEffect(() => {\n    fetch('/api/users/' + userId)\n      .then(r => r.json())\n      .then(setUser);\n  }, []); // probleme ici\n}",
-        codeCorrige: "useEffect(() => {\n  fetch('/api/users/' + userId)\n    .then(r => r.json())\n    .then(setUser);\n}, [userId]); // recharge si userId change",
-        options: ["fetch ne fonctionne pas avec + userId", "[] ne recharge pas quand userId change — ajouter userId dans les dependances", "setUser est incorrect", "useEffect ne supporte pas fetch"],
-        bonne: 1,
-        explication: "[] = execute une seule fois au montage. [userId] = re-execute si userId change."
-      }
-    ],
-    resume: [
-      { icon: "🔄", key: "useState+useEffect+fetch", val: "Le trio fondamental" },
-      { icon: "⏳", key: "loading + erreur", val: "Toujours gerer" },
-      { icon: "🧹", key: "finally", val: "Desactive loading dans tous les cas" },
-      { icon: "🪝", key: "Custom hook", val: "useFetch() — reutilisable" }
-    ]
-  }
-];
+const LECONS = [{"id": "r1", "num": 1, "titre": "Pourquoi React", "sous": "De JS vanilla à React", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Tu connais JS vanilla. Tu sais faire querySelector, addEventListener, textContent. Le problème : dès que la page devient dynamique, ton code devient un spaghetti.", "exemple_kora": "Sur Kora, chaque post a un compteur de likes. En vanilla : quand tu cliques Like, tu dois trouver le bon élément, mettre à jour le chiffre, changer la couleur du bouton, vérifier si tu avais déjà liké... 50 lignes de querySelector pour un bouton. Avec React : tu décris juste à quoi ressemble le bouton selon l'état. React fait le reste.", "code_vanilla": "// Vanilla — tu COMMANDES chaque changement\nconst btn = document.querySelector('#like-42');\nconst counter = document.querySelector('#count-42');\n\nbtn.addEventListener('click', () => {\n  let count = parseInt(counter.textContent);\n  count++;\n  counter.textContent = count;      // mise à jour du chiffre\n  btn.classList.add('liked');       // mise à jour du style\n  // Et si le post est supprimé pendant ce temps ? Bug.\n});", "code_react": "// React — tu DÉCRIS ce qui doit s'afficher\nfunction BoutonLike({ initialLikes }) {\n  const [likes, setLikes] = useState(initialLikes);\n  const [likee, setLikee] = useState(false);\n\n  return (\n    <button\n      onClick={() => { setLikes(likes + 1); setLikee(true); }}\n      className={likee ? 'liked' : ''}>\n      {likes} Likes\n    </button>\n  );\n  // React met à jour le DOM automatiquement.", "a_retenir": "React = tu décris l'état. Le DOM se met à jour tout seul."}}, {"id": "observe", "type": "observe", "titre": "Observe — un composant React ligne par ligne", "code_annote": [{"line": "function TokenBadge({ tokens }) {", "comment": "Une fonction JS normale. Le nom commence par une MAJUSCULE. Elle reçoit 'tokens' en paramètre — c'est une prop."}, {"line": "  const [montant, setMontant] = useState(tokens);", "comment": "useState = mémoriser une valeur. montant = la valeur actuelle. setMontant = la fonction pour la changer. React re-rend le composant à chaque changement."}, {"line": "  return (", "comment": "return = ce que React va afficher dans la page."}, {"line": "    <div className=\"badge\">", "comment": "JSX — ressemble à du HTML mais c'est du JavaScript. className à la place de class (class est un mot réservé JS)."}, {"line": "      <span>{montant} KRT</span>", "comment": "Les accolades {} permettent d'injecter une valeur JS dans le JSX. {montant} affiche la valeur de la variable."}, {"line": "      <button onClick={() => setMontant(montant + 10)}>", "comment": "onClick reçoit une fonction — pas un appel. () => setMontant(...) est une arrow function qui s'exécute au clic."}, {"line": "        + 10 tokens", "comment": "Le texte du bouton."}, {"line": "      </button>", "comment": "Toutes les balises JSX doivent être fermées."}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": "Fin du composant."}]}, {"id": "ex1", "type": "completion", "titre": "Répète — recopie ce qu'on vient de voir", "instruction": "La structure d'un composant React. Complète avec ce que tu viens de lire.", "contexte": "Tu construis l'affichage du score d'un utilisateur Kora.", "labels": ["mot-clé useState", "valeur initiale", "prop reçue"], "bonnes": ["useState", "score", "{ score }"], "template": "function ScoreBadge([A]) {\n  const [montant, setMontant] = [B](score);\n\n  return (\n    <div className=\"score\">\n      <span>{montant} pts</span>\n    </div>\n  );\n}", "aide": "La fonction reçoit score entre accolades (destructuration). useState(score) initialise l'état avec la valeur reçue."}, {"id": "ex2", "type": "completion", "titre": "Adapte — même structure, contexte différent", "instruction": "Même principe que l'exercice précédent, mais pour le nombre de leçons complétées sur Kora Academy.", "contexte": "Un badge qui affiche le nombre de leçons finies et un bouton pour simuler la complétion.", "labels": ["prop reçue", "valeur dans le JSX", "événement clic"], "bonnes": ["{ leconsDone }", "lecons", "() => setLecons(lecons + 1)"], "template": "function ProgressBadge([A]) {\n  const [lecons, setLecons] = useState(leconsDone);\n\n  return (\n    <div>\n      <p>{[B]} leçons terminées</p>\n      <button onClick={[C]}>\n        Terminer une leçon\n      </button>\n    </div>\n  );\n}", "aide": "leconsDone est la prop. lecons est l'état local. Au clic, on ajoute 1 avec setLecons(lecons + 1)."}, {"id": "ex3", "type": "qcm", "titre": "Crée — raisonne par toi-même", "question": "Sur la page d'accueil de Kora, il y a un compteur de posts publiés qui s'incrémente quand tu cliques 'Publier'. Quel est le bon code React ?", "options": ["document.querySelector('#counter').textContent++;", "const [posts, setPosts] = useState(0); puis <button onClick={() => setPosts(posts + 1)}>", "const posts = 0; posts = posts + 1;", "useEffect(() => { posts++; }, []);"], "bonne": 1, "explication": "useState(0) initialise le compteur à 0. setPosts(posts + 1) met à jour l'état au clic. React re-rend automatiquement avec le nouveau chiffre. Le querySelector vanilla ne déclencherait pas de re-render."}], "resume": [{"icon": "🧩", "key": "Composant", "val": "Fonction JS qui retourne du JSX. Nom en Majuscule."}, {"icon": "💾", "key": "useState", "val": "Mémorise une valeur. Change → React re-rend."}, {"icon": "🏷️", "key": "JSX", "val": "HTML dans JS. className pas class. {} pour les variables."}, {"icon": "🎯", "key": "onClick", "val": "Passe une fonction, pas un appel. () => fn() pas fn()."}]}, {"id": "r2", "num": 2, "titre": "Les composants", "sous": "Découper l'interface en blocs", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Sur ton site DB Studio, tu as probablement copié-collé le même bloc HTML pour chaque service. Si tu veux changer le style, tu le changes 8 fois. React résout ça avec les composants : tu écris une fois, tu réutilises partout.", "exemple_kora": "Kora a des dizaines de posts. Au lieu d'écrire le HTML de chaque post à la main, tu crées un composant <Post> une seule fois. Tu l'utilises autant de fois que tu veux en lui passant des données différentes.", "code_vanilla": "<!-- Vanilla — copié-collé 50 fois -->\n<div class=\"post\">\n  <span class=\"auteur\">Val</span>\n  <p>Mon premier post Kora</p>\n  <button>284 Likes</button>\n</div>\n<div class=\"post\">\n  <span class=\"auteur\">Marc</span>\n  <p>La blockchain c'est l'avenir</p>\n  <button>47 Likes</button>\n</div>", "code_react": "// React — composant réutilisable\nfunction Post({ auteur, texte, likes }) {\n  return (\n    <div className=\"post\">\n      <span className=\"auteur\">{auteur}</span>\n      <p>{texte}</p>\n      <button>{likes} Likes</button>\n    </div>\n  );\n}\n\n// Utilisation — données différentes, même structure\n<Post auteur=\"Val\" texte=\"Mon premier post\" likes={284} />\n<Post auteur=\"Marc\" texte=\"La blockchain...\" likes={47} />", "a_retenir": "Props = les paramètres d'un composant. Données venant du parent. Lecture seule."}}, {"id": "observe", "type": "observe", "titre": "Observe — composant avec props, ligne par ligne", "code_annote": [{"line": "function CarteFormation({ titre, lecons, completee }) {", "comment": "Les props sont destructurées directement dans les paramètres. Équivalent à : const { titre, lecons, completee } = props."}, {"line": "  return (", "comment": "Un composant retourne toujours UN seul élément racine."}, {"line": "    <div className={completee ? 'carte done' : 'carte'}>", "comment": "Expression JS dans className : si completee est true, on ajoute la classe 'done'."}, {"line": "      <h3>{titre}</h3>", "comment": "La prop titre est injectée entre les balises h3."}, {"line": "      <p>{lecons} leçons</p>", "comment": "On peut mélanger une variable et du texte dans le JSX."}, {"line": "      {completee && <span>✓ Terminée</span>}", "comment": "Rendu conditionnel : si completee est true, affiche le span. Si false, n'affiche rien."}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}, {"line": "", "comment": ""}, {"line": "// Utilisation :", "comment": ""}, {"line": "<CarteFormation titre=\"React\" lecons={10} completee={false} />", "comment": "Les props string sans {}, les nombres et booléens avec {}."}]}, {"id": "ex1", "type": "completion", "titre": "Répète — compose le composant Post de Kora", "instruction": "Tu as vu comment passer des props. Complète ce composant Post.", "contexte": "Chaque post sur Kora affiche l'auteur, le texte et le nombre de likes.", "labels": ["destructuration props", "prop auteur dans JSX", "prop likes dans JSX"], "bonnes": ["{ auteur, texte, likes }", "{auteur}", "{likes}"], "template": "function Post([A]) {\n  return (\n    <div className=\"post\">\n      <strong>[B]</strong>\n      <p>{texte}</p>\n      <button>[C] Likes</button>\n    </div>\n  );\n}", "aide": "Les props se destructurent entre accolades dans les paramètres. Dans le JSX, chaque variable s'écrit entre accolades."}, {"id": "ex2", "type": "completion", "titre": "Adapte — affichage conditionnel", "instruction": "Sur Kora, les comptes vérifiés ont un badge. Complète le composant.", "contexte": "Si l'auteur est vérifié, afficher le badge ✓. Sinon, rien.", "labels": ["prop booléenne", "rendu conditionnel"], "bonnes": ["verifie", "verifie && <span className=\"badge\">✓</span>"], "template": "function Post({ auteur, texte, [A] }) {\n  return (\n    <div className=\"post\">\n      <div className=\"header\">\n        <strong>{auteur}</strong>\n        {[B]}\n      </div>\n      <p>{texte}</p>\n    </div>\n  );\n}", "aide": "Le && en JSX = afficher seulement si la condition est vraie. verifie && <JSX> affiche JSX uniquement si verifie est true."}, {"id": "ex3", "type": "qcm", "titre": "Crée — repère l'erreur", "question": "Tu écris un composant NavKora mais il ne s'affiche pas. Pourquoi ?", "options": ["function navKora({ logo }) { return <nav>{logo}</nav>; }", "function NavKora({ logo }) { return <nav>{logo}</nav>; }", "function NavKora(logo) { return <nav>{logo}</nav>; }", "function NavKora({ logo }) { return <nav><logo /></nav>; }"], "bonne": 1, "explication": "Le nom navKora avec un n minuscule est traité comme une balise HTML inconnue par React. PascalCase obligatoire. Les props se destructurent avec {}, pas sans. Et logo est une string qu'on affiche avec {logo}, pas <logo />."}], "resume": [{"icon": "🏗️", "key": "Composant", "val": "function Nom({ props }) { return JSX; }"}, {"icon": "📫", "key": "Props", "val": "Données du parent. Lecture seule. Jamais modifier."}, {"icon": "🔤", "key": "PascalCase", "val": "NavBar pas navbar — sinon React le traite comme du HTML."}, {"icon": "🔀", "key": "cond &&", "val": "Affiche JSX si condition est true. Rien sinon."}]}, {"id": "r3", "num": 3, "titre": "Le JSX", "sous": "HTML dans JavaScript", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Le JSX ressemble à du HTML mais c'est du JavaScript. Babel le transforme en appels JS. Ça crée quelques différences à connaître — et si tu les ignores, tes composants ne compilent pas.", "exemple_kora": "Sur le site Le Napoléon que tu as fait : tu as écrit class= dans le HTML. En React, tu dois écrire className= sinon erreur. Pareil pour for= sur les labels → htmlFor=.", "code_vanilla": "<!-- HTML normal -->\n<div class=\"hero\">\n  <label for=\"email\">Email</label>\n  <input type=\"email\" id=\"email\">\n  <p style=\"color: red\">Erreur</p>\n</div>", "code_react": "// JSX — les différences\n<div className=\"hero\">\n  <label htmlFor=\"email\">Email</label>\n  <input type=\"email\" id=\"email\" />\n  <p style={{ color: 'red' }}>Erreur</p>\n</div>\n// className pas class\n// htmlFor pas for\n// balises auto-fermantes avec />\n// style = objet JS avec doubles accolades", "a_retenir": "JSX = JavaScript déguisé en HTML. Les accolades {} = du JS à l'intérieur."}}, {"id": "observe", "type": "observe", "titre": "Observe — JSX commenté ligne par ligne", "code_annote": [{"line": "function HeroKora({ titre, estPremium, couleur }) {", "comment": "Props : titre (string), estPremium (boolean), couleur (string pour le style)."}, {"line": "  return (", "comment": "Un return JSX doit avoir un seul élément racine. Si tu as besoin de plusieurs éléments, utilise <> </>."}, {"line": "    <section className=\"hero\">", "comment": "className à la place de class — class est un mot réservé JavaScript."}, {"line": "      <h1 style={{ color: couleur }}>", "comment": "style en JSX = objet JS. Double accolades : les extérieures = expression JS, les intérieures = l'objet. Propriétés en camelCase : backgroundColor pas background-color."}, {"line": "        {titre}", "comment": "La prop titre est injectée ici. Toute expression JS valide peut aller entre {}."}, {"line": "      </h1>", "comment": ""}, {"line": "      {estPremium && (", "comment": "Rendu conditionnel. Si estPremium est false, rien n'est rendu."}, {"line": "        <span className=\"badge-premium\">⭐ Premium</span>", "comment": ""}, {"line": "      )}", "comment": ""}, {"line": "      {!estPremium && (", "comment": "! inverse la condition. S'affiche quand l'utilisateur n'est PAS premium."}, {"line": "        <button className=\"btn-upgrade\">Passer Premium</button>", "comment": ""}, {"line": "      )}", "comment": ""}, {"line": "    </section>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — convertis du HTML en JSX", "instruction": "Tu connais ce HTML de DB Studio. Convertis-le en JSX valide.", "contexte": "Le header du site client Le Napoléon.", "labels": ["attribut classe", "attribut label"], "bonnes": ["className", "htmlFor"], "template": "// Convertis ce HTML en JSX\nfunction HeaderNapoleon() {\n  return (\n    <header [A]=\"header-dark\">\n      <nav>\n        <label [B]=\"menu-toggle\">Menu</label>\n        <input type=\"checkbox\" id=\"menu-toggle\" />\n      </nav>\n    </header>\n  );\n}", "aide": "En JSX : class → className. for → htmlFor. Ce sont les seuls attributs qui changent de nom."}, {"id": "ex2", "type": "completion", "titre": "Adapte — style dynamique et conditions", "instruction": "Le prix d'une offre DB Studio s'affiche en rouge si c'est la plus chère, en vert sinon.", "contexte": "Composant carte de prix pour DB Studio.", "labels": ["style dynamique", "badge si isPremier"], "bonnes": ["{ color: isMax ? 'var(--rouge)' : 'var(--vert)' }", "isMax && <span className=\"badge\">TOP</span>"], "template": "function CarteOffre({ nom, prix, isMax }) {\n  return (\n    <div className=\"carte-offre\">\n      <h3>{nom}</h3>\n      <p style={[A]}>\n        {prix}€/mois\n      </p>\n      {[B]}\n    </div>\n  );\n}", "aide": "style en JSX prend un objet JS : style={{ propriété: valeur }}. Le ternaire choisit la couleur selon isMax."}, {"id": "ex3", "type": "qcm", "titre": "Crée — repère le bug JSX", "question": "Ce composant ne compile pas. Pourquoi ?", "options": ["function Profil() { return <h1>Kora</h1><p>Bienvenue</p>; }", "function Profil() { return (<><h1>Kora</h1><p>Bienvenue</p></>); }", "function Profil() { return (<div><h1>Kora</h1><p>Bienvenue</p></div>); }", "B et C sont tous les deux corrects, A est incorrect"], "bonne": 3, "explication": "JSX ne peut retourner qu'un seul élément racine. A est incorrect : deux éléments frères sans wrapper. B utilise un Fragment <> </> — invisible dans le DOM. C utilise une div. Les deux sont valides. D est la bonne réponse car B ET C fonctionnent."}], "resume": [{"icon": "🏷️", "key": "className", "val": "class → className. for → htmlFor."}, {"icon": "🎨", "key": "style={{}}", "val": "Objet JS. camelColor pas color-bg. Doubles accolades."}, {"icon": "🔀", "key": "Conditions", "val": "cond && <JSX>. cond ? <A/> : <B/>"}, {"icon": "📦", "key": "Fragment <>", "val": "Wrapper invisible. Pas de div inutile dans le DOM."}]}, {"id": "r4", "num": 4, "titre": "useState", "sous": "Mémoriser et changer des données", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Un composant React normal est statique — il affiche ce qu'on lui passe et c'est tout. Pour qu'il réagisse aux clics, aux saisies, aux changements, il faut un état : useState.", "exemple_kora": "Sur Kora : le bouton Like. Au clic, le chiffre augmente et le bouton change de couleur. C'est un état. Sur DB Studio : ton formulaire de contact, le champ email que l'utilisateur remplit. C'est un état.", "code_vanilla": "// En vanilla, tu modifies le DOM directement\nlet count = 0;\nbtn.onclick = () => {\n  count++;\n  document.querySelector('#count').textContent = count;\n  // Tu dois penser à mettre à jour chaque élément à la main", "code_react": "// En React, tu modifies l'état — React s'occupe du DOM\nconst [count, setCount] = useState(0);\n// count = valeur actuelle\n// setCount = fonction pour changer la valeur\n// Quand setCount est appelé → React re-rend le composant\n\n<button onClick={() => setCount(count + 1)}>\n  {count}\n</button>", "a_retenir": "useState(valeurInitiale) retourne [valeurActuelle, fonctionDeChangement]. Appelle la fonction → React re-rend."}}, {"id": "observe", "type": "observe", "titre": "Observe — useState dans un vrai composant Kora", "code_annote": [{"line": "import { useState } from 'react';", "comment": "On importe useState depuis React. Sans cet import, ça ne marche pas."}, {"line": "", "comment": ""}, {"line": "function BoutonLike({ postId, initialLikes }) {", "comment": "On reçoit postId (pour l'API plus tard) et initialLikes (le nombre de likes de départ)."}, {"line": "  const [likes, setLikes] = useState(initialLikes);", "comment": "likes = valeur actuelle. setLikes = fonction pour changer. useState(initialLikes) = commence avec la valeur reçue en prop."}, {"line": "  const [likee, setLikee] = useState(false);", "comment": "Un deuxième état pour savoir si cet utilisateur a déjà liké. false au départ."}, {"line": "", "comment": ""}, {"line": "  const handleClick = () => {", "comment": "La fonction qui gère le clic — on la définit séparément pour garder le JSX lisible."}, {"line": "    if (likee) {", "comment": "Si l'utilisateur a déjà liké..."}, {"line": "      setLikes(likes - 1);", "comment": "On enlève un like."}, {"line": "      setLikee(false);", "comment": "On repasse l'état à non-liké."}, {"line": "    } else {", "comment": "Sinon..."}, {"line": "      setLikes(likes + 1);", "comment": "On ajoute un like."}, {"line": "      setLikee(true);", "comment": "On marque comme liké."}, {"line": "    }", "comment": ""}, {"line": "  };", "comment": ""}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <button", "comment": ""}, {"line": "      onClick={handleClick}", "comment": "onClick reçoit la référence de la fonction — pas l'appel. Pas de () ici."}, {"line": "      className={likee ? 'btn-like liked' : 'btn-like'}", "comment": "Classe dynamique selon l'état."}, {"line": "    >", "comment": ""}, {"line": "      {likes} ❤️", "comment": "likes s'affiche et se met à jour automatiquement à chaque changement."}, {"line": "    </button>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — déclare des états", "instruction": "Tu construis la page profil Kora. Déclare les états nécessaires.", "contexte": "Un profil Kora affiche les tokens et le nombre de posts. Les deux peuvent changer.", "labels": ["état tokens initialisé à 0", "état posts initialisé à 0"], "bonnes": ["const [tokens, setTokens] = useState(0)", "const [posts, setPosts] = useState(0)"], "template": "function ProfilKora() {\n  [A];\n  [B];\n\n  return (\n    <div>\n      <p>{tokens} KRT</p>\n      <p>{posts} posts publiés</p>\n    </div>\n  );\n}", "aide": "const [valeur, setValeur] = useState(valeurInitiale). Convention : valeur / setValeur (set + même nom avec majuscule)."}, {"id": "ex2", "type": "completion", "titre": "Adapte — état et événement", "instruction": "Le bouton 'Gagner des tokens' sur Kora ajoute 10 tokens à chaque clic.", "contexte": "Composant récompense dans le dashboard Kora.", "labels": ["mise à jour état", "référence fonction dans onClick"], "bonnes": ["setTokens(tokens + 10)", "gagner"], "template": "function RecompenseKora() {\n  const [tokens, setTokens] = useState(0);\n\n  const gagner = () => {\n    [A];\n  };\n\n  return (\n    <div>\n      <p>{tokens} KRT gagnés</p>\n      <button onClick={[B]}>+ 10 tokens</button>\n    </div>\n  );\n}", "aide": "setTokens(tokens + 10) met à jour l'état. onClick reçoit la référence de la fonction : onClick={gagner} — sans les ()."}, {"id": "ex3", "type": "qcm", "titre": "Crée — repère le bug", "question": "Ce compteur ne se met jamais à jour visuellement. Trouve l'erreur :", "options": ["const [count, setCount] = useState(0); count = count + 1;", "const [count, setCount] = useState(0); setCount(count + 1);", "La fonction handleClick n'est pas async", "Il faut utiliser useEffect pour mettre à jour un compteur"], "bonne": 1, "explication": "count = count + 1 modifie la variable mais React ne le voit pas — pas de re-render. Il faut toujours passer par setCount(). C'est setCount() qui signale à React qu'il doit re-rendre le composant."}], "resume": [{"icon": "💾", "key": "useState(init)", "val": "[valeur, setValeur]. init = valeur de départ."}, {"icon": "🔄", "key": "set → re-render", "val": "Appeler setVal() → React re-rend automatiquement."}, {"icon": "⚠️", "key": "Jamais muter", "val": "val = x ne fonctionne pas. Toujours setVal(x)."}, {"icon": "🎯", "key": "onClick={fn}", "val": "Référence, pas appel. onClick={fn} pas onClick={fn()}."}]}, {"id": "r5", "num": 5, "titre": "useEffect", "sous": "Réagir aux changements", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "useState c'est pour mémoriser des données. Mais comment faire quelque chose APRÈS que le composant s'affiche ? Charger des posts depuis une API, mettre à jour le titre de la page, s'abonner à un websocket. C'est useEffect.", "exemple_kora": "Quand tu ouvres le fil Kora, la page doit charger les posts depuis le serveur. Ce chargement doit se déclencher APRÈS que le composant s'affiche — pas pendant. useEffect gère ça.", "code_vanilla": "// Vanilla — tu lances tout manuellement\nwindow.onload = () => {\n  fetch('/api/posts')\n    .then(r => r.json())\n    .then(data => {\n      // tu construis le HTML à la main\n    });\n};", "code_react": "// React — useEffect déclenche après le rendu\nuseEffect(() => {\n  fetch('/api/posts')\n    .then(r => r.json())\n    .then(data => setPosts(data));\n}, []); // [] = déclencher UNE SEULE FOIS au montage", "a_retenir": "useEffect(fonction, [dépendances]). [] = une fois. [val] = quand val change. Rien = à chaque render (danger)."}}, {"id": "observe", "type": "observe", "titre": "Observe — charger des posts Kora avec useEffect", "code_annote": [{"line": "import { useState, useEffect } from 'react';", "comment": "On importe les deux hooks."}, {"line": "", "comment": ""}, {"line": "function FeedKora() {", "comment": ""}, {"line": "  const [posts, setPosts] = useState([]);", "comment": "État pour stocker les posts. Tableau vide au départ."}, {"line": "  const [loading, setLoading] = useState(true);", "comment": "État pour savoir si on est en train de charger. true au départ = spinner visible."}, {"line": "", "comment": ""}, {"line": "  useEffect(() => {", "comment": "useEffect prend une fonction. Elle s'exécute APRÈS le premier rendu."}, {"line": "    fetch('https://api.kora.io/posts')", "comment": "On lance la requête."}, {"line": "      .then(res => res.json())", "comment": "On parse la réponse JSON."}, {"line": "      .then(data => {", "comment": ""}, {"line": "        setPosts(data);", "comment": "On stocke les posts dans l'état — React re-rend avec les données."}, {"line": "        setLoading(false);", "comment": "On masque le spinner."}, {"line": "      });", "comment": ""}, {"line": "  }, []);", "comment": "Le [] à la fin = dépendances. Tableau vide = déclencher UNE SEULE FOIS au montage. Sans [], ça boucle à l'infini."}, {"line": "", "comment": ""}, {"line": "  if (loading) return <p>Chargement...</p>;", "comment": "Tant que loading est true, on affiche un message. Rendu conditionnel en dehors du JSX principal."}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <div className=\"feed\">", "comment": ""}, {"line": "      {posts.map(p => <Post key={p.id} {...p} />)}", "comment": "On map le tableau de posts. key obligatoire. {...p} passe toutes les propriétés comme props."}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — structure useEffect", "instruction": "Tu veux charger le profil de l'utilisateur Kora au montage du composant.", "contexte": "Composant ProfilPage — charge les données une seule fois.", "labels": ["hook pour l'effet", "tableau dépendances vide"], "bonnes": ["useEffect", "[]"], "template": "function ProfilPage({ userId }) {\n  const [profil, setProfil] = useState(null);\n\n  [A](() => {\n    fetch('/api/users/' + userId)\n      .then(r => r.json())\n      .then(data => setProfil(data));\n  }, [B]);\n\n  if (!profil) return <p>Chargement...</p>;\n  return <h1>{profil.nom}</h1>;\n}", "aide": "useEffect prend deux arguments : la fonction effet, et le tableau de dépendances. [] = s'exécute une seule fois au montage."}, {"id": "ex2", "type": "completion", "titre": "Adapte — useEffect avec dépendance", "instruction": "Le profil doit se recharger quand l'userId change (l'utilisateur navigue vers un autre profil).", "contexte": "Même composant, mais userId peut changer.", "labels": ["dépendance userId"], "bonnes": ["[userId]"], "template": "function ProfilPage({ userId }) {\n  const [profil, setProfil] = useState(null);\n\n  useEffect(() => {\n    setProfil(null); // reset pendant le chargement\n    fetch('/api/users/' + userId)\n      .then(r => r.json())\n      .then(data => setProfil(data));\n  }, [A]); // se relance si userId change\n\n  if (!profil) return <p>Chargement...</p>;\n  return <h1>{profil.nom}</h1>;\n}", "aide": "Ajouter userId dans le tableau de dépendances : [userId]. Quand userId change, useEffect se relance automatiquement."}, {"id": "ex3", "type": "qcm", "titre": "Crée — identifie le problème", "question": "Ce composant recharge les posts en boucle infinie. Pourquoi ?", "options": ["fetch ne fonctionne pas dans useEffect", "Il manque [] — sans tableau de dépendances, useEffect s'exécute après chaque render, setPosts déclenche un render, qui déclenche useEffect...", "setPosts ne peut pas être appelé dans useEffect", "Il faut utiliser async/await au lieu de .then()"], "bonne": 1, "explication": "Sans [], useEffect s'exécute après chaque render. setPosts(data) déclenche un re-render. Le re-render déclenche useEffect. Boucle infinie. La solution : ajouter [] pour n'exécuter qu'au montage."}], "resume": [{"icon": "🚀", "key": "useEffect(fn, [])", "val": "S'exécute une fois au montage."}, {"icon": "🔄", "key": "useEffect(fn, [dep])", "val": "Se relance quand dep change."}, {"icon": "⚠️", "key": "Sans []", "val": "Boucle infinie si l'effet modifie le state."}, {"icon": "⏳", "key": "Pattern", "val": "useState(null) + useEffect fetch + if (!data) return loading."}]}, {"id": "r6", "num": 6, "titre": "Événements React", "sous": "Réagir aux clics et aux saisies", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "En HTML vanilla tu écrivais onclick= dans la balise. En React, c'est onClick= avec une valeur JS. La différence clé : tu passes une FONCTION, pas un appel de fonction.", "exemple_kora": "Sur le formulaire de contact DB Studio : au clic Envoyer, tu veux valider les champs et envoyer les données sans recharger la page. En React, c'est onSubmit avec e.preventDefault().", "code_vanilla": "<!-- Vanilla -->\n<button onclick=\"handleClick()\">Cliquer</button>\n<form onsubmit=\"handleSubmit(event)\">", "code_react": "// React — camelCase, valeur JS\n<button onClick={handleClick}>Cliquer</button>\n\n// Avec argument :\n<button onClick={() => supprimer(post.id)}>Supprimer</button>\n\n// Formulaire :\n<form onSubmit={(e) => { e.preventDefault(); envoyerData(); }}>\n// e.preventDefault() = empêche le rechargement de page", "a_retenir": "onClick={fn} pas onClick={fn()}. Pour passer des arguments : onClick={() => fn(arg)}. Formulaire : toujours e.preventDefault()."}}, {"id": "observe", "type": "observe", "titre": "Observe — formulaire de contact DB Studio en React", "code_annote": [{"line": "function FormulaireContact() {", "comment": ""}, {"line": "  const [nom, setNom] = useState('');", "comment": "État pour le champ nom."}, {"line": "  const [email, setEmail] = useState('');", "comment": "État pour le champ email."}, {"line": "  const [envoye, setEnvoye] = useState(false);", "comment": "État pour savoir si le formulaire a été envoyé."}, {"line": "", "comment": ""}, {"line": "  const handleSubmit = (e) => {", "comment": "Handler de soumission. e = l'événement."}, {"line": "    e.preventDefault();", "comment": "OBLIGATOIRE sur onSubmit. Empêche le rechargement de page par défaut."}, {"line": "    if (!nom || !email) return;", "comment": "Validation simple — on quitte si des champs sont vides."}, {"line": "    console.log({ nom, email });", "comment": "Ici tu ferais un fetch POST vers ton API."}, {"line": "    setEnvoye(true);", "comment": "On passe l'état à envoyé."}, {"line": "  };", "comment": ""}, {"line": "", "comment": ""}, {"line": "  if (envoye) return <p>Message envoyé !</p>;", "comment": "Si envoyé, on affiche un message et on cache le formulaire."}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <form onSubmit={handleSubmit}>", "comment": "onSubmit reçoit la référence de la fonction. Pas de ()."}, {"line": "      <input", "comment": ""}, {"line": "        value={nom}", "comment": "value lié à l'état nom — c'est un input contrôlé."}, {"line": "        onChange={(e) => setNom(e.target.value)}", "comment": "À chaque frappe, on met à jour l'état avec la valeur de l'input."}, {"line": "        placeholder=\"Ton nom\"", "comment": ""}, {"line": "      />", "comment": "Balise auto-fermante."}, {"line": "      <input value={email} onChange={(e) => setEmail(e.target.value)} type=\"email\" />", "comment": "Même principe pour l'email."}, {"line": "      <button type=\"submit\">Envoyer</button>", "comment": ""}, {"line": "    </form>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — input contrôlé", "instruction": "Tu crées la barre de recherche de Kora. Chaque frappe met à jour l'état.", "contexte": "Input de recherche dont la valeur est synchronisée avec React.", "labels": ["valeur liée à l'état", "mise à jour à chaque frappe"], "bonnes": ["value={recherche}", "(e) => setRecherche(e.target.value)"], "template": "function SearchBar() {\n  const [recherche, setRecherche] = useState('');\n\n  return (\n    <input\n      [A]\n      onChange={[B]}\n      placeholder=\"Rechercher sur Kora...\"\n    />\n  );\n}", "aide": "value={recherche} synchronise l'input avec l'état. onChange reçoit une arrow function qui extrait la valeur avec e.target.value."}, {"id": "ex2", "type": "completion", "titre": "Adapte — bouton avec argument", "instruction": "Chaque post Kora a un bouton Supprimer (pour les admins). Il doit appeler la fonction avec l'id du post.", "contexte": "Le bouton doit passer l'id du post à la fonction onSupprimer.", "labels": ["onClick avec argument"], "bonnes": ["() => onSupprimer(post.id)"], "template": "function PostAdmin({ post, onSupprimer }) {\n  return (\n    <div>\n      <p>{post.texte}</p>\n      <button onClick={[A]}>\n        Supprimer\n      </button>\n    </div>\n  );\n}", "aide": "Pour passer un argument à onClick, on enveloppe dans une arrow function : () => fn(argument). Sinon fn(argument) serait appelé immédiatement au rendu."}, {"id": "ex3", "type": "qcm", "titre": "Crée — repère le bug", "question": "Ce bouton appelle supprimer() immédiatement à chaque render au lieu d'attendre le clic. Pourquoi ?", "options": ["<button onClick={supprimer(post.id)}>Supprimer</button>", "<button onClick={() => supprimer(post.id)}>Supprimer</button>", "<button onClick={supprimer}>Supprimer</button>", "B et C sont tous les deux valides selon le cas"], "bonne": 3, "explication": "A est le bug : supprimer(post.id) est un appel direct — il s'exécute au rendu. B () => supprimer(post.id) attend le clic puis appelle avec l'id. C supprimer attend le clic mais sans passer l'id. B et C sont valides selon si on a besoin de passer un argument ou non."}], "resume": [{"icon": "👆", "key": "onClick={fn}", "val": "Référence. Pas d'appel direct."}, {"icon": "🎯", "key": "onClick={() => fn(arg)}", "val": "Arrow function pour passer des arguments."}, {"icon": "📨", "key": "onSubmit", "val": "Toujours e.preventDefault() en premier."}, {"icon": "✏️", "key": "onChange", "val": "e.target.value = valeur actuelle de l'input."}]}, {"id": "r7", "num": 7, "titre": "Listes et clés", "sous": "Afficher des tableaux de données", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Sur Kora il y a des dizaines de posts. En vanilla tu écrivais une boucle for pour créer les éléments HTML un par un. En React, tu transformes un tableau de données en tableau de JSX avec .map().", "exemple_kora": "posts.map(post => <Post key={post.id} {...post} />) — chaque objet du tableau devient un composant. La prop key est obligatoire : React l'utilise pour optimiser les mises à jour.", "code_vanilla": "// Vanilla — construction manuelle\nconst container = document.querySelector('.feed');\nposts.forEach(post => {\n  const div = document.createElement('div');\n  div.innerHTML = `<p>${post.texte}</p>`;\n  container.appendChild(div);\n});", "code_react": "// React — .map() dans le JSX\nreturn (\n  <div className=\"feed\">\n    {posts.map(post => (\n      <div key={post.id}>\n        <p>{post.texte}</p>\n      </div>\n    ))}\n  </div>\n);", "a_retenir": "key obligatoire dans .map(). Utilise un ID stable — pas l'index du tableau si la liste peut être réordonnée."}}, {"id": "observe", "type": "observe", "titre": "Observe — liste de formations Kora avec filtre", "code_annote": [{"line": "function ListeFormations({ formations }) {", "comment": "On reçoit le tableau formations en prop."}, {"line": "  const [filtre, setFiltre] = useState('tous');", "comment": "État pour le filtre actif."}, {"line": "", "comment": ""}, {"line": "  const filtrees = filtre === 'tous'", "comment": "On calcule les formations filtrées à chaque render."}, {"line": "    ? formations", "comment": "Si filtre est 'tous', on garde tout."}, {"line": "    : formations.filter(f => f.categorie === filtre);", "comment": "Sinon on filtre. .filter() retourne un nouveau tableau."}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <div>", "comment": ""}, {"line": "      <div className=\"filtres\">", "comment": ""}, {"line": "        {['tous', 'react', 'css'].map(cat => (", "comment": "On mappe aussi les catégories pour créer les boutons filtres."}, {"line": "          <button", "comment": ""}, {"line": "            key={cat}", "comment": "key obligatoire, même pour les éléments simples dans .map()."}, {"line": "            className={filtre === cat ? 'actif' : ''}", "comment": "Classe dynamique : actif si c'est le filtre sélectionné."}, {"line": "            onClick={() => setFiltre(cat)}", "comment": "Au clic, on met à jour le filtre."}, {"line": "          >", "comment": ""}, {"line": "            {cat}", "comment": ""}, {"line": "          </button>", "comment": ""}, {"line": "        ))}", "comment": "Double parenthèse : une pour .map(), une pour le JSX multi-ligne."}, {"line": "      </div>", "comment": ""}, {"line": "", "comment": ""}, {"line": "      {filtrees.length === 0 && <p>Aucune formation</p>}", "comment": "Message si liste vide — rendu conditionnel."}, {"line": "", "comment": ""}, {"line": "      {filtrees.map(f => (", "comment": "On mappe les formations filtrées."}, {"line": "        <CarteFormation", "comment": ""}, {"line": "          key={f.id}", "comment": "key = identifiant stable. Jamais l'index si la liste peut changer d'ordre."}, {"line": "          titre={f.titre}", "comment": "On passe chaque propriété en prop."}, {"line": "          lecons={f.lecons}", "comment": ""}, {"line": "        />", "comment": ""}, {"line": "      ))}", "comment": ""}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — afficher une liste de posts", "instruction": "Affiche la liste des posts Kora avec .map().", "contexte": "Chaque post a un id, un auteur et un texte.", "labels": ["méthode tableau", "prop key"], "bonnes": ["map", "key={post.id}"], "template": "function Feed({ posts }) {\n  return (\n    <div className=\"feed\">\n      {posts.[A](post => (\n        <div [B]>\n          <strong>{post.auteur}</strong>\n          <p>{post.texte}</p>\n        </div>\n      ))}\n    </div>\n  );\n}", "aide": ".map() transforme chaque élément du tableau en JSX. key={post.id} est obligatoire sur l'élément racine de chaque iteration."}, {"id": "ex2", "type": "completion", "titre": "Adapte — liste avec état vide", "instruction": "Si le feed est vide, afficher un message. Sinon, afficher les posts.", "contexte": "Le feed Kora peut être vide quand l'utilisateur vient de s'inscrire.", "labels": ["condition liste vide", "affichage conditionnel"], "bonnes": ["posts.length === 0", "posts.map(p => <Post key={p.id} auteur={p.auteur} texte={p.texte} />)"], "template": "function Feed({ posts }) {\n  return (\n    <div className=\"feed\">\n      {[A]\n        ? <p>Aucun post pour l'instant.</p>\n        : [B]\n      }\n    </div>\n  );\n}", "aide": "Ternaire : condition ? siVrai : siFaux. posts.length === 0 détecte un tableau vide. Le .map() crée les composants Post."}, {"id": "ex3", "type": "qcm", "titre": "Crée — pourquoi éviter l'index comme key ?", "question": "Tu as une liste de posts que l'utilisateur peut réorganiser par drag & drop. Tu utilises quoi comme key ?", "options": ["key={index} — c'est plus simple", "key={post.id} — l'ID est stable même si l'ordre change", "key={post.texte} — le texte est unique", "key={Math.random()} — pour être sûr que c'est unique"], "bonne": 1, "explication": "Si tu réorganises et que tu utilises l'index, le post qui était en position 0 est maintenant en position 2 — React voit une key différente et recrée le composant. Avec un ID stable, React sait que c'est le même post et ne fait que le déplacer. Math.random() est pire : React recrée tout à chaque render."}], "resume": [{"icon": "🔄", "key": ".map()", "val": "Tableau de données → tableau de JSX."}, {"icon": "🔑", "key": "key={id}", "val": "Obligatoire. ID stable, pas l'index."}, {"icon": "📭", "key": "length === 0", "val": "Toujours gérer le cas liste vide."}, {"icon": "📤", "key": "{...item}", "val": "Spread : passe toutes les props d'un coup."}]}, {"id": "r8", "num": 8, "titre": "Formulaires", "sous": "Inputs synchronisés avec React", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "En HTML vanilla, les inputs gèrent leur propre valeur. En React, tu veux que le state soit la source de vérité — comme ça tu peux valider, réinitialiser, et accéder aux valeurs facilement.", "exemple_kora": "Le formulaire d'inscription Kora : tu veux valider le pseudo en temps réel, vérifier que l'email est valide avant d'envoyer, et vider les champs après soumission. Tout ça devient simple quand chaque champ est lié à un état React.", "code_vanilla": "// Vanilla — tu lis la valeur au moment de la soumission\nform.onsubmit = (e) => {\n  e.preventDefault();\n  const email = document.querySelector('#email').value;\n  // Pas de validation en temps réel facile", "code_react": "// React — la valeur est toujours dans le state\nconst [email, setEmail] = useState('');\nconst valide = email.includes('@'); // calculé en temps réel\n\n<input\n  value={email}\n  onChange={(e) => setEmail(e.target.value)}\n  className={valide ? 'ok' : 'erreur'}\n/>", "a_retenir": "Input contrôlé = value lié au state + onChange qui met à jour le state. React est la source de vérité."}}, {"id": "observe", "type": "observe", "titre": "Observe — formulaire d'inscription Kora", "code_annote": [{"line": "function FormulaireInscription() {", "comment": ""}, {"line": "  const [form, setForm] = useState({", "comment": "Un seul état objet pour tous les champs. Plus pratique que plusieurs useState."}, {"line": "    pseudo: '',", "comment": ""}, {"line": "    email: '',", "comment": ""}, {"line": "    motdepasse: ''", "comment": ""}, {"line": "  });", "comment": ""}, {"line": "  const [erreur, setErreur] = useState('');", "comment": "État pour les messages d'erreur."}, {"line": "", "comment": ""}, {"line": "  const handleChange = (e) => {", "comment": "Un seul handler pour tous les inputs."}, {"line": "    setForm(prev => ({", "comment": "On utilise la valeur précédente avec prev => pour être sûr."}, {"line": "      ...prev,", "comment": "Spread : on garde toutes les autres propriétés."}, {"line": "      [e.target.name]: e.target.value", "comment": "Computed property : le nom de l'input (pseudo, email...) est la clé à mettre à jour."}, {"line": "    }));", "comment": ""}, {"line": "  };", "comment": ""}, {"line": "", "comment": ""}, {"line": "  const handleSubmit = (e) => {", "comment": ""}, {"line": "    e.preventDefault();", "comment": "Toujours en premier."}, {"line": "    if (!form.pseudo || !form.email) {", "comment": "Validation."}, {"line": "      setErreur('Tous les champs sont obligatoires');", "comment": ""}, {"line": "      return;", "comment": "On arrête l'exécution."}, {"line": "    }", "comment": ""}, {"line": "    // fetch POST ici", "comment": ""}, {"line": "  };", "comment": ""}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <form onSubmit={handleSubmit}>", "comment": ""}, {"line": "      <input name=\"pseudo\" value={form.pseudo} onChange={handleChange} />", "comment": "name doit correspondre à la clé dans l'objet form."}, {"line": "      <input name=\"email\" value={form.email} onChange={handleChange} />", "comment": "Même handler pour tous les inputs grâce à e.target.name."}, {"line": "      {erreur && <p className=\"erreur\">{erreur}</p>}", "comment": "Affiche l'erreur si elle existe."}, {"line": "      <button type=\"submit\">Créer mon compte</button>", "comment": ""}, {"line": "    </form>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — input contrôlé", "instruction": "Tu crées le champ pseudo du formulaire Kora, lié à l'état.", "contexte": "Un input dont la valeur est toujours synchronisée avec React.", "labels": ["valeur liée à l'état", "handler onChange"], "bonnes": ["value={pseudo}", "(e) => setPseudo(e.target.value)"], "template": "function ChampPseudo() {\n  const [pseudo, setPseudo] = useState('');\n\n  return (\n    <input\n      [A]\n      onChange={[B]}\n      placeholder=\"Ton pseudo Kora\"\n    />\n  );\n}", "aide": "value={pseudo} synchronise l'input. onChange met à jour le state à chaque frappe avec e.target.value."}, {"id": "ex2", "type": "completion", "titre": "Adapte — handler générique multi-champs", "instruction": "Un seul handler pour le formulaire complet de contact DB Studio.", "contexte": "3 champs : nom, email, message. Un seul handleChange.", "labels": ["valeurs précédentes", "clé dynamique"], "bonnes": ["...prev", "[e.target.name]: e.target.value"], "template": "function FormulaireContact() {\n  const [form, setForm] = useState({ nom: '', email: '', message: '' });\n\n  const handleChange = (e) => {\n    setForm(prev => ({\n      [A],\n      [B]\n    }));\n  };\n\n  return (\n    <form>\n      <input name=\"nom\" value={form.nom} onChange={handleChange} />\n      <input name=\"email\" value={form.email} onChange={handleChange} />\n      <textarea name=\"message\" value={form.message} onChange={handleChange} />\n    </form>\n  );\n}", "aide": "...prev copie les champs existants. [e.target.name] est une computed property : si l'input s'appelle email, ça met à jour form.email."}, {"id": "ex3", "type": "qcm", "titre": "Crée — repère le bug", "question": "L'input ne répond pas quand tu tapes. Quelle est la cause ?", "options": ["<input value={nom} placeholder=\"Nom\" />", "<input defaultValue={nom} placeholder=\"Nom\" />", "<input value={nom} onChange={(e) => setNom(e.target.value)} placeholder=\"Nom\" />", "<input onChange={(e) => setNom(e.target.value)} placeholder=\"Nom\" />"], "bonne": 0, "explication": "value={nom} sans onChange bloque l'input — React impose la valeur du state et empêche toute modification. Soit tu ajoutes onChange (input contrôlé — option C), soit tu utilises defaultValue (valeur initiale sans contrôle — option B). D fonctionne mais l'input n'est pas synchronisé avec le state."}], "resume": [{"icon": "🎛️", "key": "Contrôlé", "val": "value={state} + onChange = React gère."}, {"icon": "✏️", "key": "onChange", "val": "e.target.value = ce que l'utilisateur tape."}, {"icon": "📋", "key": "e.target.name", "val": "Handler générique pour N champs."}, {"icon": "✅", "key": "Valider", "val": "Dans handleSubmit, avant le fetch."}]}, {"id": "r9", "num": 9, "titre": "Parent → Enfant", "sous": "Faire communiquer les composants", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Dans une vraie app, les composants ont besoin de se parler. Le sens naturel : parent passe des données à l'enfant via props. Pour l'inverse (enfant informe le parent), on passe une fonction callback.", "exemple_kora": "Feed (parent) possède la liste des posts. Post (enfant) a un bouton Like. Quand on like, Post doit dire au Feed de mettre à jour le compteur. Post appelle onLike(post.id) — une fonction que Feed lui a passée.", "code_vanilla": "// Vanilla — events globaux ou variables globales\ndocument.addEventListener('like', (e) => {\n  updateLike(e.detail.id);\n});\n// Difficile à tracer, source de bugs", "code_react": "// React — flux clair et traçable\nfunction Feed() {\n  const handleLike = (id) => { /* met à jour le state */ };\n  return <Post onLike={handleLike} />;\n}\n\nfunction Post({ onLike, post }) {\n  return <button onClick={() => onLike(post.id)}>Like</button>;\n}", "a_retenir": "Données descendent (parent → enfant via props). Actions remontent (enfant → parent via callback)."}}, {"id": "observe", "type": "observe", "titre": "Observe — système de likes Kora", "code_annote": [{"line": "// COMPOSANT PARENT — possède les données", "comment": ""}, {"line": "function Feed() {", "comment": ""}, {"line": "  const [posts, setPosts] = useState([", "comment": "Le Feed possède l'état des posts."}, {"line": "    { id: 1, auteur: 'Val', texte: 'Hello Kora', likes: 10 },", "comment": ""}, {"line": "    { id: 2, auteur: 'Marc', texte: 'Super plateforme', likes: 5 },", "comment": ""}, {"line": "  ]);", "comment": ""}, {"line": "", "comment": ""}, {"line": "  const handleLike = (id) => {", "comment": "Cette fonction sera passée aux enfants."}, {"line": "    setPosts(prev => prev.map(p =>", "comment": "On mappe pour trouver le bon post."}, {"line": "      p.id === id ? { ...p, likes: p.likes + 1 } : p", "comment": "Si c'est le bon post, on augmente les likes. Sinon, on le laisse intact."}, {"line": "    ));", "comment": ""}, {"line": "  };", "comment": ""}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <div>", "comment": ""}, {"line": "      {posts.map(p => (", "comment": ""}, {"line": "        <Post", "comment": ""}, {"line": "          key={p.id}", "comment": ""}, {"line": "          post={p}", "comment": "On passe tout l'objet post en prop."}, {"line": "          onLike={handleLike}", "comment": "On passe la fonction — l'enfant pourra l'appeler."}, {"line": "        />", "comment": ""}, {"line": "      ))}", "comment": ""}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}, {"line": "", "comment": ""}, {"line": "// COMPOSANT ENFANT — affiche, remonte les actions", "comment": ""}, {"line": "function Post({ post, onLike }) {", "comment": "Reçoit l'objet post ET la fonction onLike."}, {"line": "  return (", "comment": ""}, {"line": "    <div className=\"post\">", "comment": ""}, {"line": "      <p>{post.texte}</p>", "comment": ""}, {"line": "      <button onClick={() => onLike(post.id)}>", "comment": "Au clic, on appelle la fonction du parent avec l'id du post."}, {"line": "        {post.likes} Likes", "comment": ""}, {"line": "      </button>", "comment": ""}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — passer une callback à l'enfant", "instruction": "Le Feed Kora passe la fonction handleLike au composant Post.", "contexte": "Le parent gère l'état, l'enfant appelle la callback.", "labels": ["callback dans les props enfant", "appel avec l'id"], "bonnes": ["onLike={handleLike}", "onLike(post.id)"], "template": "function Feed() {\n  const [posts, setPosts] = useState(initialPosts);\n\n  const handleLike = (id) => {\n    setPosts(prev => prev.map(p =>\n      p.id === id ? { ...p, likes: p.likes + 1 } : p\n    ));\n  };\n\n  return posts.map(p => (\n    <Post key={p.id} post={p} [A] />\n  ));\n}\n\nfunction Post({ post, onLike }) {\n  return (\n    <button onClick={() => [B]}>\n      {post.likes} Likes\n    </button>\n  );\n}", "aide": "Le parent passe la fonction avec onLike={handleLike}. L'enfant l'appelle avec la bonne signature : onLike(post.id)."}, {"id": "ex2", "type": "completion", "titre": "Adapte — children prop", "instruction": "Tu crées un composant Card réutilisable pour Kora. Il accepte du contenu variable.", "contexte": "Card peut contenir un Post, une Formation, ou n'importe quoi.", "labels": ["prop children", "affichage children"], "bonnes": ["children", "children"], "template": "function Card({ [A] }) {\n  return (\n    <div className=\"card\">\n      {[B]}\n    </div>\n  );\n}\n\n// Utilisation :\n<Card>\n  <h2>Titre du post</h2>\n  <p>Contenu quelconque</p>\n</Card>", "aide": "children est une prop spéciale React : elle contient ce qui est placé entre les balises du composant."}, {"id": "ex3", "type": "qcm", "titre": "Crée — diagnostic", "question": "Le compteur de likes ne se met pas à jour dans Feed quand l'enfant clique. Trouve la cause :", "options": ["Il faut passer le state posts à Post", "L'enfant fait count++ directement au lieu d'appeler la callback du parent", "useEffect doit être utilisé pour mettre à jour les likes", "Les props ne peuvent pas contenir des fonctions"], "bonne": 1, "explication": "L'enfant ne peut pas modifier le state du parent directement. Il doit appeler la callback que le parent lui a passée. C'est cette callback (handleLike dans Feed) qui modifie le state et déclenche le re-render du Feed et de tous ses enfants."}], "resume": [{"icon": "⬇️", "key": "Parent → Enfant", "val": "Props. Données descendent."}, {"icon": "⬆️", "key": "Enfant → Parent", "val": "Callback passée en prop."}, {"icon": "👶", "key": "children", "val": "Contenu entre les balises du composant."}, {"icon": "🏗️", "key": "Lifting state", "val": "Si 2 enfants partagent un état, le remonter au parent."}]}, {"id": "r10", "num": 10, "titre": "Fetch + React", "sous": "Données depuis une API", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Maintenant tu sais gérer l'état, les effets, les événements. On assemble tout : useState + useEffect + fetch. C'est le pattern que tu vas écrire dans 90% des vrais composants React.", "exemple_kora": "Le catalogue Kora : au montage, charger les formations depuis l'API. Pendant le chargement, afficher un spinner. En cas d'erreur, afficher un message. Quand les données arrivent, afficher les cartes.", "code_vanilla": "// Vanilla — tout mélangé\nwindow.onload = async () => {\n  document.querySelector('.spinner').style.display = 'flex';\n  try {\n    const data = await fetch('/api/formations').then(r => r.json());\n    data.forEach(f => {\n      // construire le HTML à la main\n    });\n  } catch(e) {\n    document.querySelector('.error').textContent = e.message;\n  } finally {\n    document.querySelector('.spinner').style.display = 'none';\n  }\n};", "code_react": "// React — chaque état est clair et séparé\nconst [formations, setFormations] = useState([]);\nconst [loading, setLoading] = useState(true);\nconst [erreur, setErreur] = useState(null);\n\nuseEffect(() => {\n  fetch('/api/formations')\n    .then(r => r.json())\n    .then(data => { setFormations(data); setLoading(false); })\n    .catch(e => { setErreur(e.message); setLoading(false); });\n}, []);\n\nif (loading) return <Spinner />;\nif (erreur) return <p>Erreur : {erreur}</p>;\nreturn formations.map(f => <Carte key={f.id} {...f} />);", "a_retenir": "3 états : données, loading, erreur. useEffect avec []. Render conditionnel avant le JSX principal."}}, {"id": "observe", "type": "observe", "titre": "Observe — catalogue Kora complet", "code_annote": [{"line": "function CatalogueKora() {", "comment": ""}, {"line": "  const [formations, setFormations] = useState([]);", "comment": "Données — tableau vide au départ."}, {"line": "  const [loading, setLoading] = useState(true);", "comment": "true dès le début — le spinner s'affiche immédiatement."}, {"line": "  const [erreur, setErreur] = useState(null);", "comment": "null = pas d'erreur au départ."}, {"line": "", "comment": ""}, {"line": "  useEffect(() => {", "comment": "Se déclenche après le premier rendu."}, {"line": "    async function charger() {", "comment": "On définit une fonction async à l'intérieur. useEffect ne peut pas être async directement."}, {"line": "      try {", "comment": ""}, {"line": "        const res = await fetch('https://api.kora.io/formations');", "comment": "On fait la requête."}, {"line": "        if (!res.ok) throw new Error('Erreur ' + res.status);", "comment": "Si le serveur répond 404, 500 etc., on lève une erreur manuellement."}, {"line": "        const data = await res.json();", "comment": "On parse le JSON."}, {"line": "        setFormations(data);", "comment": "On stocke les données → React re-rend."}, {"line": "      } catch(e) {", "comment": ""}, {"line": "        setErreur(e.message);", "comment": "On stocke le message d'erreur."}, {"line": "      } finally {", "comment": "finally s'exécute toujours, succès ou échec."}, {"line": "        setLoading(false);", "comment": "On masque le spinner dans tous les cas."}, {"line": "      }", "comment": ""}, {"line": "    }", "comment": ""}, {"line": "    charger();", "comment": "On appelle la fonction async."}, {"line": "  }, []);", "comment": "[] = une seule fois au montage."}, {"line": "", "comment": ""}, {"line": "  if (loading) return <div className=\"spinner\">Chargement...</div>;", "comment": "Retour anticipé : si loading, on affiche le spinner et on arrête là."}, {"line": "  if (erreur) return <div className=\"erreur\">{erreur}</div>;", "comment": "Retour anticipé : si erreur, on affiche le message."}, {"line": "", "comment": ""}, {"line": "  return (", "comment": "Si on arrive ici, on a les données, pas d'erreur, chargement terminé."}, {"line": "    <div className=\"catalogue\">", "comment": ""}, {"line": "      <h1>Formations Kora</h1>", "comment": ""}, {"line": "      <div className=\"grille\">", "comment": ""}, {"line": "        {formations.map(f => (", "comment": ""}, {"line": "          <CarteFormation", "comment": ""}, {"line": "            key={f.id}", "comment": ""}, {"line": "            titre={f.titre}", "comment": ""}, {"line": "            lecons={f.lecons}", "comment": ""}, {"line": "            completee={f.completee}", "comment": ""}, {"line": "          />", "comment": ""}, {"line": "        ))}", "comment": ""}, {"line": "      </div>", "comment": ""}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — les 3 états du fetch", "instruction": "Déclare les 3 états nécessaires pour charger les posts Kora.", "contexte": "Pattern standard : données, loading, erreur.", "labels": ["état données vide", "état loading à true", "état erreur à null"], "bonnes": ["const [posts, setPosts] = useState([])", "const [loading, setLoading] = useState(true)", "const [erreur, setErreur] = useState(null)"], "template": "function FeedKora() {\n  [A];\n  [B];\n  [C];\n\n  // useEffect fetch ici\n\n  if (loading) return <p>Chargement...</p>;\n  if (erreur) return <p>{erreur}</p>;\n  return posts.map(p => <Post key={p.id} {...p} />);\n}", "aide": "3 useState : données initialisées à [], loading à true (pour afficher le spinner immédiatement), erreur à null."}, {"id": "ex2", "type": "completion", "titre": "Adapte — useEffect complet avec try/catch", "instruction": "Charge les posts depuis l'API avec gestion d'erreur.", "contexte": "Le useEffect complet du Feed Kora.", "labels": ["async function interne", "lève erreur si status mauvais", "finally désactive loading"], "bonnes": ["async function charger()", "if (!res.ok) throw new Error('Erreur ' + res.status)", "setLoading(false)"], "template": "useEffect(() => {\n  [A] {\n    try {\n      const res = await fetch('/api/posts');\n      [B];\n      const data = await res.json();\n      setPosts(data);\n    } catch(e) {\n      setErreur(e.message);\n    } finally {\n      [C];\n    }\n  }\n  charger();\n}, []);", "aide": "useEffect ne peut pas être async. On définit une fonction async à l'intérieur. !res.ok détecte les erreurs HTTP. finally s'exécute toujours."}, {"id": "ex3", "type": "qcm", "titre": "Crée — diagnostic complet", "question": "Le composant ne recharge pas les données quand userId change. Quelle est la cause ET la solution ?", "options": ["Cause : fetch est dans useEffect. Solution : le mettre dans onChange.", "Cause : [] dans useEffect = exécute une seule fois. Solution : mettre [userId] dans les dépendances.", "Cause : les données sont en state. Solution : les mettre en variable normale.", "Cause : async/await. Solution : utiliser .then() à la place."], "bonne": 1, "explication": "[] = s'exécute seulement au montage. Si userId change, useEffect ne se relance pas. En mettant [userId], useEffect se relancera à chaque changement de userId — et les nouvelles données seront chargées."}], "resume": [{"icon": "🔄", "key": "3 états", "val": "données + loading(true) + erreur(null)."}, {"icon": "🚀", "key": "useEffect + async", "val": "Fonction async à l'intérieur, appelée juste après."}, {"icon": "🛡️", "key": "try/catch/finally", "val": "finally = désactive loading dans tous les cas."}, {"icon": "🔗", "key": "[dep]", "val": "Ajouter la dépendance pour recharger si elle change."}]}];
 
-// ─── STORAGE ─────────────────────────────────────────────────────────
-const STORAGE_KEY = 'kora_academy_react';
+// ── STORAGE ──────────────────────────────────────────────────
+const KEY = 'kora_react_v1';
+function save(d) { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){} }
+function load() { try { const r=localStorage.getItem(KEY); return r?JSON.parse(r):null; } catch(e){return null;} }
+function freshData() { return { done:{}, steps:{}, exScores:{}, lastLecon:null }; }
+let APP = load() || freshData();
 
-function saveData(data) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
-}
+// ── STATE ────────────────────────────────────────────────────
+let CUR = null; // lecon courante
 
-function loadData() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch(e) { return null; }
-}
+// ── HELPERS ──────────────────────────────────────────────────
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('page-'+id).classList.add('active'); window.scrollTo(0,0); }
+function getORD(l){ return ['intro','observe',...l.steps.filter(s=>s.type!=='intro'&&s.type!=='observe'&&s.type!=='resume').map(s=>s.id),'resume']; }
 
-function getDefaultData() {
-  return {
-    leconsDone: {},      // { r1: true, r2: true, ... }
-    stepsData: {},       // { r1: { current: 'ex2', done: ['intro','cours','ex1'] } }
-    exScores: {},        // { 'r1-ex1': { sel: 2, ok: true } }
-    lastVisited: null,
-    totalTime: 0,
-    startedAt: Date.now()
-  };
-}
+// ── LIST ─────────────────────────────────────────────────────
+function renderList(){
+  CUR = null;
+  const done = LECONS.filter(l=>APP.done[l.id]).length;
+  const pct = Math.round(done/LECONS.length*100);
 
-let APP = loadData() || getDefaultData();
+  document.getElementById('htitle').textContent='Kora Academy';
+  document.getElementById('progWrap').style.display='none';
+  document.getElementById('etapes').style.display='none';
+  document.getElementById('bc').innerHTML='<span class="bca">React &amp; JSX</span>';
+  document.getElementById('statDone').textContent=done;
+  document.getElementById('statPct').textContent=pct+'%';
 
-function save() { saveData(APP); }
-
-// ─── STATE ────────────────────────────────────────────────────────────
-let currentLecon = null;
-
-// ─── UTILS ───────────────────────────────────────────────────────────
-function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;');
-}
-
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  window.scrollTo(0, 0);
-}
-
-function getORD(lecon) {
-  return ['intro','cours',...lecon.exercices.map((_,i) => 'ex'+(i+1)),'resume'];
-}
-
-// ─── PROGRESSION ─────────────────────────────────────────────────────
-function getDone() {
-  return LECONS.filter(l => APP.leconsDone[l.id]).length;
-}
-
-function getPct() {
-  return Math.round((getDone() / LECONS.length) * 100);
-}
-
-function updateStats() {
-  const done = getDone();
-  const pct = getPct();
-  const statDone = document.getElementById('statDone');
-  const statPct = document.getElementById('statPct');
-  if (statDone) statDone.textContent = done;
-  if (statPct) statPct.textContent = pct + '%';
-}
-
-// ─── LIST PAGE ───────────────────────────────────────────────────────
-function renderList() {
-  updateStats();
-  const done = getDone();
-  const total = LECONS.length;
-
-  // Update header
-  document.getElementById('htitle').textContent = 'Kora Academy';
-  document.getElementById('progWrap').style.display = 'none';
-  document.getElementById('etapes').style.display = 'none';
-  document.getElementById('bc').innerHTML = '<span class="bca">React &amp; JSX</span>';
-
-  // Lecons list
-  const list = document.getElementById('llist');
-  list.innerHTML = LECONS.map((l, i) => {
-    const d = APP.leconsDone[l.id];
-    return `<div class="litem${d ? ' done' : ''}" data-lecon="${l.id}">
-      <div class="lnum${d ? ' done-n' : ''}">${d ? '&#10003;' : i+1}</div>
-      <div class="linfo">
-        <div class="ltitle">${l.title}</div>
-        <div class="lsub">${l.sub}</div>
-      </div>
-      <span class="lbadge ${d ? 'badge-done' : 'badge-new'}">${d ? 'Termin&#233;e' : 'Nouveau'}</span>
+  document.getElementById('llist').innerHTML = LECONS.map((l,i)=>{
+    const d=APP.done[l.id];
+    return `<div class="litem${d?' done':''}" data-id="${l.id}">
+      <div class="lnum${d?' ok':''}">${d?'&#10003;':i+1}</div>
+      <div class="linfo"><div class="ltit">Le&#231;on ${l.num} &mdash; ${l.titre}</div><div class="lsub">${l.sous}</div></div>
+      <span class="lbadge ${d?'fin':'new'}">${d?'Termin&#233;e':'Nouveau'}</span>
     </div>`;
   }).join('');
 
-  // Eval zone
-  const allDone = done === total && total > 0;
-  document.getElementById('evalZone').innerHTML = `
-    <div class="eval-card">
-      <h3>&#127919; &#201;valuation React &amp; JSX</h3>
-      <p>Compl&#232;te toutes les le&#231;ons pour d&#233;bloquer l&#8217;&#233;valuation et gagner tes tokens KRT.</p>
-      ${allDone
-        ? '<button class="btn btn-p" id="startEval">Commencer l&#8217;&#233;valuation &rarr;</button>'
-        : `<button class="btn btn-g" disabled>Commencer l&#8217;&#233;valuation &rarr;</button>
-           <p class="eval-lock">${done}/${total} le&#231;ons termin&#233;es</p>`
-      }
-    </div>`;
+  const allDone = done===LECONS.length;
+  document.getElementById('evalZone').innerHTML=`<div class="eval-card">
+    <h3>&#127919; &#201;valuation finale</h3>
+    <p>Compl&#232;te les 10 le&#231;ons pour d&#233;bloquer l&#8217;&#233;valuation et gagner tes tokens KRT.</p>
+    ${allDone
+      ? '<button class="btn btn-p" id="evalBtn">Commencer l&#8217;&#233;valuation &rarr;</button>'
+      : `<button class="btn btn-g" disabled>Commencer l&#8217;&#233;valuation &rarr;</button><p class="eval-lock">${done}/10 le&#231;ons termin&#233;es</p>`
+    }
+  </div>`;
 
-  // Event delegation for list items
-  list.onclick = (e) => {
-    const item = e.target.closest('.litem');
-    if (item) showLecon(item.dataset.lecon);
+  document.getElementById('llist').onclick = e=>{
+    const item=e.target.closest('.litem');
+    if(item) showLecon(item.dataset.id);
   };
-
-  if (allDone) {
-    document.getElementById('startEval').onclick = () => {
-      alert('Evaluation a venir !');
-    };
-  }
+  const evalBtn=document.getElementById('evalBtn');
+  if(evalBtn) evalBtn.onclick=()=>alert('&#201;valuation &#224; venir !');
 
   showPage('list');
 }
 
-// ─── LECON PAGE ──────────────────────────────────────────────────────
-function showLecon(leconId) {
-  currentLecon = LECONS.find(l => l.id === leconId);
-  if (!currentLecon) return;
+// ── LECON ────────────────────────────────────────────────────
+function showLecon(lid){
+  CUR = LECONS.find(l=>l.id===lid);
+  if(!CUR) return;
+  if(!APP.steps[lid]) APP.steps[lid]={current:'intro',done:[]};
+  APP.lastLecon=lid; save(APP);
 
-  // Init lecon data if needed
-  if (!APP.stepsData[leconId]) {
-    APP.stepsData[leconId] = { current: 'intro', done: [] };
-    save();
-  }
-
-  APP.lastVisited = leconId;
-  save();
-
-  // Header
-  document.getElementById('htitle').textContent = currentLecon.title;
-  document.getElementById('progWrap').style.display = 'flex';
-  document.getElementById('bc').innerHTML = `
-    <span class="bcl" id="bcHome">React &amp; JSX</span>
-    <span class="bcs"> &rsaquo; </span>
-    <span class="bca">${currentLecon.title}</span>`;
-
-  document.getElementById('bcHome').onclick = () => renderList();
-  document.getElementById('ltag').innerHTML = currentLecon.tag;
-  document.getElementById('lh').innerHTML = currentLecon.title + ' &mdash; <span class="grad">' + currentLecon.sub + '</span>';
+  document.getElementById('htitle').textContent=CUR.titre;
+  document.getElementById('progWrap').style.display='flex';
+  document.getElementById('bc').innerHTML=`<span class="bcl" data-goto-list>React &amp; JSX</span><span class="bcs"> &rsaquo; </span><span class="bca">${CUR.titre}</span>`;
+  document.getElementById('ltag').innerHTML=CUR.steps[0].id==='intro'? `React &middot; Le&#231;on ${CUR.num}` : '';
+  document.getElementById('lh').innerHTML=`${CUR.titre} &mdash; <span class="grad">${CUR.sous}</span>`;
 
   renderLecon();
   showPage('lecon');
 }
 
-function renderLecon() {
-  if (!currentLecon) return;
-  const lid = currentLecon.id;
-  const sd = APP.stepsData[lid];
-  const ORD = getORD(currentLecon);
-  const cur = sd.current;
-  const labels = ['Intro','Cours',...currentLecon.exercices.map((_,i) => 'Ex.'+(i+1)),'R&#233;sum&#233;'];
+function renderLecon(){
+  if(!CUR) return;
+  const lid=CUR.id, sd=APP.steps[lid];
+  const ORD=getORD(CUR), cur=sd.current;
+  const labels=['Pourquoi','Observe',...CUR.steps.filter(s=>!['intro','observe','resume'].includes(s.type)).map((s,i)=>'Ex.'+(i+1)),'R&#233;sum&#233;'];
 
-  // Etapes nav
-  const etapes = document.getElementById('etapes');
-  etapes.style.display = 'flex';
-  etapes.innerHTML = ORD.map((sid, i) => {
-    const done = sd.done.includes(sid);
-    const active = sid === cur;
-    const cls = done ? 'done' : active ? 'active' : '';
-    const dcls = done ? 'done' : active ? 'active' : 'idle';
-    return `<button class="etape ${cls}" data-step="${sid}">
-      <span class="edot ${dcls}">${done ? '&#10003;' : i+1}</span>${labels[i]}
+  // Nav etapes
+  const etapes=document.getElementById('etapes');
+  etapes.style.display='flex';
+  etapes.innerHTML=ORD.map((sid,i)=>{
+    const d=sd.done.includes(sid), a=sid===cur;
+    return `<button class="etape ${d?'done':a?'active':''}" data-step="${sid}">
+      <span class="edot ${d?'done':a?'active':'idle'}">${d?'&#10003;':i+1}</span>${labels[i]}
     </button>`;
   }).join('');
 
-  // Progress bar
-  const idx = ORD.indexOf(cur);
-  const pct = Math.round((idx / (ORD.length - 1)) * 100);
-  document.getElementById('pfill').style.width = pct + '%';
-  document.getElementById('ppct').textContent = pct + '%';
-
-  // Event delegation for etapes
-  etapes.onclick = (e) => {
-    const btn = e.target.closest('.etape');
-    if (btn) goStep(btn.dataset.step);
-  };
+  // Progress
+  const idx=ORD.indexOf(cur);
+  const pct=Math.round(idx/(ORD.length-1)*100);
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('ppct').textContent=pct+'%';
 
   // Render screen
-  document.getElementById('screens').innerHTML = renderScreen(cur);
-  bindScreenEvents();
+  const step=CUR.steps.find(s=>s.id===cur)||CUR.steps[0];
+  document.getElementById('screens').innerHTML=renderStep(step, cur, ORD);
+  bindEvents();
 }
 
-function renderScreen(cur) {
-  const lecon = currentLecon;
-  const lid = lecon.id;
-  const ORD = getORD(lecon);
-  const next = ORD[ORD.indexOf(cur) + 1];
+function renderStep(step, cur, ORD){
+  const next=ORD[ORD.indexOf(cur)+1];
 
-  if (cur === 'intro') {
-    const exs = (lecon.exemples || []).map(ex =>
-      `<div class="exbl"><span class="exbl-lbl">${ex.label}</span><pre>${esc(ex.code)}</pre></div>`
-    ).join('');
+  if(step.type==='intro'){
+    const c=step.contenu;
     return `<div class="screen active">
       <div class="card card-warm">
-        <span class="slabel">Pourquoi tu as besoin de &#231;a</span>
-        <p class="btext">${lecon.pourquoi}</p>
-        ${lecon.exemple ? `<div class="hint"><span style="color:var(--b3);flex-shrink:0;margin-top:2px">&#9672;</span><span class="htx">${lecon.exemple}</span></div>` : ''}
+        <span class="slabel">Le probl&#232;me</span>
+        <p class="btext">${c.probleme}</p>
+        <div class="hint"><span style="color:var(--b3);flex-shrink:0;margin-top:2px">&#9830;</span><span class="htx">${c.exemple_kora}</span></div>
       </div>
-      ${exs ? `<div class="card"><span class="slabel">Exemples dans ce cours</span>${exs}</div>` : ''}
-      <button class="btn btn-p" data-goto="cours">Commencer &rarr;</button>
+      <div class="card">
+        <span class="slabel">Avant &mdash; JS Vanilla</span>
+        <pre>${esc(c.code_vanilla)}</pre>
+        <span class="slabel">Apr&#232;s &mdash; React</span>
+        <pre>${esc(c.code_react)}</pre>
+      </div>
+      <div class="card card-green">
+        <span class="slabel">&#10003; Ce qu&#8217;il faut retenir</span>
+        <p class="btext" style="margin:0;font-weight:400">${c.a_retenir}</p>
+      </div>
+      <button class="btn btn-p" data-goto="${next}">J&#8217;ai compris &mdash; Observer le code &rarr;</button>
     </div>`;
   }
 
-  if (cur === 'cours') {
-    const regs = lecon.regles.map(r =>
-      `<div class="regle"><span class="rprop">${r.prop}</span><span class="reff">${r.expl}</span></div>`
-    ).join('');
+  if(step.type==='observe'){
+    const lines=step.code_annote.map(l=>`<div class="obs-line">
+      <div class="obs-code${!l.line?' empty':''}">${esc(l.line)||' '}</div>
+      ${l.comment?`<div class="obs-comment">${l.comment}</div>`:''}
+    </div>`).join('');
     return `<div class="screen active">
       <div class="card">
-        <span class="slabel">Les r&#232;gles &#224; retenir</span>
-        <div class="regles">${regs}</div>
+        <span class="slabel">&#128270; ${step.titre}</span>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:.8rem;line-height:1.5">Code &#224; gauche, explication &#224; droite. Lis chaque ligne.</p>
+        <div class="obs-wrap">${lines}</div>
       </div>
-      <div class="card">
-        <span class="slabel">Exemple &mdash; lis chaque ligne</span>
-        <pre>${esc(lecon.code)}</pre>
-      </div>
-      <button class="btn btn-p" data-goto="ex1">Je comprends &mdash; exercice &rarr;</button>
+      <button class="btn btn-p" data-goto="${next}">C&#8217;est clair &mdash; Exercice 1 &rarr;</button>
     </div>`;
   }
 
-  if (cur === 'resume') {
-    const items = lecon.resume.map(r =>
-      `<div class="ri"><div class="ric">${r.icon}</div><div class="rik">${r.key}</div><div class="riv">${r.val}</div></div>`
-    ).join('');
+  if(step.type==='resume'){
+    const items=CUR.resume.map(r=>`<div class="ri"><div class="ric">${r.icon}</div><div class="rik">${r.key}</div><div class="riv">${r.val}</div></div>`).join('');
     return `<div class="screen active">
       <div class="card card-warm">
-        <span class="slabel">&#10022; Ce que tu retiens</span>
+        <span class="slabel">&#10022; R&#233;sum&#233; &mdash; ce que tu retiens</span>
         <div class="rgrid">${items}</div>
-        <div class="rfooter"><p>Les tokens KRT sont accord&#233;s &agrave; la fin de l&#8217;&#233;valuation selon ta note.</p></div>
+        <div class="rfooter"><p>Les tokens KRT sont attribu&#233;s &#224; l&#8217;&#233;valuation finale selon ta note globale.</p></div>
       </div>
       <div class="brow">
         <button class="btn btn-g" data-goto="intro">&#8592; Revoir</button>
@@ -1039,216 +337,143 @@ function renderScreen(cur) {
     </div>`;
   }
 
-  // Exercice
-  const exIdx = parseInt(cur.replace('ex','')) - 1;
-  const ex = lecon.exercices[exIdx];
-  const sk = lid + '-' + cur;
-  const saved = APP.exScores[sk];
-  const typeLbl = { qcm:'QCM', completion:'Compl&#233;ter', memo:'M&#233;mo', debug:'D&#233;boguer' }[ex.type];
-  const tagCls = { qcm:'tag-b', completion:'tag-a', memo:'tag-memo', debug:'tag-debug' }[ex.type];
-
-  let inner = '';
-
-  if (ex.type === 'qcm' || ex.type === 'debug') {
-    const opts = ex.options.map((o, i) => {
-      let cls = '';
-      if (saved) {
-        if (i === ex.bonne) cls = 'ok';
-        else if (i === saved.sel && saved.sel !== ex.bonne) cls = 'ko';
-      }
-      return `<button class="opt${cls ? ' '+cls : ''}" data-idx="${i}" ${saved?'disabled':''}><span class="oltr">${['A','B','C','D'][i]}.</span>${o}</button>`;
+  // Exercice completion
+  if(step.type==='completion'){
+    const lid=CUR.id, sk=lid+'-'+step.id;
+    const saved=APP.exScores[sk];
+    const inputs=step.labels.map((lbl,i)=>{
+      const v=saved?saved.vals[i]||'':'';
+      const cls=saved?(saved.valOk[i]?' ok':' ko'):'';
+      return `<div class="igrp"><label>${['A','B','C'][i]} &mdash; ${lbl}</label><input data-comp="${sk}" data-ci="${i}" value="${v.replace(/"/g,'&quot;')}" ${saved?'disabled':''} placeholder="ta r&#233;ponse&#8230;" class="${cls.trim()}"></div>`;
     }).join('');
-    const codeF = ex.type === 'debug' ? `<span class="slabel" style="margin-top:.5rem">Code avec erreur</span><pre>${esc(ex.codeFaux)}</pre>` : '';
-    const fb = saved ? `<div class="fb ${saved.ok?'ok':'ko'}"><p class="fbt">${saved.ok?'&#10003; Correct':'&#10007; Pas tout &#224; fait'}</p><p class="fbx">${ex.explication}</p>
-      ${ex.type==='debug' ? `<span class="slabel" style="margin-top:.8rem">Code corrig&#233;</span><pre style="margin-top:.4rem">${esc(ex.codeCorrige)}</pre>` : ''}
-      ${saved.ok ? `<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>` : `<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
-    </div>` : '';
-    inner = `<p class="btext">${ex.question}</p>${codeF}<div class="opts" id="opts-${sk}">${opts}</div><div id="fb-${sk}">${fb}</div>
-      ${!saved ? `<div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>Valider &rarr;</button></div>` : ''}`;
+    const initPrev=step.template.replace(/\[A\]/g,'[?]').replace(/\[B\]/g,'[?]').replace(/\[C\]/g,'[?]');
+    const curPrev=saved?step.template.replace(/\[A\]/g,saved.vals[0]||'?').replace(/\[B\]/g,saved.vals[1]||'?').replace(/\[C\]/g,saved.vals[2]||'?'):initPrev;
+    const fb=saved?`<div class="fb ${saved.ok?'ok':'ko'}">
+      <p class="fbt">${saved.ok?'&#10003; Correct !':'&#10007; Pas tout &#224; fait'}</p>
+      <p class="fbx">${saved.ok?'Bien jou&#233;. Tu peux continuer.':'R&#233;ponses attendues : '+step.bonnes.join(' &middot; ')}</p>
+      ${saved.ok?`<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>`:`<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
+    </div>`:'';
+    return `<div class="screen active">
+      <div class="card">
+        <div class="trow"><span class="tag tag-b">Compl&#233;ter</span></div>
+        <p class="btext"><strong>${step.titre}</strong></p>
+        <div class="ex-ctx">${step.contexte}</div>
+        <p style="font-size:.87rem;color:var(--muted);margin-bottom:.7rem">${step.instruction}</p>
+        <div class="irow">${inputs}</div>
+        <pre class="prev-tpl" id="prev-${sk}">${esc(curPrev)}</pre>
+        <div class="aide">&#128161; ${step.aide}</div>
+        <div id="fb-${sk}">${fb}</div>
+        ${!saved?`<div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>V&#233;rifier &rarr;</button></div>`:''}
+      </div>
+    </div>`;
   }
 
-  if (ex.type === 'completion') {
-    const inputs = ex.labels.map((lbl, i) => {
-      const v = saved ? saved.vals[i] || '' : '';
-      const cls = saved ? (saved.valOk[i] ? ' ok' : ' ko') : '';
-      return `<div class="igrp"><label>${['A','B','C'][i]} &mdash; ${lbl}</label><input data-comp="${sk}" data-ci="${i}" value="${v}" ${saved?'disabled':''} placeholder="ta r&#233;ponse&hellip;" class="${cls.trim()}"></div>`;
+  // Exercice QCM
+  if(step.type==='qcm'){
+    const lid=CUR.id, sk=lid+'-'+step.id;
+    const saved=APP.exScores[sk];
+    const opts=step.options.map((o,i)=>{
+      let cls='';
+      if(saved){ if(i===step.bonne)cls='ok'; else if(i===saved.sel&&saved.sel!==step.bonne)cls='ko'; }
+      return `<button class="opt${cls?' '+cls:''}" data-idx="${i}" ${saved?'disabled':''}><span class="oltr">${['A','B','C','D'][i]}.</span>${o}</button>`;
     }).join('');
-    const prev = saved ? ex.template.replace(/\[A\]/g, saved.vals[0]||'?').replace(/\[B\]/g, saved.vals[1]||'?').replace(/\[C\]/g, saved.vals[2]||'?') : ex.template.replace(/\[A\]/g,'[?]').replace(/\[B\]/g,'[?]').replace(/\[C\]/g,'[?]');
-    const fb = saved ? `<div class="fb ${saved.ok?'ok':'ko'}"><p class="fbt">${saved.ok?'&#10003; Correct':'&#10007; Attendu : '+ex.bonnes.join(' &middot; ')}</p>
-      ${saved.ok ? `<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>` : `<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
-    </div>` : '';
-    inner = `<p class="btext">${ex.question}</p><div class="irow">${inputs}</div><pre id="prev-${sk}">${esc(prev)}</pre><div id="fb-${sk}">${fb}</div>
-      ${!saved ? `<div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>Valider &rarr;</button></div>` : ''}`;
+    const fb=saved?`<div class="fb ${saved.ok?'ok':'ko'}">
+      <p class="fbt">${saved.ok?'&#10003; Correct !':'&#10007; Pas tout &#224; fait'}</p>
+      <p class="fbx">${step.explication}</p>
+      ${saved.ok?`<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>`:`<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
+    </div>`:'';
+    return `<div class="screen active">
+      <div class="card">
+        <div class="trow"><span class="tag tag-a">QCM</span></div>
+        <p class="btext"><strong>${step.titre}</strong></p>
+        <p style="font-size:.87rem;color:var(--muted);margin-bottom:.8rem">${step.question}</p>
+        <div class="opts" id="opts-${sk}">${opts}</div>
+        <div id="fb-${sk}">${fb}</div>
+        ${!saved?`<div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>V&#233;rifier &rarr;</button></div>`:''}
+      </div>
+    </div>`;
   }
 
-  if (ex.type === 'memo') {
-    const fb = saved ? `<div class="card card-blue" style="margin-top:.8rem"><span class="slabel" style="color:var(--arc)">Ta r&#233;ponse</span><pre style="background:transparent;border:none;padding:0">${esc(saved.input)}</pre></div>
-      <div class="card card-warm" style="margin-top:.8rem"><span class="slabel">R&#233;ponse attendue</span><pre style="background:transparent;border:none;padding:0">${esc(ex.bonne)}</pre><p style="font-size:.82rem;color:var(--muted);margin-top:.6rem;line-height:1.6">${ex.explication}</p></div>` : '';
-    inner = `<p class="btext">${ex.question}</p>
-      <div class="card card-blue" style="text-align:center;padding:1.2rem;margin-bottom:1rem">
-        <p style="font-size:.68rem;color:var(--arc);font-family:monospace;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem">INDICE</p>
-        <p style="font-family:Fraunces,serif;font-size:.93rem;color:var(--text)">${ex.indice}</p>
-      </div>
-      ${!saved ? `<textarea class="memo" id="memo-${sk}" placeholder="&#201;cris ta r&#233;ponse sans regarder le cours&hellip;" rows="3"></textarea>` : ''}
-      <div id="fb-${sk}">${fb}</div>
-      ${!saved ? `<div class="brow">
-        <button class="btn btn-p" id="val-${sk}">V&#233;rifier &rarr;</button>
-        <button class="btn btn-g" data-show-answer="${sk}">Voir la r&#233;ponse</button>
-      </div>` : `<div class="brow">
-        <button class="btn btn-memo btn-ok" data-goto="${next}">&#10003; J&#8217;avais bon</button>
-        <button class="btn btn-memo btn-ko-m" data-goto="${next}">&#10007; &#192; retenir</button>
-      </div>`}`;
-  }
-
-  return `<div class="screen active">
-    <div class="card">
-      <div class="trow">
-        <span class="tag tag-a">Exercice ${exIdx+1} / ${lecon.exercices.length}</span>
-        <span class="tag ${tagCls}">${typeLbl}</span>
-      </div>
-      ${inner}
-    </div>
-  </div>`;
+  return '<div class="screen active"><p>Etape inconnue</p></div>';
 }
 
-function bindScreenEvents() {
-  const lecon = currentLecon;
-  const lid = lecon.id;
-  const ORD = getORD(lecon);
-  const cur = APP.stepsData[lid].current;
-  const next = ORD[ORD.indexOf(cur) + 1];
-
-  // data-goto buttons
-  document.querySelectorAll('[data-goto]').forEach(btn => {
-    btn.onclick = () => goStep(btn.dataset.goto);
-  });
-
-  // fin button
-  const finBtn = document.getElementById('finBtn');
-  if (finBtn) finBtn.onclick = () => finirLecon();
-
+function bindEvents(){
+  // goto
+  document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>goStep(b.dataset.goto));
+  // goto-list
+  document.querySelectorAll('[data-goto-list]').forEach(b=>b.onclick=()=>renderList());
+  // etapes
+  document.getElementById('etapes').onclick=e=>{const b=e.target.closest('.etape');if(b)goStep(b.dataset.step);};
   // logo
-  document.getElementById('logoBtn').onclick = () => renderList();
-  document.getElementById('navList').onclick = () => renderList();
+  document.getElementById('logoBtn').onclick=()=>renderList();
+  document.getElementById('navList').onclick=()=>renderList();
+  // fin
+  const fin=document.getElementById('finBtn');
+  if(fin) fin.onclick=()=>finirLecon();
+  // redo
+  document.querySelectorAll('[data-redo]').forEach(b=>b.onclick=()=>{delete APP.exScores[b.dataset.redo];save(APP);renderLecon();});
 
-  const exIdx = parseInt(cur.replace('ex','')) - 1;
-  if (isNaN(exIdx)) return;
-  const ex = lecon.exercices[exIdx];
-  const sk = lid + '-' + cur;
+  if(!CUR) return;
+  const lid=CUR.id, sd=APP.steps[lid], cur=sd.current;
+  const step=CUR.steps.find(s=>s.id===cur);
+  if(!step) return;
+  const sk=lid+'-'+cur;
 
-  // QCM / Debug
-  if (ex.type === 'qcm' || ex.type === 'debug') {
-    const valBtn = document.getElementById('val-' + sk);
-    let sel = null;
-
-    document.querySelectorAll('.opt:not([disabled])').forEach(opt => {
-      opt.onclick = () => {
-        sel = parseInt(opt.dataset.idx);
-        document.querySelectorAll('.opt').forEach(o => o.classList.remove('sel'));
-        opt.classList.add('sel');
-        if (valBtn) valBtn.disabled = false;
+  if(step.type==='qcm'){
+    const valBtn=document.getElementById('val-'+sk);
+    let sel=null;
+    document.querySelectorAll('.opt:not([disabled])').forEach(o=>{
+      o.onclick=()=>{
+        sel=parseInt(o.dataset.idx);
+        document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
+        o.classList.add('sel');
+        if(valBtn) valBtn.disabled=false;
       };
     });
-
-    if (valBtn) {
-      valBtn.onclick = () => {
-        if (sel === null) return;
-        const ok = sel === ex.bonne;
-        APP.exScores[sk] = { sel, ok };
-        save();
-        renderLecon();
-      };
-    }
-  }
-
-  // Completion
-  if (ex.type === 'completion') {
-    const valBtn = document.getElementById('val-' + sk);
-    const inputs = document.querySelectorAll('[data-comp="' + sk + '"]');
-    const prev = document.getElementById('prev-' + sk);
-
-    function updatePrev() {
-      let t = ex.template;
-      inputs.forEach((inp, i) => {
-        t = t.replace(['[A]','[B]','[C]'][i], inp.value || ['[?]','[?]','[?]'][i]);
-      });
-      if (prev) prev.textContent = t;
-      if (valBtn) valBtn.disabled = !Array.from(inputs).every(inp => inp.value.trim());
-    }
-
-    inputs.forEach(inp => { inp.oninput = updatePrev; });
-
-    if (valBtn) {
-      valBtn.onclick = () => {
-        const vals = Array.from(inputs).map(inp => inp.value.trim());
-        const valOk = vals.map((v, i) => v.toLowerCase() === ex.bonnes[i].toLowerCase());
-        const ok = valOk.every(Boolean);
-        APP.exScores[sk] = { vals, valOk, ok };
-        save();
-        renderLecon();
-      };
-    }
-  }
-
-  // Memo
-  if (ex.type === 'memo') {
-    const valBtn = document.getElementById('val-' + sk);
-    const showAns = document.querySelector('[data-show-answer="' + sk + '"]');
-
-    if (valBtn) {
-      valBtn.onclick = () => {
-        const input = document.getElementById('memo-' + sk);
-        if (!input || !input.value.trim()) return;
-        APP.exScores[sk] = { input: input.value.trim(), shown: false };
-        save();
-        renderLecon();
-      };
-    }
-
-    if (showAns) {
-      showAns.onclick = () => {
-        const fb = document.getElementById('fb-' + sk);
-        if (fb) fb.innerHTML = `<div class="card card-warm"><span class="slabel">R&#233;ponse</span><pre style="background:transparent;border:none;padding:0">${esc(ex.bonne)}</pre></div>`;
-      };
-    }
-  }
-
-  // data-redo
-  document.querySelectorAll('[data-redo]').forEach(btn => {
-    btn.onclick = () => {
-      delete APP.exScores[btn.dataset.redo];
-      save();
-      renderLecon();
+    if(valBtn) valBtn.onclick=()=>{
+      if(sel===null) return;
+      const ok=sel===step.bonne;
+      APP.exScores[sk]={sel,ok}; save(APP); renderLecon();
     };
-  });
+  }
+
+  if(step.type==='completion'){
+    const valBtn=document.getElementById('val-'+sk);
+    const inputs=document.querySelectorAll('[data-comp="'+sk+'"]');
+    const prev=document.getElementById('prev-'+sk);
+
+    function upPrev(){
+      let t=step.template;
+      inputs.forEach((inp,i)=>{ t=t.replace(['[A]','[B]','[C]'][i], inp.value||['[?]','[?]','[?]'][i]); });
+      if(prev) prev.textContent=t;
+      if(valBtn) valBtn.disabled=!Array.from(inputs).every(inp=>inp.value.trim());
+    }
+    inputs.forEach(inp=>inp.oninput=upPrev);
+
+    if(valBtn) valBtn.onclick=()=>{
+      const vals=Array.from(inputs).map(inp=>inp.value.trim());
+      const valOk=vals.map((v,i)=>v.toLowerCase()===step.bonnes[i].toLowerCase());
+      const ok=valOk.every(Boolean);
+      APP.exScores[sk]={vals,valOk,ok}; save(APP); renderLecon();
+    };
+  }
 }
 
-// ─── NAVIGATION ──────────────────────────────────────────────────────
-function goStep(sid) {
-  if (!currentLecon) return;
-  const lid = currentLecon.id;
-  const sd = APP.stepsData[lid];
-  if (!sd.done.includes(sd.current)) sd.done.push(sd.current);
-  sd.current = sid;
-  save();
-  renderLecon();
-  window.scrollTo(0, 0);
+function goStep(sid){
+  if(!CUR) return;
+  const lid=CUR.id, sd=APP.steps[lid];
+  if(!sd.done.includes(sd.current)) sd.done.push(sd.current);
+  sd.current=sid; save(APP); renderLecon(); window.scrollTo(0,0);
 }
 
-function finirLecon() {
-  if (!currentLecon) return;
-  APP.leconsDone[currentLecon.id] = true;
-  save();
-  renderList();
+function finirLecon(){
+  if(!CUR) return;
+  APP.done[CUR.id]=true; save(APP); renderList();
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────────
-document.getElementById('logoBtn').onclick = () => renderList();
-document.getElementById('navList').onclick = () => renderList();
-
-// Resume last visited lecon or show list
-if (APP.lastVisited && !APP.leconsDone[APP.lastVisited]) {
-  showLecon(APP.lastVisited);
+// ── INIT ─────────────────────────────────────────────────────
+if(APP.lastLecon && !APP.done[APP.lastLecon]){
+  showLecon(APP.lastLecon);
 } else {
   renderList();
 }
