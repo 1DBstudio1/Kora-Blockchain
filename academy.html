@@ -6,129 +6,149 @@
 <title>Kora Academy — React & JSX</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,wght@0,300;0,400;1,400&family=JetBrains+Mono&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FAFAFA;--white:#FFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--arc:#6BAED6;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--ok:#4caf50;--ko:#e57373}
+:root{--bg:#FAFAFA;--w:#FFF;--line:#EFEFEF;--tx:#1A1A1A;--mu:#737373;--li:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--arc:#6BAED6;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);--ok:#4caf50;--ko:#e57373;--purple:#7B5EA7}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;font-weight:300;min-height:100vh;padding-bottom:90px}
+body{background:var(--bg);color:var(--tx);font-family:"DM Sans",sans-serif;font-weight:300;min-height:100vh;padding-bottom:90px}
 /* HEADER */
 .hdr{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .hdr-top{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--line)}
 .logo{height:36px;border-radius:8px;padding:3px;box-shadow:0 0 0 1.5px var(--b2),0 0 0 3px rgba(232,149,109,.2);cursor:pointer}
-.htitle{font-family:"Fraunces",serif;font-size:.95rem;color:var(--text);margin-left:11px}
-.prog-wrap{display:flex;align-items:center;gap:8px}
-.pbar{width:80px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
-.pfill{height:100%;background:var(--grad);border-radius:2px;transition:width .4s;width:0%}
-.ppct{font-size:.72rem;color:var(--muted);min-width:28px;text-align:right}
-.bc{display:flex;align-items:center;gap:6px;padding:8px 18px;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--line);min-height:36px;flex-wrap:wrap}
-.bcl{cursor:pointer;transition:color .15s}.bcl:hover{color:var(--b1)}
-.bcs{color:var(--line)}.bca{color:var(--b1);font-weight:500}
-.etapes{display:flex;padding:0 14px;overflow-x:auto;border-bottom:1px solid var(--line)}
-.etapes::-webkit-scrollbar{height:0}
-.etape{display:flex;align-items:center;gap:5px;padding:8px 10px;font-size:.76rem;font-family:"DM Sans",sans-serif;color:var(--light);background:transparent;border:none;cursor:pointer;white-space:nowrap;position:relative;transition:color .2s}
-.etape.done{color:var(--b2)}.etape.active{color:var(--b1);font-weight:500}
-.etape.active::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--grad);border-radius:2px 2px 0 0}
-.edot{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:600;flex-shrink:0}
-.edot.done{background:var(--grad);color:#fff}.edot.active{background:rgba(107,31,42,.1);color:var(--b1);border:1.5px solid var(--b1)}.edot.idle{background:var(--line);color:var(--light)}
+.htitle{font-family:"Fraunces",serif;font-size:.95rem;color:var(--tx);margin-left:10px}
+.pw{display:flex;align-items:center;gap:8px}
+.pb{width:80px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.pf{height:100%;background:var(--grad);border-radius:2px;transition:width .4s;width:0%}
+.pp{font-size:.72rem;color:var(--mu);min-width:28px;text-align:right}
+.bc{display:flex;align-items:center;gap:6px;padding:8px 18px;font-size:.8rem;color:var(--mu);border-bottom:1px solid var(--line);min-height:36px;flex-wrap:wrap}
+.bcl{cursor:pointer;transition:color .15s}.bcl:hover{color:var(--b1)}.bcs{color:var(--line)}.bca{color:var(--b1);font-weight:500}
+.nav-et{display:flex;padding:0 12px;overflow-x:auto;border-bottom:1px solid var(--line)}.nav-et::-webkit-scrollbar{height:0}
+.et{display:flex;align-items:center;gap:4px;padding:8px 9px;font-size:.74rem;font-family:"DM Sans",sans-serif;color:var(--li);background:transparent;border:none;cursor:pointer;white-space:nowrap;position:relative;transition:color .2s}
+.et.done{color:var(--b2)}.et.active{color:var(--b1);font-weight:500}
+.et.active::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--grad);border-radius:2px 2px 0 0}
+.edot{width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;flex-shrink:0}
+.edot.done{background:var(--grad);color:#fff}.edot.active{background:rgba(107,31,42,.1);color:var(--b1);border:1.5px solid var(--b1)}.edot.idle{background:var(--line);color:var(--li)}
 /* PAGES */
 .page{display:none}.page.active{display:block}
-.wrap{max-width:660px;margin:0 auto;padding:1.6rem 1rem}
+.wrap{max-width:660px;margin:0 auto;padding:1.5rem 1rem}
 /* LIST */
-.hero{text-align:center;padding:2rem 1rem 1.2rem;max-width:600px;margin:0 auto}
-.hero h2{font-family:"Fraunces",serif;font-size:clamp(1.5rem,4vw,2rem);font-weight:300;letter-spacing:-.03em;line-height:1.3;margin-bottom:.7rem}
-.hero p{font-size:.87rem;color:var(--muted);line-height:1.7;max-width:420px;margin:0 auto 1.4rem}
-.stats-row{display:flex;justify-content:center;gap:24px;margin-bottom:1.6rem}
-.stat-n{font-family:"Fraunces",serif;font-size:1.8rem;color:var(--b1);line-height:1}
-.stat-l{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.hero{text-align:center;padding:1.8rem 1rem 1.2rem;max-width:580px;margin:0 auto}
+.hero h2{font-family:"Fraunces",serif;font-size:clamp(1.4rem,4vw,1.9rem);font-weight:300;letter-spacing:-.03em;line-height:1.3;margin-bottom:.6rem}
+.hero p{font-size:.86rem;color:var(--mu);line-height:1.7;max-width:400px;margin:0 auto 1.3rem}
+.stats{display:flex;justify-content:center;gap:24px;margin-bottom:1.5rem}
+.sn{font-family:"Fraunces",serif;font-size:1.8rem;color:var(--b1);line-height:1;text-align:center}
+.sl{font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;text-align:center}
 .llist{display:flex;flex-direction:column;gap:8px;padding:0 1rem;max-width:660px;margin:0 auto}
-.litem{display:flex;align-items:center;gap:12px;padding:13px 15px;background:var(--white);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:all .15s}
-.litem:hover{border-color:rgba(196,98,45,.25);background:#FFFAF8}
-.litem.done{border-color:rgba(76,175,80,.2);background:#F5FBF5}
-.lnum{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:600;flex-shrink:0;background:var(--grad);color:#fff}
+.li{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--w);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:all .15s}
+.li:hover{border-color:rgba(196,98,45,.25);background:#FFFAF8}.li.done{border-color:rgba(76,175,80,.2);background:#F5FBF5}
+.lnum{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.74rem;font-weight:600;flex-shrink:0;background:var(--grad);color:#fff}
 .lnum.ok{background:linear-gradient(135deg,#4caf50,#81c784)}
-.linfo{flex:1}.ltit{font-size:.88rem;font-weight:400;color:var(--text);margin-bottom:2px}
-.lsub{font-size:.73rem;color:var(--muted)}
-.lbadge{font-size:.68rem;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap}
+.linf{flex:1}.ltit{font-size:.87rem;font-weight:400;color:var(--tx);margin-bottom:2px}.lsub{font-size:.72rem;color:var(--mu)}
+.lbadge{font-size:.67rem;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap}
 .new{color:var(--b2);background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.2)}
 .fin{color:#2e7d32;background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.2)}
-/* LECON */
-.ltag{display:inline-flex;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3);border-radius:20px;padding:3px 11px;margin-bottom:10px}
-h1.lh{font-family:"Fraunces",serif;font-size:clamp(1.3rem,3.5vw,1.8rem);font-weight:400;letter-spacing:-.03em;line-height:1.2;margin-bottom:1.4rem}
+/* LECON HEADER */
+.ltag{display:inline-flex;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3);border-radius:20px;padding:2px 10px;margin-bottom:9px}
+h1.lh{font-family:"Fraunces",serif;font-size:clamp(1.2rem,3.5vw,1.7rem);font-weight:400;letter-spacing:-.03em;line-height:1.2;margin-bottom:1.3rem}
 .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:italic}
-.screen{display:none}.screen.active{display:block}
-.card{border:1px solid var(--line);border-radius:14px;padding:1.3rem;margin-bottom:1rem;background:var(--white)}
-.card-warm{background:rgba(107,31,42,.03);border-color:rgba(107,31,42,.1)}
-.card-blue{background:rgba(107,174,214,.04);border-color:rgba(107,174,214,.2)}
-.card-green{background:rgba(76,175,80,.03);border-color:rgba(76,175,80,.15)}
-.slabel{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--b2);margin-bottom:.6rem;display:block}
-.btext{font-size:.92rem;line-height:1.75;color:var(--text);margin-bottom:.9rem}
-.hint{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;background:rgba(107,31,42,.04);border-radius:8px;border:1px solid rgba(107,31,42,.08);margin-top:.4rem}
-.htx{font-size:.84rem;color:var(--b1);line-height:1.6}
-pre{background:#FDF6F0;border:1px solid rgba(107,31,42,.1);border-left:3px solid var(--b2);border-radius:10px;padding:.9rem 1rem;font-family:"JetBrains Mono",monospace;font-size:.78rem;line-height:1.85;color:var(--text);overflow-x:auto;white-space:pre;margin-bottom:.9rem}
+/* CARDS */
+.card{border:1px solid var(--line);border-radius:14px;padding:1.2rem;margin-bottom:.9rem;background:var(--w)}
+.c-warm{background:rgba(107,31,42,.03);border-color:rgba(107,31,42,.1)}
+.c-blue{background:rgba(107,174,214,.04);border-color:rgba(107,174,214,.2)}
+.c-green{background:rgba(76,175,80,.03);border-color:rgba(76,175,80,.15)}
+.c-purple{background:rgba(123,94,167,.04);border-color:rgba(123,94,167,.2)}
+.slabel{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--b2);margin-bottom:.6rem;display:block}
+.btext{font-size:.91rem;line-height:1.75;color:var(--tx);margin-bottom:.8rem}
+/* CODE */
+pre{background:#FDF6F0;border:1px solid rgba(107,31,42,.1);border-left:3px solid var(--b2);border-radius:10px;padding:.85rem .95rem;font-family:"JetBrains Mono",monospace;font-size:.77rem;line-height:1.85;color:var(--tx);overflow-x:auto;white-space:pre;margin-bottom:.8rem}
 /* OBSERVE */
-.obs-wrap{display:flex;flex-direction:column;gap:0;margin-bottom:.8rem}
-.obs-line{display:flex;gap:0;font-family:"JetBrains Mono",monospace;font-size:.77rem;line-height:1.6}
-.obs-code{flex:1;background:#FDF6F0;padding:3px 10px;color:var(--text);white-space:pre;overflow-x:auto;min-width:0;border-left:3px solid var(--b2)}
-.obs-code.empty{background:#FAFAFA;border-left-color:var(--line)}
-.obs-comment{flex:0 0 45%;background:#F5F0FF;padding:3px 10px;font-size:.73rem;color:#5C3D8F;font-family:"DM Sans",sans-serif;line-height:1.5;display:flex;align-items:center;border-left:2px solid #D4C4F5}
-.obs-comment:empty{display:none}
-@media(max-width:600px){.obs-line{flex-direction:column}.obs-comment{flex:auto;border-left:none;border-top:1px solid #D4C4F5}}
-/* REGLES */
-.regles{display:flex;flex-direction:column;gap:5px;margin-bottom:1rem}
-.regle{display:flex;gap:10px;align-items:flex-start;padding:8px 11px;border-radius:8px}
-.regle:nth-child(odd){background:#FAFAFA}
-.rprop{font-family:"JetBrains Mono",monospace;font-size:.75rem;color:var(--b1);min-width:100px;flex-shrink:0}
-.reff{font-size:.82rem;color:var(--muted);line-height:1.5}
+.obs{display:flex;flex-direction:column;margin-bottom:.7rem;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.obs-row{display:flex;border-bottom:1px solid var(--line)}
+.obs-row:last-child{border-bottom:none}
+.obs-code{flex:1;background:#FDF6F0;padding:3px 10px;font-family:"JetBrains Mono",monospace;font-size:.74rem;line-height:1.7;color:var(--tx);white-space:pre;overflow-x:auto;min-width:0;border-left:3px solid var(--b2)}
+.obs-code.mt{background:#FAFAFA;border-left-color:var(--line);color:var(--li)}
+.obs-expl{flex:0 0 42%;background:#F5F0FF;padding:4px 10px;font-size:.72rem;color:#4A3070;font-family:"DM Sans",sans-serif;line-height:1.5;display:flex;align-items:center;border-left:2px solid #D4C4F5}
+@media(max-width:560px){.obs-row{flex-direction:column}.obs-expl{flex:auto;border-left:none;border-top:1px solid #D4C4F5}}
+/* COMPARAISON */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.8rem}
+@media(max-width:520px){.cmp{grid-template-columns:1fr}}
+.cmp-side{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.cmp-title{font-size:.72rem;font-weight:500;padding:6px 10px;background:var(--bg);color:var(--mu);border-bottom:1px solid var(--line)}
+.cmp-side.bad .cmp-title{background:rgba(229,115,115,.07);color:#c62828}
+.cmp-side.good .cmp-title{background:rgba(76,175,80,.07);color:#2e7d32}
+.cmp-side pre{margin:0;border-radius:0;border:none;border-left:none;font-size:.72rem}
+.cmp-note{font-size:.75rem;color:var(--mu);padding:6px 10px;background:#FAFAFA;border-top:1px solid var(--line);line-height:1.5}
+/* LISTE POINTS */
+.points{display:flex;flex-direction:column;gap:6px;margin-top:.6rem}
+.point{display:flex;align-items:flex-start;gap:8px;font-size:.85rem;color:var(--tx);line-height:1.5}
+.pdot{width:6px;height:6px;border-radius:50%;background:var(--b2);flex-shrink:0;margin-top:7px}
 /* BTNS */
-.btn{display:inline-flex;align-items:center;gap:6px;border-radius:22px;padding:10px 20px;font-family:"DM Sans",sans-serif;font-size:.86rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
+.btn{display:inline-flex;align-items:center;gap:6px;border-radius:22px;padding:10px 20px;font-family:"DM Sans",sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
 .btn-p{background:var(--grad);color:#fff}.btn-p:hover{opacity:.88}
 .btn-o{background:transparent;color:var(--b1);border:1px solid rgba(107,31,42,.25)}
-.btn-g{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.btn-g{background:transparent;color:var(--mu);border:1px solid var(--line)}
 .btn:disabled{opacity:.35;cursor:default}
 .brow{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
-/* EXERCICES */
-.ex-ctx{font-size:.82rem;color:var(--arc);background:rgba(107,174,214,.07);border:1px solid rgba(107,174,214,.2);border-radius:8px;padding:8px 12px;margin-bottom:.9rem;line-height:1.5}
-.trow{display:flex;gap:7px;margin-bottom:1rem;flex-wrap:wrap}
-.tag{display:inline-flex;border-radius:20px;padding:3px 11px;font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.tag-a{color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3)}
-.tag-b{color:var(--b2);background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.25)}
-.opts{display:flex;flex-direction:column;gap:7px;margin-bottom:.9rem}
-.opt{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;border-radius:10px;border:1px solid var(--line);background:var(--white);cursor:pointer;font-size:.86rem;font-family:"DM Sans",sans-serif;color:var(--muted);text-align:left;transition:all .15s;width:100%}
-.opt:hover:not([disabled]){border-color:var(--b2);color:var(--b1);background:#FDF6F0}
-.opt.sel{border-color:var(--b2);color:var(--b1);background:#FDF6F0}
-.opt.ok{border-color:var(--ok);color:#2e7d32;background:#F0F8F0}
-.opt.ko{border-color:var(--ko);color:#c62828;background:#FDF0F0}
-.oltr{font-family:"Fraunces",serif;opacity:.4;flex-shrink:0;width:18px;margin-top:1px}
-.irow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:.9rem}
-.igrp label{font-size:.73rem;color:var(--muted);display:block;margin-bottom:3px;font-family:"JetBrains Mono",monospace}
-.igrp input{border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:.83rem;font-family:"JetBrains Mono",monospace;background:var(--white);color:var(--text);outline:none;width:200px;transition:border-color .2s}
+.tag{display:inline-flex;border-radius:20px;padding:3px 11px;font-size:.67rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.tag-ordre{color:var(--purple);background:rgba(123,94,167,.1);border:1px solid rgba(123,94,167,.3)}
+.tag-dev{color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3)}
+.tag-int{color:var(--b2);background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.25)}
+.trow{display:flex;gap:6px;margin-bottom:.9rem;flex-wrap:wrap}
+/* EX CONTEXTE */
+.ex-ctx{font-size:.81rem;color:var(--arc);background:rgba(107,174,214,.07);border:1px solid rgba(107,174,214,.2);border-radius:8px;padding:8px 12px;margin-bottom:.8rem;line-height:1.5}
+/* ORDRE */
+.ordre-area{display:flex;flex-direction:column;gap:0;margin-bottom:.8rem}
+.ordre-item{padding:9px 12px;background:var(--w);border:1px solid var(--line);border-radius:0;font-family:"JetBrains Mono",monospace;font-size:.78rem;line-height:1.5;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:8px;border-bottom:none}
+.ordre-item:first-child{border-radius:8px 8px 0 0}
+.ordre-item:last-child{border-radius:0 0 8px 8px;border-bottom:1px solid var(--line)}
+.ordre-item.sel{background:#FDF6F0;border-color:var(--b2);z-index:1;position:relative}
+.ordre-item.placed{background:#F0F8F0;border-color:var(--ok);color:var(--tx)}
+.ordre-item.wrong{background:#FDF0F0;border-color:var(--ko)}
+.ordre-num{width:20px;height:20px;border-radius:50%;background:var(--line);color:var(--mu);font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:"DM Sans",sans-serif}
+.ordre-num.active-n{background:var(--b2);color:#fff}
+.melange{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.9rem;padding:.8rem;background:#FAFAFA;border:1px solid var(--line);border-radius:10px}
+.mel-item{padding:7px 12px;background:var(--w);border:1px solid var(--line);border-radius:8px;font-family:"JetBrains Mono",monospace;font-size:.77rem;cursor:pointer;transition:all .15s}
+.mel-item:hover{border-color:var(--b2);background:#FDF6F0}
+.mel-item.sel{border-color:var(--b2);background:#FDF6F0;font-weight:500}
+.mel-item.used{opacity:.3;cursor:default;pointer-events:none}
+/* DEVINETTE */
+.devs{display:flex;flex-direction:column;gap:8px;margin-bottom:.9rem}
+.dev{display:flex;align-items:flex-start;gap:9px;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:var(--w);cursor:pointer;font-size:.86rem;font-family:"DM Sans",sans-serif;color:var(--mu);text-align:left;transition:all .15s;width:100%}
+.dev:hover:not([disabled]){border-color:var(--b2);color:var(--b1);background:#FDF6F0}
+.dev.sel{border-color:var(--b2);color:var(--b1);background:#FDF6F0}
+.dev.ok{border-color:var(--ok);color:#2e7d32;background:#F0F8F0}
+.dev.ko{border-color:var(--ko);color:#c62828;background:#FDF0F0}
+.dltr{font-size:.85rem;font-weight:700;opacity:.5;flex-shrink:0;width:16px}
+/* INTEGRATION */
+.irow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:.8rem}
+.igrp label{font-size:.72rem;color:var(--mu);display:block;margin-bottom:3px;font-family:"JetBrains Mono",monospace}
+.igrp input{border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:.82rem;font-family:"JetBrains Mono",monospace;background:var(--w);color:var(--tx);outline:none;width:220px;transition:border-color .2s}
 .igrp input:focus{border-color:var(--b2)}.igrp input.ok{border-color:var(--ok);background:#F0F8F0}.igrp input.ko{border-color:var(--ko);background:#FDF0F0}
-pre.prev-tpl{background:#F5F0FF;border-color:#D4C4F5;border-left-color:#7B5EA7}
-.aide{font-size:.82rem;color:#5C3D8F;background:rgba(123,94,167,.06);border:1px solid rgba(123,94,167,.2);border-radius:8px;padding:8px 12px;margin:.6rem 0;line-height:1.5}
-textarea.memo{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-family:"JetBrains Mono",monospace;font-size:.83rem;color:var(--text);outline:none;resize:vertical;min-height:65px;margin:.7rem 0 .4rem;transition:border-color .2s}
-textarea.memo:focus{border-color:rgba(123,94,167,.5)}
-.fb{border-radius:10px;padding:.9rem;margin-top:9px}
+pre.tpl{background:#F5F0FF;border-color:#D4C4F5;border-left-color:var(--purple)}
+.aide{font-size:.81rem;color:#4A3070;background:rgba(123,94,167,.06);border:1px solid rgba(123,94,167,.18);border-radius:8px;padding:8px 12px;margin:.5rem 0;line-height:1.5}
+/* FB */
+.fb{border-radius:10px;padding:.9rem;margin-top:.8rem}
 .fb.ok{background:#F0F8F0;border:1px solid var(--ok)}.fb.ko{background:#FDF0F0;border:1px solid var(--ko)}
-.fbt{font-weight:600;font-size:.88rem;margin-bottom:4px}
+.fbt{font-weight:600;font-size:.87rem;margin-bottom:4px}
 .fb.ok .fbt{color:#2e7d32}.fb.ko .fbt{color:#c62828}
-.fbx{color:var(--muted);font-size:.83rem;line-height:1.6}
+.fbx{color:var(--mu);font-size:.82rem;line-height:1.6}
 /* RESUME */
-.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:9px;margin-bottom:1rem}
-.ri{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.9rem}
-.ric{font-size:1rem;margin-bottom:.3rem}
-.rik{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--b1);margin-bottom:.2rem;font-weight:500}
-.riv{font-size:.8rem;color:var(--muted);line-height:1.5}
-.rfooter{border-top:1px solid rgba(107,31,42,.1);padding-top:.9rem;margin-top:.4rem}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-bottom:.9rem}
+.ri{background:var(--w);border:1px solid var(--line);border-radius:10px;padding:.85rem}
+.ric{font-size:1rem;margin-bottom:.25rem}
+.rik{font-family:"JetBrains Mono",monospace;font-size:.74rem;color:var(--b1);margin-bottom:.2rem;font-weight:500}
+.riv{font-size:.79rem;color:var(--mu);line-height:1.5}
+.rfooter{border-top:1px solid rgba(107,31,42,.1);padding-top:.8rem;margin-top:.3rem}
 /* EVAL */
-.eval-card{background:linear-gradient(135deg,rgba(107,31,42,.04),rgba(232,149,109,.06));border:1px solid rgba(196,98,45,.2);border-radius:16px;padding:1.5rem;text-align:center;margin:1.4rem 1rem}
-.eval-card h3{font-family:"Fraunces",serif;font-size:1.05rem;font-weight:400;color:var(--text);margin-bottom:.4rem}
-.eval-card p{font-size:.83rem;color:var(--muted);line-height:1.6;margin-bottom:.9rem}
-.eval-lock{font-size:.8rem;color:var(--light);margin-top:.4rem}
+.eval-card{background:linear-gradient(135deg,rgba(107,31,42,.04),rgba(232,149,109,.06));border:1px solid rgba(196,98,45,.2);border-radius:16px;padding:1.4rem;text-align:center;margin:1.3rem 1rem}
+.eval-card h3{font-family:"Fraunces",serif;font-size:1.05rem;font-weight:400;color:var(--tx);margin-bottom:.35rem}
+.eval-card p{font-size:.82rem;color:var(--mu);line-height:1.6;margin-bottom:.8rem}
+.eval-lock{font-size:.79rem;color:var(--li);margin-top:.35rem}
 /* MOB NAV */
 .mobnav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:200;padding:5px 0}
 .mobi{display:flex;justify-content:space-around}
-.mitem{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.66rem;color:var(--light);cursor:pointer;padding:4px 14px;transition:color .15s;text-decoration:none}
-.mitem.active{color:var(--b1)}.mic{font-size:1.3rem;line-height:1.2}
+.mitem{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.65rem;color:var(--li);cursor:pointer;padding:4px 14px;transition:color .15s;text-decoration:none}
+.mitem.active{color:var(--b1)}.mic{font-size:1.25rem;line-height:1.2}
 @media(max-width:680px){.mobnav{display:block}}
-@media(max-width:480px){.regle{flex-direction:column;gap:2px}.rprop{min-width:auto}.wrap{padding:1.2rem .8rem}}
+@media(max-width:480px){.wrap{padding:1.2rem .75rem}}
 </style>
 </head>
 <body>
@@ -138,23 +158,23 @@ textarea.memo:focus{border-color:rgba(123,94,167,.5)}
       <img src="logo.jpg" alt="Kora" class="logo" id="logoBtn">
       <span class="htitle" id="htitle">Kora Academy</span>
     </div>
-    <div class="prog-wrap" id="progWrap" style="display:none">
-      <div class="pbar"><div class="pfill" id="pfill"></div></div>
-      <span class="ppct" id="ppct">0%</span>
+    <div class="pw" id="prog-wrap" style="display:none">
+      <div class="pb"><div class="pf" id="pfill"></div></div>
+      <span class="pp" id="ppct">0%</span>
     </div>
   </div>
   <div class="bc" id="bc"><span class="bca">React &amp; JSX</span></div>
-  <div class="etapes" id="etapes" style="display:none"></div>
+  <div class="nav-et" id="nav-et" style="display:none"></div>
 </div>
 
 <div class="page active" id="page-list">
   <div class="hero">
     <h2>React &amp; JSX &mdash; <em class="grad">Apprendre en faisant</em></h2>
-    <p>10 le&#231;ons. Chacune : pourquoi, observe, r&#233;p&#232;te, adapte, cr&#233;e. Exemples tir&#233;s de Kora et DB Studio.</p>
-    <div class="stats-row">
-      <div class="stat"><div class="stat-n" id="statDone">0</div><div class="stat-l">termin&#233;es</div></div>
-      <div class="stat"><div class="stat-n">10</div><div class="stat-l">le&#231;ons</div></div>
-      <div class="stat"><div class="stat-n" id="statPct">0%</div><div class="stat-l">progression</div></div>
+    <p>10 le&#231;ons progressives. Chacune : comprendre le probl&#232;me, observer le code, s&#8217;exercer. Exemples tir&#233;s de Kora et DB Studio.</p>
+    <div class="stats">
+      <div><div class="sn" id="statDone">0</div><div class="sl">termin&#233;es</div></div>
+      <div><div class="sn">10</div><div class="sl">le&#231;ons</div></div>
+      <div><div class="sn" id="statPct">0%</div><div class="sl">progression</div></div>
     </div>
   </div>
   <div class="llist" id="llist"></div>
@@ -178,303 +198,394 @@ textarea.memo:focus{border-color:rgba(123,94,167,.5)}
 </div>
 
 <script>
-const LECONS = [{"id": "r1", "num": 1, "titre": "Pourquoi React", "sous": "De JS vanilla à React", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Tu connais JS vanilla. Tu sais faire querySelector, addEventListener, textContent. Le problème : dès que la page devient dynamique, ton code devient un spaghetti.", "exemple_kora": "Sur Kora, chaque post a un compteur de likes. En vanilla : quand tu cliques Like, tu dois trouver le bon élément, mettre à jour le chiffre, changer la couleur du bouton, vérifier si tu avais déjà liké... 50 lignes de querySelector pour un bouton. Avec React : tu décris juste à quoi ressemble le bouton selon l'état. React fait le reste.", "code_vanilla": "// Vanilla — tu COMMANDES chaque changement\nconst btn = document.querySelector('#like-42');\nconst counter = document.querySelector('#count-42');\n\nbtn.addEventListener('click', () => {\n  let count = parseInt(counter.textContent);\n  count++;\n  counter.textContent = count;      // mise à jour du chiffre\n  btn.classList.add('liked');       // mise à jour du style\n  // Et si le post est supprimé pendant ce temps ? Bug.\n});", "code_react": "// React — tu DÉCRIS ce qui doit s'afficher\nfunction BoutonLike({ initialLikes }) {\n  const [likes, setLikes] = useState(initialLikes);\n  const [likee, setLikee] = useState(false);\n\n  return (\n    <button\n      onClick={() => { setLikes(likes + 1); setLikee(true); }}\n      className={likee ? 'liked' : ''}>\n      {likes} Likes\n    </button>\n  );\n  // React met à jour le DOM automatiquement.", "a_retenir": "React = tu décris l'état. Le DOM se met à jour tout seul."}}, {"id": "observe", "type": "observe", "titre": "Observe — un composant React ligne par ligne", "code_annote": [{"line": "function TokenBadge({ tokens }) {", "comment": "Une fonction JS normale. Le nom commence par une MAJUSCULE. Elle reçoit 'tokens' en paramètre — c'est une prop."}, {"line": "  const [montant, setMontant] = useState(tokens);", "comment": "useState = mémoriser une valeur. montant = la valeur actuelle. setMontant = la fonction pour la changer. React re-rend le composant à chaque changement."}, {"line": "  return (", "comment": "return = ce que React va afficher dans la page."}, {"line": "    <div className=\"badge\">", "comment": "JSX — ressemble à du HTML mais c'est du JavaScript. className à la place de class (class est un mot réservé JS)."}, {"line": "      <span>{montant} KRT</span>", "comment": "Les accolades {} permettent d'injecter une valeur JS dans le JSX. {montant} affiche la valeur de la variable."}, {"line": "      <button onClick={() => setMontant(montant + 10)}>", "comment": "onClick reçoit une fonction — pas un appel. () => setMontant(...) est une arrow function qui s'exécute au clic."}, {"line": "        + 10 tokens", "comment": "Le texte du bouton."}, {"line": "      </button>", "comment": "Toutes les balises JSX doivent être fermées."}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": "Fin du composant."}]}, {"id": "ex1", "type": "completion", "titre": "Répète — recopie ce qu'on vient de voir", "instruction": "La structure d'un composant React. Complète avec ce que tu viens de lire.", "contexte": "Tu construis l'affichage du score d'un utilisateur Kora.", "labels": ["mot-clé useState", "valeur initiale", "prop reçue"], "bonnes": ["useState", "score", "{ score }"], "template": "function ScoreBadge([A]) {\n  const [montant, setMontant] = [B](score);\n\n  return (\n    <div className=\"score\">\n      <span>{montant} pts</span>\n    </div>\n  );\n}", "aide": "La fonction reçoit score entre accolades (destructuration). useState(score) initialise l'état avec la valeur reçue."}, {"id": "ex2", "type": "completion", "titre": "Adapte — même structure, contexte différent", "instruction": "Même principe que l'exercice précédent, mais pour le nombre de leçons complétées sur Kora Academy.", "contexte": "Un badge qui affiche le nombre de leçons finies et un bouton pour simuler la complétion.", "labels": ["prop reçue", "valeur dans le JSX", "événement clic"], "bonnes": ["{ leconsDone }", "lecons", "() => setLecons(lecons + 1)"], "template": "function ProgressBadge([A]) {\n  const [lecons, setLecons] = useState(leconsDone);\n\n  return (\n    <div>\n      <p>{[B]} leçons terminées</p>\n      <button onClick={[C]}>\n        Terminer une leçon\n      </button>\n    </div>\n  );\n}", "aide": "leconsDone est la prop. lecons est l'état local. Au clic, on ajoute 1 avec setLecons(lecons + 1)."}, {"id": "ex3", "type": "qcm", "titre": "Crée — raisonne par toi-même", "question": "Sur la page d'accueil de Kora, il y a un compteur de posts publiés qui s'incrémente quand tu cliques 'Publier'. Quel est le bon code React ?", "options": ["document.querySelector('#counter').textContent++;", "const [posts, setPosts] = useState(0); puis <button onClick={() => setPosts(posts + 1)}>", "const posts = 0; posts = posts + 1;", "useEffect(() => { posts++; }, []);"], "bonne": 1, "explication": "useState(0) initialise le compteur à 0. setPosts(posts + 1) met à jour l'état au clic. React re-rend automatiquement avec le nouveau chiffre. Le querySelector vanilla ne déclencherait pas de re-render."}], "resume": [{"icon": "🧩", "key": "Composant", "val": "Fonction JS qui retourne du JSX. Nom en Majuscule."}, {"icon": "💾", "key": "useState", "val": "Mémorise une valeur. Change → React re-rend."}, {"icon": "🏷️", "key": "JSX", "val": "HTML dans JS. className pas class. {} pour les variables."}, {"icon": "🎯", "key": "onClick", "val": "Passe une fonction, pas un appel. () => fn() pas fn()."}]}, {"id": "r2", "num": 2, "titre": "Les composants", "sous": "Découper l'interface en blocs", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Sur ton site DB Studio, tu as probablement copié-collé le même bloc HTML pour chaque service. Si tu veux changer le style, tu le changes 8 fois. React résout ça avec les composants : tu écris une fois, tu réutilises partout.", "exemple_kora": "Kora a des dizaines de posts. Au lieu d'écrire le HTML de chaque post à la main, tu crées un composant <Post> une seule fois. Tu l'utilises autant de fois que tu veux en lui passant des données différentes.", "code_vanilla": "<!-- Vanilla — copié-collé 50 fois -->\n<div class=\"post\">\n  <span class=\"auteur\">Val</span>\n  <p>Mon premier post Kora</p>\n  <button>284 Likes</button>\n</div>\n<div class=\"post\">\n  <span class=\"auteur\">Marc</span>\n  <p>La blockchain c'est l'avenir</p>\n  <button>47 Likes</button>\n</div>", "code_react": "// React — composant réutilisable\nfunction Post({ auteur, texte, likes }) {\n  return (\n    <div className=\"post\">\n      <span className=\"auteur\">{auteur}</span>\n      <p>{texte}</p>\n      <button>{likes} Likes</button>\n    </div>\n  );\n}\n\n// Utilisation — données différentes, même structure\n<Post auteur=\"Val\" texte=\"Mon premier post\" likes={284} />\n<Post auteur=\"Marc\" texte=\"La blockchain...\" likes={47} />", "a_retenir": "Props = les paramètres d'un composant. Données venant du parent. Lecture seule."}}, {"id": "observe", "type": "observe", "titre": "Observe — composant avec props, ligne par ligne", "code_annote": [{"line": "function CarteFormation({ titre, lecons, completee }) {", "comment": "Les props sont destructurées directement dans les paramètres. Équivalent à : const { titre, lecons, completee } = props."}, {"line": "  return (", "comment": "Un composant retourne toujours UN seul élément racine."}, {"line": "    <div className={completee ? 'carte done' : 'carte'}>", "comment": "Expression JS dans className : si completee est true, on ajoute la classe 'done'."}, {"line": "      <h3>{titre}</h3>", "comment": "La prop titre est injectée entre les balises h3."}, {"line": "      <p>{lecons} leçons</p>", "comment": "On peut mélanger une variable et du texte dans le JSX."}, {"line": "      {completee && <span>✓ Terminée</span>}", "comment": "Rendu conditionnel : si completee est true, affiche le span. Si false, n'affiche rien."}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}, {"line": "", "comment": ""}, {"line": "// Utilisation :", "comment": ""}, {"line": "<CarteFormation titre=\"React\" lecons={10} completee={false} />", "comment": "Les props string sans {}, les nombres et booléens avec {}."}]}, {"id": "ex1", "type": "completion", "titre": "Répète — compose le composant Post de Kora", "instruction": "Tu as vu comment passer des props. Complète ce composant Post.", "contexte": "Chaque post sur Kora affiche l'auteur, le texte et le nombre de likes.", "labels": ["destructuration props", "prop auteur dans JSX", "prop likes dans JSX"], "bonnes": ["{ auteur, texte, likes }", "{auteur}", "{likes}"], "template": "function Post([A]) {\n  return (\n    <div className=\"post\">\n      <strong>[B]</strong>\n      <p>{texte}</p>\n      <button>[C] Likes</button>\n    </div>\n  );\n}", "aide": "Les props se destructurent entre accolades dans les paramètres. Dans le JSX, chaque variable s'écrit entre accolades."}, {"id": "ex2", "type": "completion", "titre": "Adapte — affichage conditionnel", "instruction": "Sur Kora, les comptes vérifiés ont un badge. Complète le composant.", "contexte": "Si l'auteur est vérifié, afficher le badge ✓. Sinon, rien.", "labels": ["prop booléenne", "rendu conditionnel"], "bonnes": ["verifie", "verifie && <span className=\"badge\">✓</span>"], "template": "function Post({ auteur, texte, [A] }) {\n  return (\n    <div className=\"post\">\n      <div className=\"header\">\n        <strong>{auteur}</strong>\n        {[B]}\n      </div>\n      <p>{texte}</p>\n    </div>\n  );\n}", "aide": "Le && en JSX = afficher seulement si la condition est vraie. verifie && <JSX> affiche JSX uniquement si verifie est true."}, {"id": "ex3", "type": "qcm", "titre": "Crée — repère l'erreur", "question": "Tu écris un composant NavKora mais il ne s'affiche pas. Pourquoi ?", "options": ["function navKora({ logo }) { return <nav>{logo}</nav>; }", "function NavKora({ logo }) { return <nav>{logo}</nav>; }", "function NavKora(logo) { return <nav>{logo}</nav>; }", "function NavKora({ logo }) { return <nav><logo /></nav>; }"], "bonne": 1, "explication": "Le nom navKora avec un n minuscule est traité comme une balise HTML inconnue par React. PascalCase obligatoire. Les props se destructurent avec {}, pas sans. Et logo est une string qu'on affiche avec {logo}, pas <logo />."}], "resume": [{"icon": "🏗️", "key": "Composant", "val": "function Nom({ props }) { return JSX; }"}, {"icon": "📫", "key": "Props", "val": "Données du parent. Lecture seule. Jamais modifier."}, {"icon": "🔤", "key": "PascalCase", "val": "NavBar pas navbar — sinon React le traite comme du HTML."}, {"icon": "🔀", "key": "cond &&", "val": "Affiche JSX si condition est true. Rien sinon."}]}, {"id": "r3", "num": 3, "titre": "Le JSX", "sous": "HTML dans JavaScript", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Le JSX ressemble à du HTML mais c'est du JavaScript. Babel le transforme en appels JS. Ça crée quelques différences à connaître — et si tu les ignores, tes composants ne compilent pas.", "exemple_kora": "Sur le site Le Napoléon que tu as fait : tu as écrit class= dans le HTML. En React, tu dois écrire className= sinon erreur. Pareil pour for= sur les labels → htmlFor=.", "code_vanilla": "<!-- HTML normal -->\n<div class=\"hero\">\n  <label for=\"email\">Email</label>\n  <input type=\"email\" id=\"email\">\n  <p style=\"color: red\">Erreur</p>\n</div>", "code_react": "// JSX — les différences\n<div className=\"hero\">\n  <label htmlFor=\"email\">Email</label>\n  <input type=\"email\" id=\"email\" />\n  <p style={{ color: 'red' }}>Erreur</p>\n</div>\n// className pas class\n// htmlFor pas for\n// balises auto-fermantes avec />\n// style = objet JS avec doubles accolades", "a_retenir": "JSX = JavaScript déguisé en HTML. Les accolades {} = du JS à l'intérieur."}}, {"id": "observe", "type": "observe", "titre": "Observe — JSX commenté ligne par ligne", "code_annote": [{"line": "function HeroKora({ titre, estPremium, couleur }) {", "comment": "Props : titre (string), estPremium (boolean), couleur (string pour le style)."}, {"line": "  return (", "comment": "Un return JSX doit avoir un seul élément racine. Si tu as besoin de plusieurs éléments, utilise <> </>."}, {"line": "    <section className=\"hero\">", "comment": "className à la place de class — class est un mot réservé JavaScript."}, {"line": "      <h1 style={{ color: couleur }}>", "comment": "style en JSX = objet JS. Double accolades : les extérieures = expression JS, les intérieures = l'objet. Propriétés en camelCase : backgroundColor pas background-color."}, {"line": "        {titre}", "comment": "La prop titre est injectée ici. Toute expression JS valide peut aller entre {}."}, {"line": "      </h1>", "comment": ""}, {"line": "      {estPremium && (", "comment": "Rendu conditionnel. Si estPremium est false, rien n'est rendu."}, {"line": "        <span className=\"badge-premium\">⭐ Premium</span>", "comment": ""}, {"line": "      )}", "comment": ""}, {"line": "      {!estPremium && (", "comment": "! inverse la condition. S'affiche quand l'utilisateur n'est PAS premium."}, {"line": "        <button className=\"btn-upgrade\">Passer Premium</button>", "comment": ""}, {"line": "      )}", "comment": ""}, {"line": "    </section>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — convertis du HTML en JSX", "instruction": "Tu connais ce HTML de DB Studio. Convertis-le en JSX valide.", "contexte": "Le header du site client Le Napoléon.", "labels": ["attribut classe", "attribut label"], "bonnes": ["className", "htmlFor"], "template": "// Convertis ce HTML en JSX\nfunction HeaderNapoleon() {\n  return (\n    <header [A]=\"header-dark\">\n      <nav>\n        <label [B]=\"menu-toggle\">Menu</label>\n        <input type=\"checkbox\" id=\"menu-toggle\" />\n      </nav>\n    </header>\n  );\n}", "aide": "En JSX : class → className. for → htmlFor. Ce sont les seuls attributs qui changent de nom."}, {"id": "ex2", "type": "completion", "titre": "Adapte — style dynamique et conditions", "instruction": "Le prix d'une offre DB Studio s'affiche en rouge si c'est la plus chère, en vert sinon.", "contexte": "Composant carte de prix pour DB Studio.", "labels": ["style dynamique", "badge si isPremier"], "bonnes": ["{ color: isMax ? 'var(--rouge)' : 'var(--vert)' }", "isMax && <span className=\"badge\">TOP</span>"], "template": "function CarteOffre({ nom, prix, isMax }) {\n  return (\n    <div className=\"carte-offre\">\n      <h3>{nom}</h3>\n      <p style={[A]}>\n        {prix}€/mois\n      </p>\n      {[B]}\n    </div>\n  );\n}", "aide": "style en JSX prend un objet JS : style={{ propriété: valeur }}. Le ternaire choisit la couleur selon isMax."}, {"id": "ex3", "type": "qcm", "titre": "Crée — repère le bug JSX", "question": "Ce composant ne compile pas. Pourquoi ?", "options": ["function Profil() { return <h1>Kora</h1><p>Bienvenue</p>; }", "function Profil() { return (<><h1>Kora</h1><p>Bienvenue</p></>); }", "function Profil() { return (<div><h1>Kora</h1><p>Bienvenue</p></div>); }", "B et C sont tous les deux corrects, A est incorrect"], "bonne": 3, "explication": "JSX ne peut retourner qu'un seul élément racine. A est incorrect : deux éléments frères sans wrapper. B utilise un Fragment <> </> — invisible dans le DOM. C utilise une div. Les deux sont valides. D est la bonne réponse car B ET C fonctionnent."}], "resume": [{"icon": "🏷️", "key": "className", "val": "class → className. for → htmlFor."}, {"icon": "🎨", "key": "style={{}}", "val": "Objet JS. camelColor pas color-bg. Doubles accolades."}, {"icon": "🔀", "key": "Conditions", "val": "cond && <JSX>. cond ? <A/> : <B/>"}, {"icon": "📦", "key": "Fragment <>", "val": "Wrapper invisible. Pas de div inutile dans le DOM."}]}, {"id": "r4", "num": 4, "titre": "useState", "sous": "Mémoriser et changer des données", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Un composant React normal est statique — il affiche ce qu'on lui passe et c'est tout. Pour qu'il réagisse aux clics, aux saisies, aux changements, il faut un état : useState.", "exemple_kora": "Sur Kora : le bouton Like. Au clic, le chiffre augmente et le bouton change de couleur. C'est un état. Sur DB Studio : ton formulaire de contact, le champ email que l'utilisateur remplit. C'est un état.", "code_vanilla": "// En vanilla, tu modifies le DOM directement\nlet count = 0;\nbtn.onclick = () => {\n  count++;\n  document.querySelector('#count').textContent = count;\n  // Tu dois penser à mettre à jour chaque élément à la main", "code_react": "// En React, tu modifies l'état — React s'occupe du DOM\nconst [count, setCount] = useState(0);\n// count = valeur actuelle\n// setCount = fonction pour changer la valeur\n// Quand setCount est appelé → React re-rend le composant\n\n<button onClick={() => setCount(count + 1)}>\n  {count}\n</button>", "a_retenir": "useState(valeurInitiale) retourne [valeurActuelle, fonctionDeChangement]. Appelle la fonction → React re-rend."}}, {"id": "observe", "type": "observe", "titre": "Observe — useState dans un vrai composant Kora", "code_annote": [{"line": "import { useState } from 'react';", "comment": "On importe useState depuis React. Sans cet import, ça ne marche pas."}, {"line": "", "comment": ""}, {"line": "function BoutonLike({ postId, initialLikes }) {", "comment": "On reçoit postId (pour l'API plus tard) et initialLikes (le nombre de likes de départ)."}, {"line": "  const [likes, setLikes] = useState(initialLikes);", "comment": "likes = valeur actuelle. setLikes = fonction pour changer. useState(initialLikes) = commence avec la valeur reçue en prop."}, {"line": "  const [likee, setLikee] = useState(false);", "comment": "Un deuxième état pour savoir si cet utilisateur a déjà liké. false au départ."}, {"line": "", "comment": ""}, {"line": "  const handleClick = () => {", "comment": "La fonction qui gère le clic — on la définit séparément pour garder le JSX lisible."}, {"line": "    if (likee) {", "comment": "Si l'utilisateur a déjà liké..."}, {"line": "      setLikes(likes - 1);", "comment": "On enlève un like."}, {"line": "      setLikee(false);", "comment": "On repasse l'état à non-liké."}, {"line": "    } else {", "comment": "Sinon..."}, {"line": "      setLikes(likes + 1);", "comment": "On ajoute un like."}, {"line": "      setLikee(true);", "comment": "On marque comme liké."}, {"line": "    }", "comment": ""}, {"line": "  };", "comment": ""}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <button", "comment": ""}, {"line": "      onClick={handleClick}", "comment": "onClick reçoit la référence de la fonction — pas l'appel. Pas de () ici."}, {"line": "      className={likee ? 'btn-like liked' : 'btn-like'}", "comment": "Classe dynamique selon l'état."}, {"line": "    >", "comment": ""}, {"line": "      {likes} ❤️", "comment": "likes s'affiche et se met à jour automatiquement à chaque changement."}, {"line": "    </button>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — déclare des états", "instruction": "Tu construis la page profil Kora. Déclare les états nécessaires.", "contexte": "Un profil Kora affiche les tokens et le nombre de posts. Les deux peuvent changer.", "labels": ["état tokens initialisé à 0", "état posts initialisé à 0"], "bonnes": ["const [tokens, setTokens] = useState(0)", "const [posts, setPosts] = useState(0)"], "template": "function ProfilKora() {\n  [A];\n  [B];\n\n  return (\n    <div>\n      <p>{tokens} KRT</p>\n      <p>{posts} posts publiés</p>\n    </div>\n  );\n}", "aide": "const [valeur, setValeur] = useState(valeurInitiale). Convention : valeur / setValeur (set + même nom avec majuscule)."}, {"id": "ex2", "type": "completion", "titre": "Adapte — état et événement", "instruction": "Le bouton 'Gagner des tokens' sur Kora ajoute 10 tokens à chaque clic.", "contexte": "Composant récompense dans le dashboard Kora.", "labels": ["mise à jour état", "référence fonction dans onClick"], "bonnes": ["setTokens(tokens + 10)", "gagner"], "template": "function RecompenseKora() {\n  const [tokens, setTokens] = useState(0);\n\n  const gagner = () => {\n    [A];\n  };\n\n  return (\n    <div>\n      <p>{tokens} KRT gagnés</p>\n      <button onClick={[B]}>+ 10 tokens</button>\n    </div>\n  );\n}", "aide": "setTokens(tokens + 10) met à jour l'état. onClick reçoit la référence de la fonction : onClick={gagner} — sans les ()."}, {"id": "ex3", "type": "qcm", "titre": "Crée — repère le bug", "question": "Ce compteur ne se met jamais à jour visuellement. Trouve l'erreur :", "options": ["const [count, setCount] = useState(0); count = count + 1;", "const [count, setCount] = useState(0); setCount(count + 1);", "La fonction handleClick n'est pas async", "Il faut utiliser useEffect pour mettre à jour un compteur"], "bonne": 1, "explication": "count = count + 1 modifie la variable mais React ne le voit pas — pas de re-render. Il faut toujours passer par setCount(). C'est setCount() qui signale à React qu'il doit re-rendre le composant."}], "resume": [{"icon": "💾", "key": "useState(init)", "val": "[valeur, setValeur]. init = valeur de départ."}, {"icon": "🔄", "key": "set → re-render", "val": "Appeler setVal() → React re-rend automatiquement."}, {"icon": "⚠️", "key": "Jamais muter", "val": "val = x ne fonctionne pas. Toujours setVal(x)."}, {"icon": "🎯", "key": "onClick={fn}", "val": "Référence, pas appel. onClick={fn} pas onClick={fn()}."}]}, {"id": "r5", "num": 5, "titre": "useEffect", "sous": "Réagir aux changements", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "useState c'est pour mémoriser des données. Mais comment faire quelque chose APRÈS que le composant s'affiche ? Charger des posts depuis une API, mettre à jour le titre de la page, s'abonner à un websocket. C'est useEffect.", "exemple_kora": "Quand tu ouvres le fil Kora, la page doit charger les posts depuis le serveur. Ce chargement doit se déclencher APRÈS que le composant s'affiche — pas pendant. useEffect gère ça.", "code_vanilla": "// Vanilla — tu lances tout manuellement\nwindow.onload = () => {\n  fetch('/api/posts')\n    .then(r => r.json())\n    .then(data => {\n      // tu construis le HTML à la main\n    });\n};", "code_react": "// React — useEffect déclenche après le rendu\nuseEffect(() => {\n  fetch('/api/posts')\n    .then(r => r.json())\n    .then(data => setPosts(data));\n}, []); // [] = déclencher UNE SEULE FOIS au montage", "a_retenir": "useEffect(fonction, [dépendances]). [] = une fois. [val] = quand val change. Rien = à chaque render (danger)."}}, {"id": "observe", "type": "observe", "titre": "Observe — charger des posts Kora avec useEffect", "code_annote": [{"line": "import { useState, useEffect } from 'react';", "comment": "On importe les deux hooks."}, {"line": "", "comment": ""}, {"line": "function FeedKora() {", "comment": ""}, {"line": "  const [posts, setPosts] = useState([]);", "comment": "État pour stocker les posts. Tableau vide au départ."}, {"line": "  const [loading, setLoading] = useState(true);", "comment": "État pour savoir si on est en train de charger. true au départ = spinner visible."}, {"line": "", "comment": ""}, {"line": "  useEffect(() => {", "comment": "useEffect prend une fonction. Elle s'exécute APRÈS le premier rendu."}, {"line": "    fetch('https://api.kora.io/posts')", "comment": "On lance la requête."}, {"line": "      .then(res => res.json())", "comment": "On parse la réponse JSON."}, {"line": "      .then(data => {", "comment": ""}, {"line": "        setPosts(data);", "comment": "On stocke les posts dans l'état — React re-rend avec les données."}, {"line": "        setLoading(false);", "comment": "On masque le spinner."}, {"line": "      });", "comment": ""}, {"line": "  }, []);", "comment": "Le [] à la fin = dépendances. Tableau vide = déclencher UNE SEULE FOIS au montage. Sans [], ça boucle à l'infini."}, {"line": "", "comment": ""}, {"line": "  if (loading) return <p>Chargement...</p>;", "comment": "Tant que loading est true, on affiche un message. Rendu conditionnel en dehors du JSX principal."}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <div className=\"feed\">", "comment": ""}, {"line": "      {posts.map(p => <Post key={p.id} {...p} />)}", "comment": "On map le tableau de posts. key obligatoire. {...p} passe toutes les propriétés comme props."}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — structure useEffect", "instruction": "Tu veux charger le profil de l'utilisateur Kora au montage du composant.", "contexte": "Composant ProfilPage — charge les données une seule fois.", "labels": ["hook pour l'effet", "tableau dépendances vide"], "bonnes": ["useEffect", "[]"], "template": "function ProfilPage({ userId }) {\n  const [profil, setProfil] = useState(null);\n\n  [A](() => {\n    fetch('/api/users/' + userId)\n      .then(r => r.json())\n      .then(data => setProfil(data));\n  }, [B]);\n\n  if (!profil) return <p>Chargement...</p>;\n  return <h1>{profil.nom}</h1>;\n}", "aide": "useEffect prend deux arguments : la fonction effet, et le tableau de dépendances. [] = s'exécute une seule fois au montage."}, {"id": "ex2", "type": "completion", "titre": "Adapte — useEffect avec dépendance", "instruction": "Le profil doit se recharger quand l'userId change (l'utilisateur navigue vers un autre profil).", "contexte": "Même composant, mais userId peut changer.", "labels": ["dépendance userId"], "bonnes": ["[userId]"], "template": "function ProfilPage({ userId }) {\n  const [profil, setProfil] = useState(null);\n\n  useEffect(() => {\n    setProfil(null); // reset pendant le chargement\n    fetch('/api/users/' + userId)\n      .then(r => r.json())\n      .then(data => setProfil(data));\n  }, [A]); // se relance si userId change\n\n  if (!profil) return <p>Chargement...</p>;\n  return <h1>{profil.nom}</h1>;\n}", "aide": "Ajouter userId dans le tableau de dépendances : [userId]. Quand userId change, useEffect se relance automatiquement."}, {"id": "ex3", "type": "qcm", "titre": "Crée — identifie le problème", "question": "Ce composant recharge les posts en boucle infinie. Pourquoi ?", "options": ["fetch ne fonctionne pas dans useEffect", "Il manque [] — sans tableau de dépendances, useEffect s'exécute après chaque render, setPosts déclenche un render, qui déclenche useEffect...", "setPosts ne peut pas être appelé dans useEffect", "Il faut utiliser async/await au lieu de .then()"], "bonne": 1, "explication": "Sans [], useEffect s'exécute après chaque render. setPosts(data) déclenche un re-render. Le re-render déclenche useEffect. Boucle infinie. La solution : ajouter [] pour n'exécuter qu'au montage."}], "resume": [{"icon": "🚀", "key": "useEffect(fn, [])", "val": "S'exécute une fois au montage."}, {"icon": "🔄", "key": "useEffect(fn, [dep])", "val": "Se relance quand dep change."}, {"icon": "⚠️", "key": "Sans []", "val": "Boucle infinie si l'effet modifie le state."}, {"icon": "⏳", "key": "Pattern", "val": "useState(null) + useEffect fetch + if (!data) return loading."}]}, {"id": "r6", "num": 6, "titre": "Événements React", "sous": "Réagir aux clics et aux saisies", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "En HTML vanilla tu écrivais onclick= dans la balise. En React, c'est onClick= avec une valeur JS. La différence clé : tu passes une FONCTION, pas un appel de fonction.", "exemple_kora": "Sur le formulaire de contact DB Studio : au clic Envoyer, tu veux valider les champs et envoyer les données sans recharger la page. En React, c'est onSubmit avec e.preventDefault().", "code_vanilla": "<!-- Vanilla -->\n<button onclick=\"handleClick()\">Cliquer</button>\n<form onsubmit=\"handleSubmit(event)\">", "code_react": "// React — camelCase, valeur JS\n<button onClick={handleClick}>Cliquer</button>\n\n// Avec argument :\n<button onClick={() => supprimer(post.id)}>Supprimer</button>\n\n// Formulaire :\n<form onSubmit={(e) => { e.preventDefault(); envoyerData(); }}>\n// e.preventDefault() = empêche le rechargement de page", "a_retenir": "onClick={fn} pas onClick={fn()}. Pour passer des arguments : onClick={() => fn(arg)}. Formulaire : toujours e.preventDefault()."}}, {"id": "observe", "type": "observe", "titre": "Observe — formulaire de contact DB Studio en React", "code_annote": [{"line": "function FormulaireContact() {", "comment": ""}, {"line": "  const [nom, setNom] = useState('');", "comment": "État pour le champ nom."}, {"line": "  const [email, setEmail] = useState('');", "comment": "État pour le champ email."}, {"line": "  const [envoye, setEnvoye] = useState(false);", "comment": "État pour savoir si le formulaire a été envoyé."}, {"line": "", "comment": ""}, {"line": "  const handleSubmit = (e) => {", "comment": "Handler de soumission. e = l'événement."}, {"line": "    e.preventDefault();", "comment": "OBLIGATOIRE sur onSubmit. Empêche le rechargement de page par défaut."}, {"line": "    if (!nom || !email) return;", "comment": "Validation simple — on quitte si des champs sont vides."}, {"line": "    console.log({ nom, email });", "comment": "Ici tu ferais un fetch POST vers ton API."}, {"line": "    setEnvoye(true);", "comment": "On passe l'état à envoyé."}, {"line": "  };", "comment": ""}, {"line": "", "comment": ""}, {"line": "  if (envoye) return <p>Message envoyé !</p>;", "comment": "Si envoyé, on affiche un message et on cache le formulaire."}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <form onSubmit={handleSubmit}>", "comment": "onSubmit reçoit la référence de la fonction. Pas de ()."}, {"line": "      <input", "comment": ""}, {"line": "        value={nom}", "comment": "value lié à l'état nom — c'est un input contrôlé."}, {"line": "        onChange={(e) => setNom(e.target.value)}", "comment": "À chaque frappe, on met à jour l'état avec la valeur de l'input."}, {"line": "        placeholder=\"Ton nom\"", "comment": ""}, {"line": "      />", "comment": "Balise auto-fermante."}, {"line": "      <input value={email} onChange={(e) => setEmail(e.target.value)} type=\"email\" />", "comment": "Même principe pour l'email."}, {"line": "      <button type=\"submit\">Envoyer</button>", "comment": ""}, {"line": "    </form>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — input contrôlé", "instruction": "Tu crées la barre de recherche de Kora. Chaque frappe met à jour l'état.", "contexte": "Input de recherche dont la valeur est synchronisée avec React.", "labels": ["valeur liée à l'état", "mise à jour à chaque frappe"], "bonnes": ["value={recherche}", "(e) => setRecherche(e.target.value)"], "template": "function SearchBar() {\n  const [recherche, setRecherche] = useState('');\n\n  return (\n    <input\n      [A]\n      onChange={[B]}\n      placeholder=\"Rechercher sur Kora...\"\n    />\n  );\n}", "aide": "value={recherche} synchronise l'input avec l'état. onChange reçoit une arrow function qui extrait la valeur avec e.target.value."}, {"id": "ex2", "type": "completion", "titre": "Adapte — bouton avec argument", "instruction": "Chaque post Kora a un bouton Supprimer (pour les admins). Il doit appeler la fonction avec l'id du post.", "contexte": "Le bouton doit passer l'id du post à la fonction onSupprimer.", "labels": ["onClick avec argument"], "bonnes": ["() => onSupprimer(post.id)"], "template": "function PostAdmin({ post, onSupprimer }) {\n  return (\n    <div>\n      <p>{post.texte}</p>\n      <button onClick={[A]}>\n        Supprimer\n      </button>\n    </div>\n  );\n}", "aide": "Pour passer un argument à onClick, on enveloppe dans une arrow function : () => fn(argument). Sinon fn(argument) serait appelé immédiatement au rendu."}, {"id": "ex3", "type": "qcm", "titre": "Crée — repère le bug", "question": "Ce bouton appelle supprimer() immédiatement à chaque render au lieu d'attendre le clic. Pourquoi ?", "options": ["<button onClick={supprimer(post.id)}>Supprimer</button>", "<button onClick={() => supprimer(post.id)}>Supprimer</button>", "<button onClick={supprimer}>Supprimer</button>", "B et C sont tous les deux valides selon le cas"], "bonne": 3, "explication": "A est le bug : supprimer(post.id) est un appel direct — il s'exécute au rendu. B () => supprimer(post.id) attend le clic puis appelle avec l'id. C supprimer attend le clic mais sans passer l'id. B et C sont valides selon si on a besoin de passer un argument ou non."}], "resume": [{"icon": "👆", "key": "onClick={fn}", "val": "Référence. Pas d'appel direct."}, {"icon": "🎯", "key": "onClick={() => fn(arg)}", "val": "Arrow function pour passer des arguments."}, {"icon": "📨", "key": "onSubmit", "val": "Toujours e.preventDefault() en premier."}, {"icon": "✏️", "key": "onChange", "val": "e.target.value = valeur actuelle de l'input."}]}, {"id": "r7", "num": 7, "titre": "Listes et clés", "sous": "Afficher des tableaux de données", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Sur Kora il y a des dizaines de posts. En vanilla tu écrivais une boucle for pour créer les éléments HTML un par un. En React, tu transformes un tableau de données en tableau de JSX avec .map().", "exemple_kora": "posts.map(post => <Post key={post.id} {...post} />) — chaque objet du tableau devient un composant. La prop key est obligatoire : React l'utilise pour optimiser les mises à jour.", "code_vanilla": "// Vanilla — construction manuelle\nconst container = document.querySelector('.feed');\nposts.forEach(post => {\n  const div = document.createElement('div');\n  div.innerHTML = `<p>${post.texte}</p>`;\n  container.appendChild(div);\n});", "code_react": "// React — .map() dans le JSX\nreturn (\n  <div className=\"feed\">\n    {posts.map(post => (\n      <div key={post.id}>\n        <p>{post.texte}</p>\n      </div>\n    ))}\n  </div>\n);", "a_retenir": "key obligatoire dans .map(). Utilise un ID stable — pas l'index du tableau si la liste peut être réordonnée."}}, {"id": "observe", "type": "observe", "titre": "Observe — liste de formations Kora avec filtre", "code_annote": [{"line": "function ListeFormations({ formations }) {", "comment": "On reçoit le tableau formations en prop."}, {"line": "  const [filtre, setFiltre] = useState('tous');", "comment": "État pour le filtre actif."}, {"line": "", "comment": ""}, {"line": "  const filtrees = filtre === 'tous'", "comment": "On calcule les formations filtrées à chaque render."}, {"line": "    ? formations", "comment": "Si filtre est 'tous', on garde tout."}, {"line": "    : formations.filter(f => f.categorie === filtre);", "comment": "Sinon on filtre. .filter() retourne un nouveau tableau."}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <div>", "comment": ""}, {"line": "      <div className=\"filtres\">", "comment": ""}, {"line": "        {['tous', 'react', 'css'].map(cat => (", "comment": "On mappe aussi les catégories pour créer les boutons filtres."}, {"line": "          <button", "comment": ""}, {"line": "            key={cat}", "comment": "key obligatoire, même pour les éléments simples dans .map()."}, {"line": "            className={filtre === cat ? 'actif' : ''}", "comment": "Classe dynamique : actif si c'est le filtre sélectionné."}, {"line": "            onClick={() => setFiltre(cat)}", "comment": "Au clic, on met à jour le filtre."}, {"line": "          >", "comment": ""}, {"line": "            {cat}", "comment": ""}, {"line": "          </button>", "comment": ""}, {"line": "        ))}", "comment": "Double parenthèse : une pour .map(), une pour le JSX multi-ligne."}, {"line": "      </div>", "comment": ""}, {"line": "", "comment": ""}, {"line": "      {filtrees.length === 0 && <p>Aucune formation</p>}", "comment": "Message si liste vide — rendu conditionnel."}, {"line": "", "comment": ""}, {"line": "      {filtrees.map(f => (", "comment": "On mappe les formations filtrées."}, {"line": "        <CarteFormation", "comment": ""}, {"line": "          key={f.id}", "comment": "key = identifiant stable. Jamais l'index si la liste peut changer d'ordre."}, {"line": "          titre={f.titre}", "comment": "On passe chaque propriété en prop."}, {"line": "          lecons={f.lecons}", "comment": ""}, {"line": "        />", "comment": ""}, {"line": "      ))}", "comment": ""}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — afficher une liste de posts", "instruction": "Affiche la liste des posts Kora avec .map().", "contexte": "Chaque post a un id, un auteur et un texte.", "labels": ["méthode tableau", "prop key"], "bonnes": ["map", "key={post.id}"], "template": "function Feed({ posts }) {\n  return (\n    <div className=\"feed\">\n      {posts.[A](post => (\n        <div [B]>\n          <strong>{post.auteur}</strong>\n          <p>{post.texte}</p>\n        </div>\n      ))}\n    </div>\n  );\n}", "aide": ".map() transforme chaque élément du tableau en JSX. key={post.id} est obligatoire sur l'élément racine de chaque iteration."}, {"id": "ex2", "type": "completion", "titre": "Adapte — liste avec état vide", "instruction": "Si le feed est vide, afficher un message. Sinon, afficher les posts.", "contexte": "Le feed Kora peut être vide quand l'utilisateur vient de s'inscrire.", "labels": ["condition liste vide", "affichage conditionnel"], "bonnes": ["posts.length === 0", "posts.map(p => <Post key={p.id} auteur={p.auteur} texte={p.texte} />)"], "template": "function Feed({ posts }) {\n  return (\n    <div className=\"feed\">\n      {[A]\n        ? <p>Aucun post pour l'instant.</p>\n        : [B]\n      }\n    </div>\n  );\n}", "aide": "Ternaire : condition ? siVrai : siFaux. posts.length === 0 détecte un tableau vide. Le .map() crée les composants Post."}, {"id": "ex3", "type": "qcm", "titre": "Crée — pourquoi éviter l'index comme key ?", "question": "Tu as une liste de posts que l'utilisateur peut réorganiser par drag & drop. Tu utilises quoi comme key ?", "options": ["key={index} — c'est plus simple", "key={post.id} — l'ID est stable même si l'ordre change", "key={post.texte} — le texte est unique", "key={Math.random()} — pour être sûr que c'est unique"], "bonne": 1, "explication": "Si tu réorganises et que tu utilises l'index, le post qui était en position 0 est maintenant en position 2 — React voit une key différente et recrée le composant. Avec un ID stable, React sait que c'est le même post et ne fait que le déplacer. Math.random() est pire : React recrée tout à chaque render."}], "resume": [{"icon": "🔄", "key": ".map()", "val": "Tableau de données → tableau de JSX."}, {"icon": "🔑", "key": "key={id}", "val": "Obligatoire. ID stable, pas l'index."}, {"icon": "📭", "key": "length === 0", "val": "Toujours gérer le cas liste vide."}, {"icon": "📤", "key": "{...item}", "val": "Spread : passe toutes les props d'un coup."}]}, {"id": "r8", "num": 8, "titre": "Formulaires", "sous": "Inputs synchronisés avec React", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "En HTML vanilla, les inputs gèrent leur propre valeur. En React, tu veux que le state soit la source de vérité — comme ça tu peux valider, réinitialiser, et accéder aux valeurs facilement.", "exemple_kora": "Le formulaire d'inscription Kora : tu veux valider le pseudo en temps réel, vérifier que l'email est valide avant d'envoyer, et vider les champs après soumission. Tout ça devient simple quand chaque champ est lié à un état React.", "code_vanilla": "// Vanilla — tu lis la valeur au moment de la soumission\nform.onsubmit = (e) => {\n  e.preventDefault();\n  const email = document.querySelector('#email').value;\n  // Pas de validation en temps réel facile", "code_react": "// React — la valeur est toujours dans le state\nconst [email, setEmail] = useState('');\nconst valide = email.includes('@'); // calculé en temps réel\n\n<input\n  value={email}\n  onChange={(e) => setEmail(e.target.value)}\n  className={valide ? 'ok' : 'erreur'}\n/>", "a_retenir": "Input contrôlé = value lié au state + onChange qui met à jour le state. React est la source de vérité."}}, {"id": "observe", "type": "observe", "titre": "Observe — formulaire d'inscription Kora", "code_annote": [{"line": "function FormulaireInscription() {", "comment": ""}, {"line": "  const [form, setForm] = useState({", "comment": "Un seul état objet pour tous les champs. Plus pratique que plusieurs useState."}, {"line": "    pseudo: '',", "comment": ""}, {"line": "    email: '',", "comment": ""}, {"line": "    motdepasse: ''", "comment": ""}, {"line": "  });", "comment": ""}, {"line": "  const [erreur, setErreur] = useState('');", "comment": "État pour les messages d'erreur."}, {"line": "", "comment": ""}, {"line": "  const handleChange = (e) => {", "comment": "Un seul handler pour tous les inputs."}, {"line": "    setForm(prev => ({", "comment": "On utilise la valeur précédente avec prev => pour être sûr."}, {"line": "      ...prev,", "comment": "Spread : on garde toutes les autres propriétés."}, {"line": "      [e.target.name]: e.target.value", "comment": "Computed property : le nom de l'input (pseudo, email...) est la clé à mettre à jour."}, {"line": "    }));", "comment": ""}, {"line": "  };", "comment": ""}, {"line": "", "comment": ""}, {"line": "  const handleSubmit = (e) => {", "comment": ""}, {"line": "    e.preventDefault();", "comment": "Toujours en premier."}, {"line": "    if (!form.pseudo || !form.email) {", "comment": "Validation."}, {"line": "      setErreur('Tous les champs sont obligatoires');", "comment": ""}, {"line": "      return;", "comment": "On arrête l'exécution."}, {"line": "    }", "comment": ""}, {"line": "    // fetch POST ici", "comment": ""}, {"line": "  };", "comment": ""}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <form onSubmit={handleSubmit}>", "comment": ""}, {"line": "      <input name=\"pseudo\" value={form.pseudo} onChange={handleChange} />", "comment": "name doit correspondre à la clé dans l'objet form."}, {"line": "      <input name=\"email\" value={form.email} onChange={handleChange} />", "comment": "Même handler pour tous les inputs grâce à e.target.name."}, {"line": "      {erreur && <p className=\"erreur\">{erreur}</p>}", "comment": "Affiche l'erreur si elle existe."}, {"line": "      <button type=\"submit\">Créer mon compte</button>", "comment": ""}, {"line": "    </form>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — input contrôlé", "instruction": "Tu crées le champ pseudo du formulaire Kora, lié à l'état.", "contexte": "Un input dont la valeur est toujours synchronisée avec React.", "labels": ["valeur liée à l'état", "handler onChange"], "bonnes": ["value={pseudo}", "(e) => setPseudo(e.target.value)"], "template": "function ChampPseudo() {\n  const [pseudo, setPseudo] = useState('');\n\n  return (\n    <input\n      [A]\n      onChange={[B]}\n      placeholder=\"Ton pseudo Kora\"\n    />\n  );\n}", "aide": "value={pseudo} synchronise l'input. onChange met à jour le state à chaque frappe avec e.target.value."}, {"id": "ex2", "type": "completion", "titre": "Adapte — handler générique multi-champs", "instruction": "Un seul handler pour le formulaire complet de contact DB Studio.", "contexte": "3 champs : nom, email, message. Un seul handleChange.", "labels": ["valeurs précédentes", "clé dynamique"], "bonnes": ["...prev", "[e.target.name]: e.target.value"], "template": "function FormulaireContact() {\n  const [form, setForm] = useState({ nom: '', email: '', message: '' });\n\n  const handleChange = (e) => {\n    setForm(prev => ({\n      [A],\n      [B]\n    }));\n  };\n\n  return (\n    <form>\n      <input name=\"nom\" value={form.nom} onChange={handleChange} />\n      <input name=\"email\" value={form.email} onChange={handleChange} />\n      <textarea name=\"message\" value={form.message} onChange={handleChange} />\n    </form>\n  );\n}", "aide": "...prev copie les champs existants. [e.target.name] est une computed property : si l'input s'appelle email, ça met à jour form.email."}, {"id": "ex3", "type": "qcm", "titre": "Crée — repère le bug", "question": "L'input ne répond pas quand tu tapes. Quelle est la cause ?", "options": ["<input value={nom} placeholder=\"Nom\" />", "<input defaultValue={nom} placeholder=\"Nom\" />", "<input value={nom} onChange={(e) => setNom(e.target.value)} placeholder=\"Nom\" />", "<input onChange={(e) => setNom(e.target.value)} placeholder=\"Nom\" />"], "bonne": 0, "explication": "value={nom} sans onChange bloque l'input — React impose la valeur du state et empêche toute modification. Soit tu ajoutes onChange (input contrôlé — option C), soit tu utilises defaultValue (valeur initiale sans contrôle — option B). D fonctionne mais l'input n'est pas synchronisé avec le state."}], "resume": [{"icon": "🎛️", "key": "Contrôlé", "val": "value={state} + onChange = React gère."}, {"icon": "✏️", "key": "onChange", "val": "e.target.value = ce que l'utilisateur tape."}, {"icon": "📋", "key": "e.target.name", "val": "Handler générique pour N champs."}, {"icon": "✅", "key": "Valider", "val": "Dans handleSubmit, avant le fetch."}]}, {"id": "r9", "num": 9, "titre": "Parent → Enfant", "sous": "Faire communiquer les composants", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Dans une vraie app, les composants ont besoin de se parler. Le sens naturel : parent passe des données à l'enfant via props. Pour l'inverse (enfant informe le parent), on passe une fonction callback.", "exemple_kora": "Feed (parent) possède la liste des posts. Post (enfant) a un bouton Like. Quand on like, Post doit dire au Feed de mettre à jour le compteur. Post appelle onLike(post.id) — une fonction que Feed lui a passée.", "code_vanilla": "// Vanilla — events globaux ou variables globales\ndocument.addEventListener('like', (e) => {\n  updateLike(e.detail.id);\n});\n// Difficile à tracer, source de bugs", "code_react": "// React — flux clair et traçable\nfunction Feed() {\n  const handleLike = (id) => { /* met à jour le state */ };\n  return <Post onLike={handleLike} />;\n}\n\nfunction Post({ onLike, post }) {\n  return <button onClick={() => onLike(post.id)}>Like</button>;\n}", "a_retenir": "Données descendent (parent → enfant via props). Actions remontent (enfant → parent via callback)."}}, {"id": "observe", "type": "observe", "titre": "Observe — système de likes Kora", "code_annote": [{"line": "// COMPOSANT PARENT — possède les données", "comment": ""}, {"line": "function Feed() {", "comment": ""}, {"line": "  const [posts, setPosts] = useState([", "comment": "Le Feed possède l'état des posts."}, {"line": "    { id: 1, auteur: 'Val', texte: 'Hello Kora', likes: 10 },", "comment": ""}, {"line": "    { id: 2, auteur: 'Marc', texte: 'Super plateforme', likes: 5 },", "comment": ""}, {"line": "  ]);", "comment": ""}, {"line": "", "comment": ""}, {"line": "  const handleLike = (id) => {", "comment": "Cette fonction sera passée aux enfants."}, {"line": "    setPosts(prev => prev.map(p =>", "comment": "On mappe pour trouver le bon post."}, {"line": "      p.id === id ? { ...p, likes: p.likes + 1 } : p", "comment": "Si c'est le bon post, on augmente les likes. Sinon, on le laisse intact."}, {"line": "    ));", "comment": ""}, {"line": "  };", "comment": ""}, {"line": "", "comment": ""}, {"line": "  return (", "comment": ""}, {"line": "    <div>", "comment": ""}, {"line": "      {posts.map(p => (", "comment": ""}, {"line": "        <Post", "comment": ""}, {"line": "          key={p.id}", "comment": ""}, {"line": "          post={p}", "comment": "On passe tout l'objet post en prop."}, {"line": "          onLike={handleLike}", "comment": "On passe la fonction — l'enfant pourra l'appeler."}, {"line": "        />", "comment": ""}, {"line": "      ))}", "comment": ""}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}, {"line": "", "comment": ""}, {"line": "// COMPOSANT ENFANT — affiche, remonte les actions", "comment": ""}, {"line": "function Post({ post, onLike }) {", "comment": "Reçoit l'objet post ET la fonction onLike."}, {"line": "  return (", "comment": ""}, {"line": "    <div className=\"post\">", "comment": ""}, {"line": "      <p>{post.texte}</p>", "comment": ""}, {"line": "      <button onClick={() => onLike(post.id)}>", "comment": "Au clic, on appelle la fonction du parent avec l'id du post."}, {"line": "        {post.likes} Likes", "comment": ""}, {"line": "      </button>", "comment": ""}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — passer une callback à l'enfant", "instruction": "Le Feed Kora passe la fonction handleLike au composant Post.", "contexte": "Le parent gère l'état, l'enfant appelle la callback.", "labels": ["callback dans les props enfant", "appel avec l'id"], "bonnes": ["onLike={handleLike}", "onLike(post.id)"], "template": "function Feed() {\n  const [posts, setPosts] = useState(initialPosts);\n\n  const handleLike = (id) => {\n    setPosts(prev => prev.map(p =>\n      p.id === id ? { ...p, likes: p.likes + 1 } : p\n    ));\n  };\n\n  return posts.map(p => (\n    <Post key={p.id} post={p} [A] />\n  ));\n}\n\nfunction Post({ post, onLike }) {\n  return (\n    <button onClick={() => [B]}>\n      {post.likes} Likes\n    </button>\n  );\n}", "aide": "Le parent passe la fonction avec onLike={handleLike}. L'enfant l'appelle avec la bonne signature : onLike(post.id)."}, {"id": "ex2", "type": "completion", "titre": "Adapte — children prop", "instruction": "Tu crées un composant Card réutilisable pour Kora. Il accepte du contenu variable.", "contexte": "Card peut contenir un Post, une Formation, ou n'importe quoi.", "labels": ["prop children", "affichage children"], "bonnes": ["children", "children"], "template": "function Card({ [A] }) {\n  return (\n    <div className=\"card\">\n      {[B]}\n    </div>\n  );\n}\n\n// Utilisation :\n<Card>\n  <h2>Titre du post</h2>\n  <p>Contenu quelconque</p>\n</Card>", "aide": "children est une prop spéciale React : elle contient ce qui est placé entre les balises du composant."}, {"id": "ex3", "type": "qcm", "titre": "Crée — diagnostic", "question": "Le compteur de likes ne se met pas à jour dans Feed quand l'enfant clique. Trouve la cause :", "options": ["Il faut passer le state posts à Post", "L'enfant fait count++ directement au lieu d'appeler la callback du parent", "useEffect doit être utilisé pour mettre à jour les likes", "Les props ne peuvent pas contenir des fonctions"], "bonne": 1, "explication": "L'enfant ne peut pas modifier le state du parent directement. Il doit appeler la callback que le parent lui a passée. C'est cette callback (handleLike dans Feed) qui modifie le state et déclenche le re-render du Feed et de tous ses enfants."}], "resume": [{"icon": "⬇️", "key": "Parent → Enfant", "val": "Props. Données descendent."}, {"icon": "⬆️", "key": "Enfant → Parent", "val": "Callback passée en prop."}, {"icon": "👶", "key": "children", "val": "Contenu entre les balises du composant."}, {"icon": "🏗️", "key": "Lifting state", "val": "Si 2 enfants partagent un état, le remonter au parent."}]}, {"id": "r10", "num": 10, "titre": "Fetch + React", "sous": "Données depuis une API", "steps": [{"id": "intro", "type": "intro", "contenu": {"probleme": "Maintenant tu sais gérer l'état, les effets, les événements. On assemble tout : useState + useEffect + fetch. C'est le pattern que tu vas écrire dans 90% des vrais composants React.", "exemple_kora": "Le catalogue Kora : au montage, charger les formations depuis l'API. Pendant le chargement, afficher un spinner. En cas d'erreur, afficher un message. Quand les données arrivent, afficher les cartes.", "code_vanilla": "// Vanilla — tout mélangé\nwindow.onload = async () => {\n  document.querySelector('.spinner').style.display = 'flex';\n  try {\n    const data = await fetch('/api/formations').then(r => r.json());\n    data.forEach(f => {\n      // construire le HTML à la main\n    });\n  } catch(e) {\n    document.querySelector('.error').textContent = e.message;\n  } finally {\n    document.querySelector('.spinner').style.display = 'none';\n  }\n};", "code_react": "// React — chaque état est clair et séparé\nconst [formations, setFormations] = useState([]);\nconst [loading, setLoading] = useState(true);\nconst [erreur, setErreur] = useState(null);\n\nuseEffect(() => {\n  fetch('/api/formations')\n    .then(r => r.json())\n    .then(data => { setFormations(data); setLoading(false); })\n    .catch(e => { setErreur(e.message); setLoading(false); });\n}, []);\n\nif (loading) return <Spinner />;\nif (erreur) return <p>Erreur : {erreur}</p>;\nreturn formations.map(f => <Carte key={f.id} {...f} />);", "a_retenir": "3 états : données, loading, erreur. useEffect avec []. Render conditionnel avant le JSX principal."}}, {"id": "observe", "type": "observe", "titre": "Observe — catalogue Kora complet", "code_annote": [{"line": "function CatalogueKora() {", "comment": ""}, {"line": "  const [formations, setFormations] = useState([]);", "comment": "Données — tableau vide au départ."}, {"line": "  const [loading, setLoading] = useState(true);", "comment": "true dès le début — le spinner s'affiche immédiatement."}, {"line": "  const [erreur, setErreur] = useState(null);", "comment": "null = pas d'erreur au départ."}, {"line": "", "comment": ""}, {"line": "  useEffect(() => {", "comment": "Se déclenche après le premier rendu."}, {"line": "    async function charger() {", "comment": "On définit une fonction async à l'intérieur. useEffect ne peut pas être async directement."}, {"line": "      try {", "comment": ""}, {"line": "        const res = await fetch('https://api.kora.io/formations');", "comment": "On fait la requête."}, {"line": "        if (!res.ok) throw new Error('Erreur ' + res.status);", "comment": "Si le serveur répond 404, 500 etc., on lève une erreur manuellement."}, {"line": "        const data = await res.json();", "comment": "On parse le JSON."}, {"line": "        setFormations(data);", "comment": "On stocke les données → React re-rend."}, {"line": "      } catch(e) {", "comment": ""}, {"line": "        setErreur(e.message);", "comment": "On stocke le message d'erreur."}, {"line": "      } finally {", "comment": "finally s'exécute toujours, succès ou échec."}, {"line": "        setLoading(false);", "comment": "On masque le spinner dans tous les cas."}, {"line": "      }", "comment": ""}, {"line": "    }", "comment": ""}, {"line": "    charger();", "comment": "On appelle la fonction async."}, {"line": "  }, []);", "comment": "[] = une seule fois au montage."}, {"line": "", "comment": ""}, {"line": "  if (loading) return <div className=\"spinner\">Chargement...</div>;", "comment": "Retour anticipé : si loading, on affiche le spinner et on arrête là."}, {"line": "  if (erreur) return <div className=\"erreur\">{erreur}</div>;", "comment": "Retour anticipé : si erreur, on affiche le message."}, {"line": "", "comment": ""}, {"line": "  return (", "comment": "Si on arrive ici, on a les données, pas d'erreur, chargement terminé."}, {"line": "    <div className=\"catalogue\">", "comment": ""}, {"line": "      <h1>Formations Kora</h1>", "comment": ""}, {"line": "      <div className=\"grille\">", "comment": ""}, {"line": "        {formations.map(f => (", "comment": ""}, {"line": "          <CarteFormation", "comment": ""}, {"line": "            key={f.id}", "comment": ""}, {"line": "            titre={f.titre}", "comment": ""}, {"line": "            lecons={f.lecons}", "comment": ""}, {"line": "            completee={f.completee}", "comment": ""}, {"line": "          />", "comment": ""}, {"line": "        ))}", "comment": ""}, {"line": "      </div>", "comment": ""}, {"line": "    </div>", "comment": ""}, {"line": "  );", "comment": ""}, {"line": "}", "comment": ""}]}, {"id": "ex1", "type": "completion", "titre": "Répète — les 3 états du fetch", "instruction": "Déclare les 3 états nécessaires pour charger les posts Kora.", "contexte": "Pattern standard : données, loading, erreur.", "labels": ["état données vide", "état loading à true", "état erreur à null"], "bonnes": ["const [posts, setPosts] = useState([])", "const [loading, setLoading] = useState(true)", "const [erreur, setErreur] = useState(null)"], "template": "function FeedKora() {\n  [A];\n  [B];\n  [C];\n\n  // useEffect fetch ici\n\n  if (loading) return <p>Chargement...</p>;\n  if (erreur) return <p>{erreur}</p>;\n  return posts.map(p => <Post key={p.id} {...p} />);\n}", "aide": "3 useState : données initialisées à [], loading à true (pour afficher le spinner immédiatement), erreur à null."}, {"id": "ex2", "type": "completion", "titre": "Adapte — useEffect complet avec try/catch", "instruction": "Charge les posts depuis l'API avec gestion d'erreur.", "contexte": "Le useEffect complet du Feed Kora.", "labels": ["async function interne", "lève erreur si status mauvais", "finally désactive loading"], "bonnes": ["async function charger()", "if (!res.ok) throw new Error('Erreur ' + res.status)", "setLoading(false)"], "template": "useEffect(() => {\n  [A] {\n    try {\n      const res = await fetch('/api/posts');\n      [B];\n      const data = await res.json();\n      setPosts(data);\n    } catch(e) {\n      setErreur(e.message);\n    } finally {\n      [C];\n    }\n  }\n  charger();\n}, []);", "aide": "useEffect ne peut pas être async. On définit une fonction async à l'intérieur. !res.ok détecte les erreurs HTTP. finally s'exécute toujours."}, {"id": "ex3", "type": "qcm", "titre": "Crée — diagnostic complet", "question": "Le composant ne recharge pas les données quand userId change. Quelle est la cause ET la solution ?", "options": ["Cause : fetch est dans useEffect. Solution : le mettre dans onChange.", "Cause : [] dans useEffect = exécute une seule fois. Solution : mettre [userId] dans les dépendances.", "Cause : les données sont en state. Solution : les mettre en variable normale.", "Cause : async/await. Solution : utiliser .then() à la place."], "bonne": 1, "explication": "[] = s'exécute seulement au montage. Si userId change, useEffect ne se relance pas. En mettant [userId], useEffect se relancera à chaque changement de userId — et les nouvelles données seront chargées."}], "resume": [{"icon": "🔄", "key": "3 états", "val": "données + loading(true) + erreur(null)."}, {"icon": "🚀", "key": "useEffect + async", "val": "Fonction async à l'intérieur, appelée juste après."}, {"icon": "🛡️", "key": "try/catch/finally", "val": "finally = désactive loading dans tous les cas."}, {"icon": "🔗", "key": "[dep]", "val": "Ajouter la dépendance pour recharger si elle change."}]}];
+const LECONS = [{"id":"r1","num":1,"titre":"React — C'est quoi et pourquoi","sous":"Le problème que React résout","steps":[{"id":"intro","label":"Intro","type":"intro","titre":"Le problème des interfaces dynamiques","contenu":{"texte":"Tu connais HTML et CSS — tu sais créer des pages. Mais une page qui réagit : boutons qui changent, données qui s'actualisent, contenu qui apparaît et disparaît selon les actions... En HTML/CSS pur c'est impossible. Il faut du code qui tourne dans le navigateur. C'est là qu'arrive JavaScript — et React est une bibliothèque JavaScript créée par Facebook en 2013 pour construire des interfaces dynamiques plus facilement.","exemple":"Imagine le fil d'actualité de Kora : des dizaines de posts qui se chargent, des likes qui se mettent à jour en temps réel, une barre de recherche qui filtre instantanément. Sans React, chaque interaction nécessite de retrouver les éléments dans la page et de les modifier à la main. Avec React, tu décris simplement CE QUI doit s'afficher selon l'état de l'application — React s'occupe du reste.","comparaison":{"sans":{"titre":"Sans React — Vanilla JS","code":"// Un simple compteur sans React\nlet count = 0;\n\nconst btn = document.getElementById('btn');\nconst affichage = document.getElementById('count');\n\nbtn.addEventListener('click', function() {\n  count = count + 1;\n  affichage.textContent = count; // mise à jour manuelle\n  if (count > 10) {\n    btn.style.color = 'red'; // style manuel\n    btn.textContent = 'Trop de clics !'; // texte manuel\n  }\n});\n// Chaque changement = chercher l'élément + modifier manuellement","commentaire":"Tu gères chaque modification à la main. Plus l'interface est complexe, plus c'est ingérable."},"avec":{"titre":"Avec React","code":"// Le même compteur avec React\nfunction Compteur() {\n  const [count, setCount] = useState(0);\n  // count = valeur actuelle\n  // setCount = fonction pour changer la valeur\n\n  return (\n    <button\n      onClick={() => setCount(count + 1)}\n      style={{ color: count > 10 ? 'red' : 'black' }}\n    >\n      {count > 10 ? 'Trop de clics !' : count}\n    </button>\n  );\n}\n// React met à jour la page automatiquement quand count change","commentaire":"Tu décris ce qui doit s'afficher selon l'état. React gère les mises à jour."}},"ce_que_fait_react":["Met à jour la page automatiquement quand les données changent","Permet de découper l'interface en blocs réutilisables (composants)","Gère efficacement les listes de données dynamiques","Synchronise l'interface avec les données du serveur","Utilisé par Facebook, Instagram, Airbnb, Netflix, Kora..."]}},{"id":"observe","label":"Observer","type":"observe","titre":"Anatomie d'une application React","lignes":[{"code":"// 1. On importe React et les outils nécessaires","expl":""},{"code":"import { useState } from 'react';","expl":"useState est l'outil React pour mémoriser des données."},{"code":"","expl":""},{"code":"// 2. Un composant = une fonction qui retourne du JSX","expl":""},{"code":"function BoutonKora({ texte, couleur }) {","expl":"Fonction JS normale. Le nom commence par MAJUSCULE. Entre {} : les données reçues (props)."},{"code":"  const [clique, setClique] = useState(false);","expl":"useState(false) : mémorise si le bouton a été cliqué. false = valeur de départ."},{"code":"","expl":""},{"code":"  return (","expl":"return = ce que React affiche dans la page."},{"code":"    <button","expl":"JSX : ressemble à HTML mais c'est du JavaScript."},{"code":"      style={{ background: clique ? '#4caf50' : couleur }}","expl":"Style dynamique : si cliqué → vert, sinon → couleur reçue. {} = expression JS."},{"code":"      onClick={() => setClique(true)}","expl":"Au clic : setClique(true) change la valeur → React met la page à jour."},{"code":"    >","expl":""},{"code":"      {clique ? 'Cliqué !' : texte}","expl":"Texte dynamique : si cliqué → 'Cliqué !', sinon → texte reçu."},{"code":"    </button>","expl":""},{"code":"  );","expl":""},{"code":"}","expl":""},{"code":"","expl":""},{"code":"// 3. Utilisation du composant","expl":""},{"code":"<BoutonKora texte=\"Suivre\" couleur=\"#C4622D\" />","expl":"On l'utilise comme une balise HTML. texte et couleur sont les données passées."},{"code":"<BoutonKora texte=\"Liker\" couleur=\"#6B1F2A\" />","expl":"Même composant, données différentes. Réutilisable à l'infini."}]},{"id":"ex1","label":"Ex. 1","type":"ordre","titre":"Remets dans l'ordre","instruction":"Les lignes d'un composant React sont mélangées. Remets-les dans le bon ordre.","contexte":"Un composant qui affiche le nombre de tokens Kora.","items":["  return <p>{tokens} KRT</p>;","function TokenBadge({ tokens }) {","}","const [montant] = useState(tokens);"],"bonne":[1,3,0,2],"explication":"Structure d'un composant : 1) function Nom({ props }) { 2) const [...] = useState(...) 3) return JSX 4) }"},{"id":"ex2","label":"Ex. 2","type":"devinette","titre":"Devinette","question":"React a été créé pour résoudre quel problème précis ?","choix":["Rendre les pages web plus rapides à charger","Mettre à jour l'interface automatiquement quand les données changent, sans tout modifier à la main","Remplacer HTML et CSS par du JavaScript"],"bonne":1,"explication":"React résout le problème des mises à jour manuelles. Au lieu de chercher chaque élément et le modifier, tu décris ce qui doit s'afficher — React s'occupe de mettre à jour le DOM."},{"id":"ex3","label":"Ex. 3","type":"integration","titre":"Intégration","instruction":"Complete ce composant React qui affiche le nom d'un utilisateur Kora et un message de bienvenue.","contexte":"Composant simple avec une prop 'nom'. Utilise ce que tu viens de voir.","labels":["prop reçue","texte affiché"],"bonnes":["{ nom }","Bienvenue {nom} sur Kora !"],"template":"function AccueilKora([A]) {\n  return (\n    <div>\n      <h1>[B]</h1>\n    </div>\n  );\n}","aide":"Les props se reçoivent entre accolades dans les paramètres. Dans le JSX, les variables s'écrivent entre {}."},{"id":"resume","label":"Résumé","type":"resume"}],"resume":[{"icon":"🧩","key":"React = bibliothèque JS","val":"Créée par Facebook. Construit des interfaces dynamiques."},{"icon":"🔄","key":"Principe clé","val":"Tu décris ce qui doit s'afficher. React met la page à jour."},{"icon":"📦","key":"Composant","val":"Fonction JS avec Majuscule qui retourne du JSX."},{"icon":"💾","key":"useState","val":"Mémorise une valeur. Changer cette valeur = page mise à jour."}]},{"id":"r2","num":2,"titre":"Le JSX","sous":"Écrire de l'HTML dans JavaScript","steps":[{"id":"intro","label":"Intro","type":"intro","titre":"JSX — HTML dans JavaScript","contenu":{"texte":"JSX est la syntaxe utilisée dans React pour décrire ce qui doit s'afficher. Ça ressemble à du HTML, mais c'est en réalité du JavaScript. Le navigateur ne comprend pas JSX directement — un outil appelé Babel le transforme en code JavaScript pur avant que la page se charge.","exemple":"Quand tu écris <h1>Bonjour</h1> en JSX, Babel le transforme en React.createElement('h1', null, 'Bonjour'). JSX est juste une façon plus lisible d'écrire ce code. Les règles de JSX sont presque identiques à HTML, avec quelques différences importantes à connaître.","comparaison":{"sans":{"titre":"HTML classique","code":"<!-- HTML -->\n<div class=\"carte\">\n  <h2>Ma Formation</h2>\n  <p>10 leçons</p>\n  <label for=\"input\">Nom</label>\n  <input type=\"text\" />\n</div>","commentaire":"En HTML, class= et for= sont les attributs standard."},"avec":{"titre":"JSX React","code":"// JSX — les différences avec HTML\n<div className=\"carte\">   {/* class → className */}\n  <h2>Ma Formation</h2>\n  <p>10 leçons</p>\n  <label htmlFor=\"input\">Nom</label>  {/* for → htmlFor */}\n  <input type=\"text\" />   {/* balise auto-fermante obligatoire */}\n</div>\n// Les commentaires s'écrivent {/* comme ça */} en JSX","commentaire":"className, htmlFor, balises fermées. Les {} permettent d'insérer du JavaScript."}},"ce_que_fait_react":["className à la place de class (class est un mot réservé en JS)","htmlFor à la place de for (for est réservé aussi)","Toutes les balises doivent être fermées : <img /> <br /> <input />","{variable} pour insérer une valeur JavaScript dans le JSX","Un seul élément racine par return (ou utiliser <> </>)","style={{ propriete: valeur }} — objet JavaScript pour les styles"]}},{"id":"observe","label":"Observer","type":"observe","titre":"JSX en pratique — composant carte formation","lignes":[{"code":"function CarteFormation({ titre, lecons, termine }) {","expl":"Props : titre (texte), lecons (nombre), termine (vrai/faux)."},{"code":"  return (","expl":"Un seul élément retourné. Les () permettent d'écrire sur plusieurs lignes."},{"code":"    <div className=\"carte\">","expl":"className, pas class. Équivalent de class=\"carte\" en HTML."},{"code":"      <h2 style={{ color: '#6B1F2A' }}>{titre}</h2>","expl":"style={{ }} = objet JS. Doubles accolades : les extérieures = expression JS, les intérieures = l'objet. {titre} = valeur de la prop."},{"code":"      <p>{lecons} leçons au programme</p>","expl":"On peut mélanger variable et texte dans le JSX."},{"code":"      {termine && <span className=\"badge\">✓ Terminé</span>}","expl":"Rendu conditionnel : si termine est true, affiche le span. Sinon, rien."},{"code":"      <button className=\"btn-start\">","expl":""},{"code":"        {termine ? 'Revoir' : 'Commencer'}","expl":"Ternaire : si termine → 'Revoir', sinon → 'Commencer'."},{"code":"      </button>","expl":""},{"code":"    </div>","expl":""},{"code":"  );","expl":""},{"code":"}","expl":""},{"code":"","expl":""},{"code":"// Fragment : plusieurs éléments sans div inutile","expl":""},{"code":"function Deux() {","expl":""},{"code":"  return (","expl":""},{"code":"    <>","expl":"Fragment React : wrapper invisible. Ne crée pas d'élément HTML."},{"code":"      <h1>Titre</h1>","expl":""},{"code":"      <p>Texte</p>","expl":""},{"code":"    </>","expl":"Fermeture du Fragment."},{"code":"  );","expl":""}]},{"id":"ex1","label":"Ex. 1","type":"ordre","titre":"Remets dans l'ordre","instruction":"Remets dans l'ordre les mots pour former une ligne JSX valide qui affiche le prix d'une offre DB Studio.","contexte":"Balise paragraphe avec className et valeur dynamique.","items":["{prix}","<p","className=\"prix\">","€/mois</p>"],"bonne":[1,2,0,3],"explication":"Structure JSX : <balise attributs>{valeur}texte</balise>. className avant le >, {} pour insérer la variable."},{"id":"ex2","label":"Ex. 2","type":"devinette","titre":"Devinette","question":"Tu veux afficher un badge '⭐ Premium' seulement si l'utilisateur est premium. Quelle syntaxe JSX est correcte ?","choix":["{if (premium) <span>⭐ Premium</span>}","{premium && <span>⭐ Premium</span>}","<span if={premium}>⭐ Premium</span>"],"bonne":1,"explication":"En JSX on ne peut pas utiliser if directement. On utilise && : si premium est true, le span s'affiche. Si false, rien. C'est le rendu conditionnel en JSX."},{"id":"ex3","label":"Ex. 3","type":"integration","titre":"Intégration","instruction":"Convertis ce HTML en JSX valide pour le site Le Napoléon.","contexte":"Header d'un site client DB Studio — convertir les attributs HTML en JSX.","labels":["attribut classe","attribut label for"],"bonnes":["className","htmlFor"],"template":"function HeaderNapoleon() {\n  return (\n    <header [A]=\"header-sombre\">\n      <nav>\n        <label [B]=\"menu\">Menu</label>\n        <input type=\"checkbox\" id=\"menu\" />\n        <img src=\"logo.jpg\" alt=\"Le Napoléon\" />\n      </nav>\n    </header>\n  );\n}","aide":"En JSX : class devient className, for devient htmlFor. Ce sont les 2 seuls attributs qui changent de nom."},{"id":"resume","label":"Résumé","type":"resume"}],"resume":[{"icon":"🏷️","key":"className","val":"À la place de class. class est réservé en JS."},{"icon":"🔗","key":"htmlFor","val":"À la place de for. for est réservé en JS."},{"icon":"{}","key":"Accolades","val":"Insérer du JavaScript dans le JSX."},{"icon":"📦","key":"Fragment <>","val":"Wrapper invisible quand tu as plusieurs éléments."},{"icon":"🔀","key":"&&  et  ? :","val":"Affichage conditionnel dans le JSX."}]},{"id":"r3","num":3,"titre":"Les composants","sous":"Découper l'interface en blocs réutilisables","steps":[{"id":"intro","label":"Intro","type":"intro","titre":"Composants — le principe fondamental de React","contenu":{"texte":"Un composant React est une fonction JavaScript qui retourne du JSX. C'est le concept central de React : au lieu d'écrire une grande page HTML monolithique, tu la découpes en blocs indépendants et réutilisables. Chaque composant gère sa propre logique et son propre affichage.","exemple":"Sur Kora, la page d'accueil contient une NavBar, un Feed de posts, chaque post est un composant Post, chaque post contient un BoutonLike... C'est une arborescence de composants. Sur DB Studio, ton formulaire de contact est un composant. La carte de chaque offre est un composant. Tu les écris une fois et tu les réutilises partout.","comparaison":{"sans":{"titre":"Sans composants — tout dans un fichier","code":"<!-- Une page HTML classique -->\n<div class=\"page\">\n  <!-- 200 lignes de code pour le header -->\n  <!-- 500 lignes pour le contenu -->\n  <!-- 150 lignes pour le footer -->\n  <!-- Tout mélangé, difficile à maintenir -->\n</div>","commentaire":"Si tu veux changer le style d'un bouton, tu cherches parmi des centaines de lignes."},"avec":{"titre":"Avec composants React","code":"// Page découpée en composants\nfunction PageAccueil() {\n  return (\n    <>\n      <NavBar />          {/* composant réutilisable */}\n      <Hero titre=\"Kora\" />\n      <Feed>\n        <Post auteur=\"Val\" texte=\"Hello !\" />\n        <Post auteur=\"Marc\" texte=\"Salut !\" />\n        {/* même composant Post, données différentes */}\n      </Feed>\n      <Footer />\n    </>\n  );\n}","commentaire":"Chaque composant est indépendant. Modifier NavBar n'affecte que NavBar."}},"ce_que_fait_react":["Un composant = une fonction avec une Majuscule qui retourne du JSX","Les props = les données reçues du parent (lecture seule)","Un composant peut en contenir d'autres (composition)","Même composant, données différentes = affichages différents","PascalCase obligatoire : NavBar pas navbar, BoutonLike pas boutonlike"]}},{"id":"observe","label":"Observer","type":"observe","titre":"Composants imbriqués — le fil Kora","lignes":[{"code":"// Composant enfant — le plus petit","expl":""},{"code":"function BoutonLike({ count }) {","expl":"Reçoit count (nombre de likes) en prop."},{"code":"  return <button>❤️ {count}</button>;","expl":"Retour sur une ligne possible si c'est simple."},{"code":"}","expl":""},{"code":"","expl":""},{"code":"// Composant intermédiaire","expl":""},{"code":"function Post({ auteur, texte, likes }) {","expl":"Trois props : auteur, texte, likes."},{"code":"  return (","expl":""},{"code":"    <article className=\"post\">","expl":"Un composant peut utiliser des balises HTML ET d'autres composants."},{"code":"      <strong>{auteur}</strong>","expl":""},{"code":"      <p>{texte}</p>","expl":""},{"code":"      <BoutonLike count={likes} />","expl":"Utilise le composant BoutonLike. Lui passe likes en prop."},{"code":"    </article>","expl":""},{"code":"  );","expl":""},{"code":"}","expl":""},{"code":"","expl":""},{"code":"// Composant parent — orchestre tout","expl":""},{"code":"function FeedKora() {","expl":""},{"code":"  return (","expl":""},{"code":"    <div className=\"feed\">","expl":""},{"code":"      <Post auteur=\"Val\" texte=\"Première leçon !\" likes={284} />","expl":"Même composant Post, données différentes à chaque fois."},{"code":"      <Post auteur=\"Marc\" texte=\"React c'est top\" likes={47} />","expl":""},{"code":"    </div>","expl":""},{"code":"  );","expl":""},{"code":"}","expl":""}]},{"id":"ex1","label":"Ex. 1","type":"ordre","titre":"Remets dans l'ordre","instruction":"Remets dans le bon ordre les parties du composant CarteOffre de DB Studio.","contexte":"Composant qui affiche une offre : titre, prix, et description.","items":["}","  return (","function CarteOffre({ titre, prix, description }) {","    <div className=\"offre\"><h3>{titre}</h3><p>{prix}€</p><p>{description}</p></div>","  );"],"bonne":[2,1,3,4,0],"explication":"Structure composant : function Nom({ props }) { → return ( → JSX → ); → }"},{"id":"ex2","label":"Ex. 2","type":"devinette","titre":"Devinette","question":"Tu écris function monBouton() et tu l'utilises avec <monBouton />. Que va-t-il se passer ?","choix":["Ça fonctionne normalement","React va traiter monBouton comme une balise HTML inconnue et ne l'affichera pas correctement","Une erreur de syntaxe JavaScript"],"bonne":1,"explication":"React distingue les composants des balises HTML par la casse. Minuscule = balise HTML (<div>, <p>...). Majuscule = composant React (<MonBouton>). Il faut écrire function MonBouton() et <MonBouton />."},{"id":"ex3","label":"Ex. 3","type":"integration","titre":"Intégration","instruction":"Crée le composant ProfilKora qui reçoit nom, tokens et verifie, et affiche ces informations.","contexte":"Profil utilisateur sur Kora — nom, badge vérifié si applicable, tokens.","labels":["props reçues","badge conditionnel"],"bonnes":["{ nom, tokens, verifie }","verifie && <span>✓</span>"],"template":"function ProfilKora([A]) {\n  return (\n    <div className=\"profil\">\n      <h2>{nom} {[B]}</h2>\n      <p>{tokens} KRT</p>\n    </div>\n  );\n}","aide":"Les props se destructurent entre accolades. Le && affiche le span seulement si verifie est true."},{"id":"resume","label":"Résumé","type":"resume"}],"resume":[{"icon":"🧱","key":"Composant","val":"function Nom({ props }) { return JSX; }"},{"icon":"🔤","key":"PascalCase","val":"Majuscule obligatoire. MonComposant pas monComposant."},{"icon":"📫","key":"Props","val":"Données reçues du parent. Lecture seule — jamais modifier."},{"icon":"♻️","key":"Réutilisable","val":"Même composant, props différentes = affichages différents."}]},{"id":"r4","num":4,"titre":"useState","sous":"Mémoriser et faire changer les données","steps":[{"id":"intro","label":"Intro","type":"intro","titre":"L'état — rendre les composants interactifs","contenu":{"texte":"Un composant React est statique par défaut — il affiche ce qu'on lui donne et c'est tout. Pour qu'il réagisse aux clics, aux saisies, aux changements, il a besoin d'un état. L'état (state en anglais) est une valeur mémorisée par le composant qui, quand elle change, provoque une mise à jour automatique de l'affichage.","exemple":"Le bouton Like sur Kora : au clic, le compteur augmente et le cœur devient rouge. Ces deux informations (le chiffre et la couleur) sont des états. Le formulaire de contact de DB Studio : le texte que tu tapes dans les champs, c'est un état. Chaque fois que tu tapes une lettre, l'état change et l'input se met à jour.","comparaison":{"sans":{"titre":"Sans état — composant statique","code":"// Ce composant ne peut jamais changer\nfunction Badge({ count }) {\n  return <span>{count}</span>;\n  // count vient du parent\n  // Si le parent ne change pas, count ne change jamais\n}","commentaire":"Utile pour afficher des données fixes. Pas utile pour les interactions."},"avec":{"titre":"Avec useState — composant interactif","code":"import { useState } from 'react';\n\nfunction Compteur() {\n  //   valeur    fonction       départ\n  const [count, setCount] = useState(0);\n  //                                 ↑\n  //              valeur de départ = 0\n\n  // Au clic : setCount(count + 1)\n  // → count change → React re-rend → nouveau chiffre affiché\n  return (\n    <button onClick={() => setCount(count + 1)}>\n      {count} clics\n    </button>\n  );\n}","commentaire":"useState(0) démarre à 0. setCount() change la valeur → affichage mis à jour."}},"ce_que_fait_react":["useState(valeurInitiale) retourne [valeurActuelle, fonctionDeChangement]","Appeler setValeur() → React re-rend le composant avec la nouvelle valeur","On peut avoir plusieurs useState dans un même composant","Ne jamais modifier la valeur directement : toujours passer par setValeur()","La valeur peut être : number, string, boolean, tableau, objet"]}},{"id":"observe","label":"Observer","type":"observe","titre":"useState — bouton like Kora complet","lignes":[{"code":"import { useState } from 'react';","expl":"Toujours importer useState depuis 'react' avant de l'utiliser."},{"code":"","expl":""},{"code":"function BoutonLike({ likesInitiaux }) {","expl":"Reçoit le nombre de likes de départ en prop."},{"code":"  // État 1 : le nombre de likes","expl":""},{"code":"  const [likes, setLikes] = useState(likesInitiaux);","expl":"likes = valeur actuelle. setLikes = comment changer. useState(likesInitiaux) = commence avec la valeur reçue."},{"code":"","expl":""},{"code":"  // État 2 : est-ce que l'utilisateur a liké ?","expl":""},{"code":"  const [aLike, setALike] = useState(false);","expl":"aLike = true si liké, false sinon. Commence à false."},{"code":"","expl":""},{"code":"  const handleClick = () => {","expl":"La fonction qui s'exécute au clic. On la définit avant le return."},{"code":"    if (aLike) {","expl":"Si déjà liké..."},{"code":"      setLikes(likes - 1);","expl":"On retire un like."},{"code":"      setALike(false);","expl":"On repasse à non-liké."},{"code":"    } else {","expl":"Sinon..."},{"code":"      setLikes(likes + 1);","expl":"On ajoute un like."},{"code":"      setALike(true);","expl":"On marque comme liké."},{"code":"    }","expl":""},{"code":"  };","expl":""},{"code":"","expl":""},{"code":"  return (","expl":""},{"code":"    <button","expl":""},{"code":"      onClick={handleClick}","expl":"onClick reçoit la référence de la fonction — pas handleClick() mais handleClick."},{"code":"      style={{ color: aLike ? 'red' : 'gray' }}","expl":"Couleur dynamique selon l'état aLike."},{"code":"    >","expl":""},{"code":"      ❤️ {likes}","expl":"Le nombre de likes se met à jour automatiquement."},{"code":"    </button>","expl":""},{"code":"  );","expl":""},{"code":"}","expl":""}]},{"id":"ex1","label":"Ex. 1","type":"ordre","titre":"Remets dans l'ordre","instruction":"Remets dans l'ordre pour créer un état 'tokens' qui démarre à 0.","contexte":"Déclaration d'un état React avec useState.","items":["useState(0);","const","= ","[tokens, setTokens]"],"bonne":[1,3,2,0],"explication":"const [valeur, setValeur] = useState(valeurInitiale); — la déstructuration [a, b] extrait les deux valeurs retournées par useState."},{"id":"ex2","label":"Ex. 2","type":"devinette","titre":"Devinette","question":"Dans un composant React, tu fais : let count = 0; puis count = count + 1; au clic. Que se passe-t-il ?","choix":["La variable change mais l'affichage ne se met pas à jour — React ne voit pas ce changement","L'affichage se met à jour normalement","Une erreur : les variables ne peuvent pas changer en React"],"bonne":0,"explication":"React ne surveille que les états créés avec useState. Changer une variable normale ne déclenche pas de mise à jour de l'affichage. C'est pour ça qu'il faut utiliser const [count, setCount] = useState(0) et appeler setCount() pour changer la valeur."},{"id":"ex3","label":"Ex. 3","type":"integration","titre":"Intégration","instruction":"Complète le composant : un bouton qui ajoute 10 tokens à chaque clic, avec l'état initialisé à 0.","contexte":"Mini-jeu sur Kora : gagner des tokens en cliquant.","labels":["déclaration état","mise à jour état"],"bonnes":["const [tokens, setTokens] = useState(0)","setTokens(tokens + 10)"],"template":"function GagnerTokens() {\n  [A];\n\n  return (\n    <div>\n      <p>Tu as {tokens} KRT</p>\n      <button onClick={() => [B]}>\n        + 10 tokens\n      </button>\n    </div>\n  );\n}","aide":"useState(0) initialise à 0. setTokens(tokens + 10) ajoute 10 à la valeur actuelle. onClick reçoit une arrow function () => ..."},{"id":"resume","label":"Résumé","type":"resume"}],"resume":[{"icon":"💾","key":"useState(init)","val":"[valeur, setValeur]. init = valeur de départ."},{"icon":"🔄","key":"setValeur()","val":"Changer la valeur → React met l'affichage à jour."},{"icon":"⚠️","key":"Jamais direct","val":"val = x ne fonctionne pas. Toujours setVal(x)."},{"icon":"🎯","key":"onClick={fn}","val":"Passe la référence. onClick={fn} pas onClick={fn()}."}]},{"id":"r5","num":5,"titre":"Les événements","sous":"Réagir aux clics et aux saisies","steps":[{"id":"intro","label":"Intro","type":"intro","titre":"Les événements — interaction utilisateur","contenu":{"texte":"Les événements permettent à ton composant de réagir aux actions de l'utilisateur : clics sur les boutons, saisie dans les champs, soumission de formulaires. En React, les événements s'écrivent en camelCase (onClick, onChange, onSubmit) et reçoivent toujours une fonction JavaScript.","exemple":"La barre de recherche sur Kora qui filtre les posts à chaque frappe — c'est l'événement onChange sur l'input. Le bouton Publier qui envoie un post — c'est onClick. Le formulaire de contact de DB Studio — c'est onSubmit avec e.preventDefault() pour empêcher le rechargement de page.","comparaison":{"sans":{"titre":"HTML — événements en attributs string","code":"<!-- HTML classique -->\n<button onclick=\"handleClick()\">Cliquer</button>\n<!-- on passe une STRING contenant le nom de la fonction -->","commentaire":"En HTML, les handlers d'événements sont des chaînes de texte."},"avec":{"titre":"React — événements en JSX","code":"// React — on passe une FONCTION JS\n<button onClick={handleClick}>Cliquer</button>\n//                ↑ référence à la fonction (pas de ())\n\n// Pour passer un argument :\n<button onClick={() => supprimer(post.id)}>X</button>\n//             ↑ arrow function qui appelle avec l'argument\n\n// Formulaire — toujours preventDefault :\n<form onSubmit={(e) => {\n  e.preventDefault(); // empêche rechargement\n  envoyerDonnées();\n}}>","commentaire":"onClick={handleClick} passe la référence. onClick={handleClick()} appelle immédiatement."}},"ce_que_fait_react":["onClick, onChange, onSubmit, onKeyDown... camelCase toujours","onClick={fn} — passe la référence, pas l'appel","onClick={() => fn(arg)} — arrow function pour passer des arguments","e.preventDefault() dans onSubmit — empêche le rechargement de page","e.target.value — récupère la valeur d'un input dans onChange"]}},{"id":"observe","label":"Observer","type":"observe","titre":"Formulaire de contact DB Studio en React","lignes":[{"code":"function FormulaireContact() {","expl":""},{"code":"  const [nom, setNom] = useState('');","expl":"État pour le champ nom. Commence vide."},{"code":"  const [email, setEmail] = useState('');","expl":"État pour le champ email."},{"code":"  const [envoye, setEnvoye] = useState(false);","expl":"État pour savoir si le formulaire est envoyé."},{"code":"","expl":""},{"code":"  const handleSubmit = (e) => {","expl":"La fonction qui gère la soumission. Reçoit l'événement e."},{"code":"    e.preventDefault();","expl":"OBLIGATOIRE dans onSubmit. Empêche le rechargement de la page."},{"code":"    if (!nom || !email) return;","expl":"Validation : si un champ est vide, on arrête."},{"code":"    // Ici : envoyer les données au serveur","expl":""},{"code":"    setEnvoye(true);","expl":"On change l'état — React va re-rendre avec envoye = true."},{"code":"  };","expl":""},{"code":"","expl":""},{"code":"  if (envoye) {","expl":"Si le formulaire est envoyé, afficher un message de confirmation."},{"code":"    return <p>Message envoyé ! Merci {nom}.</p>;","expl":"Return anticipé — on sort du composant avant le formulaire."},{"code":"  }","expl":""},{"code":"","expl":""},{"code":"  return (","expl":"Si pas encore envoyé, afficher le formulaire."},{"code":"    <form onSubmit={handleSubmit}>","expl":"onSubmit reçoit la référence de handleSubmit — sans ()."},{"code":"      <input","expl":""},{"code":"        value={nom}","expl":"value lié à l'état nom. C'est un input contrôlé par React."},{"code":"        onChange={(e) => setNom(e.target.value)}","expl":"À chaque frappe : e.target.value = ce que l'utilisateur tape → setNom() met à jour l'état."},{"code":"        placeholder=\"Votre nom\"","expl":""},{"code":"      />","expl":"Auto-fermant en JSX."},{"code":"      <button type=\"submit\">Envoyer</button>","expl":""},{"code":"    </form>","expl":""},{"code":"  );","expl":""},{"code":"}","expl":""}]},{"id":"ex1","label":"Ex. 1","type":"ordre","titre":"Remets dans l'ordre","instruction":"Remets dans l'ordre les parties de cet événement onChange qui met à jour la recherche.","contexte":"Barre de recherche Kora — chaque frappe met à jour l'état.","items":["e.target.value","onChange={(","e) => setRecherche(",")}"],"bonne":[1,2,0,3],"explication":"onChange reçoit une arrow function. (e) = l'événement. e.target.value = ce que l'utilisateur a tapé. setRecherche() met à jour l'état."},{"id":"ex2","label":"Ex. 2","type":"devinette","titre":"Devinette","question":"Tu écris <button onClick={supprimer()}>X</button>. Que va-t-il se passer ?","choix":["La fonction supprimer s'exécute quand on clique","La fonction supprimer s'exécute immédiatement au chargement, pas au clic","Une erreur de syntaxe"],"bonne":1,"explication":"supprimer() avec les parenthèses = appel immédiat de la fonction. React exécute supprimer() pendant le rendu du composant. Pour qu'elle s'exécute au clic, il faut passer la référence : onClick={supprimer} ou une arrow function : onClick={() => supprimer()}."},{"id":"ex3","label":"Ex. 3","type":"integration","titre":"Intégration","instruction":"Complète l'input de recherche Kora. À chaque frappe, la valeur doit être affichée en dessous.","contexte":"Barre de recherche avec affichage en temps réel.","labels":["valeur liée état","handler onChange"],"bonnes":["value={recherche}","(e) => setRecherche(e.target.value)"],"template":"function SearchKora() {\n  const [recherche, setRecherche] = useState('');\n\n  return (\n    <div>\n      <input\n        [A]\n        onChange={[B]}\n        placeholder=\"Rechercher sur Kora...\"\n      />\n      <p>Tu cherches : {recherche}</p>\n    </div>\n  );\n}","aide":"value={recherche} synchronise l'input avec l'état. onChange reçoit e, et e.target.value contient ce que l'utilisateur a tapé."},{"id":"resume","label":"Résumé","type":"resume"}],"resume":[{"icon":"👆","key":"onClick={fn}","val":"Référence — pas d'appel. onClick={fn} pas onClick={fn()}."},{"icon":"✏️","key":"onChange","val":"e.target.value = valeur actuelle de l'input."},{"icon":"📨","key":"onSubmit","val":"Toujours e.preventDefault() en premier."},{"icon":"🎯","key":"Arrow function","val":"() => fn(arg) pour passer des arguments au clic."}]},{"id":"r6","num":6,"titre":"Les listes","sous":"Afficher des tableaux de données","steps":[{"id":"intro","label":"Intro","type":"intro","titre":"Afficher des listes avec .map()","contenu":{"texte":"Une application React travaille presque toujours avec des tableaux de données : liste de posts, de formations, d'utilisateurs. Pour afficher chaque élément, React utilise la méthode JavaScript .map() qui transforme un tableau de données en tableau d'éléments JSX.","exemple":"Le fil Kora avec ses dizaines de posts, le catalogue Kora Academy avec ses formations, la liste des offres DB Studio — ce sont tous des tableaux affichés avec .map(). La prop key est obligatoire et doit être unique pour que React optimise les mises à jour.","comparaison":{"sans":{"titre":"Sans .map() — répétition manuelle","code":"// Écrire chaque élément à la main\n<div className=\"feed\">\n  <Post auteur=\"Val\" texte=\"Post 1\" />\n  <Post auteur=\"Marc\" texte=\"Post 2\" />\n  <Post auteur=\"Léa\" texte=\"Post 3\" />\n  {/* Impossible si les données viennent d'une API */}\n</div>","commentaire":"Fonctionne pour des données fixes. Impossible avec des données dynamiques."},"avec":{"titre":"Avec .map() — dynamique","code":"// Tableau de données\nconst posts = [\n  { id: 1, auteur: 'Val', texte: 'Post 1' },\n  { id: 2, auteur: 'Marc', texte: 'Post 2' },\n  { id: 3, auteur: 'Léa', texte: 'Post 3' },\n];\n\n// .map() transforme chaque objet en composant JSX\n<div className=\"feed\">\n  {posts.map(post => (\n    <Post\n      key={post.id}        // OBLIGATOIRE\n      auteur={post.auteur}\n      texte={post.texte}\n    />\n  ))}\n</div>","commentaire":"Fonctionne avec n'importe quel nombre d'éléments. key est obligatoire."}},"ce_que_fait_react":[".map() transforme chaque élément du tableau en JSX","key={id} obligatoire — utilise un identifiant unique et stable","Ne pas utiliser l'index du tableau comme key si la liste peut changer","Gérer le cas liste vide avec {tableau.length === 0 && <p>Vide</p>}","{...objet} spread pour passer toutes les propriétés en props d'un coup"]}},{"id":"observe","label":"Observer","type":"observe","titre":"Liste de formations Kora avec filtre","lignes":[{"code":"function ListeFormations({ formations }) {","expl":"Reçoit le tableau de formations en prop."},{"code":"  const [filtre, setFiltre] = useState('tous');","expl":"État pour le filtre actif."},{"code":"","expl":""},{"code":"  // Calcul des formations filtrées","expl":""},{"code":"  const filtrees = filtre === 'tous'","expl":""},{"code":"    ? formations","expl":"Si filtre = 'tous', garder toutes les formations."},{"code":"    : formations.filter(f => f.categorie === filtre);","expl":"Sinon, garder seulement celles de la bonne catégorie."},{"code":"","expl":""},{"code":"  return (","expl":""},{"code":"    <div>","expl":""},{"code":"      {/* Boutons filtres */}","expl":""},{"code":"      {['tous', 'react', 'css', 'js'].map(cat => (","expl":"On map aussi les catégories pour créer les boutons."},{"code":"        <button","expl":""},{"code":"          key={cat}","expl":"key obligatoire même pour des éléments simples dans .map()."},{"code":"          className={filtre === cat ? 'actif' : ''}","expl":"Classe dynamique : 'actif' si c'est le filtre sélectionné."},{"code":"          onClick={() => setFiltre(cat)}","expl":"Au clic, changer le filtre actif."},{"code":"        >","expl":""},{"code":"          {cat}","expl":""},{"code":"        </button>","expl":""},{"code":"      ))}","expl":"Double parenthèse : une pour le .map(), une pour le JSX."},{"code":"","expl":""},{"code":"      {/* Cas liste vide */}","expl":""},{"code":"      {filtrees.length === 0 && <p>Aucune formation trouvée</p>}","expl":"Si la liste est vide, afficher un message."},{"code":"","expl":""},{"code":"      {/* Affichage des formations */}","expl":""},{"code":"      {filtrees.map(f => (","expl":"On map les formations filtrées."},{"code":"        <CarteFormation","expl":""},{"code":"          key={f.id}","expl":"key = identifiant unique stable. Pas l'index du tableau."},{"code":"          titre={f.titre}","expl":""},{"code":"          lecons={f.lecons}","expl":""},{"code":"        />","expl":""},{"code":"      ))}","expl":""},{"code":"    </div>","expl":""},{"code":"  );","expl":""},{"code":"}","expl":""}]},{"id":"ex1","label":"Ex. 1","type":"ordre","titre":"Remets dans l'ordre","instruction":"Remets dans l'ordre pour afficher correctement une liste de posts avec .map().","contexte":"Fil de posts Kora avec la prop key obligatoire.","items":["      <Post key={post.id} auteur={post.auteur} />","    <div className=\"feed\">","  return (","    </div>","      {posts.map(post => (","      ))}","  );"],"bonne":[2,1,4,0,5,3,6],"explication":"return ( → <div> → {posts.map(post => ( → <Post key={} ... /> → ))} → </div> → );"},{"id":"ex2","label":"Ex. 2","type":"devinette","titre":"Devinette","question":"Tu utilises l'index du tableau comme key : key={index}. Tu réorganises la liste. Que risque-t-il de se passer ?","choix":["Rien, key={index} est toujours valide","React peut mixer les états des composants car les keys ont changé avec la réorganisation","Une erreur JavaScript s'affiche dans la console"],"bonne":1,"explication":"Si tu déplaces l'élément d'index 0 en position 3, sa key change de 0 à 3. React pense que c'est un autre composant. Les états internes peuvent être perdus ou mélangés. Utiliser un ID stable (post.id, formation.id) garantit que React reconnaît chaque élément même si l'ordre change."},{"id":"ex3","label":"Ex. 3","type":"integration","titre":"Intégration","instruction":"Affiche la liste des offres DB Studio avec .map(). Gère le cas où la liste est vide.","contexte":"Liste d'offres commerciales — chaque offre a un id, un nom et un prix.","labels":["méthode pour transformer le tableau","message si liste vide"],"bonnes":["offres.map(o => <CarteOffre key={o.id} nom={o.nom} prix={o.prix} />)","offres.length === 0 && <p>Aucune offre disponible</p>"],"template":"function ListeOffres({ offres }) {\n  return (\n    <div className=\"offres\">\n      {[A]}\n      {[B]}\n    </div>\n  );\n}","aide":".map() parcourt le tableau. key obligatoire. Pour le cas vide : longueur === 0 && message."},{"id":"resume","label":"Résumé","type":"resume"}],"resume":[{"icon":"🔄","key":".map()","val":"Transforme un tableau en liste de JSX."},{"icon":"🔑","key":"key={id}","val":"Obligatoire. ID stable — pas l'index si liste peut changer."},{"icon":"📭","key":"length === 0","val":"Toujours gérer le cas liste vide."},{"icon":"📤","key":"{...objet}","val":"Spread : passe toutes les propriétés en props."}]},{"id":"r7","num":7,"titre":"useEffect","sous":"Charger des données et réagir aux changements","steps":[{"id":"intro","label":"Intro","type":"intro","titre":"useEffect — les effets de bord","contenu":{"texte":"useEffect permet d'exécuter du code APRÈS que le composant s'est affiché. C'est là où tu places tout ce qui interagit avec l'extérieur : charger des données depuis une API, modifier le titre de la page, s'abonner à des événements. Sans useEffect, ces actions s'exécuteraient pendant le rendu, causant des problèmes.","exemple":"Quand tu arrives sur le catalogue Kora, la page doit charger les formations depuis le serveur. Ce chargement doit se déclencher une seule fois, après que la page s'affiche. useEffect avec un tableau de dépendances vide [] fait exactement ça.","comparaison":{"sans":{"titre":"Sans useEffect — exécution pendant le rendu","code":"// MAUVAIS — s'exécute à chaque rendu\nfunction Catalogue() {\n  fetch('/api/formations') // s'exécute en boucle !\n    .then(r => r.json())\n    .then(setFormations);\n  return <div>...</div>;\n}","commentaire":"Sans useEffect, le fetch s'exécute à chaque re-render. Boucle infinie."},"avec":{"titre":"Avec useEffect","code":"function Catalogue() {\n  const [formations, setFormations] = useState([]);\n\n  useEffect(() => {\n    // S'exécute UNE FOIS après le premier affichage\n    fetch('/api/formations')\n      .then(r => r.json())\n      .then(data => setFormations(data));\n  }, []); // [] = dépendances vides = une seule fois\n\n  return <div>{formations.map(...)}</div>;\n}","commentaire":"useEffect avec [] = s'exécute une fois au montage. Propre et prévisible."}},"ce_que_fait_react":["useEffect(fonction, []) — s'exécute une fois après le premier affichage","useEffect(fonction, [dep]) — se relance chaque fois que dep change","useEffect(fonction) — sans tableau : s'exécute après chaque render (à éviter)","La fonction ne peut pas être async directement — définir async à l'intérieur","try/catch/finally pour gérer les erreurs et désactiver le spinner"]}},{"id":"observe","label":"Observer","type":"observe","titre":"Pattern complet — chargement données API","lignes":[{"code":"function CatalogueKora() {","expl":""},{"code":"  const [formations, setFormations] = useState([]);","expl":"Données — tableau vide au départ."},{"code":"  const [loading, setLoading] = useState(true);","expl":"true dès le départ — le spinner s'affiche immédiatement."},{"code":"  const [erreur, setErreur] = useState(null);","expl":"null = pas d'erreur au départ."},{"code":"","expl":""},{"code":"  useEffect(() => {","expl":"S'exécute après le premier rendu."},{"code":"    async function charger() {","expl":"Fonction async définie à l'intérieur. useEffect ne peut pas être async directement."},{"code":"      try {","expl":""},{"code":"        const res = await fetch('/api/formations');","expl":"On fait la requête."},{"code":"        if (!res.ok) throw new Error('Erreur ' + res.status);","expl":"Si le serveur répond 404 ou 500, on lève une erreur."},{"code":"        const data = await res.json();","expl":"On parse la réponse JSON."},{"code":"        setFormations(data);","expl":"On stocke les données → React met la page à jour."},{"code":"      } catch(e) {","expl":""},{"code":"        setErreur(e.message);","expl":"On stocke le message d'erreur."},{"code":"      } finally {","expl":"finally s'exécute toujours, succès ou échec."},{"code":"        setLoading(false);","expl":"On masque le spinner dans tous les cas."},{"code":"      }","expl":""},{"code":"    }","expl":""},{"code":"    charger();","expl":"On appelle la fonction async définie au-dessus."},{"code":"  }, []);","expl":"[] = dépendances vides = exécuter une seule fois au montage."},{"code":"","expl":""},{"code":"  if (loading) return <p>Chargement...</p>;","expl":"Return anticipé : pendant le chargement, afficher un message."},{"code":"  if (erreur) return <p>Erreur : {erreur}</p>;","expl":"Return anticipé : si erreur, afficher le message."},{"code":"","expl":""},{"code":"  return (","expl":"Si on arrive ici : chargement terminé, pas d'erreur, données disponibles."},{"code":"    <div>{formations.map(f => <Carte key={f.id} {...f} />)}</div>","expl":"On affiche les formations."},{"code":"  );","expl":""},{"code":"}","expl":""}]},{"id":"ex1","label":"Ex. 1","type":"ordre","titre":"Remets dans l'ordre","instruction":"Remets dans l'ordre les 3 états nécessaires pour un chargement de données.","contexte":"Pattern standard : données + loading + erreur.","items":["const [erreur, setErreur] = useState(null);","const [posts, setPosts] = useState([]);","const [loading, setLoading] = useState(true);"],"bonne":[1,2,0],"explication":"Ordre logique : d'abord les données [], ensuite le loading (true = spinner visible dès le départ), ensuite l'erreur (null = pas d'erreur)."},{"id":"ex2","label":"Ex. 2","type":"devinette","titre":"Devinette","question":"Tu écris useEffect sans le tableau de dépendances : useEffect(() => { fetch(...).then(setPosts); }). Que se passe-t-il ?","choix":["Le fetch se déclenche une seule fois au chargement","Le fetch se déclenche en boucle infinie — setPosts cause un re-render qui relance useEffect","Le fetch ne se déclenche jamais"],"bonne":1,"explication":"Sans [], useEffect se relance après chaque re-render. setPosts() déclenche un re-render. Ce re-render déclenche useEffect. Boucle infinie. La solution : ajouter [] pour n'exécuter qu'une seule fois au montage."},{"id":"ex3","label":"Ex. 3","type":"integration","titre":"Intégration","instruction":"Complète le useEffect qui charge les posts au montage, avec les 3 états corrects.","contexte":"Feed Kora — chargement au montage, gestion loading et erreur.","labels":["fonction async interne","tableau dépendances"],"bonnes":["async function charger()","[]"],"template":"function Feed() {\n  const [posts, setPosts] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n\n  useEffect(() => {\n    [A] {\n      try {\n        const data = await fetch('/api/posts').then(r => r.json());\n        setPosts(data);\n      } catch(e) {\n        setErreur(e.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n    charger();\n  }, [B]);\n\n  if (loading) return <p>Chargement...</p>;\n  if (erreur) return <p>{erreur}</p>;\n  return posts.map(p => <Post key={p.id} {...p} />);\n}","aide":"La fonction async se définit à l'intérieur du useEffect. [] en dépendances = exécuter une seule fois au montage."},{"id":"resume","label":"Résumé","type":"resume"}],"resume":[{"icon":"🚀","key":"useEffect(fn, [])","val":"S'exécute une fois après le premier affichage."},{"icon":"🔄","key":"useEffect(fn, [dep])","val":"Se relance quand dep change."},{"icon":"⚠️","key":"Sans []","val":"Boucle infinie si l'effet modifie le state."},{"icon":"🛡️","key":"try/catch/finally","val":"finally désactive le loading dans tous les cas."}]},{"id":"r8","num":8,"titre":"Props et communication","sous":"Faire communiquer les composants","steps":[{"id":"intro","label":"Intro","type":"intro","titre":"Props — le flux de données entre composants","contenu":{"texte":"Dans React, les données circulent dans un seul sens : du parent vers l'enfant, via les props. Pour qu'un enfant communique avec son parent (signaler un clic, envoyer une valeur), le parent lui passe une fonction en prop — l'enfant l'appelle quand nécessaire.","exemple":"Sur Kora, le composant Feed possède la liste des posts. Chaque Post enfant a un bouton Like. Quand on clique Like dans un Post, il ne peut pas modifier directement les données du Feed. Il appelle la fonction onLike que Feed lui a passée. Feed met alors à jour ses propres données.","comparaison":{"sans":{"titre":"Mauvais — l'enfant modifie directement","code":"// INTERDIT en React\nfunction Post({ posts, index }) {\n  return (\n    <button onClick={() => {\n      posts[index].likes++; // NE PAS FAIRE\n      // React ne voit pas ce changement\n    }}>\n      Like\n    </button>\n  );\n}","commentaire":"Muter les props directement ne déclenche pas de re-render et cause des bugs."},"avec":{"titre":"Correct — callback du parent","code":"// Parent — possède les données\nfunction Feed() {\n  const [posts, setPosts] = useState(data);\n\n  const handleLike = (id) => {\n    setPosts(prev => prev.map(p =>\n      p.id === id ? { ...p, likes: p.likes + 1 } : p\n    ));\n  };\n\n  return posts.map(p =>\n    <Post key={p.id} post={p} onLike={handleLike} />\n  );\n}\n\n// Enfant — appelle la callback\nfunction Post({ post, onLike }) {\n  return (\n    <button onClick={() => onLike(post.id)}>\n      {post.likes} Likes\n    </button>\n  );\n}","commentaire":"Le parent gère les données. L'enfant signale via la callback."}},"ce_que_fait_react":["Les données descendent : parent → enfant via props","Les actions remontent : enfant → parent via callback (fonction en prop)","L'enfant ne doit jamais modifier les props reçues","props.children = contenu placé entre les balises du composant","Lifting state up : si deux enfants partagent des données, les remonter au parent commun"]}},{"id":"observe","label":"Observer","type":"observe","titre":"Système complet parent-enfant — Kora","lignes":[{"code":"// ── PARENT : Feed ──────────────────────","expl":""},{"code":"function Feed() {","expl":""},{"code":"  const [posts, setPosts] = useState([","expl":"Le Feed possède l'état des posts."},{"code":"    { id: 1, texte: 'Hello', likes: 10 },","expl":""},{"code":"    { id: 2, texte: 'React !', likes: 5 },","expl":""},{"code":"  ]);","expl":""},{"code":"","expl":""},{"code":"  const handleLike = (id) => {","expl":"Cette fonction sera passée aux Post enfants."},{"code":"    setPosts(prev => prev.map(p =>","expl":""},{"code":"      p.id === id ? { ...p, likes: p.likes + 1 } : p","expl":"Si c'est le bon post, augmenter les likes. {...p} copie l'objet, on ne mute pas."},{"code":"    ));","expl":""},{"code":"  };","expl":""},{"code":"","expl":""},{"code":"  return posts.map(p => (","expl":""},{"code":"    <Post","expl":""},{"code":"      key={p.id}","expl":""},{"code":"      post={p}","expl":"On passe tout l'objet post."},{"code":"      onLike={handleLike}","expl":"On passe la fonction — l'enfant pourra l'appeler."},{"code":"    />","expl":""},{"code":"  ));","expl":""},{"code":"}","expl":""},{"code":"","expl":""},{"code":"// ── ENFANT : Post ──────────────────────","expl":""},{"code":"function Post({ post, onLike }) {","expl":"Reçoit l'objet post ET la fonction onLike."},{"code":"  return (","expl":""},{"code":"    <article>","expl":""},{"code":"      <p>{post.texte}</p>","expl":""},{"code":"      <button onClick={() => onLike(post.id)}>","expl":"Au clic, appelle la fonction du parent avec l'id du post."},{"code":"        {post.likes} ❤️","expl":""},{"code":"      </button>","expl":""},{"code":"    </article>","expl":""},{"code":"  );","expl":""},{"code":"}","expl":""}]},{"id":"ex1","label":"Ex. 1","type":"ordre","titre":"Remets dans l'ordre","instruction":"Remets dans l'ordre les éléments pour que l'enfant appelle correctement la callback du parent.","contexte":"Bouton supprimer un post — l'enfant signale au parent.","items":["onSupprimer(post.id)","<button","onClick={() => ","}>Supprimer</button>"],"bonne":[1,2,0,3],"explication":"<button onClick={() => onSupprimer(post.id)}>. L'arrow function () => permet de passer l'argument post.id à la callback."},{"id":"ex2","label":"Ex. 2","type":"devinette","titre":"Devinette","question":"Un composant enfant reçoit la prop `couleur`. Il veut la modifier. Que doit-il faire ?","choix":["couleur = 'rouge' — modifier la prop directement","Appeler une fonction callback que le parent lui a passée pour signaler le changement","Utiliser useState(couleur) et modifier l'état local"],"bonne":1,"explication":"Les props sont en lecture seule — jamais modifier une prop directement. Si l'enfant doit provoquer un changement, il appelle une callback passée par le parent. Le parent, lui, possède l'état et peut le modifier avec son setter."},{"id":"ex3","label":"Ex. 3","type":"integration","titre":"Intégration","instruction":"Complete le composant Card qui accepte du contenu variable via children, et le composant parent qui l'utilise.","contexte":"Composant Card réutilisable sur Kora — peut contenir n'importe quoi.","labels":["prop children","utilisation avec contenu"],"bonnes":["{ children }","<Card><h2>Titre</h2><p>Texte</p></Card>"],"template":"// Composant Card réutilisable\nfunction Card([A]) {\n  return (\n    <div className=\"card\">\n      {children}\n    </div>\n  );\n}\n\n// Utilisation dans une page Kora\nfunction PageKora() {\n  return (\n    [B]\n  );\n}","aide":"children est une prop spéciale — elle contient ce qui est placé entre les balises du composant."},{"id":"resume","label":"Résumé","type":"resume"}],"resume":[{"icon":"⬇️","key":"Parent → Enfant","val":"Via props. Données descendent."},{"icon":"⬆️","key":"Enfant → Parent","val":"Via callback passée en prop."},{"icon":"🚫","key":"Props = lecture seule","val":"Jamais modifier une prop directement."},{"icon":"👶","key":"children","val":"Contenu placé entre les balises du composant."}]},{"id":"r9","num":9,"titre":"Formulaires contrôlés","sous":"Gérer les inputs avec React","steps":[{"id":"intro","label":"Intro","type":"intro","titre":"Formulaires — React comme source de vérité","contenu":{"texte":"Un formulaire contrôlé signifie que React gère la valeur de chaque input via le state. À chaque frappe, l'état est mis à jour et la valeur de l'input reflète toujours le state. Avantage : tu peux valider, transformer et accéder aux valeurs à tout moment, pas seulement à la soumission.","exemple":"Le formulaire d'inscription Kora : validation du pseudo en temps réel (pas de caractères spéciaux), vérification que l'email contient un @, message d'erreur immédiat. Le formulaire de contact DB Studio : validation avant envoi, reset après soumission.","comparaison":{"sans":{"titre":"Non contrôlé — HTML standard","code":"<!-- HTML — le navigateur gère la valeur -->\n<form onsubmit=\"handleSubmit(event)\">\n  <input type=\"text\" name=\"nom\" />\n  <!-- On lit la valeur seulement à la soumission -->\n  <!-- Validation en temps réel difficile -->\n</form>","commentaire":"Fonctionne mais limité. Validation en temps réel compliquée."},"avec":{"titre":"Contrôlé — React gère","code":"const [nom, setNom] = useState('');\nconst estValide = nom.length >= 3; // calculé en temps réel\n\n<input\n  value={nom}          // React impose la valeur\n  onChange={(e) => setNom(e.target.value)}\n  className={estValide ? 'valide' : 'erreur'}\n/>\n{!estValide && <p>Minimum 3 caractères</p>}","commentaire":"React contrôle. Validation instantanée possible."}},"ce_que_fait_react":["value={state} — React impose la valeur affichée dans l'input","onChange → setValeur — met à jour l'état à chaque frappe","value sans onChange = input bloqué (React empêche les modifications)","Un seul handler générique pour plusieurs champs avec e.target.name","e.preventDefault() dans onSubmit — empêche le rechargement de page"]}},{"id":"observe","label":"Observer","type":"observe","titre":"Formulaire d'inscription Kora — handler générique","lignes":[{"code":"function FormulaireInscription() {","expl":""},{"code":"  // Un seul état objet pour tous les champs","expl":""},{"code":"  const [form, setForm] = useState({","expl":"Plus pratique que plusieurs useState séparés pour les formulaires."},{"code":"    pseudo: '',","expl":""},{"code":"    email: '',","expl":""},{"code":"    motdepasse: ''","expl":""},{"code":"  });","expl":""},{"code":"  const [erreur, setErreur] = useState('');","expl":"Pour les messages d'erreur."},{"code":"","expl":""},{"code":"  // Handler générique pour tous les inputs","expl":""},{"code":"  const handleChange = (e) => {","expl":"Un seul handler pour tous les champs."},{"code":"    setForm(prev => ({","expl":"prev = état précédent."},{"code":"      ...prev,","expl":"Spread : conserver tous les autres champs."},{"code":"      [e.target.name]: e.target.value","expl":"Computed property : [nom_du_champ] = nouvelle_valeur. Si l'input s'appelle 'pseudo', ça met à jour form.pseudo."},{"code":"    }));","expl":""},{"code":"  };","expl":""},{"code":"","expl":""},{"code":"  const handleSubmit = (e) => {","expl":""},{"code":"    e.preventDefault();","expl":"Empêche le rechargement de page."},{"code":"    if (form.pseudo.length < 3) {","expl":"Validation."},{"code":"      setErreur('Pseudo trop court (3 caractères min)');","expl":""},{"code":"      return;","expl":"Arrêter l'exécution si invalide."},{"code":"    }","expl":""},{"code":"    // Envoyer les données au serveur","expl":""},{"code":"  };","expl":""},{"code":"","expl":""},{"code":"  return (","expl":""},{"code":"    <form onSubmit={handleSubmit}>","expl":""},{"code":"      <input name=\"pseudo\" value={form.pseudo} onChange={handleChange} />","expl":"name=\"pseudo\" correspond à la clé dans l'objet form."},{"code":"      <input name=\"email\" value={form.email} onChange={handleChange} />","expl":"Même handler pour tous les inputs."},{"code":"      {erreur && <p className=\"erreur\">{erreur}</p>}","expl":"Affiche l'erreur si elle existe."},{"code":"      <button type=\"submit\">Créer mon compte</button>","expl":""},{"code":"    </form>","expl":""},{"code":"  );","expl":""},{"code":"}","expl":""}]},{"id":"ex1","label":"Ex. 1","type":"ordre","titre":"Remets dans l'ordre","instruction":"Remets dans l'ordre les parties du handler générique pour un formulaire multi-champs.","contexte":"Handler onChange qui met à jour le bon champ selon son name.","items":["[e.target.name]: e.target.value","const handleChange = (e) => {","  setForm(prev => ({ ...prev,","  }));","};"],"bonne":[1,2,0,3,4],"explication":"handleChange reçoit l'événement e. setForm avec prev pour conserver les autres champs. [e.target.name] = computed property qui cible le bon champ selon le name de l'input."},{"id":"ex2","label":"Ex. 2","type":"devinette","titre":"Devinette","question":"Tu écris <input value={email} placeholder=\"Email\" /> sans onChange. Que se passe-t-il quand l'utilisateur tape ?","choix":["L'input accepte la saisie normalement","React bloque la saisie — l'input reste vide car React impose value={email} sans permettre de le changer","L'input affiche une erreur dans la console"],"bonne":1,"explication":"value={state} sans onChange crée un input en lecture seule. React impose la valeur du state et empêche toute modification. Pour qu'il accepte la saisie, il faut obligatoirement ajouter onChange qui met à jour le state."},{"id":"ex3","label":"Ex. 3","type":"integration","titre":"Intégration","instruction":"Complète le formulaire de contact DB Studio avec le handler générique.","contexte":"3 champs : nom, email, message. Un seul handleChange.","labels":["spread état précédent","computed property"],"bonnes":["...prev","[e.target.name]: e.target.value"],"template":"function FormulaireContact() {\n  const [form, setForm] = useState({ nom: '', email: '', message: '' });\n\n  const handleChange = (e) => {\n    setForm(prev => ({\n      [A],\n      [B]\n    }));\n  };\n\n  return (\n    <form onSubmit={(e) => e.preventDefault()}>\n      <input name=\"nom\" value={form.nom} onChange={handleChange} />\n      <input name=\"email\" value={form.email} onChange={handleChange} />\n      <textarea name=\"message\" value={form.message} onChange={handleChange} />\n      <button type=\"submit\">Envoyer</button>\n    </form>\n  );\n}","aide":"...prev copie tous les champs existants. [e.target.name] est une computed property — si l'input s'appelle 'email', ça met à jour form.email."},{"id":"resume","label":"Résumé","type":"resume"}],"resume":[{"icon":"🎛️","key":"Contrôlé","val":"value={state} + onChange = React gère tout."},{"icon":"✏️","key":"onChange","val":"e.target.value = valeur actuelle de l'input."},{"icon":"📋","key":"e.target.name","val":"Un seul handler pour N champs."},{"icon":"⚠️","key":"value sans onChange","val":"Input bloqué en lecture seule."}]},{"id":"r10","num":10,"titre":"Tout assembler","sous":"Une vraie app React de A à Z","steps":[{"id":"intro","label":"Intro","type":"intro","titre":"Assembler toutes les pièces — app Kora complète","contenu":{"texte":"Tu as appris les briques fondamentales de React : JSX, composants, props, useState, événements, listes, useEffect, formulaires. Dans une vraie application, tout s'assemble. Voici comment les leçons précédentes s'articulent pour créer une fonctionnalité complète : le fil de posts Kora avec chargement, création et like.","exemple":"La page principale de Kora : au chargement, useEffect charge les posts existants. L'utilisateur peut rédiger un nouveau post (formulaire contrôlé). Au clic Publier, le post s'ajoute à la liste. Chaque post peut être liké (callback parent-enfant). Tout ça avec une interface qui se met à jour automatiquement.","comparaison":{"sans":{"titre":"Sans React — ce que ça aurait coûté","code":"// Vanilla JS pour la même fonctionnalité :\n// ~300 lignes de getElementById, addEventListener,\n// createElement, appendChild, innerHTML...\n// Gestion manuelle de chaque mise à jour\n// Synchronisation entre les différentes parties\n// de l'interface : cauchemar de maintenance","commentaire":"Faisable mais très difficile à maintenir."},"avec":{"titre":"Avec React — ce que ça donne","code":"// Tout s'emboîte proprement :\n// - FeedPage (gère l'état global)\n//   - useEffect (charge les posts au démarrage)\n//   - FormulaireNouveauPost (ajoute un post)\n//     - input contrôlé + onSubmit\n//   - ListePosts (affiche les posts)\n//     - Post × N (chaque post avec bouton like)\n//       - BoutonLike (callback vers FeedPage)\n// Chaque composant : responsabilité unique\n// Données claires, flux prévisible","commentaire":"Architecture claire, maintenable, évolutive."}},"ce_que_fait_react":["Leçon 1 : React = décrire l'état, pas gérer les updates manuellement","Leçons 2-3 : JSX + composants = découper l'interface proprement","Leçon 4 : useState = données qui changent → affichage qui suit","Leçons 5-6 : événements + listes = interaction et données dynamiques","Leçon 7 : useEffect = charger depuis une API au bon moment","Leçons 8-9 : formulaires + props = formulaires complets et communication","Leçon 10 : tout s'assemble → app complète, maintenable, évolutive"]}},{"id":"observe","label":"Observer","type":"observe","titre":"Application Kora complète — tout s'assemble","lignes":[{"code":"// ── COMPOSANT RACINE ─────────────────────────","expl":""},{"code":"function FeedPage() {","expl":"Composant principal — gère tout l'état."},{"code":"  // État global (leçon 4 : useState)","expl":""},{"code":"  const [posts, setPosts] = useState([]);","expl":""},{"code":"  const [loading, setLoading] = useState(true);","expl":""},{"code":"","expl":""},{"code":"  // Chargement initial (leçon 7 : useEffect)","expl":""},{"code":"  useEffect(() => {","expl":""},{"code":"    fetch('/api/posts').then(r => r.json())","expl":""},{"code":"      .then(data => { setPosts(data); setLoading(false); });","expl":""},{"code":"  }, []);","expl":""},{"code":"","expl":""},{"code":"  // Callback like (leçon 8 : parent-enfant)","expl":""},{"code":"  const handleLike = (id) => {","expl":""},{"code":"    setPosts(prev => prev.map(p =>","expl":""},{"code":"      p.id === id ? { ...p, likes: p.likes + 1 } : p","expl":""},{"code":"    ));","expl":""},{"code":"  };","expl":""},{"code":"","expl":""},{"code":"  // Ajouter un post (leçon 8 : parent-enfant)","expl":""},{"code":"  const handleNouveauPost = (texte) => {","expl":""},{"code":"    const nouveau = { id: Date.now(), texte, likes: 0 };","expl":""},{"code":"    setPosts(prev => [nouveau, ...prev]);","expl":"Ajouter en début de tableau avec spread."},{"code":"  };","expl":""},{"code":"","expl":""},{"code":"  if (loading) return <p>Chargement...</p>;","expl":""},{"code":"","expl":""},{"code":"  return (","expl":""},{"code":"    <div className=\"feed-page\">","expl":""},{"code":"      {/* Formulaire (leçon 9 : formulaires) */}","expl":""},{"code":"      <FormulairePost onPublier={handleNouveauPost} />","expl":""},{"code":"","expl":""},{"code":"      {/* Liste (leçon 6 : listes) */}","expl":""},{"code":"      {posts.map(p => (","expl":""},{"code":"        <Post key={p.id} post={p} onLike={handleLike} />","expl":""},{"code":"      ))}","expl":""},{"code":"    </div>","expl":""},{"code":"  );","expl":""},{"code":"}","expl":""}]},{"id":"ex1","label":"Ex. 1","type":"ordre","titre":"Remets dans l'ordre","instruction":"Place les blocs dans le bon ordre pour une app React complète et fonctionnelle.","contexte":"Architecture d'un composant qui charge et affiche des données.","items":["  if (loading) return <p>Chargement...</p>;","  const [data, setData] = useState([]);","  return <div>{data.map(d => <Item key={d.id} {...d} />)}</div>;","  const [loading, setLoading] = useState(true);","  useEffect(() => { fetch('/api').then(r => r.json()).then(d => { setData(d); setLoading(false); }); }, []);"],"bonne":[1,3,4,0,2],"explication":"1) Déclarer les états, 2) useEffect pour charger, 3) Return conditionnel (loading), 4) Return principal avec les données."},{"id":"ex2","label":"Ex. 2","type":"devinette","titre":"Devinette finale","question":"Dans une app React, quel est le rôle correct de useState, useEffect et les props ?","choix":["useState = stocker des données permanentes / useEffect = gérer les clics / props = styles","useState = mémoriser des données qui changent / useEffect = effets après rendu / props = données du parent","useState = HTML / useEffect = CSS / props = JavaScript"],"bonne":1,"explication":"useState mémorise des données locales au composant — quand elles changent, React met l'affichage à jour. useEffect exécute du code après le rendu (chargement API, abonnements). Les props sont les données que le parent passe à l'enfant."},{"id":"ex3","label":"Ex. 3","type":"integration","titre":"Intégration finale","instruction":"Complète le composant FormulairePost qui reçoit la callback onPublier et publie un post quand le formulaire est soumis.","contexte":"Composant enfant de FeedPage — écrit un post et signale au parent.","labels":["state du texte","appel callback parent"],"bonnes":["const [texte, setTexte] = useState('')","onPublier(texte); setTexte('')"],"template":"function FormulairePost({ onPublier }) {\n  [A];\n\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    if (!texte.trim()) return;\n    [B];\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <textarea\n        value={texte}\n        onChange={(e) => setTexte(e.target.value)}\n        placeholder=\"Quoi de neuf sur Kora ?\"\n      />\n      <button type=\"submit\">Publier</button>\n    </form>\n  );\n}","aide":"useState('') pour le texte. onPublier(texte) appelle la callback du parent. setTexte('') vide le champ après publication."},{"id":"resume","label":"Résumé","type":"resume"}],"resume":[{"icon":"🧩","key":"Composants","val":"Découper l'interface en blocs indépendants."},{"icon":"💾","key":"useState","val":"Données locales qui déclenchent les mises à jour."},{"icon":"🚀","key":"useEffect","val":"Charger les données au bon moment."},{"icon":"🔄","key":"Flux de données","val":"Props ↓ (parent→enfant). Callbacks ↑ (enfant→parent)."}]}];
 
 // ── STORAGE ──────────────────────────────────────────────────
-const KEY = 'kora_react_v1';
-function save(d) { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){} }
-function load() { try { const r=localStorage.getItem(KEY); return r?JSON.parse(r):null; } catch(e){return null;} }
-function freshData() { return { done:{}, steps:{}, exScores:{}, lastLecon:null }; }
-let APP = load() || freshData();
+const KEY = 'kora_react_v3';
+function save(d){ try{localStorage.setItem(KEY,JSON.stringify(d));}catch(e){} }
+function load(){ try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):null;}catch(e){return null;} }
+function fresh(){ return {done:{},steps:{},exData:{},lastLecon:null}; }
+let APP = load() || fresh();
+let CUR = null;
 
-// ── STATE ────────────────────────────────────────────────────
-let CUR = null; // lecon courante
-
-// ── HELPERS ──────────────────────────────────────────────────
+// ── UTILS ─────────────────────────────────────────────────────
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('page-'+id).classList.add('active'); window.scrollTo(0,0); }
-function getORD(l){ return ['intro','observe',...l.steps.filter(s=>s.type!=='intro'&&s.type!=='observe'&&s.type!=='resume').map(s=>s.id),'resume']; }
+function el(id){ return document.getElementById(id); }
+function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); el('page-'+id).classList.add('active'); window.scrollTo(0,0); }
+function getSteps(l){ return l.steps.map(s=>s.id); }
 
-// ── LIST ─────────────────────────────────────────────────────
+// ── LIST ──────────────────────────────────────────────────────
 function renderList(){
-  CUR = null;
-  const done = LECONS.filter(l=>APP.done[l.id]).length;
-  const pct = Math.round(done/LECONS.length*100);
-
-  document.getElementById('htitle').textContent='Kora Academy';
-  document.getElementById('progWrap').style.display='none';
-  document.getElementById('etapes').style.display='none';
-  document.getElementById('bc').innerHTML='<span class="bca">React &amp; JSX</span>';
-  document.getElementById('statDone').textContent=done;
-  document.getElementById('statPct').textContent=pct+'%';
-
-  document.getElementById('llist').innerHTML = LECONS.map((l,i)=>{
+  CUR=null;
+  const done=LECONS.filter(l=>APP.done[l.id]).length;
+  const pct=Math.round(done/LECONS.length*100);
+  el('htitle').textContent='Kora Academy';
+  el('prog-wrap').style.display='none';
+  el('nav-et').style.display='none';
+  el('bc').innerHTML='<span class="bca">React &amp; JSX</span>';
+  el('statDone').textContent=done;
+  el('statPct').textContent=pct+'%';
+  el('llist').innerHTML=LECONS.map((l,i)=>{
     const d=APP.done[l.id];
-    return `<div class="litem${d?' done':''}" data-id="${l.id}">
+    return `<div class="li${d?' done':''}" data-id="${l.id}">
       <div class="lnum${d?' ok':''}">${d?'&#10003;':i+1}</div>
-      <div class="linfo"><div class="ltit">Le&#231;on ${l.num} &mdash; ${l.titre}</div><div class="lsub">${l.sous}</div></div>
+      <div class="linf"><div class="ltit">Le&#231;on ${l.num} &mdash; ${l.titre}</div><div class="lsub">${l.sous}</div></div>
       <span class="lbadge ${d?'fin':'new'}">${d?'Termin&#233;e':'Nouveau'}</span>
     </div>`;
   }).join('');
-
-  const allDone = done===LECONS.length;
-  document.getElementById('evalZone').innerHTML=`<div class="eval-card">
+  const allDone=done===LECONS.length;
+  el('evalZone').innerHTML=`<div class="eval-card">
     <h3>&#127919; &#201;valuation finale</h3>
     <p>Compl&#232;te les 10 le&#231;ons pour d&#233;bloquer l&#8217;&#233;valuation et gagner tes tokens KRT.</p>
-    ${allDone
-      ? '<button class="btn btn-p" id="evalBtn">Commencer l&#8217;&#233;valuation &rarr;</button>'
-      : `<button class="btn btn-g" disabled>Commencer l&#8217;&#233;valuation &rarr;</button><p class="eval-lock">${done}/10 le&#231;ons termin&#233;es</p>`
-    }
+    ${allDone?'<button class="btn btn-p" id="evalBtn">Commencer l&#8217;&#233;valuation &rarr;</button>'
+    :`<button class="btn btn-g" disabled>Commencer l&#8217;&#233;valuation &rarr;</button><p class="eval-lock">${done}/10 termin&#233;es</p>`}
   </div>`;
-
-  document.getElementById('llist').onclick = e=>{
-    const item=e.target.closest('.litem');
-    if(item) showLecon(item.dataset.id);
-  };
-  const evalBtn=document.getElementById('evalBtn');
-  if(evalBtn) evalBtn.onclick=()=>alert('&#201;valuation &#224; venir !');
-
+  el('llist').onclick=e=>{const it=e.target.closest('.li');if(it)showLecon(it.dataset.id);};
+  const eb=el('evalBtn');if(eb)eb.onclick=()=>alert('&#201;valuation &#224; venir !');
   showPage('list');
 }
 
-// ── LECON ────────────────────────────────────────────────────
+// ── LECON ─────────────────────────────────────────────────────
 function showLecon(lid){
-  CUR = LECONS.find(l=>l.id===lid);
-  if(!CUR) return;
-  if(!APP.steps[lid]) APP.steps[lid]={current:'intro',done:[]};
+  CUR=LECONS.find(l=>l.id===lid);
+  if(!CUR)return;
+  if(!APP.steps[lid])APP.steps[lid]={current:CUR.steps[0].id,done:[]};
   APP.lastLecon=lid; save(APP);
-
-  document.getElementById('htitle').textContent=CUR.titre;
-  document.getElementById('progWrap').style.display='flex';
-  document.getElementById('bc').innerHTML=`<span class="bcl" data-goto-list>React &amp; JSX</span><span class="bcs"> &rsaquo; </span><span class="bca">${CUR.titre}</span>`;
-  document.getElementById('ltag').innerHTML=CUR.steps[0].id==='intro'? `React &middot; Le&#231;on ${CUR.num}` : '';
-  document.getElementById('lh').innerHTML=`${CUR.titre} &mdash; <span class="grad">${CUR.sous}</span>`;
-
+  el('htitle').textContent=CUR.titre;
+  el('prog-wrap').style.display='flex';
+  el('bc').innerHTML=`<span class="bcl" id="bcList">React &amp; JSX</span><span class="bcs"> &rsaquo; </span><span class="bca">${CUR.titre}</span>`;
+  el('ltag').innerHTML=`React &middot; Le&#231;on ${CUR.num}`;
+  el('lh').innerHTML=`${CUR.titre} &mdash; <span class="grad">${CUR.sous}</span>`;
+  el('bcList').onclick=()=>renderList();
   renderLecon();
   showPage('lecon');
 }
 
 function renderLecon(){
-  if(!CUR) return;
-  const lid=CUR.id, sd=APP.steps[lid];
-  const ORD=getORD(CUR), cur=sd.current;
-  const labels=['Pourquoi','Observe',...CUR.steps.filter(s=>!['intro','observe','resume'].includes(s.type)).map((s,i)=>'Ex.'+(i+1)),'R&#233;sum&#233;'];
-
-  // Nav etapes
-  const etapes=document.getElementById('etapes');
-  etapes.style.display='flex';
-  etapes.innerHTML=ORD.map((sid,i)=>{
-    const d=sd.done.includes(sid), a=sid===cur;
-    return `<button class="etape ${d?'done':a?'active':''}" data-step="${sid}">
-      <span class="edot ${d?'done':a?'active':'idle'}">${d?'&#10003;':i+1}</span>${labels[i]}
+  if(!CUR)return;
+  const lid=CUR.id,sd=APP.steps[lid];
+  const steps=CUR.steps,cur=sd.current;
+  const labelsMap={intro:'Pourquoi',observe:'Observer',resume:'R&#233;sum&#233;'};
+  el('nav-et').style.display='flex';
+  el('nav-et').innerHTML=steps.map((s,i)=>{
+    const d=sd.done.includes(s.id),a=s.id===cur;
+    const lbl=labelsMap[s.id]||(s.label||'Ex.'+(i-1));
+    return `<button class="et ${d?'done':a?'active':''}" data-step="${s.id}">
+      <span class="edot ${d?'done':a?'active':'idle'}">${d?'&#10003;':i+1}</span>${lbl}
     </button>`;
   }).join('');
-
-  // Progress
-  const idx=ORD.indexOf(cur);
-  const pct=Math.round(idx/(ORD.length-1)*100);
-  document.getElementById('pfill').style.width=pct+'%';
-  document.getElementById('ppct').textContent=pct+'%';
-
-  // Render screen
-  const step=CUR.steps.find(s=>s.id===cur)||CUR.steps[0];
-  document.getElementById('screens').innerHTML=renderStep(step, cur, ORD);
-  bindEvents();
+  const idx=steps.findIndex(s=>s.id===cur);
+  const pct=steps.length>1?Math.round(idx/(steps.length-1)*100):0;
+  el('pfill').style.width=pct+'%';
+  el('ppct').textContent=pct+'%';
+  el('nav-et').onclick=e=>{const b=e.target.closest('.et');if(b)goStep(b.dataset.step);};
+  el('screens').innerHTML=renderStep(steps.find(s=>s.id===cur));
+  bindAll();
 }
 
-function renderStep(step, cur, ORD){
-  const next=ORD[ORD.indexOf(cur)+1];
+// ── RENDER STEPS ─────────────────────────────────────────────
+function renderStep(step){
+  if(!step)return '';
+  const lid=CUR.id,sd=APP.steps[lid];
+  const steps=CUR.steps,cur=step.id;
+  const idx=steps.findIndex(s=>s.id===cur);
+  const next=idx<steps.length-1?steps[idx+1].id:null;
 
-  if(step.type==='intro'){
-    const c=step.contenu;
-    return `<div class="screen active">
-      <div class="card card-warm">
-        <span class="slabel">Le probl&#232;me</span>
-        <p class="btext">${c.probleme}</p>
-        <div class="hint"><span style="color:var(--b3);flex-shrink:0;margin-top:2px">&#9830;</span><span class="htx">${c.exemple_kora}</span></div>
-      </div>
-      <div class="card">
-        <span class="slabel">Avant &mdash; JS Vanilla</span>
-        <pre>${esc(c.code_vanilla)}</pre>
-        <span class="slabel">Apr&#232;s &mdash; React</span>
-        <pre>${esc(c.code_react)}</pre>
-      </div>
-      <div class="card card-green">
-        <span class="slabel">&#10003; Ce qu&#8217;il faut retenir</span>
-        <p class="btext" style="margin:0;font-weight:400">${c.a_retenir}</p>
-      </div>
-      <button class="btn btn-p" data-goto="${next}">J&#8217;ai compris &mdash; Observer le code &rarr;</button>
-    </div>`;
-  }
-
-  if(step.type==='observe'){
-    const lines=step.code_annote.map(l=>`<div class="obs-line">
-      <div class="obs-code${!l.line?' empty':''}">${esc(l.line)||' '}</div>
-      ${l.comment?`<div class="obs-comment">${l.comment}</div>`:''}
-    </div>`).join('');
-    return `<div class="screen active">
-      <div class="card">
-        <span class="slabel">&#128270; ${step.titre}</span>
-        <p style="font-size:.82rem;color:var(--muted);margin-bottom:.8rem;line-height:1.5">Code &#224; gauche, explication &#224; droite. Lis chaque ligne.</p>
-        <div class="obs-wrap">${lines}</div>
-      </div>
-      <button class="btn btn-p" data-goto="${next}">C&#8217;est clair &mdash; Exercice 1 &rarr;</button>
-    </div>`;
-  }
-
-  if(step.type==='resume'){
-    const items=CUR.resume.map(r=>`<div class="ri"><div class="ric">${r.icon}</div><div class="rik">${r.key}</div><div class="riv">${r.val}</div></div>`).join('');
-    return `<div class="screen active">
-      <div class="card card-warm">
-        <span class="slabel">&#10022; R&#233;sum&#233; &mdash; ce que tu retiens</span>
-        <div class="rgrid">${items}</div>
-        <div class="rfooter"><p>Les tokens KRT sont attribu&#233;s &#224; l&#8217;&#233;valuation finale selon ta note globale.</p></div>
-      </div>
-      <div class="brow">
-        <button class="btn btn-g" data-goto="intro">&#8592; Revoir</button>
-        <button class="btn btn-p" id="finBtn">Le&#231;on suivante &rarr;</button>
-      </div>
-    </div>`;
-  }
-
-  // Exercice completion
-  if(step.type==='completion'){
-    const lid=CUR.id, sk=lid+'-'+step.id;
-    const saved=APP.exScores[sk];
-    const inputs=step.labels.map((lbl,i)=>{
-      const v=saved?saved.vals[i]||'':'';
-      const cls=saved?(saved.valOk[i]?' ok':' ko'):'';
-      return `<div class="igrp"><label>${['A','B','C'][i]} &mdash; ${lbl}</label><input data-comp="${sk}" data-ci="${i}" value="${v.replace(/"/g,'&quot;')}" ${saved?'disabled':''} placeholder="ta r&#233;ponse&#8230;" class="${cls.trim()}"></div>`;
-    }).join('');
-    const initPrev=step.template.replace(/\[A\]/g,'[?]').replace(/\[B\]/g,'[?]').replace(/\[C\]/g,'[?]');
-    const curPrev=saved?step.template.replace(/\[A\]/g,saved.vals[0]||'?').replace(/\[B\]/g,saved.vals[1]||'?').replace(/\[C\]/g,saved.vals[2]||'?'):initPrev;
-    const fb=saved?`<div class="fb ${saved.ok?'ok':'ko'}">
-      <p class="fbt">${saved.ok?'&#10003; Correct !':'&#10007; Pas tout &#224; fait'}</p>
-      <p class="fbx">${saved.ok?'Bien jou&#233;. Tu peux continuer.':'R&#233;ponses attendues : '+step.bonnes.join(' &middot; ')}</p>
-      ${saved.ok?`<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>`:`<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
-    </div>`:'';
-    return `<div class="screen active">
-      <div class="card">
-        <div class="trow"><span class="tag tag-b">Compl&#233;ter</span></div>
-        <p class="btext"><strong>${step.titre}</strong></p>
-        <div class="ex-ctx">${step.contexte}</div>
-        <p style="font-size:.87rem;color:var(--muted);margin-bottom:.7rem">${step.instruction}</p>
-        <div class="irow">${inputs}</div>
-        <pre class="prev-tpl" id="prev-${sk}">${esc(curPrev)}</pre>
-        <div class="aide">&#128161; ${step.aide}</div>
-        <div id="fb-${sk}">${fb}</div>
-        ${!saved?`<div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>V&#233;rifier &rarr;</button></div>`:''}
-      </div>
-    </div>`;
-  }
-
-  // Exercice QCM
-  if(step.type==='qcm'){
-    const lid=CUR.id, sk=lid+'-'+step.id;
-    const saved=APP.exScores[sk];
-    const opts=step.options.map((o,i)=>{
-      let cls='';
-      if(saved){ if(i===step.bonne)cls='ok'; else if(i===saved.sel&&saved.sel!==step.bonne)cls='ko'; }
-      return `<button class="opt${cls?' '+cls:''}" data-idx="${i}" ${saved?'disabled':''}><span class="oltr">${['A','B','C','D'][i]}.</span>${o}</button>`;
-    }).join('');
-    const fb=saved?`<div class="fb ${saved.ok?'ok':'ko'}">
-      <p class="fbt">${saved.ok?'&#10003; Correct !':'&#10007; Pas tout &#224; fait'}</p>
-      <p class="fbx">${step.explication}</p>
-      ${saved.ok?`<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>`:`<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
-    </div>`:'';
-    return `<div class="screen active">
-      <div class="card">
-        <div class="trow"><span class="tag tag-a">QCM</span></div>
-        <p class="btext"><strong>${step.titre}</strong></p>
-        <p style="font-size:.87rem;color:var(--muted);margin-bottom:.8rem">${step.question}</p>
-        <div class="opts" id="opts-${sk}">${opts}</div>
-        <div id="fb-${sk}">${fb}</div>
-        ${!saved?`<div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>V&#233;rifier &rarr;</button></div>`:''}
-      </div>
-    </div>`;
-  }
-
-  return '<div class="screen active"><p>Etape inconnue</p></div>';
+  if(step.type==='intro') return renderIntro(step,next);
+  if(step.type==='observe') return renderObserve(step,next);
+  if(step.type==='resume') return renderResume();
+  if(step.type==='ordre') return renderOrdre(step,next,lid);
+  if(step.type==='devinette') return renderDevinette(step,next,lid);
+  if(step.type==='integration') return renderIntegration(step,next,lid);
+  return '';
 }
 
-function bindEvents(){
+function renderIntro(step,next){
+  const c=step.contenu;
+  const pts=c.ce_que_fait_react.map(p=>`<div class="point"><span class="pdot"></span><span>${p}</span></div>`).join('');
+  return `<div class="screen active">
+    <div class="card c-warm">
+      <span class="slabel">Le probl&#232;me</span>
+      <p class="btext">${c.texte}</p>
+      <div style="display:flex;gap:8px;align-items:flex-start;padding:10px 12px;background:rgba(107,31,42,.04);border-radius:8px;border:1px solid rgba(107,31,42,.08)">
+        <span style="color:var(--b3);flex-shrink:0;margin-top:2px">&#9830;</span>
+        <span style="font-size:.84rem;color:var(--b1);line-height:1.6">${c.exemple}</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cmp">
+        <div class="cmp-side bad">
+          <div class="cmp-title">&#10007; ${c.comparaison.sans.titre}</div>
+          <pre>${esc(c.comparaison.sans.code)}</pre>
+          <div class="cmp-note">${c.comparaison.sans.commentaire}</div>
+        </div>
+        <div class="cmp-side good">
+          <div class="cmp-title">&#10003; ${c.comparaison.avec.titre}</div>
+          <pre>${esc(c.comparaison.avec.code)}</pre>
+          <div class="cmp-note">${c.comparaison.avec.commentaire}</div>
+        </div>
+      </div>
+    </div>
+    <div class="card c-green">
+      <span class="slabel">Ce que tu vas apprendre dans cette le&#231;on</span>
+      <div class="points">${pts}</div>
+    </div>
+    ${next?`<button class="btn btn-p" data-goto="${next}">J&#8217;ai compris &mdash; observer le code &rarr;</button>`:''}
+  </div>`;
+}
+
+function renderObserve(step,next){
+  const rows=step.lignes.map(l=>{
+    const mt=!l.code||!l.code.trim();
+    return `<div class="obs-row">
+      <div class="obs-code${mt?' mt':''}">${esc(l.code)||' '}</div>
+      ${l.expl?`<div class="obs-expl">${l.expl}</div>`:''}
+    </div>`;
+  }).join('');
+  return `<div class="screen active">
+    <div class="card">
+      <span class="slabel">&#128270; ${step.titre}</span>
+      <p style="font-size:.81rem;color:var(--mu);margin-bottom:.7rem;line-height:1.5">Code &#224; gauche, explication &#224; droite. Lis chaque ligne avant de continuer.</p>
+      <div class="obs">${rows}</div>
+    </div>
+    ${next?`<button class="btn btn-p" data-goto="${next}">C&#8217;est clair &mdash; exercice 1 &rarr;</button>`:''}
+  </div>`;
+}
+
+function renderResume(){
+  const items=CUR.resume.map(r=>`<div class="ri"><div class="ric">${r.icon}</div><div class="rik">${r.key}</div><div class="riv">${r.val}</div></div>`).join('');
+  return `<div class="screen active">
+    <div class="card c-warm">
+      <span class="slabel">&#10022; R&#233;sum&#233; &mdash; ce que tu retiens de cette le&#231;on</span>
+      <div class="rgrid">${items}</div>
+      <div class="rfooter"><p>Tokens KRT attribu&#233;s &#224; l&#8217;&#233;valuation finale selon ta note globale.</p></div>
+    </div>
+    <div class="brow">
+      <button class="btn btn-g" data-goto="intro">&#8592; Revoir depuis le d&#233;but</button>
+      <button class="btn btn-p" id="finBtn">&#10003; Terminer cette le&#231;on</button>
+    </div>
+  </div>`;
+}
+
+function renderOrdre(step,next,lid){
+  const sk=lid+'-'+step.id;
+  const saved=APP.exData[sk];
+  if(saved){
+    const correct=saved.isCorrect;
+    const itemsHtml=saved.placed.map((pidx,i)=>{
+      const ok=pidx===step.bonne[i];
+      return `<div class="ordre-item ${ok?'placed':'wrong'}">
+        <span class="ordre-num">${i+1}</span>
+        <span>${esc(step.items[pidx])}</span>
+      </div>`;
+    }).join('');
+    return `<div class="screen active"><div class="card">
+      <div class="trow"><span class="tag tag-ordre">Remettre en ordre</span></div>
+      <p class="btext"><strong>${step.titre}</strong></p>
+      <div class="ex-ctx">${step.contexte}</div>
+      <div class="ordre-area">${itemsHtml}</div>
+      <div class="fb ${correct?'ok':'ko'}">
+        <p class="fbt">${correct?'&#10003; Parfait !':'&#10007; Pas tout &#224; fait'}</p>
+        <p class="fbx">${step.explication}</p>
+        ${correct?`<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>`:`<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
+      </div>
+    </div></div>`;
+  }
+  // État initial — mélange
+  const shuffled=[...step.items].map((it,i)=>({it,oi:i})).sort(()=>Math.random()-.5);
+  const melHtml=shuffled.map((s,i)=>`<div class="mel-item" data-oi="${s.oi}">${esc(s.it)}</div>`).join('');
+  const slotsHtml=step.items.map((_,i)=>`<div class="ordre-item" data-slot="${i}"><span class="ordre-num">${i+1}</span><span class="slot-txt" style="color:var(--li)">&#8212; clique un &#233;l&#233;ment ci-dessus &#8212;</span></div>`).join('');
+  return `<div class="screen active"><div class="card">
+    <div class="trow"><span class="tag tag-ordre">Remettre en ordre</span></div>
+    <p class="btext"><strong>${step.titre}</strong></p>
+    <div class="ex-ctx">${step.contexte}</div>
+    <p style="font-size:.8rem;color:var(--mu);margin-bottom:.5rem">1. Clique un &#233;l&#233;ment pour le s&#233;lectionner. 2. Clique une position pour le placer.</p>
+    <div class="melange" id="mel-${sk}">${melHtml}</div>
+    <div class="ordre-area" id="slots-${sk}">${slotsHtml}</div>
+    <div id="fb-${sk}"></div>
+    <div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>V&#233;rifier l&#8217;ordre</button></div>
+  </div></div>`;
+}
+
+function renderDevinette(step,next,lid){
+  const sk=lid+'-'+step.id;
+  const saved=APP.exData[sk];
+  const choixHtml=step.choix.map((c,i)=>{
+    let cls='';
+    if(saved){cls=i===step.bonne?'ok':(i===saved.sel&&saved.sel!==step.bonne?'ko':'');}
+    return `<button class="dev${cls?' '+cls:''}" data-idx="${i}" ${saved?'disabled':''}><span class="dltr">${['A','B','C'][i]}</span>${c}</button>`;
+  }).join('');
+  const fb=saved?`<div class="fb ${saved.ok?'ok':'ko'}">
+    <p class="fbt">${saved.ok?'&#10003; Bonne r&#233;ponse !':'&#10007; Pas tout &#224; fait'}</p>
+    <p class="fbx">${step.explication}</p>
+    ${saved.ok?`<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>`:`<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
+  </div>`:'';
+  return `<div class="screen active"><div class="card">
+    <div class="trow"><span class="tag tag-dev">Devinette</span></div>
+    <p class="btext"><strong>${step.titre}</strong></p>
+    <p style="font-size:.88rem;color:var(--tx);margin-bottom:.9rem;line-height:1.6">${step.question}</p>
+    <div class="devs" id="devs-${sk}">${choixHtml}</div>
+    <div id="fb-${sk}">${fb}</div>
+    ${!saved?`<div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>V&#233;rifier</button></div>`:''}
+  </div></div>`;
+}
+
+function renderIntegration(step,next,lid){
+  const sk=lid+'-'+step.id;
+  const saved=APP.exData[sk];
+  const inputs=step.labels.map((lbl,i)=>{
+    const v=saved?saved.vals[i]||'':'';
+    const cls=saved?(saved.ok[i]?' ok':' ko'):'';
+    return `<div class="igrp"><label>${['[A]','[B]','[C]'][i]} &mdash; ${lbl}</label><input data-sk="${sk}" data-ci="${i}" value="${v.replace(/"/g,'&quot;')}" ${saved?'disabled':''} placeholder="ta r&#233;ponse&#8230;" class="${cls.trim()}"></div>`;
+  }).join('');
+  const mkPrev=(vals)=>{
+    let t=step.template;
+    step.labels.forEach((_,i)=>{ t=t.replace(['[A]','[B]','[C]'][i],vals&&vals[i]?vals[i]:'[?]'); });
+    return t;
+  };
+  const fb=saved?`<div class="fb ${saved.allOk?'ok':'ko'}">
+    <p class="fbt">${saved.allOk?'&#10003; Correct !':'&#10007; Presque &mdash; v&#233;rifie les cases rouges'}</p>
+    <p class="fbx">${saved.allOk?'Bien jou&#233; ! Tu peux passer &#224; la suite.':'R&#233;ponses attendues : <strong>'+step.bonnes.join('</strong> &middot; <strong>')+'</strong>'}</p>
+    ${saved.allOk?`<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>`:`<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
+  </div>`:'';
+  return `<div class="screen active"><div class="card">
+    <div class="trow"><span class="tag tag-int">Int&#233;gration</span></div>
+    <p class="btext"><strong>${step.titre}</strong></p>
+    <div class="ex-ctx">${step.contexte}</div>
+    <p style="font-size:.86rem;color:var(--tx);margin-bottom:.7rem">${step.instruction}</p>
+    <div class="irow">${inputs}</div>
+    <pre class="tpl" id="prev-${sk}">${esc(mkPrev(saved?saved.vals:null))}</pre>
+    <div class="aide">&#128161; ${step.aide}</div>
+    <div id="fb-${sk}">${fb}</div>
+    ${!saved?`<div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>V&#233;rifier</button></div>`:''}
+  </div></div>`;
+}
+
+// ── BIND EVENTS ───────────────────────────────────────────────
+function bindAll(){
   // goto
   document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>goStep(b.dataset.goto));
-  // goto-list
-  document.querySelectorAll('[data-goto-list]').forEach(b=>b.onclick=()=>renderList());
-  // etapes
-  document.getElementById('etapes').onclick=e=>{const b=e.target.closest('.etape');if(b)goStep(b.dataset.step);};
-  // logo
-  document.getElementById('logoBtn').onclick=()=>renderList();
-  document.getElementById('navList').onclick=()=>renderList();
+  // logo/nav
+  el('logoBtn').onclick=()=>renderList();
+  el('navList').onclick=()=>renderList();
   // fin
-  const fin=document.getElementById('finBtn');
-  if(fin) fin.onclick=()=>finirLecon();
+  const fin=el('finBtn');if(fin)fin.onclick=()=>finirLecon();
   // redo
-  document.querySelectorAll('[data-redo]').forEach(b=>b.onclick=()=>{delete APP.exScores[b.dataset.redo];save(APP);renderLecon();});
+  document.querySelectorAll('[data-redo]').forEach(b=>b.onclick=()=>{delete APP.exData[b.dataset.redo];save(APP);renderLecon();});
 
-  if(!CUR) return;
-  const lid=CUR.id, sd=APP.steps[lid], cur=sd.current;
-  const step=CUR.steps.find(s=>s.id===cur);
-  if(!step) return;
-  const sk=lid+'-'+cur;
+  if(!CUR)return;
+  const lid=CUR.id,sd=APP.steps[lid];
+  const step=CUR.steps.find(s=>s.id===sd.current);
+  if(!step)return;
+  const sk=lid+'-'+step.id;
+  const saved=APP.exData[sk];
 
-  if(step.type==='qcm'){
-    const valBtn=document.getElementById('val-'+sk);
-    let sel=null;
-    document.querySelectorAll('.opt:not([disabled])').forEach(o=>{
-      o.onclick=()=>{
-        sel=parseInt(o.dataset.idx);
-        document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
-        o.classList.add('sel');
-        if(valBtn) valBtn.disabled=false;
-      };
-    });
+  // ORDRE
+  if(step.type==='ordre'&&!saved){
+    const mel=el('mel-'+sk);
+    const slotsEl=el('slots-'+sk);
+    const valBtn=el('val-'+sk);
+    let selOI=null;
+    const placed={};
+
+    mel.onclick=e=>{
+      const it=e.target.closest('.mel-item');
+      if(!it||it.classList.contains('used'))return;
+      mel.querySelectorAll('.mel-item').forEach(x=>x.classList.remove('sel'));
+      it.classList.add('sel');
+      selOI=parseInt(it.dataset.oi);
+    };
+
+    slotsEl.onclick=e=>{
+      const slot=e.target.closest('[data-slot]');
+      if(!slot||selOI===null)return;
+      const slotIdx=parseInt(slot.dataset.slot);
+      // Si slot déjà occupé, remettre l'ancien dans le mélange
+      if(placed[slotIdx]!==undefined){
+        const oldOI=placed[slotIdx];
+        mel.querySelector(`[data-oi="${oldOI}"]`).classList.remove('used');
+      }
+      placed[slotIdx]=selOI;
+      mel.querySelector(`[data-oi="${selOI}"]`).classList.add('used','sel');
+      mel.querySelectorAll('.mel-item').forEach(x=>x.classList.remove('sel'));
+      slot.querySelector('.slot-txt').textContent=step.items[selOI];
+      slot.classList.add('placed');
+      selOI=null;
+      // Vérifier si tous placés
+      const allPlaced=step.items.every((_,i)=>placed[i]!==undefined);
+      if(valBtn)valBtn.disabled=!allPlaced;
+    };
+
     if(valBtn) valBtn.onclick=()=>{
-      if(sel===null) return;
-      const ok=sel===step.bonne;
-      APP.exScores[sk]={sel,ok}; save(APP); renderLecon();
+      const placedArr=step.items.map((_,i)=>placed[i]??-1);
+      const isCorrect=placedArr.every((pi,i)=>pi===step.bonne[i]);
+      APP.exData[sk]={placed:placedArr,isCorrect};save(APP);renderLecon();
     };
   }
 
-  if(step.type==='completion'){
-    const valBtn=document.getElementById('val-'+sk);
-    const inputs=document.querySelectorAll('[data-comp="'+sk+'"]');
-    const prev=document.getElementById('prev-'+sk);
+  // DEVINETTE
+  if(step.type==='devinette'&&!saved){
+    const valBtn=el('val-'+sk);
+    let sel=null;
+    document.querySelectorAll('.dev:not([disabled])').forEach(d=>{
+      d.onclick=()=>{
+        sel=parseInt(d.dataset.idx);
+        document.querySelectorAll('.dev').forEach(x=>x.classList.remove('sel'));
+        d.classList.add('sel');
+        if(valBtn)valBtn.disabled=false;
+      };
+    });
+    if(valBtn)valBtn.onclick=()=>{
+      if(sel===null)return;
+      const ok=sel===step.bonne;
+      APP.exData[sk]={sel,ok};save(APP);renderLecon();
+    };
+  }
 
+  // INTEGRATION
+  if(step.type==='integration'&&!saved){
+    const valBtn=el('val-'+sk);
+    const inputs=document.querySelectorAll(`[data-sk="${sk}"]`);
+    const prev=el('prev-'+sk);
     function upPrev(){
       let t=step.template;
-      inputs.forEach((inp,i)=>{ t=t.replace(['[A]','[B]','[C]'][i], inp.value||['[?]','[?]','[?]'][i]); });
-      if(prev) prev.textContent=t;
-      if(valBtn) valBtn.disabled=!Array.from(inputs).every(inp=>inp.value.trim());
+      inputs.forEach((inp,i)=>{t=t.replace(['[A]','[B]','[C]'][i],inp.value||['[?]','[?]','[?]'][i]);});
+      if(prev)prev.textContent=t;
+      if(valBtn)valBtn.disabled=!Array.from(inputs).every(inp=>inp.value.trim());
     }
     inputs.forEach(inp=>inp.oninput=upPrev);
-
-    if(valBtn) valBtn.onclick=()=>{
+    if(valBtn)valBtn.onclick=()=>{
       const vals=Array.from(inputs).map(inp=>inp.value.trim());
-      const valOk=vals.map((v,i)=>v.toLowerCase()===step.bonnes[i].toLowerCase());
-      const ok=valOk.every(Boolean);
-      APP.exScores[sk]={vals,valOk,ok}; save(APP); renderLecon();
+      const ok=vals.map((v,i)=>v.toLowerCase()===step.bonnes[i].toLowerCase());
+      const allOk=ok.every(Boolean);
+      APP.exData[sk]={vals,ok,allOk};save(APP);renderLecon();
     };
   }
 }
 
+// ── NAV ───────────────────────────────────────────────────────
 function goStep(sid){
-  if(!CUR) return;
-  const lid=CUR.id, sd=APP.steps[lid];
-  if(!sd.done.includes(sd.current)) sd.done.push(sd.current);
-  sd.current=sid; save(APP); renderLecon(); window.scrollTo(0,0);
+  if(!CUR)return;
+  const lid=CUR.id,sd=APP.steps[lid];
+  if(!sd.done.includes(sd.current))sd.done.push(sd.current);
+  sd.current=sid;save(APP);renderLecon();window.scrollTo(0,0);
 }
 
 function finirLecon(){
-  if(!CUR) return;
-  APP.done[CUR.id]=true; save(APP); renderList();
+  if(!CUR)return;
+  APP.done[CUR.id]=true;
+  const idx=LECONS.findIndex(l=>l.id===CUR.id);
+  if(idx<LECONS.length-1){
+    APP.lastLecon=LECONS[idx+1].id;
+  }
+  save(APP);
+  renderList();
 }
 
-// ── INIT ─────────────────────────────────────────────────────
-if(APP.lastLecon && !APP.done[APP.lastLecon]){
+// ── INIT ──────────────────────────────────────────────────────
+if(APP.lastLecon&&!APP.done[APP.lastLecon]){
   showLecon(APP.lastLecon);
-} else {
+}else{
   renderList();
 }
 </script>
