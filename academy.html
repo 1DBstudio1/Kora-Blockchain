@@ -3,406 +3,1255 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kora Academy</title>
+<title>Kora Academy — React & JSX</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:ital,wght@0,300;0,400;1,400&family=JetBrains+Mono&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FAFAFA;--white:#FFFFFF;--line:#EFEFEF;--text:#1A1A1A;--muted:#737373;--light:#B0B0B0;--b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--arc:#6BAED6;--grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%)}
+:root{
+  --bg:#FAFAFA;--white:#FFF;--line:#EFEFEF;--text:#1A1A1A;
+  --muted:#737373;--light:#B0B0B0;
+  --b1:#6B1F2A;--b2:#C4622D;--b3:#E8956D;--arc:#6BAED6;
+  --grad:linear-gradient(135deg,#6B1F2A 0%,#C4622D 50%,#E8956D 100%);
+  --ok:#4caf50;--ko:#e57373;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;padding-bottom:80px}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;padding-bottom:90px}
+a{text-decoration:none;color:inherit}
+
+/* ── HEADER ─────────────────────────────── */
 .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.header-top{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--line)}
-.logo{height:38px;border-radius:8px;padding:3px;box-shadow:0 0 0 1.5px var(--b2),0 0 0 3px rgba(232,149,109,.2);cursor:pointer}
+.hrow{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--line)}
+.logo{height:36px;border-radius:8px;padding:3px;box-shadow:0 0 0 1.5px var(--b2),0 0 0 3px rgba(232,149,109,.2);cursor:pointer}
+.htitle{font-family:'Fraunces',serif;font-size:.95rem;color:var(--text)}
 .prog-wrap{display:flex;align-items:center;gap:8px}
-.prog-bar{width:90px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .4s;width:0%}
-.prog-pct{font-size:.75rem;color:var(--muted)}
-.breadcrumb{display:flex;align-items:center;gap:8px;padding:9px 20px;font-size:.82rem;color:var(--muted);border-bottom:1px solid var(--line);flex-wrap:wrap}
-.bc-link{cursor:pointer;transition:color .15s}.bc-link:hover{color:var(--b1)}
-.bcsep{color:var(--line)}.bcactive{color:var(--b1);font-weight:500}
-.nav-etapes{display:flex;align-items:center;padding:0 16px;overflow-x:auto;border-bottom:1px solid var(--line)}
-.nav-etapes::-webkit-scrollbar{height:0}
-.etape-btn{display:flex;align-items:center;gap:5px;padding:9px 11px;font-size:.78rem;font-family:'DM Sans',sans-serif;color:var(--light);background:transparent;border:none;cursor:pointer;white-space:nowrap;position:relative;transition:color .2s}
-.etape-btn.done{color:var(--b2)}.etape-btn.active{color:var(--b1);font-weight:500}
-.etape-btn.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--grad);border-radius:2px 2px 0 0}
-.etape-dot{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:600;flex-shrink:0}
-.etape-dot.done{background:var(--grad);color:#fff}.etape-dot.active{background:rgba(107,31,42,.1);color:var(--b1);border:1.5px solid var(--b1)}.etape-dot.lock{background:var(--line);color:var(--light)}
+.pbar{width:80px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.pfill{height:100%;background:var(--grad);border-radius:2px;transition:width .4s}
+.ppct{font-size:.72rem;color:var(--muted);min-width:28px;text-align:right}
+.bc{display:flex;align-items:center;gap:6px;padding:8px 18px;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--line);flex-wrap:wrap;min-height:36px}
+.bcl{cursor:pointer;transition:color .15s}.bcl:hover{color:var(--b1)}
+.bcs{color:var(--line)}.bca{color:var(--b1);font-weight:500}
+.etapes{display:flex;padding:0 14px;overflow-x:auto;border-bottom:1px solid var(--line)}
+.etapes::-webkit-scrollbar{height:0}
+.etape{display:flex;align-items:center;gap:5px;padding:8px 10px;font-size:.76rem;font-family:'DM Sans',sans-serif;color:var(--light);background:transparent;border:none;cursor:pointer;white-space:nowrap;position:relative;transition:color .2s}
+.etape.done{color:var(--b2)}.etape.active{color:var(--b1);font-weight:500}
+.etape.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--grad);border-radius:2px 2px 0 0}
+.edot{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:600;flex-shrink:0}
+.edot.done{background:var(--grad);color:#fff}.edot.active{background:rgba(107,31,42,.1);color:var(--b1);border:1.5px solid var(--b1)}.edot.idle{background:var(--line);color:var(--light)}
+
+/* ── PAGES ──────────────────────────────── */
 .page{display:none}.page.active{display:block}
-.wrap{max-width:640px;margin:0 auto;padding:1.8rem 1.2rem}
-.home-hero{text-align:center;padding:2.5rem 1.2rem 1.5rem;max-width:640px;margin:0 auto}
-.home-hero h2{font-family:'Fraunces',serif;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:300;letter-spacing:-.03em;line-height:1.3;margin-bottom:.8rem}
-.home-hero p{font-size:.9rem;color:var(--muted);line-height:1.7;max-width:440px;margin:0 auto 2rem}
-.blocs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;padding:0 1.2rem 2rem;max-width:900px;margin:0 auto}
-.bloc-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:1.4rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.wrap{max-width:640px;margin:0 auto;padding:1.6rem 1rem}
+
+/* ── HOME ───────────────────────────────── */
+.hero{text-align:center;padding:2rem 1rem 1.2rem;max-width:600px;margin:0 auto}
+.hero h2{font-family:'Fraunces',serif;font-size:clamp(1.5rem,4vw,2rem);font-weight:300;letter-spacing:-.03em;line-height:1.3;margin-bottom:.7rem}
+.hero p{font-size:.87rem;color:var(--muted);line-height:1.7;max-width:420px;margin:0 auto 1.6rem}
+.stats-row{display:flex;justify-content:center;gap:20px;margin-bottom:1.8rem}
+.stat{text-align:center}
+.stat-n{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--b1)}
+.stat-l{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.bloc-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:1.3rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;margin:0 1rem 1.2rem}
 .bloc-card:hover{border-color:rgba(196,98,45,.3);transform:translateY(-2px);box-shadow:0 6px 20px rgba(107,31,42,.07)}
 .bloc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad);opacity:0;transition:opacity .2s}
 .bloc-card:hover::before{opacity:1}
-.bloc-icon{font-size:1.8rem;margin-bottom:.8rem}.bloc-name{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:400;color:var(--text);margin-bottom:.4rem}
-.bloc-desc{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
-.bloc-meta{display:flex;align-items:center;justify-content:space-between}
-.bloc-count{font-size:.75rem;color:var(--light)}
-.bloc-prog-bar{width:60px;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
-.bloc-prog-fill{height:100%;background:var(--grad);border-radius:2px}
-.bloc-header{padding:1.4rem 1.2rem .8rem;max-width:640px;margin:0 auto}
-.bloc-header h2{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:400;color:var(--text);margin-bottom:.3rem}
-.bloc-header p{font-size:.85rem;color:var(--muted)}
-.lecons-list{display:flex;flex-direction:column;gap:8px;padding:0 1.2rem;max-width:640px;margin:0 auto}
-.lecon-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--white);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:all .15s}
-.lecon-item:hover{border-color:rgba(196,98,45,.25);background:#FFFAF8}
-.lecon-item.done{border-color:rgba(76,175,80,.2);background:#F5FBF5}
-.lecon-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:600;flex-shrink:0;background:var(--grad);color:#fff}
-.lecon-num.done-num{background:linear-gradient(135deg,#4caf50,#81c784)}
-.lecon-info{flex:1}.lecon-title{font-size:.9rem;font-weight:400;color:var(--text);margin-bottom:2px}
-.lecon-sub{font-size:.75rem;color:var(--muted)}
-.lecon-badge{font-size:.7rem;padding:2px 8px;border-radius:10px;font-weight:500}
+.bch{display:flex;align-items:center;gap:12px;margin-bottom:.8rem}
+.bci{font-size:1.6rem}.bcn{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:400}
+.bcd{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.bcmeta{display:flex;align-items:center;justify-content:space-between}
+.bcct{font-size:.74rem;color:var(--light)}
+.bcpb{width:70px;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.bcpf{height:100%;background:var(--grad);border-radius:2px;transition:width .4s}
+
+/* ── LECONS LIST ────────────────────────── */
+.llist{display:flex;flex-direction:column;gap:8px;padding:0 1rem;max-width:640px;margin:0 auto}
+.litem{display:flex;align-items:center;gap:12px;padding:13px 15px;background:var(--white);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:all .15s}
+.litem:hover{border-color:rgba(196,98,45,.25);background:#FFFAF8}
+.litem.done{border-color:rgba(76,175,80,.2);background:#F5FBF5}
+.lnum{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:600;flex-shrink:0;background:var(--grad);color:#fff}
+.lnum.done-n{background:linear-gradient(135deg,#4caf50,#81c784)}
+.linfo{flex:1}
+.ltitle{font-size:.88rem;font-weight:400;color:var(--text);margin-bottom:2px}
+.lsub{font-size:.73rem;color:var(--muted)}
+.lbadge{font-size:.68rem;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap}
 .badge-new{color:var(--b2);background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.2)}
 .badge-done{color:#2e7d32;background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.2)}
-.lesson-tag{display:inline-flex;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3);border-radius:20px;padding:3px 12px;margin-bottom:10px}
-h1.lt{font-family:'Fraunces',serif;font-size:clamp(1.4rem,3.5vw,1.9rem);font-weight:400;letter-spacing:-.03em;line-height:1.2;margin-bottom:1.8rem}
+
+/* ── LECON ──────────────────────────────── */
+.ltag{display:inline-flex;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3);border-radius:20px;padding:3px 11px;margin-bottom:10px}
+h1.lh{font-family:'Fraunces',serif;font-size:clamp(1.3rem,3.5vw,1.8rem);font-weight:400;letter-spacing:-.03em;line-height:1.2;margin-bottom:1.6rem}
 .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:italic}
 .screen{display:none}.screen.active{display:block}
-.card{border:1px solid var(--line);border-radius:14px;padding:1.4rem;margin-bottom:1.2rem;background:var(--white)}
+.card{border:1px solid var(--line);border-radius:14px;padding:1.3rem;margin-bottom:1rem;background:var(--white)}
 .card-warm{background:rgba(107,31,42,.03);border-color:rgba(107,31,42,.1)}
 .card-blue{background:rgba(107,174,214,.04);border-color:rgba(107,174,214,.2)}
-.slabel{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--b2);margin-bottom:.8rem}
-.btext{font-size:.93rem;line-height:1.75;color:var(--text);margin-bottom:1rem}
-.hint{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;background:rgba(107,31,42,.04);border-radius:8px;border:1px solid rgba(107,31,42,.08);margin-top:.6rem}
-.hint-text{font-size:.85rem;color:var(--b1);line-height:1.6}
-.exbl{margin-bottom:1rem}
-.exbl-lbl{font-size:.7rem;color:var(--b2);font-family:'JetBrains Mono',monospace;letter-spacing:.06em;margin-bottom:.3rem;text-transform:uppercase}
-.regles{display:flex;flex-direction:column;gap:6px;margin-bottom:1.2rem}
-.regle{display:flex;gap:12px;align-items:flex-start;padding:9px 12px;border-radius:8px}
+.slabel{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--b2);margin-bottom:.7rem;display:block}
+.btext{font-size:.92rem;line-height:1.75;color:var(--text);margin-bottom:.9rem}
+.hint{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;background:rgba(107,31,42,.04);border-radius:8px;border:1px solid rgba(107,31,42,.08);margin-top:.5rem}
+.htx{font-size:.84rem;color:var(--b1);line-height:1.6}
+.exbl{margin-bottom:.9rem}
+.exbl-lbl{font-size:.68rem;color:var(--b2);font-family:'JetBrains Mono',monospace;letter-spacing:.06em;margin-bottom:.3rem;text-transform:uppercase;display:block}
+pre{background:#FDF6F0;border:1px solid rgba(107,31,42,.1);border-left:3px solid var(--b2);border-radius:10px;padding:.9rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.85;color:var(--text);overflow-x:auto;white-space:pre;margin-bottom:.9rem}
+.regles{display:flex;flex-direction:column;gap:5px;margin-bottom:1rem}
+.regle{display:flex;gap:10px;align-items:flex-start;padding:8px 11px;border-radius:8px}
 .regle:nth-child(odd){background:#FAFAFA}
-.rprop{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--b1);min-width:120px;flex-shrink:0}
-.reff{font-size:.83rem;color:var(--muted);line-height:1.55}
-pre{background:#FDF6F0;border:1px solid rgba(107,31,42,.1);border-left:3px solid var(--b2);border-radius:10px;padding:1rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.85;color:var(--text);overflow-x:auto;white-space:pre;margin-bottom:1rem}
-.btn{display:inline-flex;align-items:center;gap:6px;border-radius:22px;padding:10px 22px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
-.btn-p{background:var(--grad);color:#fff}.btn-o{background:transparent;color:var(--b1);border:1px solid rgba(107,31,42,.25)}
-.btn-g{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.rprop{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--b1);min-width:110px;flex-shrink:0}
+.reff{font-size:.82rem;color:var(--muted);line-height:1.5}
+
+/* ── BTNS ───────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:6px;border-radius:22px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.86rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
+.btn-p{background:var(--grad);color:#fff}.btn-p:hover{opacity:.88}
+.btn-o{background:transparent;color:var(--b1);border:1px solid rgba(107,31,42,.25)}.btn-o:hover{background:rgba(107,31,42,.05)}
+.btn-g{background:transparent;color:var(--muted);border:1px solid var(--line)}.btn-g:hover{background:#F5F5F5}
 .btn:disabled{opacity:.35;cursor:default}
-.brow{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem}
-.tag{display:inline-flex;border-radius:20px;padding:3px 12px;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.brow{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
+.tag{display:inline-flex;border-radius:20px;padding:3px 11px;font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .tag-a{color:var(--arc);background:rgba(107,174,214,.1);border:1px solid rgba(107,174,214,.3)}
 .tag-b{color:var(--b2);background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.25)}
 .tag-memo{color:#7B5EA7;background:rgba(123,94,167,.1);border:1px solid rgba(123,94,167,.25)}
 .tag-debug{color:#E67E22;background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25)}
-.trow{display:flex;gap:8px;margin-bottom:1.2rem;flex-wrap:wrap}
-.opts{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
-.opt{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--white);cursor:pointer;font-size:.88rem;font-family:'DM Sans',sans-serif;color:var(--muted);text-align:left;transition:all .15s;width:100%}
-.opt:hover{border-color:var(--b2);color:var(--b1);background:#FDF6F0}
+.trow{display:flex;gap:7px;margin-bottom:1rem;flex-wrap:wrap}
+
+/* ── EXERCICES ──────────────────────────── */
+.opts{display:flex;flex-direction:column;gap:7px;margin-bottom:.9rem}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:10px 13px;border-radius:10px;border:1px solid var(--line);background:var(--white);cursor:pointer;font-size:.86rem;font-family:'DM Sans',sans-serif;color:var(--muted);text-align:left;transition:all .15s;width:100%}
+.opt:hover:not(:disabled){border-color:var(--b2);color:var(--b1);background:#FDF6F0}
 .opt.sel{border-color:var(--b2);color:var(--b1);background:#FDF6F0}
-.opt.ok{border-color:#4caf50;color:#2e7d32;background:#F0F8F0;cursor:default}
-.opt.ko{border-color:#e57373;color:#c62828;background:#FDF0F0;cursor:default}
-.oltr{font-family:'Fraunces',serif;opacity:.45;flex-shrink:0;width:20px;margin-top:1px}
-.irow{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1rem}
-.igrp label{font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
-.igrp input{border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:.85rem;font-family:'JetBrains Mono',monospace;background:var(--white);color:var(--text);outline:none;width:190px;transition:border-color .2s}
-.igrp input:focus{border-color:var(--b2)}.igrp input.ok{border-color:#4caf50;background:#F0F8F0}.igrp input.ko{border-color:#e57373;background:#FDF0F0}
-.memo-input{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--text);outline:none;resize:vertical;min-height:70px;margin:.8rem 0 .5rem;transition:border-color .2s}
-.memo-input:focus{border-color:rgba(123,94,167,.5)}
-.btn-memo{border-radius:20px;padding:8px 18px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
-.btn-memo-ok{background:rgba(76,175,80,.1);color:#2e7d32;border:1px solid rgba(76,175,80,.3)}
-.btn-memo-ko{background:rgba(229,115,115,.1);color:#c62828;border:1px solid rgba(229,115,115,.3)}
-.fb{border-radius:10px;padding:1rem;margin-top:10px}
-.fb.ok{background:#F0F8F0;border:1px solid #4caf50}.fb.ko{background:#FDF0F0;border:1px solid #e57373}
-.fb-t{font-weight:600;font-size:.9rem;margin-bottom:5px}
-.fb.ok .fb-t{color:#2e7d32}.fb.ko .fb-t{color:#c62828}
-.fb-x{color:var(--muted);font-size:.85rem;line-height:1.65}
-.resume-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:1.2rem}
-.resume-item{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:1rem}
-.resume-icon{font-size:1.1rem;margin-bottom:.4rem}
-.resume-key{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--b1);margin-bottom:.3rem;font-weight:500}
-.resume-val{font-size:.82rem;color:var(--muted);line-height:1.55}
-.rfooter{border-top:1px solid rgba(107,31,42,.1);padding-top:1rem;margin-top:.5rem}
-.rfooter p{font-size:.82rem;color:var(--muted);line-height:1.6}
-.eval-card{background:linear-gradient(135deg,rgba(107,31,42,.04),rgba(232,149,109,.06));border:1px solid rgba(196,98,45,.2);border-radius:16px;padding:1.6rem;text-align:center;margin:1.5rem 1.2rem}
-.eval-card h3{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:400;color:var(--text);margin-bottom:.5rem}
-.eval-card p{font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
-.eval-lock{font-size:.82rem;color:var(--light);margin-top:.5rem}
-.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:200;padding:6px 0}
-.mob-inner{display:flex;justify-content:space-around}
-.mob-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.68rem;color:var(--light);cursor:pointer;padding:4px 16px;transition:color .15s}
-.mob-item.active{color:var(--b1)}.mob-ic{font-size:1.4rem;line-height:1.2}
-@media(max-width:680px){.mob-nav{display:block}}
-@media(max-width:480px){.regle{flex-direction:column;gap:3px}.rprop{min-width:auto}.wrap{padding:1.4rem .9rem}.blocs-grid{grid-template-columns:1fr;padding:0 .9rem 1.5rem}}
+.opt.ok{border-color:var(--ok);color:#2e7d32;background:#F0F8F0}
+.opt.ko{border-color:var(--ko);color:#c62828;background:#FDF0F0}
+.oltr{font-family:'Fraunces',serif;opacity:.4;flex-shrink:0;width:18px;margin-top:1px}
+.irow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:.9rem}
+.igrp label{font-size:.73rem;color:var(--muted);display:block;margin-bottom:3px;font-family:'JetBrains Mono',monospace}
+.igrp input{border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:.83rem;font-family:'JetBrains Mono',monospace;background:var(--white);color:var(--text);outline:none;width:185px;transition:border-color .2s}
+.igrp input:focus{border-color:var(--b2)}.igrp input.ok{border-color:var(--ok);background:#F0F8F0}.igrp input.ko{border-color:var(--ko);background:#FDF0F0}
+textarea.memo{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-family:'JetBrains Mono',monospace;font-size:.83rem;color:var(--text);outline:none;resize:vertical;min-height:65px;margin:.7rem 0 .4rem;transition:border-color .2s}
+textarea.memo:focus{border-color:rgba(123,94,167,.5)}
+.btn-memo{border-radius:20px;padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;transition:all .2s;border:none}
+.btn-ok{background:rgba(76,175,80,.1);color:#2e7d32;border:1px solid rgba(76,175,80,.3)}
+.btn-ko-m{background:rgba(229,115,115,.1);color:#c62828;border:1px solid rgba(229,115,115,.3)}
+.fb{border-radius:10px;padding:.9rem;margin-top:9px}
+.fb.ok{background:#F0F8F0;border:1px solid var(--ok)}.fb.ko{background:#FDF0F0;border:1px solid var(--ko)}
+.fbt{font-weight:600;font-size:.88rem;margin-bottom:4px}
+.fb.ok .fbt{color:#2e7d32}.fb.ko .fbt{color:#c62828}
+.fbx{color:var(--muted);font-size:.83rem;line-height:1.6}
+
+/* ── RESUME ─────────────────────────────── */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:9px;margin-bottom:1rem}
+.ri{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.9rem}
+.ric{font-size:1rem;margin-bottom:.3rem}
+.rik{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--b1);margin-bottom:.2rem;font-weight:500}
+.riv{font-size:.8rem;color:var(--muted);line-height:1.5}
+.rfooter{border-top:1px solid rgba(107,31,42,.1);padding-top:.9rem;margin-top:.4rem}
+.rfooter p{font-size:.8rem;color:var(--muted);line-height:1.6}
+
+/* ── EVAL ZONE ──────────────────────────── */
+.eval-card{background:linear-gradient(135deg,rgba(107,31,42,.04),rgba(232,149,109,.06));border:1px solid rgba(196,98,45,.2);border-radius:16px;padding:1.5rem;text-align:center;margin:1.4rem 1rem}
+.eval-card h3{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:400;color:var(--text);margin-bottom:.4rem}
+.eval-card p{font-size:.83rem;color:var(--muted);line-height:1.6;margin-bottom:.9rem}
+.eval-lock{font-size:.8rem;color:var(--light);margin-top:.4rem}
+
+/* ── MOB NAV ────────────────────────────── */
+.mobnav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:200;padding:5px 0}
+.mobi{display:flex;justify-content:space-around}
+.mitem{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.66rem;color:var(--light);cursor:pointer;padding:4px 14px;transition:color .15s}
+.mitem.active{color:var(--b1)}.mic{font-size:1.3rem;line-height:1.2}
+@media(max-width:680px){.mobnav{display:block}}
+@media(max-width:480px){.regle{flex-direction:column;gap:2px}.rprop{min-width:auto}.wrap{padding:1.2rem .8rem}}
 </style>
 </head>
 <body>
+
+<!-- HEADER -->
 <div class="header">
-  <div class="header-top">
-    <div style="display:flex;align-items:center;gap:12px">
-      <img src="logo.jpg" alt="Kora" class="logo" onclick="showHome()">
-      <span style="font-family:'Fraunces',serif;font-size:1rem;color:var(--text)" id="headerTitle">Kora Academy</span>
+  <div class="hrow">
+    <div style="display:flex;align-items:center;gap:11px">
+      <img src="logo.jpg" alt="Kora" class="logo" id="logoBtn">
+      <span class="htitle" id="htitle">Kora Academy</span>
     </div>
     <div class="prog-wrap" id="progWrap" style="display:none">
-      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
-      <span class="prog-pct" id="progPct">0%</span>
+      <div class="pbar"><div class="pfill" id="pfill"></div></div>
+      <span class="ppct" id="ppct">0%</span>
     </div>
   </div>
-  <div class="breadcrumb" id="breadcrumb"><span class="bcactive">Formations</span></div>
-  <div class="nav-etapes" id="navEtapes" style="display:none"></div>
+  <div class="bc" id="bc"><span class="bca">React &amp; JSX</span></div>
+  <div class="etapes" id="etapes" style="display:none"></div>
 </div>
-<div class="page active" id="page-home">
-  <div class="home-hero">
-    <h2>Apprendre n'a jamais autant <em class="grad">rapport&eacute;.</em></h2>
-    <p>Des formations compl&egrave;tes avec exercices interactifs. Chaque notion expliqu&eacute;e, chaque erreur corrig&eacute;e imm&eacute;diatement.</p>
+
+<!-- PAGE : LISTE DES LECONS -->
+<div class="page active" id="page-list">
+  <div class="hero">
+    <h2>React &amp; JSX &mdash; <em class="grad">10 le&ccedil;ons</em></h2>
+    <p>Du composant basique au fetch dynamique. Chaque le&ccedil;on contient des exercices interactifs et sauvegarde ta progression automatiquement.</p>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-n" id="statDone">0</div><div class="stat-l">termin&eacute;es</div></div>
+      <div class="stat"><div class="stat-n">10</div><div class="stat-l">le&ccedil;ons</div></div>
+      <div class="stat"><div class="stat-n" id="statPct">0%</div><div class="stat-l">progression</div></div>
+    </div>
   </div>
-  <div class="blocs-grid" id="blocsGrid"></div>
-</div>
-<div class="page" id="page-bloc">
-  <div class="bloc-header"><h2 id="blocTitle"></h2><p id="blocDesc"></p></div>
-  <div class="lecons-list" id="leconsList"></div>
+  <div class="llist" id="llist"></div>
   <div id="evalZone"></div>
 </div>
+
+<!-- PAGE : LECON -->
 <div class="page" id="page-lecon">
   <div class="wrap">
-    <div class="lesson-tag" id="leconTag"></div>
-    <h1 class="lt" id="leconH1"></h1>
-    <div id="leconScreens"></div>
+    <div class="ltag" id="ltag"></div>
+    <h1 class="lh" id="lh"></h1>
+    <div id="screens"></div>
   </div>
 </div>
-<div class="mob-nav">
-  <div class="mob-inner">
-    <div class="mob-item" onclick="window.location.href='index.html'"><span class="mob-ic">&#8962;</span>Accueil</div>
-    <div class="mob-item active" onclick="showHome()"><span class="mob-ic">&#10010;</span>Formation</div>
-    <div class="mob-item" onclick="window.location.href='index.html'"><span class="mob-ic">&#9711;</span>Profil</div>
+
+<!-- MOB NAV -->
+<div class="mobnav">
+  <div class="mobi">
+    <a href="index.html" class="mitem"><span class="mic">&#8962;</span>Accueil</a>
+    <div class="mitem active" id="navList"><span class="mic">&#10010;</span>Formation</div>
+    <a href="index.html" class="mitem"><span class="mic">&#9711;</span>Profil</a>
   </div>
 </div>
+
 <script>
-const BLOCS = [{"id":"js","icon":"&#9889;","name":"JavaScript","desc":"Variables, types, conditions, boucles, fonctions, tableaux, objets, DOM, &#233;v&#233;nements, classes, async, fetch, modules.","lecons":[{"id":"js-1","num":1,"tag":"JavaScript &middot; Le&ccedil;on 1","title":"Les variables","sub":"Stocker et r&eacute;utiliser des donn&eacute;es","pourquoi":"Une variable est une bo&icirc;te avec un nom. Tu y mets une valeur &mdash; texte, nombre &mdash; et tu peux l&rsquo;utiliser partout. Sans variables, tout serait &eacute;crit en dur.","exemple":"DB Studio : nom du client, prix, pages. Kora : tokens, score. Ce sont toutes des variables.","exemples":[{"label":"const &mdash; fixe","code":"const nomClient = 'Hotel Le Napoleon';\nconst prixBase = 1200;\nconsole.log(nomClient);"},{"label":"let &mdash; change","code":"let pages = 5;\nlet total = pages * prixBase;\npages = pages + 2; // modifier\ntotal = pages * prixBase; // recalcul"},{"label":"var &mdash; eviter","code":"// var imprev\nvar x = 10;\nif(true) { var x = 20; } // bug global!\nconsole.log(x); // 20 bug\n\n// let correct\nlet y = 10;\nif(true) { let y = 20; } // local\nconsole.log(y); // 10"}],"regles":[{"prop":"const","expl":"Valeur fixe. Ne change pas. Par d&eacute;faut."},{"prop":"let","expl":"Valeur modifiable. Pour compteurs et &eacute;tats."},{"prop":"var","expl":"Obsol&egrave;te. Probl&egrave;mes de port&eacute;e. Ne jamais utiliser."}],"code":"const nomSite = 'Kora';\nconst annee = 2026;\n\nlet score = 0;\nscore = score + 10; // OK\nscore += 5; // raccourci\n\n// const interdit la reassignation\n// const nomSite = 'autre'; // ERREUR\n\nconst [prenom, nom] = ['Val', 'D'];\nconsole.log(prenom); // Val","exercices":[{"type":"qcm","question":"Tu stockes l'URL de l'API Kora qui ne changera jamais. Tu utilises quoi ?","options":["var apiUrl = 'url'","let apiUrl = 'url'","const apiUrl = 'url'","apiUrl = 'url'"],"bonne":2,"explication":"const est parfait pour les valeurs fixes. Il empeche les modifications accidentelles."},{"type":"completion","question":"Cree un compteur de tokens qui commence a 0 et peut augmenter :","labels":["mot-cle","valeur initiale"],"bonnes":["let","0"],"template":"[A] tokens = [B];\ntokens = tokens + 15;\nconsole.log(tokens); // 15"},{"type":"memo","question":"Declare une constante vitesse avec la valeur 300.","bonne":"const vitesse = 300;","indice":"mot-cle nom = valeur ;","explication":"const vitesse = 300; &mdash; mot-cl&eacute;, nom, =, valeur, point-virgule."},{"type":"debug","question":"Ce code plante. Trouve l'erreur :","codeFaux":"const compteur = 0;\ncompteur = compteur + 1; // erreur\nconsole.log(compteur);","codeCorrige":"let compteur = 0;\ncompteur = compteur + 1;\nconsole.log(compteur);","options":["console.log incorrect","const doit etre let (valeur modifiable)","compteur + 1 invalide","Point-virgule manquant"],"bonne":1,"explication":"const interdit toute reassignation. Utiliser let pour les valeurs qui changent."}],"resume":[{"icon":"&#128230;","key":"const","val":"Valeur fixe. Par d&eacute;faut."},{"icon":"&#128260;","key":"let","val":"Valeur modifiable."},{"icon":"&#9888;&#65039;","key":"var","val":"Obsol&egrave;te &mdash; jamais."},{"icon":"&#128161;","key":"R&egrave;gle","val":"const d&rsquo;abord. let si modification."}]},{"id":"js-2","num":2,"tag":"JavaScript &middot; Le&ccedil;on 2","title":"Les types de donn&eacute;es","sub":"Ce que JavaScript peut stocker","pourquoi":"Chaque variable a un type. JS est dynamiquement typ&eacute; mais comprendre les types &eacute;vite des bugs : '5' + 3 = '53' au lieu de 8.","exemple":"Un formulaire renvoie toujours du texte. Sans convertir, '5' + 3 = '53'. Bug classique sur les formulaires de commande.","exemples":[{"label":"Types primitifs","code":"const texte = 'Kora';      // string\nconst nombre = 2026;        // number\nconst vrai = true;          // boolean\nconst rien = null;          // null\nconst indefini = undefined; // undefined"},{"label":"typeof","code":"console.log(typeof 'Kora'); // string\nconsole.log(typeof 42);    // number\nconsole.log(typeof true);  // boolean\nconsole.log(typeof null);  // object <- bug JS historique"},{"label":"Conversion","code":"const input = '42'; // vient d'un formulaire\nconst prix = Number(input); // 42\n\n// Piege !\nconsole.log('5' + 3);         // '53'\nconsole.log(Number('5') + 3); // 8"}],"regles":[{"prop":"string","expl":"Texte. Guillemets simples, doubles ou backticks."},{"prop":"number","expl":"Entier ou d&eacute;cimal. Un seul type en JS."},{"prop":"boolean","expl":"true ou false."},{"prop":"null","expl":"Absence de valeur intentionnelle."},{"prop":"typeof","expl":"Retourne le type en string."}],"code":"const prenom = 'Val';\nconst bio = `Fondatrice de ${prenom}`;\nconst age = 22;\nconst estConnecte = true;\n\nconsole.log(typeof prenom); // string\nconsole.log(typeof age);    // number\n\n// Piege !\nconsole.log('5' + 3);         // '53'\nconsole.log(Number('5') + 3); // 8","exercices":[{"type":"qcm","question":"Un formulaire HTML renvoie toujours le type... ?","options":["number","boolean","string","undefined"],"bonne":2,"explication":"Tous les inputs retournent des strings. Convertir avec Number() avant les calculs."},{"type":"completion","question":"Convertis l'input en nombre pour calculer le prix :","labels":["conversion","calcul"],"bonnes":["Number","prix * 2"],"template":"const input = document.querySelector('#qte').value;\nconst qte = [A](input);\nconst total = [B];\nconsole.log(total);"},{"type":"memo","question":"Afficher le type de la variable 'score' dans la console.","bonne":"console.log(typeof score);","indice":"console.log( typeof nom_variable )","explication":"typeof est un operateur. typeof score sans parentheses autour de score."},{"type":"debug","question":"Le total est '310' au lieu de 30. Trouve pourquoi :","codeFaux":"const qte = '3';  // input\nconst prix = 10;\nconst total = qte + prix;\nconsole.log(total); // '310'","codeCorrige":"const qte = Number('3');\nconst prix = 10;\nconst total = qte + prix;\nconsole.log(total); // 30","options":["prix doit etre string","qte doit etre converti avec Number()","+ doit etre *","console.log incorrect"],"bonne":1,"explication":"'3' + 10 = '310' (concatenation). Number('3') + 10 = 30 (addition)."}],"resume":[{"icon":"&#128221;","key":"string","val":"Texte"},{"icon":"&#128290;","key":"number","val":"Entier ou d&eacute;cimal"},{"icon":"&#9989;","key":"boolean","val":"true ou false"},{"icon":"&#128269;","key":"typeof","val":"Identifier le type"},{"icon":"&#9888;&#65039;","key":"Pi&egrave;ge","val":"'5' + 3 = '53' &mdash; toujours convertir"}]},{"id":"js-3","num":3,"tag":"JavaScript &middot; Le&ccedil;on 3","title":"Les conditions","sub":"D&eacute;cisions dans le code","pourquoi":"Sans conditions, le code fait toujours la m&ecirc;me chose. if/else permet d&rsquo;ex&eacute;cuter du code diff&eacute;rent selon la situation.","exemple":"Kora : if (tokens >= 50) { debloquer(); } else { upgrade(); }","exemples":[{"label":"if / else if / else","code":"const score = 75;\n\nif (score >= 90) {\n  console.log('Excellent');\n} else if (score >= 70) {\n  console.log('Bien');\n} else {\n  console.log('Insuffisant');\n}"},{"label":"Comparaisons","code":"5 === 5    // true - strict\n5 == '5'   // true - laxe (eviter)\n5 !== 3    // true\ntrue && true  // true - ET\ntrue || false // true - OU\n!true         // false - NON"},{"label":"Ternaire","code":"const age = 22;\nconst statut = age >= 18 ? 'adulte' : 'mineur';\n// 'adulte'"}],"regles":[{"prop":"if / else","expl":"Structure de base."},{"prop":"=== / !==","expl":"Comparaison stricte. Toujours pr&eacute;f&eacute;rer."},{"prop":"&amp;&amp; / || / !","expl":"ET / OU / NON."},{"prop":"ternaire ? :","expl":"Condition sur une ligne."}],"code":"const tokens = 120;\nconst estConnecte = true;\n\nif (tokens >= 100) {\n  console.log('Formation debloquee');\n} else {\n  console.log('Insuffisant');\n}\n\n// Conditions multiples\nif (estConnecte && tokens >= 50) {\n  afficherFormation();\n}\n\n// Ternaire\nconst badge = tokens > 200 ? 'Expert' : 'Debutant';","exercices":[{"type":"qcm","question":"Difference entre == et === ?","options":["Aucune","== verifie type+valeur","=== verifie type+valeur, == est laxe","=== pour strings seulement"],"bonne":2,"explication":"=== verifie type ET valeur. == convertit puis compare. Toujours utiliser ===."},{"type":"completion","question":"Si tokens > 50 ET estPremium, afficher la formation :","labels":["operateur","appel"],"bonnes":["&&","afficherFormation()"],"template":"if (tokens > 50 [A] estPremium) {\n  [B];\n}"},{"type":"memo","question":"Ternaire : 'connecte' si estConnecte true, sinon 'deconnecte'.","bonne":"const statut = estConnecte ? 'connecte' : 'deconnecte';","indice":"const nom = condition ? vrai : faux","explication":"Le ternaire est un if/else sur une ligne."},{"type":"debug","question":"La condition ne fonctionne pas. Trouve :","codeFaux":"const score = 100;\nif (score = 100) {\n  console.log('Parfait');\n}","codeCorrige":"const score = 100;\nif (score === 100) {\n  console.log('Parfait');\n}","options":["console.log mal place","= est assignation pas comparaison - utiliser ===","score doit etre string","Accolades mal placees"],"bonne":1,"explication":"if (score = 100) assigne 100. Pour comparer : ===."}],"resume":[{"icon":"&#128256;","key":"if/else","val":"Base des conditions"},{"icon":"&#9878;&#65039;","key":"===","val":"Stricte &mdash; toujours pr&eacute;f&eacute;rer =="},{"icon":"&#128279;","key":"&amp;&amp; / ||","val":"Combiner conditions"},{"icon":"&#9889;","key":"ternaire","val":"condition ? vrai : faux"}]},{"id":"js-4","num":4,"tag":"JavaScript &middot; Le&ccedil;on 4","title":"Les boucles","sub":"R&eacute;p&eacute;ter sans se r&eacute;p&eacute;ter","pourquoi":"Sans boucle, afficher 100 posts = &eacute;crire le m&ecirc;me code 100 fois. Les boucles automatisent.","exemple":"Kora : pour chaque formation, cr&eacute;er une carte HTML. C&rsquo;est forEach ou map.","exemples":[{"label":"for classique","code":"for (let i = 0; i < 5; i++) {\n  console.log('Lecon ' + (i + 1));\n}\n// Lecon 1, 2, 3, 4, 5"},{"label":"forEach","code":"const formations = ['JS', 'CSS', 'React'];\n\nformations.forEach((f) => {\n  console.log('Formation : ' + f);\n});"},{"label":"while","code":"let tokens = 0;\n\nwhile (tokens < 100) {\n  tokens += 10;\n  console.log(tokens);\n}\n// 10, 20, ..., 100"}],"regles":[{"prop":"for","expl":"Nombre d&rsquo;it&eacute;rations connu. Init ; condition ; incr&eacute;mentation."},{"prop":"forEach","expl":"Tableau : fonction pour chaque &eacute;l&eacute;ment."},{"prop":"for...of","expl":"Parcourt les valeurs &mdash; plus lisible."},{"prop":"while","expl":"R&eacute;p&egrave;te tant que condition vraie."},{"prop":"break","expl":"Arr&ecirc;te imm&eacute;diatement."}],"code":"const lecons = ['Variables', 'Types', 'Conditions'];\n\n// forEach - le plus courant\nlecons.forEach((lecon, i) => {\n  console.log(`${i + 1}. ${lecon}`);\n});\n\n// for...of - propre\nfor (const lecon of lecons) {\n  console.log(lecon);\n}\n\n// for classique\nfor (let i = 0; i < lecons.length; i++) {\n  console.log(lecons[i]);\n}","exercices":[{"type":"qcm","question":"Tu as 50 posts a afficher. Quelle boucle ?","options":["while","for classique","forEach ou for...of","for...in"],"bonne":2,"explication":"forEach et for...of sont faits pour les tableaux. Plus lisibles. for...in = objets."},{"type":"completion","question":"Affiche chaque formation :","labels":["methode","parametre"],"bonnes":["forEach","formation"],"template":"const formations = ['JS', 'CSS', 'React'];\nformations.[A]((formation) => {\n  console.log([B]);\n});"},{"type":"memo","question":"Boucle for de 0 a 4 (5 iterations).","bonne":"for (let i = 0; i < 5; i++) {\n  // code\n}","indice":"for ( init ; condition ; incrementation ) { }","explication":"i commence a 0, continue tant que i < 5, augmente de 1."},{"type":"debug","question":"Boucle infinie :","codeFaux":"let i = 0;\nwhile (i < 10) {\n  console.log(i);\n  // i jamais modifie\n}","codeCorrige":"let i = 0;\nwhile (i < 10) {\n  console.log(i);\n  i++;\n}","options":["while -> for","Manque i++","console.log plante","Condition fausse"],"bonne":1,"explication":"Sans i++, i reste a 0, condition toujours vraie - boucle infinie."}],"resume":[{"icon":"&#128290;","key":"for","val":"Nombre connu"},{"icon":"&#128203;","key":"forEach","val":"Tableau &mdash; le plus courant"},{"icon":"&#128257;","key":"while","val":"Jusqu&rsquo;a condition fausse"},{"icon":"&#9940;","key":"break","val":"Sortir imm&eacute;diatement"}]},{"id":"js-5","num":5,"tag":"JavaScript &middot; Le&ccedil;on 5","title":"Les fonctions","sub":"R&eacute;utiliser et organiser","pourquoi":"Une fonction est un bloc de code avec un nom. Au lieu de copier-coller, tu &eacute;cris une fois et tu appelles.","exemple":"DB Studio : calculerPrix(pages, options). Une seule modification suffit pour tout.","exemples":[{"label":"3 syntaxes","code":"// Declaration\nfunction saluer(nom) { return 'Bonjour ' + nom; }\n\n// Expression\nconst saluer2 = function(nom) { return 'Bonjour ' + nom; };\n\n// Arrow function - moderne\nconst saluer3 = (nom) => 'Bonjour ' + nom;"},{"label":"Valeurs par defaut","code":"function prix(pages, tarif = 200) {\n  return pages * tarif;\n}\nconsole.log(prix(5));      // 1000\nconsole.log(prix(5, 300)); // 1500"},{"label":"Sans return = undefined","code":"function rien() {\n  console.log('pas de return');\n}\nconsole.log(rien()); // undefined"}],"regles":[{"prop":"function nom()","expl":"D&eacute;claration. Hoisting."},{"prop":"const nom = () =>","expl":"Arrow function. Syntaxe moderne."},{"prop":"return","expl":"Retourne et stoppe la fonction."},{"prop":"param = valeur","expl":"Valeur par d&eacute;faut si argument absent."}],"code":"const calculerRemise = (prix, remise = 0.1) => {\n  return prix - (prix * remise);\n};\n\nconsole.log(calculerRemise(1200));       // 1080\nconsole.log(calculerRemise(1200, 0.25)); // 900\n\n// Retourner un objet\nconst creerClient = (nom, budget) => ({\n  nom,\n  budget,\n  premium: budget > 2000\n});\n\nconsole.log(creerClient('Marc', 2500).premium); // true","exercices":[{"type":"qcm","question":"Difference entre function et arrow function ?","options":["Arrow sans parametres","Arrow plus courte, ne lie pas son propre this","function ne peut pas retourner","Aucune"],"bonne":1,"explication":"Arrow functions plus courtes. Difference technique : elles heritent du this du contexte parent."},{"type":"completion","question":"Fonction qui calcule TTC :","labels":["declaration","calcul"],"bonnes":["const","prix * (1 + tva)"],"template":"[A] calculerTTC = (prix, tva = 0.20) => {\n  return [B];\n};\nconsole.log(calculerTTC(100)); // 120"},{"type":"memo","question":"Arrow function 'doubler' qui retourne n * 2.","bonne":"const doubler = (n) => n * 2;","indice":"const nom = (param) => expression","explication":"Corps en une expression = retour implicite sans accolades."},{"type":"debug","question":"Retourne undefined :","codeFaux":"const additionner = (a, b) => {\n  const result = a + b;\n};\nconsole.log(additionner(3, 4)); // undefined","codeCorrige":"const additionner = (a, b) => {\n  const result = a + b;\n  return result;\n};\nconsole.log(additionner(3, 4)); // 7","options":["Parametres invalides","Manque return","const interdit","Accolades inutiles"],"bonne":1,"explication":"Sans return, toujours undefined. Le resultat est perdu."}],"resume":[{"icon":"&#127959;&#65039;","key":"function nom()","val":"D&eacute;claration &mdash; hoisting"},{"icon":"&#9889;","key":"const nom = () =>","val":"Arrow &mdash; moderne"},{"icon":"&#8617;&#65039;","key":"return","val":"Retourne et stoppe"},{"icon":"&#127919;","key":"param = defaut","val":"Valeur si argument absent"}]},{"id":"js-6","num":6,"tag":"JavaScript &middot; Le&ccedil;on 6","title":"Les tableaux","sub":"Listes de donn&eacute;es","pourquoi":"Posts, formations, tokens &mdash; tout se stocke dans des tableaux. Structure la plus utilis&eacute;e en JS.","exemple":"L&rsquo;API Kora retourne un tableau de posts. Tu parcoures pour afficher chacun.","exemples":[{"label":"Creer et acceder","code":"const formations = ['JS', 'CSS', 'React'];\nconsole.log(formations[0]);    // 'JS'\nconsole.log(formations.length); // 3"},{"label":"Ajouter/supprimer","code":"const panier = ['HTML', 'CSS'];\npanier.push('JS');      // fin\npanier.pop();           // supprime dernier\npanier.unshift('Intro'); // debut"},{"label":"map, filter, find","code":"const scores = [45, 82, 91, 33, 76];\n\nconst doubles = scores.map(s => s * 2);\nconst bons = scores.filter(s => s >= 70); // [82,91,76]\nconst top = scores.find(s => s >= 90);    // 91"}],"regles":[{"prop":"array[index]","expl":"Acc&egrave;s. Index commence &agrave; 0."},{"prop":".push()","expl":"Ajoute &agrave; la fin."},{"prop":".map(fn)","expl":"Transforme chaque &eacute;l&eacute;ment."},{"prop":".filter(fn)","expl":"Garde les &eacute;l&eacute;ments qui passent."},{"prop":".find(fn)","expl":"Premier &eacute;l&eacute;ment qui correspond."}],"code":"const posts = [\n  { id: 1, auteur: 'Val', likes: 284, verifie: true },\n  { id: 2, auteur: 'Marc', likes: 47, verifie: false },\n];\n\nconst auteurs = posts.map(p => p.auteur);\n// ['Val', 'Marc']\n\nconst verifies = posts.filter(p => p.verifie);\n// [{id:1...}]\n\nconst top = posts.find(p => p.likes > 200);\n// {id:1, auteur:'Val'...}","exercices":[{"type":"qcm","question":"Garder les formations avec completion > 80%. Quelle methode ?","options":[".map()",".find()",".filter()",".push()"],"bonne":2,"explication":".filter() cree un nouveau tableau avec les elements qui passent le test."},{"type":"completion","question":"Extraire les titres des lecons :","labels":["methode","propriete"],"bonnes":["map","l.titre"],"template":"const lecons = [\n  { titre: 'Variables', duree: 10 },\n  { titre: 'Boucles', duree: 15 },\n];\nconst titres = lecons.[A](l => [B]);"},{"type":"memo","question":"Filtre 'scores' pour garder les valeurs > 70.","bonne":"const bons = scores.filter(s => s > 70);","indice":".filter( element => condition )","explication":"filter retourne true pour garder, false pour exclure."},{"type":"debug","question":"Plante avec 'Cannot read properties of undefined' :","codeFaux":"const fruits = ['pomme', 'banane', 'cerise'];\nconsole.log(fruits[3]); // plante","codeCorrige":"const fruits = ['pomme', 'banane', 'cerise'];\nconsole.log(fruits[2]); // 'cerise'","options":["Tableau mal declare","Index 3 inexistant - dernier est 2","console.log incompatible","Virgule manquante"],"bonne":1,"explication":"3 elements = indices 0,1,2. fruits[3] retourne undefined."}],"resume":[{"icon":"&#128203;","key":"array[0]","val":"Index commence &agrave; 0"},{"icon":"&#10133;","key":".push()","val":"Ajouter &agrave; la fin"},{"icon":"&#128260;","key":".map()","val":"Transformer chaque &eacute;l&eacute;ment"},{"icon":"&#128269;","key":".filter()","val":"Garder selon condition"},{"icon":"&#127919;","key":".find()","val":"Premier qui correspond"}]},{"id":"js-7","num":7,"tag":"JavaScript &middot; Le&ccedil;on 7","title":"Les objets","sub":"Donn&eacute;es complexes","pourquoi":"Un objet regroupe des donn&eacute;es li&eacute;es. Nom, email, tokens d&rsquo;un user &mdash; tout dans un seul objet.","exemple":"Post Kora : { auteur, texte, likes, verifie }. User : { nom, email, tokens }.","exemples":[{"label":"Creer et acceder","code":"const user = {\n  nom: 'Val',\n  email: 'val@kora.io',\n  tokens: 248,\n};\nconsole.log(user.nom);      // 'Val'\nconsole.log(user['email']); // 'val@kora.io'"},{"label":"Destructuration","code":"const { nom, tokens } = user;\nconsole.log(nom);    // 'Val'\nconsole.log(tokens); // 248"},{"label":"Spread","code":"// Mettre a jour sans muter\nconst updated = { ...user, tokens: 300 };\nconsole.log(Object.keys(user));\n// ['nom', 'email', 'tokens']"}],"regles":[{"prop":"objet.prop","expl":"Notation point&eacute;e."},{"prop":"const {a,b} = obj","expl":"D&eacute;structuration."},{"prop":"{...obj}","expl":"Spread &mdash; copier."},{"prop":"Object.keys()","expl":"Tableau des cl&eacute;s."}],"code":"const formation = {\n  titre: 'JavaScript',\n  lecons: 15,\n  completee: false,\n  progression(done) {\n    return Math.round((done / this.lecons) * 100) + '%';\n  }\n};\n\nconsole.log(formation.titre);          // 'JavaScript'\nconsole.log(formation.progression(6)); // '40%'\n\nconst { titre, lecons } = formation;\nconst updated = { ...formation, completee: true };","exercices":[{"type":"qcm","question":"Extraire 'nom' et 'email' en une ligne ?","options":["const nom=u.nom; const email=u.email;","const {nom, email} = user;","const [nom, email] = user;","Object.extract()"],"bonne":1,"explication":"const {nom, email} = user; - destructuration en une ligne."},{"type":"completion","question":"Cree un objet post et accede aux likes :","labels":["propriete","acces"],"bonnes":["likes","post.likes"],"template":"const post = {\n  auteur: 'Val',\n  [A]: 284,\n};\nconsole.log([B]); // 284"},{"type":"memo","question":"Destructure 'titre' et 'duree' de l'objet 'cours'.","bonne":"const { titre, duree } = cours;","indice":"const { prop1, prop2 } = objet","explication":"Equivalent a deux lignes de const."},{"type":"debug","question":"Mise a jour plante :","codeFaux":"const config = { theme: 'light' };\nconfig = { ...config, theme: 'dark' };","codeCorrige":"const config = { theme: 'light' };\nconst newConfig = { ...config, theme: 'dark' };","options":["Spread invalide","const ne peut pas etre reassigne - nouvelle variable","Guillemets","Virgule"],"bonne":1,"explication":"config est const. Creer newConfig a la place."}],"resume":[{"icon":"&#128450;&#65039;","key":"objet.prop","val":"Notation point&eacute;e"},{"icon":"&#128230;","key":"destructuration","val":"const {a,b} = obj"},{"icon":"&#128260;","key":"spread","val":"{...obj}"},{"icon":"&#128273;","key":"Object.keys()","val":"Lister les propri&eacute;t&eacute;s"}]},{"id":"js-8","num":8,"tag":"JavaScript &middot; Le&ccedil;on 8","title":"Le DOM","sub":"Manipuler la page HTML","pourquoi":"Le DOM est la page HTML en objets JS. Tu peux modifier le texte, changer le style, ajouter/supprimer des &eacute;l&eacute;ments.","exemple":"Menu burger Le Napol&eacute;on : s&eacute;lectionner bouton, &eacute;couter clic, ajouter classe 'ouvert'.","exemples":[{"label":"Selectionner","code":"// Un seul\nconst titre = document.querySelector('h1');\nconst btn = document.querySelector('.btn');\n\n// Plusieurs\nconst btns = document.querySelectorAll('.btn');"},{"label":"Modifier","code":"titre.textContent = 'Nouveau titre';\ntitre.innerHTML = 'Titre <strong>gras</strong>';\n\nconst img = document.querySelector('img');\nimg.setAttribute('src', 'nouveau.jpg');"},{"label":"classList","code":"const menu = document.querySelector('.menu');\nmenu.classList.add('ouvert');\nmenu.classList.remove('ouvert');\nmenu.classList.toggle('ouvert');\nmenu.classList.contains('ouvert'); // true/false"}],"regles":[{"prop":"querySelector()","expl":"Premier &eacute;l&eacute;ment ou null."},{"prop":"querySelectorAll()","expl":"Tous les &eacute;l&eacute;ments &mdash; NodeList."},{"prop":".textContent","expl":"Lire/modifier le texte."},{"prop":".innerHTML","expl":"Lire/modifier le HTML."},{"prop":".classList","expl":"add / remove / toggle / contains."}],"code":"const score = document.querySelector('#score');\nconst cartes = document.querySelectorAll('.carte');\n\nscore.textContent = '248 KRT';\n\ncartes.forEach((carte) => {\n  carte.classList.add('visible');\n});\n\n// Creer et ajouter\nconst div = document.createElement('div');\ndiv.className = 'post';\ndiv.textContent = 'Mon post';\ndocument.querySelector('.feed').appendChild(div);\n\n// Supprimer\ndocument.querySelector('.spam').remove();","exercices":[{"type":"qcm","question":"Selectionner TOUS les elements .post ?","options":["document.querySelector('.post')","document.querySelectorAll('.post')","document.getElementById('.post')","document.getElements('.post')"],"bonne":1,"explication":"querySelector = premier. querySelectorAll = tous (NodeList)."},{"type":"completion","question":"Selectionne le bouton et change son texte :","labels":["methode","propriete"],"bonnes":["querySelector","textContent"],"template":"const btn = document.[A]('#monBouton');\nbtn.[B] = 'Clique !';"},{"type":"memo","question":"Ajoute la classe 'actif' a l'element 'menu'.","bonne":"menu.classList.add('actif');","indice":"element.classList.add('nom')","explication":"classList.add() ajoute. remove() retire. toggle() bascule."},{"type":"debug","question":"Plante avec 'Cannot set properties of null' :","codeFaux":"const btn = document.querySelector('.bouton-submit');\nbtn.textContent = 'Envoye !';","codeCorrige":"const btn = document.querySelector('#bouton-submit');\nbtn.textContent = 'Envoye !';","options":["textContent inexistant","Selecteur incorrect - querySelector retourne null","Bouton dans form","Manque addEventListener"],"bonne":1,"explication":"Selecteur .bouton-submit (classe) devrait etre #bouton-submit (id)."}],"resume":[{"icon":"&#127919;","key":"querySelector()","val":"Premier ou null"},{"icon":"&#128203;","key":"querySelectorAll()","val":"Tous &mdash; NodeList"},{"icon":"&#9999;&#65039;","key":"textContent","val":"Texte"},{"icon":"&#127912;","key":"classList","val":"add / remove / toggle"}]},{"id":"js-9","num":9,"tag":"JavaScript &middot; Le&ccedil;on 9","title":"Les &eacute;v&eacute;nements","sub":"R&eacute;agir aux actions","pourquoi":"Sans &eacute;v&eacute;nements, la page est statique. Avec eux, elle r&eacute;agit aux clics, frappes, soumissions.","exemple":"Formulaire DB Studio : au clic Envoyer, intercepter, valider, envoyer sans rechargement.","exemples":[{"label":"addEventListener","code":"const btn = document.querySelector('#btn');\n\nbtn.addEventListener('click', (e) => {\n  console.log('Clique !', e.target);\n});"},{"label":"Evenements courants","code":"// Clic\nbtn.addEventListener('click', fn);\n\n// Input\ninput.addEventListener('input', (e) => {\n  console.log(e.target.value);\n});\n\n// Formulaire\nform.addEventListener('submit', (e) => {\n  e.preventDefault();\n});"},{"label":"Delegation","code":"const liste = document.querySelector('.feed');\nliste.addEventListener('click', (e) => {\n  if (e.target.classList.contains('btn-like')) {\n    e.target.textContent = 'liked';\n  }\n});"}],"regles":[{"prop":"addEventListener(evt,fn)","expl":"&Eacute;coute et ex&eacute;cute fn."},{"prop":"e.preventDefault()","expl":"Emp&ecirc;che le comportement par d&eacute;faut."},{"prop":"e.target","expl":"L&rsquo;&eacute;l&eacute;ment d&eacute;clencheur."},{"prop":"e.target.value","expl":"Valeur d&rsquo;un input."}],"code":"const burger = document.querySelector('.burger');\nconst nav = document.querySelector('nav');\n\nburger.addEventListener('click', () => {\n  nav.classList.toggle('ouvert');\n});\n\nconst form = document.querySelector('#contact');\nform.addEventListener('submit', (e) => {\n  e.preventDefault();\n  const nom = form.querySelector('#nom').value.trim();\n  if (!nom) { alert('Champ vide'); return; }\n  console.log({ nom });\n});","exercices":[{"type":"qcm","question":"Pourquoi e.preventDefault() sur un formulaire ?","options":["Empecher erreurs JS","Empecher le rechargement par defaut","Valider automatiquement","Envoyer par email"],"bonne":1,"explication":"Par defaut, soumission = rechargement. e.preventDefault() l'empeche."},{"type":"completion","question":"Menu burger :","labels":["evenement","methode classList"],"bonnes":["click","toggle"],"template":"burger.addEventListener('[A]', () => {\n  menu.classList.[B]('ouvert');\n});"},{"type":"memo","question":"Listener sur input qui affiche la valeur a chaque frappe.","bonne":"input.addEventListener('input', (e) => {\n  console.log(e.target.value);\n});","indice":"addEventListener('input', (e) => { e.target.value })","explication":"'input' se declenche a chaque frappe."},{"type":"debug","question":"Formulaire recharge la page :","codeFaux":"form.addEventListener('submit', () => {\n  const nom = form.querySelector('#nom').value;\n  envoyerDonnees(nom);\n});","codeCorrige":"form.addEventListener('submit', (e) => {\n  e.preventDefault();\n  const nom = form.querySelector('#nom').value;\n  envoyerDonnees(nom);\n});","options":["envoyerDonnees inexistant","Manque (e) et e.preventDefault()","Selecteur incorrect","addEventListener impossible"],"bonne":1,"explication":"Sans e.preventDefault(), comportement par defaut = rechargement."}],"resume":[{"icon":"&#128266;","key":"addEventListener()","val":"&Eacute;couter tout &eacute;v&eacute;nement"},{"icon":"&#128721;","key":"e.preventDefault()","val":"Bloquer comportement par d&eacute;faut"},{"icon":"&#127919;","key":"e.target","val":"&Eacute;l&eacute;ment d&eacute;clencheur"},{"icon":"&#9000;&#65039;","key":"Events","val":"click &middot; input &middot; submit &middot; keydown"}]},{"id":"js-10","num":10,"tag":"JavaScript &middot; Le&ccedil;on 10","title":"Les classes","sub":"Mod&egrave;les r&eacute;utilisables","pourquoi":"Une classe est un mod&egrave;le pour cr&eacute;er des objets de m&ecirc;me structure. class User une fois, new User() autant que n&eacute;cessaire.","exemple":"Kora : class Post { constructor(auteur, texte) } &mdash; chaque post est une instance.","exemples":[{"label":"Definir et instancier","code":"class Utilisateur {\n  constructor(nom, email) {\n    this.nom = nom;\n    this.email = email;\n    this.tokens = 0;\n  }\n  gagnerTokens(n) { this.tokens += n; }\n  profil() { return `${this.nom} - ${this.tokens} KRT`; }\n}\n\nconst val = new Utilisateur('Val', 'val@kora.io');\nval.gagnerTokens(50);\nconsole.log(val.profil()); // Val - 50 KRT"},{"label":"Heritage","code":"class Admin extends Utilisateur {\n  constructor(nom, email, niveau) {\n    super(nom, email); // parent d'abord !\n    this.niveau = niveau;\n  }\n  supprimer(post) { console.log(`${this.nom} supprime`); }\n}\n\nconst admin = new Admin('Marc', 'm@kora.io', 3);\nadmin.gagnerTokens(100); // methode heritee"}],"regles":[{"prop":"class Nom {}","expl":"PascalCase."},{"prop":"constructor()","expl":"Appel&eacute; &agrave; la cr&eacute;ation de l&rsquo;instance."},{"prop":"this.prop","expl":"Propri&eacute;t&eacute; de l&rsquo;instance."},{"prop":"new Classe()","expl":"Cr&eacute;er une instance."},{"prop":"extends / super()","expl":"H&eacute;ritage. super() appelle le parent."}],"code":"class Formation {\n  constructor(titre, lecons) {\n    this.titre = titre;\n    this.lecons = lecons;\n    this.completees = 0;\n  }\n  completerLecon() {\n    this.completees++;\n    console.log(`${this.completees}/${this.lecons}`);\n  }\n  get progression() {\n    return Math.round((this.completees / this.lecons) * 100);\n  }\n}\n\nconst js = new Formation('JavaScript', 15);\njs.completerLecon();\nconsole.log(js.progression); // 7","exercices":[{"type":"qcm","question":"Que fait 'this' dans constructor ?","options":["La classe elle-meme","L'instance en cours de creation","Le document","Le parent"],"bonne":1,"explication":"this dans constructor = l'instance creee. new User('Val') = this = le nouvel objet."},{"type":"completion","question":"Constructor de Post :","labels":["auteur","likes init"],"bonnes":["this.auteur = auteur","this.likes = 0"],"template":"class Post {\n  constructor(auteur, texte) {\n    [A];\n    this.texte = texte;\n    [B];\n  }\n}"},{"type":"memo","question":"Cree une instance de 'Produit' avec 'Laptop' et 999.","bonne":"const p = new Produit('Laptop', 999);","indice":"const var = new NomClasse( args );","explication":"Arguments passes au constructor."},{"type":"debug","question":"Heritage plante :","codeFaux":"class Admin extends User {\n  constructor(nom, role) {\n    this.role = role; // erreur\n    super(nom);\n  }\n}","codeCorrige":"class Admin extends User {\n  constructor(nom, role) {\n    super(nom); // AVANT this\n    this.role = role;\n  }\n}","options":["extends incorrect","super() doit etre AVANT this","this.role interdit","3 params max"],"bonne":1,"explication":"super() obligatoire AVANT this dans une sous-classe."}],"resume":[{"icon":"&#127963;&#65039;","key":"class","val":"Mod&egrave;le"},{"icon":"&#128295;","key":"constructor()","val":"Initialise les propri&eacute;t&eacute;s"},{"icon":"&#128070;","key":"this","val":"L&rsquo;instance courante"},{"icon":"&#129516;","key":"extends + super()","val":"H&eacute;ritage"}]},{"id":"js-11","num":11,"tag":"JavaScript &middot; Le&ccedil;on 11","title":"Scope et Closures","sub":"Port&eacute;e des variables","pourquoi":"Le scope d&eacute;termine o&ugrave; une variable est accessible. Les closures m&eacute;morisent l&rsquo;environnement de cr&eacute;ation.","exemple":"Compteur de likes Kora : chaque post a un compteur ind&eacute;pendant &mdash; une closure.","exemples":[{"label":"Scope local vs global","code":"const x = 'global';\nfunction fn() {\n  const x = 'local';\n  console.log(x); // 'local'\n}\nfn();\nconsole.log(x); // 'global' - inchange"},{"label":"Closure","code":"function creerCompteur() {\n  let count = 0;\n  return function() {\n    count++;\n    return count;\n  };\n}\nconst c1 = creerCompteur();\nconst c2 = creerCompteur();\nc1(); // 1\nc1(); // 2\nc2(); // 1 - independant"},{"label":"Factory","code":"function creerValidateur(min) {\n  return (val) => val >= min;\n}\nconst estAdulte = creerValidateur(18);\nconsole.log(estAdulte(22)); // true"}],"regles":[{"prop":"scope global","expl":"Accessible partout."},{"prop":"scope local","expl":"Dans sa fonction/bloc seulement."},{"prop":"closure","expl":"Fonction qui m&eacute;morise son contexte."},{"prop":"block scope","expl":"let/const limit&eacute;s &agrave; leur bloc {}."}],"code":"// var vs let - difference cruciale\nconst fns = [];\n\n// MAUVAIS - var partage\nfor (var i = 0; i < 3; i++) {\n  fns.push(() => console.log(i));\n}\nfns[0](); // 3 - mauvais\n\n// BON - let block-scoped\nconst fns2 = [];\nfor (let j = 0; j < 3; j++) {\n  fns2.push(() => console.log(j));\n}\nfns2[0](); // 0\nfns2[1](); // 1","exercices":[{"type":"qcm","question":"Qu'est-ce qu'une closure ?","options":["Fonction sans params","Fonction qui accede aux variables parent meme apres execution","Fonction sans return","Bloc entre accolades"],"bonne":1,"explication":"Capture les variables de son contexte. Memoire meme apres fin de la fonction externe."},{"type":"completion","question":"Factory de compteur :","labels":["variable","incrementer"],"bonnes":["let count = 0","count++; return count"],"template":"function creerCompteur() {\n  [A];\n  return function() {\n    [B];\n  };\n}"},{"type":"memo","question":"Fonction multiplierPar qui retourne une fonction multipliant par le facteur.","bonne":"const multiplierPar = (facteur) => (n) => n * facteur;","indice":"const fn = (facteur) => (n) => n * facteur","explication":"Double arrow. La closure memorise facteur."},{"type":"debug","question":"Toutes affichent 3 au lieu de 0,1,2 :","codeFaux":"const fns = [];\nfor (var i = 0; i < 3; i++) {\n  fns.push(() => console.log(i));\n}\nfns[0](); // 3","codeCorrige":"const fns = [];\nfor (let i = 0; i < 3; i++) {\n  fns.push(() => console.log(i));\n}\nfns[0](); // 0","options":["push incorrect","var partage - toutes voient i=3 final. Utiliser let","Arrow invalide","console dehors"],"bonne":1,"explication":"var function-scoped : i=3 a la fin. let block-scoped : chaque iteration a son propre i."}],"resume":[{"icon":"&#127758;","key":"scope global","val":"Partout"},{"icon":"&#127968;","key":"scope local","val":"Dans son bloc"},{"icon":"&#129504;","key":"closure","val":"M&eacute;morise son contexte"},{"icon":"&#9888;&#65039;","key":"var vs let","val":"function vs block scope"}]},{"id":"js-12","num":12,"tag":"JavaScript &middot; Le&ccedil;on 12","title":"Les Promises","sub":"Asynchrone sans bloquer","pourquoi":"JS est single-thread. Les Promises permettent des op&eacute;rations longues sans bloquer l&rsquo;interface.","exemple":"Kora charge les posts : la Promise lance la requ&ecirc;te, l&rsquo;UI reste r&eacute;active pendant l&rsquo;attente.","exemples":[{"label":"Creer et utiliser","code":"const p = new Promise((resolve, reject) => {\n  setTimeout(() => resolve('OK!'), 1000);\n});\n\np.then(data => console.log(data))\n .catch(err => console.error(err))\n .finally(() => console.log('Fin'));"},{"label":"Promise.all","code":"Promise.all([\n  fetch('/api/posts'),\n  fetch('/api/user'),\n]).then(([posts, user]) => {\n  console.log(posts, user);\n});"}],"regles":[{"prop":"new Promise()","expl":"resolve = succ&egrave;s, reject = &eacute;chec."},{"prop":".then(fn)","expl":"Si r&eacute;solue."},{"prop":".catch(fn)","expl":"Si rejet&eacute;e."},{"prop":".finally(fn)","expl":"Toujours."},{"prop":"Promise.all()","expl":"Attend toutes."}],"code":"function chargerUser(id) {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      if (id > 0) resolve({ id, nom: 'Val' });\n      else reject(new Error('ID invalide'));\n    }, 500);\n  });\n}\n\nchargerUser(1)\n  .then(user => user.nom)\n  .then(nom => console.log(nom))\n  .catch(err => console.error(err.message));","exercices":[{"type":"qcm","question":"3 etats d'une Promise ?","options":["start, loading, done","pending, fulfilled, rejected","new, active, closed","waiting, success, failed"],"bonne":1,"explication":"pending (attente), fulfilled (resolue - .then()), rejected (rejetee - .catch())."},{"type":"completion","question":"Gerer succes et erreur :","labels":[".then",".catch"],"bonnes":["data => console.log(data)","err => console.error(err)"],"template":"fetch('/api/posts')\n  .then(res => res.json())\n  .then([A])\n  .catch([B]);"},{"type":"memo","question":"Promise qui se resout avec 'OK' apres 1 seconde.","bonne":"const p = new Promise((resolve) => {\n  setTimeout(() => resolve('OK'), 1000);\n});","indice":"new Promise((resolve) => { setTimeout(() => resolve(val), ms) })","explication":"resolve(valeur) resout. setTimeout simule l'asynchrone."},{"type":"debug","question":"Erreurs ignorees :","codeFaux":"fetch('/api/data')\n  .then(res => res.json())\n  .then(data => traiter(data))\n// pas de .catch","codeCorrige":"fetch('/api/data')\n  .then(res => res.json())\n  .then(data => traiter(data))\n  .catch(err => console.error(err));","options":["fetch sans Promise","Manque .catch() - erreurs silencieuses","then -> done","res.json() incorrect"],"bonne":1,"explication":"Sans .catch(), erreurs silencieuses. Toujours terminer par .catch()."}],"resume":[{"icon":"&#9203;","key":"pending","val":"En attente"},{"icon":"&#9989;","key":"fulfilled","val":"R&eacute;solue &rarr; .then()"},{"icon":"&#10060;","key":"rejected","val":"Rejet&eacute;e &rarr; .catch()"},{"icon":"&#128279;","key":"chainer","val":".then().catch()"}]},{"id":"js-13","num":13,"tag":"JavaScript &middot; Le&ccedil;on 13","title":"Async / Await","sub":"Syntaxe moderne asynchrone","pourquoi":"async/await est du sucre sur les Promises. Code asynchrone qui ressemble &agrave; du synchrone &mdash; bien plus lisible.","exemple":"async function charger() { const res = await fetch(url); return await res.json(); }","exemples":[{"label":"async/await vs .then()","code":"// Promises - chaine\nfetch('/api/user').then(r => r.json()).then(d => console.log(d));\n\n// async/await - lineaire\nasync function charger() {\n  const res = await fetch('/api/user');\n  const data = await res.json();\n  console.log(data);\n}"},{"label":"try/catch","code":"async function chargerPost(id) {\n  try {\n    const res = await fetch(`/api/posts/${id}`);\n    if (!res.ok) throw new Error(`HTTP ${res.status}`);\n    return await res.json();\n  } catch (err) {\n    console.error(err.message);\n    return null;\n  }\n}"}],"regles":[{"prop":"async function","expl":"Retourne une Promise. Active await."},{"prop":"await","expl":"Attend la Promise sans bloquer."},{"prop":"try/catch","expl":"Capture les erreurs."},{"prop":"await Promise.all()","expl":"Plusieurs en parall&egrave;le."}],"code":"async function chargerFormations() {\n  try {\n    const res = await fetch('https://api.kora.io/formations');\n    if (!res.ok) throw new Error(`HTTP ${res.status}`);\n    const data = await res.json();\n    data.forEach(f => creerCarte(f));\n    return data;\n  } catch (err) {\n    console.error('Impossible :', err);\n  }\n}\n\nchargerFormations();","exercices":[{"type":"qcm","question":"Pourquoi await seulement dans async ?","options":["Restriction arbitraire","await suspend l'async sans bloquer le thread - impossible hors async","await = methode Promise","Performance"],"bonne":1,"explication":"await suspend la fonction async. Hors async, JS ne peut pas gerer cette suspension."},{"type":"completion","question":"Fonction async pour charger un user :","labels":["declaration","await fetch"],"bonnes":["async function","await fetch(`/api/users/${id}`)"],"template":"[A] getUser(id) {\n  try {\n    const res = [B];\n    return await res.json();\n  } catch(e) { console.error(e); }\n}"},{"type":"memo","question":"async getData qui fetch une URL et retourne le JSON.","bonne":"async function getData(url) {\n  const res = await fetch(url);\n  return await res.json();\n}","indice":"async function nom(url) { const res = await fetch(url); return await res.json(); }","explication":"Deux await : fetch() -> Response. .json() -> donnees."},{"type":"debug","question":"Plante avec 'await is only valid in async functions' :","codeFaux":"function charger() {\n  const res = await fetch('/api/data');\n  return res.json();\n}","codeCorrige":"async function charger() {\n  const res = await fetch('/api/data');\n  return res.json();\n}","options":["fetch deprecie","Manque async avant function","return doit avoir await","try/catch obligatoire"],"bonne":1,"explication":"await sans async = SyntaxError. Ajouter async."}],"resume":[{"icon":"&#9889;","key":"async function","val":"Retourne Promise &mdash; active await"},{"icon":"&#9208;&#65039;","key":"await","val":"Attend sans bloquer"},{"icon":"&#128737;&#65039;","key":"try/catch","val":"Capture les erreurs"},{"icon":"&#128640;","key":"Promise.all","val":"Parall&egrave;le"}]},{"id":"js-14","num":14,"tag":"JavaScript &middot; Le&ccedil;on 14","title":"Fetch API","sub":"Requ&ecirc;tes HTTP","pourquoi":"Fetch est l&rsquo;interface native pour les requ&ecirc;tes HTTP. Kora l&rsquo;utilise pour charger posts, envoyer formulaires.","exemple":"fetch('/api/posts') charge les posts. fetch(url, {method:'POST'}) envoie des donn&eacute;es.","exemples":[{"label":"GET","code":"const res = await fetch('https://api.kora.io/posts');\nconst posts = await res.json();\n\n// Avec headers\nconst res2 = await fetch('/api/protected', {\n  headers: { 'Authorization': 'Bearer token' }\n});"},{"label":"POST","code":"const res = await fetch('/api/posts', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({ texte: 'Mon post', auteur: 'Val' })\n});\nconst post = await res.json();"},{"label":"Verifier reponse","code":"const res = await fetch(url);\nif (!res.ok) {\n  throw new Error(`HTTP ${res.status}`);\n}\nreturn res.json();"}],"regles":[{"prop":"fetch(url)","expl":"GET par d&eacute;faut. Promise<Response>."},{"prop":"response.ok","expl":"true si 200-299."},{"prop":"response.json()","expl":"Parse en JSON."},{"prop":"method: 'POST'","expl":"GET, POST, PUT, DELETE."},{"prop":"JSON.stringify()","expl":"Objet JS &rarr; string JSON."}],"code":"async function api(url, options = {}) {\n  try {\n    const res = await fetch(url, {\n      headers: { 'Content-Type': 'application/json' },\n      ...options\n    });\n    if (!res.ok) throw new Error(`${res.status}`);\n    return await res.json();\n  } catch(err) {\n    console.error('API Error:', err);\n    throw err;\n  }\n}\n\nconst posts = await api('/api/posts');\nconst p = await api('/api/posts', {\n  method: 'POST',\n  body: JSON.stringify({ texte: 'Hello!' })\n});","exercices":[{"type":"qcm","question":"Pourquoi JSON.stringify() dans le body ?","options":["Compresser","fetch accepte seulement des strings - convertir l'objet","Chiffrer","Optionnel"],"bonne":1,"explication":"body HTTP = string. JSON.stringify() convertit. Sans ca, serveur recoit '[object Object]'."},{"type":"completion","question":"Fetch POST :","labels":["methode","corps"],"bonnes":["POST","JSON.stringify({ texte, auteur })"],"template":"const res = await fetch('/api/posts', {\n  method: '[A]',\n  headers: { 'Content-Type': 'application/json' },\n  body: [B]\n});"},{"type":"memo","question":"GET sur /api/formations qui retourne le JSON.","bonne":"const res = await fetch('/api/formations');\nconst data = await res.json();","indice":"await fetch(url) puis await response.json()","explication":"Deux etapes : fetch -> Response. .json() -> donnees."},{"type":"debug","question":"Serveur recoit JSON invalide :","codeFaux":"const res = await fetch('/api/post', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: { texte: 'Mon post' } // erreur\n});","codeCorrige":"const res = await fetch('/api/post', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({ texte: 'Mon post' })\n});","options":["method minuscules","Manque JSON.stringify()","Content-Type incorrect","headers tableau"],"bonne":1,"explication":"Sans JSON.stringify(), body = '[object Object]'. Serveur -> JSON invalide -> 400."}],"resume":[{"icon":"&#127760;","key":"fetch(url)","val":"GET &mdash; Promise<Response>"},{"icon":"&#9989;","key":"response.ok","val":"200-299"},{"icon":"&#128196;","key":"response.json()","val":"Parse le body"},{"icon":"&#128228;","key":"POST","val":"method + headers + JSON.stringify(body)"}]},{"id":"js-15","num":15,"tag":"JavaScript &middot; Le&ccedil;on 15","title":"Les modules ES6","sub":"Organiser son code en fichiers","pourquoi":"Sans modules, tout dans un seul fichier. Les modules permettent de d&eacute;couper, exporter, importer.","exemple":"DB Studio : utils.js, api.js, ui.js. Chaque fichier importe ce dont il a besoin.","exemples":[{"label":"Export nomme vs default","code":"// utils.js\nexport const PI = 3.14159;\nexport function calculerAire(r) { return PI * r * r; }\n\n// Default - un seul par fichier\nexport default class Config {\n  static API_URL = 'https://api.kora.io';\n}"},{"label":"Import","code":"// Nommes - accolades\nimport { calculerAire, PI } from './utils.js';\n\n// Default - sans accolades\nimport Config from './utils.js';\n\n// Combiner\nimport Config, { calculerAire } from './utils.js';"}],"regles":[{"prop":"export","expl":"Rend disponible."},{"prop":"export default","expl":"Principal. Un seul. Import sans accolades."},{"prop":"import { x } from","expl":"Nomm&eacute; &mdash; accolades."},{"prop":"import x from","expl":"Default &mdash; sans accolades."}],"code":"// api.js\nconst BASE = 'https://api.kora.io';\n\nexport async function getPosts() {\n  const res = await fetch(`${BASE}/posts`);\n  return res.json();\n}\n\nexport async function createPost(data) {\n  const res = await fetch(`${BASE}/posts`, {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data)\n  });\n  return res.json();\n}\n\n// ui.js\nimport { getPosts } from './api.js';\nasync function init() {\n  const posts = await getPosts();\n  afficherPosts(posts);\n}\ninit();","exercices":[{"type":"qcm","question":"Difference export vs export default ?","options":["Aucune","default exporte tout","export nomme = accolades. default = sans accolades, un seul par fichier","default incompatible function"],"bonne":2,"explication":"export nomme : plusieurs, import avec {}. default : un seul, import sans {}."},{"type":"completion","question":"Exporter et importer une fonction :","labels":["export","import"],"bonnes":["export","import { calculer }"],"template":"// math.js\n[A] function calculer(a, b) {\n  return a + b;\n}\n\n// app.js\n[B] from './math.js';\nconsole.log(calculer(3, 4)); // 7"},{"type":"memo","question":"Importer le default ET l'export nomme 'helper' depuis ./utils.js.","bonne":"import Utils, { helper } from './utils.js';","indice":"import Default, { nomme } from './fichier.js'","explication":"Default en premier sans accolades, puis nommes entre {}."},{"type":"debug","question":"Import echoue :","codeFaux":"// math.js\nexport default function additionner(a, b) {\n  return a + b;\n}\n// app.js\nimport { additionner } from './math.js'; // erreur","codeCorrige":"// app.js\nimport additionner from './math.js'; // sans accolades","options":["Chemin incorrect","default -> sans accolades","default incompatible","Manque type=module"],"bonne":1,"explication":"export default s'importe sans {}. Avec {}, JS cherche un export nomme."}],"resume":[{"icon":"&#128228;","key":"export","val":"Rendre disponible"},{"icon":"&#11088;","key":"export default","val":"Principal &mdash; un seul"},{"icon":"&#128229;","key":"import { x }","val":"Nomm&eacute; &mdash; accolades"},{"icon":"&#128230;","key":"import x","val":"Default &mdash; sans accolades"}]}]},{"id":"react","icon":"&#9883;&#65039;","name":"React et JSX","desc":"Composants, state, props, hooks. Interfaces modernes et dynamiques.","lecons":[{"id":"r-1","num":1,"tag":"React &middot; Le&ccedil;on 1","title":"Pourquoi React","sub":"Le probl&egrave;me r&eacute;solu","pourquoi":"JS vanilla devient chaotique pour les UI complexes. React : d&eacute;cris ce qui doit s&rsquo;afficher, React g&egrave;re le DOM.","exemple":"Dashboard Kora en temps r&eacute;el &mdash; composants autonomes au lieu de centaines de querySelector.","exemples":[{"label":"Declaratif vs imperatif","code":"// Vanilla - imperatif\ndocument.querySelector('#score').textContent = score;\nif (score > 100) badge.classList.add('gold');\n\n// React - declaratif\nfunction Score({ score }) {\n  return (\n    <div>\n      <span>{score}</span>\n      {score > 100 && <span>Top!</span>}\n    </div>\n  );\n}"},{"label":"Virtual DOM","code":"// React maintient une copie legere\n// Quand etat change :\n// 1. Calcule la nouvelle UI\n// 2. Compare (diffing)\n// 3. Applique seulement les changements"}],"regles":[{"prop":"Virtual DOM","expl":"Copie l&eacute;g&egrave;re. Diffing &rarr; patch minimal."},{"prop":"Composant","expl":"Fonction qui retourne JSX."},{"prop":"State","expl":"Donn&eacute;es qui d&eacute;clenchent re-render."},{"prop":"D&eacute;claratif","expl":"QUOI afficher, pas COMMENT."}],"code":"// Vanilla\ndocument.querySelector('#score').textContent = score;\n\n// React\nfunction Score({ score }) {\n  return (\n    <div>\n      <span>{score}</span>\n      {score > 100 && <span>Top!</span>}\n    </div>\n  );\n}","exercices":[{"type":"qcm","question":"Avantage principal du Virtual DOM ?","options":["Remplace le DOM","Calcule les changements minimaux - pas tout re-rendre","Animations rapides","CSS en JS"],"bonne":1,"explication":"Diffing : compare ancien/nouveau, applique seulement les changements necessaires."},{"type":"completion","question":"Vanilla vs React :","labels":["vanilla","React"],"bonnes":["document.querySelector('#titre').textContent = texte","<h1>{texte}</h1>"],"template":"// Imperatif\n[A];\n\n// Declaratif\nreturn [B];"},{"type":"memo","question":"Definition du Virtual DOM en une phrase.","bonne":"Le Virtual DOM est une copie legere du DOM reel que React utilise pour calculer les changements minimaux.","indice":"copie legere -> diffing -> changements minimaux","explication":"Copie -> comparer -> patch minimal sur le vrai DOM."},{"type":"debug","question":"Erreur conceptuelle :","codeFaux":"function Page() {\n  document.querySelector('h1').textContent = 'Nouveau';\n  return <h1>Titre</h1>;\n}","codeCorrige":"function Page() {\n  return <h1>Nouveau</h1>;\n}","options":["return interdit","Ne pas manipuler le DOM - laisser React","h1 invalide","querySelector impossible"],"bonne":1,"explication":"Dans React, jamais querySelector. Tout via JSX."}],"resume":[{"icon":"&#129504;","key":"Declaratif","val":"QUOI, pas COMMENT"},{"icon":"&#128260;","key":"Virtual DOM","val":"Copie &rarr; diffing &rarr; patch"},{"icon":"&#129513;","key":"Composants","val":"Fonctions JSX"},{"icon":"&#9889;","key":"Re-render","val":"Auto quand etat change"}]},{"id":"r-2","num":2,"tag":"React &middot; Le&ccedil;on 2","title":"Les composants","sub":"Blocs r&eacute;utilisables","pourquoi":"Un composant = fonction qui retourne JSX. D&eacute;couper l&rsquo;interface en blocs autonomes.","exemple":"Kora : Post, TokenBadge, NavBar. Chacun g&egrave;re sa logique.","exemples":[{"label":"Composant de base","code":"function Bouton({ texte, onClick }) {\n  return (\n    <button onClick={onClick}\n      style={{ background: '#C4622D', color: 'white' }}>\n      {texte}\n    </button>\n  );\n}\n\n<Bouton texte=\"Commencer\" onClick={demarrer} />"},{"label":"Composer","code":"function App() {\n  return (\n    <div>\n      <NavBar />\n      <main>\n        <Carte titre=\"JS\" lecons={15} />\n        <Carte titre=\"React\" lecons={10} />\n      </main>\n    </div>\n  );\n}"}],"regles":[{"prop":"function Nom()","expl":"PascalCase obligatoire."},{"prop":"return JSX","expl":"La description de l&rsquo;interface."},{"prop":"props","expl":"Donn&eacute;es du parent. Lecture seule."},{"prop":"{valeur}","expl":"Expression JS dans JSX."}],"code":"function Post({ auteur, texte, likes, verifie }) {\n  return (\n    <article className=\"post\">\n      <div>\n        <span>{auteur}</span>\n        {verifie && <span>OK</span>}\n      </div>\n      <p>{texte}</p>\n      <button>Likes: {likes}</button>\n    </article>\n  );\n}\n\nfunction Feed({ posts }) {\n  return (\n    <div className=\"feed\">\n      {posts.map(p => (\n        <Post key={p.id}\n          auteur={p.auteur} texte={p.texte}\n          likes={p.likes} verifie={p.verifie} />\n      ))}\n    </div>\n  );\n}","exercices":[{"type":"qcm","question":"Pourquoi PascalCase pour les composants ?","options":["Convention optionnelle","JSX distingue <Composant> (React) de <div> (HTML)","Lisibilite","Conflits variables"],"bonne":1,"explication":"<div> = HTML. <MonComposant> = React. Minuscule = traite comme HTML."},{"type":"completion","question":"Composant Badge :","labels":["props","contenu"],"bonnes":["{ texte }","<strong>{texte}</strong>"],"template":"function Badge([A]) {\n  return <span className=\"badge\">[B]</span>;\n}"},{"type":"memo","question":"Composant Titre qui recoit 'texte' et l'affiche dans h1.","bonne":"function Titre({ texte }) {\n  return <h1>{texte}</h1>;\n}","indice":"function Nom({ prop }) { return <balise>{prop}</balise>; }","explication":"Destructuration {texte} dans les params. {texte} insere dans JSX."},{"type":"debug","question":"Composant invisible :","codeFaux":"function carte({ titre }) {\n  return <div>{titre}</div>;\n}\n<carte titre=\"JS\" />","codeCorrige":"function Carte({ titre }) {\n  return <div>{titre}</div>;\n}\n<Carte titre=\"JS\" />","options":["className manque","PascalCase obligatoire - carte -> Carte","Props entre guillemets","Manque return"],"bonne":1,"explication":"carte minuscule = balise HTML inconnue. Carte majuscule = composant React."}],"resume":[{"icon":"&#129522;","key":"function Nom()","val":"Composant = fonction JSX"},{"icon":"&#128235;","key":"props","val":"Donnees du parent &mdash; lecture seule"},{"icon":"&#128292;","key":"PascalCase","val":"Majuscule obligatoire"},{"icon":"&#128221;","key":"{}","val":"Expressions JS dans JSX"}]},{"id":"r-3","num":3,"tag":"React &middot; Le&ccedil;on 3","title":"Le JSX","sub":"Syntaxe de React","pourquoi":"JSX ressemble &agrave; du HTML mais n&rsquo;en est pas. Babel le transforme en React.createElement(). Comprendre JSX &eacute;vite des bugs.","exemple":"div className='post' en JSX devient React.createElement('div', {className:'post'})","exemples":[{"label":"JSX vs HTML","code":"// HTML\n<div class=\"box\"><label for=\"email\">Email</label></div>\n\n// JSX - differences !\n<div className=\"box\">\n  <label htmlFor=\"email\">Email</label>\n</div>\n// class -> className / for -> htmlFor"},{"label":"Expressions","code":"const nom = 'Val';\nconst premium = true;\n\nreturn (\n  <div>\n    <h1>Bonjour {nom}</h1>\n    {premium && <span>Premium</span>}\n    <span>{premium ? 'Gold' : 'Free'}</span>\n  </div>\n);"},{"label":"Regles JSX","code":"// Un seul element racine\nreturn (\n  <>\n    <h1>Titre</h1>\n    <p>Texte</p>\n  </>\n);\n\n// Balises fermees\n<img src=\"photo.jpg\" alt=\"Photo\" />\n<br />"}],"regles":[{"prop":"className","expl":"class est reserv&eacute; JS &rarr; className."},{"prop":"htmlFor","expl":"for est reserv&eacute; JS &rarr; htmlFor."},{"prop":"{expression}","expl":"Ins&eacute;rer du JS dans JSX."},{"prop":"{cond &amp;&amp; JSX}","expl":"Rendu conditionnel."},{"prop":"&lt;&gt;&lt;/&gt;","expl":"Fragment &mdash; pas de div inutile."}],"code":"function ProfilKora({ user }) {\n  const { nom, tokens, premium, avatar } = user;\n  \n  return (\n    <div className=\"profil\">\n      <img src={avatar} alt={`Avatar de ${nom}`} />\n      \n      <h2>\n        {nom}\n        {premium && <span className=\"badge\">Premium</span>}\n      </h2>\n      \n      <p>{tokens} KRT</p>\n      \n      {!premium && (\n        <button>Passer Premium</button>\n      )}\n    </div>\n  );\n}","exercices":[{"type":"qcm","question":"Pourquoi className au lieu de class ?","options":["Convention","class est un mot-cle JS reserve - className evite le conflit","Plus court","class inexistant en HTML5"],"bonne":1,"explication":"class est reserve pour les classes ES6. En JSX, className remplace l'attribut HTML class."},{"type":"completion","question":"Affiche le badge Premium seulement si estPremium :","labels":["conditionnel","contenu"],"bonnes":["estPremium &&","<span className=\"badge\">Premium</span>"],"template":"function Header({ nom, estPremium }) {\n  return (\n    <header>\n      <h1>{nom}</h1>\n      {[A] ([B])}\n    </header>\n  );\n}"},{"type":"memo","question":"Fragment React contenant un h1 et un p.","bonne":"return (\n  <>\n    <h1>Titre</h1>\n    <p>Paragraphe</p>\n  </>\n);","indice":"<> elements </> - pas de div wrapper","explication":"<> </> = Fragment. Retourner plusieurs elements sans div inutile."},{"type":"debug","question":"JSX ne compile pas :","codeFaux":"function App() {\n  return (\n    <h1>Bonjour</h1>\n    <p>Bienvenue</p>\n  );\n}","codeCorrige":"function App() {\n  return (\n    <>\n      <h1>Bonjour</h1>\n      <p>Bienvenue</p>\n    </>\n  );\n}","options":["h1 et p incompatibles","Un seul element racine - utiliser Fragment <>","Virgules manquantes","return sans parenth"],"bonne":1,"explication":"JSX = un seul element racine par return. Wrapper dans <> </>."}],"resume":[{"icon":"&#127991;&#65039;","key":"className","val":"class &rarr; className"},{"icon":"&#128221;","key":"{}","val":"Expressions JS"},{"icon":"&#128256;","key":"&amp;&amp; / ternaire","val":"Rendu conditionnel"},{"icon":"&#128230;","key":"Fragment &lt;&gt;","val":"Pas de div inutile"}]},{"id":"r-4","num":4,"tag":"React &middot; Le&ccedil;on 4","title":"useState","sub":"G&eacute;rer l&rsquo;&eacute;tat","pourquoi":"useState m&eacute;morise des donn&eacute;es et d&eacute;clenche un re-render &agrave; chaque modification. Sans lui, composants statiques.","exemple":"Like Kora : setLikes(likes+1) &rarr; re-render &rarr; nouveau nombre affich&eacute; automatiquement.","exemples":[{"label":"Syntaxe","code":"import { useState } from 'react';\n\nfunction Compteur() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    <div>\n      <p>{count}</p>\n      <button onClick={() => setCount(count + 1)}>+1</button>\n    </div>\n  );\n}"},{"label":"Ne jamais muter","code":"// MAUVAIS\nconst [posts, setPosts] = useState([]);\nposts.push('Post'); // React ne re-rend pas !\n\n// BON - nouvelle valeur\nsetPosts([...posts, 'Post']);\n\n// MAUVAIS objet\nuser.nom = 'Val';\n// BON\nsetUser({ ...user, nom: 'Val' });"}],"regles":[{"prop":"const [val, setVal] = useState(init)","expl":"Etat + fonction de mise &agrave; jour."},{"prop":"setVal(nouvelleValeur)","expl":"Met &agrave; jour et d&eacute;clenche re-render."},{"prop":"setVal(prev => ...)","expl":"Base sur la valeur pr&eacute;c&eacute;dente."},{"prop":"Jamais muter","expl":"Toujours nouvelle valeur."}],"code":"function PostKora({ initialLikes, texte, auteur }) {\n  const [likes, setLikes] = useState(initialLikes);\n  const [likee, setLikee] = useState(false);\n  \n  const toggle = () => {\n    setLikes(prev => likee ? prev - 1 : prev + 1);\n    setLikee(prev => !prev);\n  };\n  \n  return (\n    <article>\n      <p><strong>{auteur}</strong></p>\n      <p>{texte}</p>\n      <button onClick={toggle}\n        className={likee ? 'liked' : ''}>\n        Likes: {likes}\n      </button>\n    </article>\n  );\n}","exercices":[{"type":"qcm","question":"Pourquoi setVal() plutot que modifier directement ?","options":["Plus rapide","React detecte les changements seulement via set - muter directement ne re-rend pas","Eviter erreurs syntaxe","Copie auto"],"bonne":1,"explication":"Muter directement = meme reference. React ne voit pas la difference. setVal() = nouvelle reference."},{"type":"completion","question":"Composant toggle :","labels":["initial","update"],"bonnes":["false","!ouvert"],"template":"function Toggle() {\n  const [ouvert, setOuvert] = useState([A]);\n  return (\n    <button onClick={() => setOuvert([B])}>\n      {ouvert ? 'Fermer' : 'Ouvrir'}\n    </button>\n  );\n}"},{"type":"memo","question":"useState pour un tableau de posts vide.","bonne":"const [posts, setPosts] = useState([]);","indice":"const [valeur, setValeur] = useState( initiale )","explication":"useState([]) - init avec tableau vide. Convention : posts / setPosts."},{"type":"debug","question":"Pas de mise a jour au clic :","codeFaux":"function Compteur() {\n  const [count, setCount] = useState(0);\n  function inc() {\n    count = count + 1; // erreur\n  }\n  return <button onClick={inc}>{count}</button>;\n}","codeCorrige":"function Compteur() {\n  const [count, setCount] = useState(0);\n  function inc() {\n    setCount(count + 1);\n  }\n  return <button onClick={inc}>{count}</button>;\n}","options":["onClick arrow","Mutation directe non detectee - utiliser setCount()","useState(null)","inc async"],"bonne":1,"explication":"count = const. React ne detecte pas. Seul setCount() declenche le re-render."}],"resume":[{"icon":"&#128190;","key":"useState(init)","val":"Etat avec valeur initiale"},{"icon":"&#128260;","key":"setVal()","val":"Met a jour &rarr; re-render"},{"icon":"&#9888;&#65039;","key":"Jamais muter","val":"Toujours nouvelle valeur"},{"icon":"&#128208;","key":"prev =>","val":"Base sur l'etat precedent"}]},{"id":"r-5","num":5,"tag":"React &middot; Le&ccedil;on 5","title":"useEffect","sub":"Effets de bord","pourquoi":"useEffect ex&eacute;cute du code apr&egrave;s le rendu : charger des donn&eacute;es, &eacute;v&eacute;nements, titre de page.","exemple":"Feed monte &rarr; useEffect charge les posts. userId change &rarr; useEffect recharge.","exemples":[{"label":"Tableau de dependances","code":"// [] - une seule fois au montage\nuseEffect(() => { chargerPosts(); }, []);\n\n// [dep] - quand dep change\nuseEffect(() => {\n  chargerProfil(userId);\n}, [userId]);\n\n// Sans [] - apres CHAQUE render (danger)\nuseEffect(() => { console.log('render'); });"},{"label":"Fetch au montage","code":"function ProfilPage({ userId }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n  \n  useEffect(() => {\n    async function charger() {\n      const res = await fetch(`/api/users/${userId}`);\n      setUser(await res.json());\n      setLoading(false);\n    }\n    charger();\n  }, [userId]);\n  \n  if (loading) return <p>Chargement...</p>;\n  return <div>{user.nom}</div>;\n}"}],"regles":[{"prop":"useEffect(fn, [])","expl":"Une fois au montage."},{"prop":"useEffect(fn, [dep])","expl":"Quand dep change."},{"prop":"useEffect(fn)","expl":"Apres chaque render &mdash; rarement voulu."},{"prop":"return () => {}","expl":"Cleanup au demontage."}],"code":"function Formation({ formationId }) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  \n  useEffect(() => {\n    setLoading(true);\n    fetch(`/api/formations/${formationId}`)\n      .then(res => res.json())\n      .then(d => { setData(d); setLoading(false); })\n      .catch(err => {\n        console.error(err);\n        setLoading(false);\n      });\n  }, [formationId]);\n  \n  if (loading) return <div>Chargement...</div>;\n  return <h1>{data.titre}</h1>;\n}","exercices":[{"type":"qcm","question":"Que se passe-t-il sans tableau de dependances ?","options":["Jamais execute","Une seule fois","Apres chaque render - souvent boucle infinie","Erreur"],"bonne":2,"explication":"Sans [], useEffect apres chaque render. Si setData() dedans -> re-render -> boucle infinie."},{"type":"completion","question":"useEffect pour charger au montage :","labels":["async interne","dependances"],"bonnes":["async function charger()","[]"],"template":"useEffect(() => {\n  [A] {\n    const data = await fetch('/api/posts').then(r => r.json());\n    setPosts(data);\n  }\n  charger();\n}, [B]);"},{"type":"memo","question":"useEffect qui met a jour document.title quand 'titre' change.","bonne":"useEffect(() => {\n  document.title = titre;\n}, [titre]);","indice":"useEffect( () => { effet }, [dependance] )","explication":"[titre] = re-executer quand titre change."},{"type":"debug","question":"Boucle infinie :","codeFaux":"function Posts() {\n  const [posts, setPosts] = useState([]);\n  \n  useEffect(() => {\n    fetch('/api/posts')\n      .then(r => r.json())\n      .then(data => setPosts(data));\n  }); // manque []\n}","codeCorrige":"useEffect(() => {\n  fetch('/api/posts')\n    .then(r => r.json())\n    .then(data => setPosts(data));\n}, []); // une seule fois","options":["fetch interdit dans useEffect","Manque [] - boucle infinie","setPosts interdit","then -> await"],"bonne":1,"explication":"Sans [], chaque render -> useEffect -> setPosts -> re-render -> infini."}],"resume":[{"icon":"&#128640;","key":"useEffect(fn, [])","val":"Une fois au montage"},{"icon":"&#128260;","key":"useEffect(fn, [dep])","val":"Quand dep change"},{"icon":"&#129529;","key":"return () => {}","val":"Cleanup au demontage"},{"icon":"&#9888;&#65039;","key":"Sans []","val":"Boucle infinie &mdash; toujours specifier"}]},{"id":"r-6","num":6,"tag":"React &middot; Le&ccedil;on 6","title":"Ev&eacute;nements React","sub":"Interactions utilisateur","pourquoi":"React g&egrave;re les &eacute;v&eacute;nements en camelCase avec des fonctions JS. Pas de strings, pas de rechargement.","exemple":"Bouton Like, formulaire, recherche &mdash; tout via des handlers React.","exemples":[{"label":"Handlers","code":"function PostCard({ post, onLike }) {\n  return (\n    <div>\n      <button onClick={() => onLike(post.id)}>\n        Likes: {post.likes}\n      </button>\n    </div>\n  );\n}"},{"label":"Formulaire","code":"function Form() {\n  const [nom, setNom] = useState('');\n  \n  const handleSubmit = (e) => {\n    e.preventDefault();\n    console.log(nom);\n  };\n  \n  return (\n    <form onSubmit={handleSubmit}>\n      <input value={nom}\n        onChange={(e) => setNom(e.target.value)} />\n      <button type=\"submit\">Envoyer</button>\n    </form>\n  );\n}"}],"regles":[{"prop":"onClick={fn}","expl":"Reference, pas appel. Pas de ()."},{"prop":"onChange={(e) =>}","expl":"Chaque frappe. e.target.value."},{"prop":"onSubmit={(e) =>}","expl":"Toujours e.preventDefault()."},{"prop":"camelCase","expl":"onclick &rarr; onClick. onchange &rarr; onChange."}],"code":"function RechercheKora() {\n  const [query, setQuery] = useState('');\n  \n  const handleChange = (e) => {\n    setQuery(e.target.value);\n  };\n  \n  const handleKeyDown = (e) => {\n    if (e.key === 'Escape') setQuery('');\n  };\n  \n  return (\n    <input\n      value={query}\n      onChange={handleChange}\n      onKeyDown={handleKeyDown}\n      placeholder=\"Rechercher...\"\n    />\n  );\n}","exercices":[{"type":"qcm","question":"Erreur dans onClick={handleClick()} ?","options":["handleClick inexistant","() appellent au rendu - il faut onClick={handleClick}","onClick en minuscules","Accolades incorrectes"],"bonne":1,"explication":"handleClick() = appel immediat au rendu. Il faut la reference : onClick={handleClick}."},{"type":"completion","question":"Input controle :","labels":["value","onChange"],"bonnes":["value={texte}","(e) => setTexte(e.target.value)"],"template":"const [texte, setTexte] = useState('');\n\nreturn (\n  <input\n    [A]\n    onChange={[B]}\n  />\n);"},{"type":"memo","question":"Button qui appelle 'supprimer' avec l'id 42.","bonne":"<button onClick={() => supprimer(42)}>Supprimer</button>","indice":"onClick={ () => fn(arg) }","explication":"Arrow function pour passer des arguments."},{"type":"debug","question":"Formulaire recharge la page :","codeFaux":"function Form() {\n  const handleSubmit = () => {\n    console.log('Envoye');\n  };\n  return <form onSubmit={handleSubmit}>...</form>;\n}","codeCorrige":"function Form() {\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    console.log('Envoye');\n  };\n  return <form onSubmit={handleSubmit}>...</form>;\n}","options":["onSubmit -> onClick","Manque (e) et e.preventDefault()","form non supporte","handleSubmit async"],"bonne":1,"explication":"Sans e.preventDefault(), comportement natif = rechargement."}],"resume":[{"icon":"&#128070;","key":"onClick","val":"Reference &mdash; pas d'appel ()"},{"icon":"&#9999;&#65039;","key":"onChange","val":"e.target.value"},{"icon":"&#128232;","key":"onSubmit","val":"Toujours e.preventDefault()"},{"icon":"&#128042;","key":"camelCase","val":"onClick, onChange, onSubmit..."}]},{"id":"r-7","num":7,"tag":"React &middot; Le&ccedil;on 7","title":"Listes et cl&eacute;s","sub":"Afficher des tableaux","pourquoi":"Afficher des listes se fait avec .map(). Chaque &eacute;l&eacute;ment doit avoir une key unique pour les mises &agrave; jour optimis&eacute;es.","exemple":"posts.map(p =&gt; Post key={p.id} /&gt;) &mdash; key permet &agrave; React de savoir lequel mettre &agrave; jour.","exemples":[{"label":"map dans JSX","code":"function Catalogue({ formations }) {\n  return (\n    <div>\n      {formations.map((f) => (\n        <div key={f.id} className=\"carte\">\n          <h3>{f.titre}</h3>\n          <p>{f.lecons} lecons</p>\n        </div>\n      ))}\n    </div>\n  );\n}"},{"label":"Key et vide","code":"// Toujours ID stable - pas l'index\nposts.map(p => <Post key={p.id} />)  // BON\n\n// Liste vide\n{liste.length === 0 && <p>Aucun element</p>}"}],"regles":[{"prop":".map(item => JSX)","expl":"Tableau &rarr; liste JSX."},{"prop":"key={id}","expl":"Unique et stable. Obligatoire."},{"prop":"{liste.length === 0 &amp;&amp;}","expl":"Message si liste vide."},{"prop":"{...item}","expl":"Spread toutes les props."}],"code":"function Feed({ posts, filtre }) {\n  const [tri, setTri] = useState('recent');\n  \n  const affiches = posts\n    .filter(p => filtre ? p.cat === filtre : true)\n    .sort((a,b) => tri === 'likes' ? b.likes-a.likes : b.id-a.id);\n  \n  return (\n    <>\n      <select onChange={(e) => setTri(e.target.value)}>\n        <option value=\"recent\">Recent</option>\n        <option value=\"likes\">Populaire</option>\n      </select>\n      \n      {affiches.length === 0\n        ? <p>Aucun post</p>\n        : affiches.map(p => <Post key={p.id} {...p} />)\n      }\n    </>\n  );\n}","exercices":[{"type":"qcm","question":"Pourquoi eviter l'index comme key ?","options":["Interdit en React","Si la liste est reordonnee, les index changent - React fait de mauvaises mises a jour","Index trop lents","Seules strings acceptees"],"bonne":1,"explication":"Supprimer le 2eme element change tous les index apres. React peut causer des bugs."},{"type":"completion","question":"Afficher une liste de posts :","labels":["methode","key"],"bonnes":["map","key={post.id}"],"template":"function Feed({ posts }) {\n  return (\n    <div>\n      {posts.[A](post => (\n        <Post [B] auteur={post.auteur} />\n      ))}\n    </div>\n  );\n}"},{"type":"memo","question":"Liste de noms dans des li avec key.","bonne":"const noms = ['Val', 'Marc'];\nreturn (\n  <ul>\n    {noms.map((nom, i) => (\n      <li key={i}>{nom}</li>\n    ))}\n  </ul>\n);","indice":".map((item, i) => <li key={i}>{item}</li>)","explication":"Index acceptable pour listes statiques. ID pour listes dynamiques."},{"type":"debug","question":"Warning: Each child needs a unique key :","codeFaux":"function List({ users }) {\n  return (\n    <ul>\n      {users.map(u => <li>{u.nom}</li>)}\n    </ul>\n  );\n}","codeCorrige":"function List({ users }) {\n  return (\n    <ul>\n      {users.map(u => <li key={u.id}>{u.nom}</li>)}\n    </ul>\n  );\n}","options":["ul non supporte","Manque key={u.id} sur chaque li","u.nom entre guillemets","map invalide"],"bonne":1,"explication":"Chaque element de .map() doit avoir key unique."}],"resume":[{"icon":"&#128450;&#65039;","key":".map()","val":"Tableau &rarr; JSX"},{"icon":"&#128273;","key":"key={id}","val":"Obligatoire &mdash; ID stable"},{"icon":"&#9888;&#65039;","key":"Pas d'index","val":"Eviter pour listes dynamiques"},{"icon":"&#128228;","key":"{...item}","val":"Spread toutes les props"}]},{"id":"r-8","num":8,"tag":"React &middot; Le&ccedil;on 8","title":"Formulaires contr&ocirc;l&eacute;s","sub":"Inputs li&eacute;s au state","pourquoi":"Formulaire contr&ocirc;l&eacute; = React est la source de v&eacute;rit&eacute;. value={state} + onChange = synchronisation parfaite.","exemple":"Inscription Kora : chaque champ est un &eacute;tat React. A la soumission, toutes les valeurs accessibles.","exemples":[{"label":"Input controle","code":"const [email, setEmail] = useState('');\n\n<input\n  type=\"email\"\n  value={email}\n  onChange={(e) => setEmail(e.target.value)}\n  placeholder=\"ton@email.fr\"\n/>"},{"label":"Handler generique","code":"const [form, setForm] = useState({ nom: '', email: '' });\n\nconst handleChange = (e) => {\n  setForm(prev => ({\n    ...prev,\n    [e.target.name]: e.target.value\n  }));\n};"}],"regles":[{"prop":"value={state}","expl":"React contr&ocirc;le la valeur."},{"prop":"onChange &rarr; setState","expl":"Sync &agrave; chaque frappe."},{"prop":"e.target.name","expl":"Handler g&eacute;n&eacute;rique multi-champs."},{"prop":"e.target.checked","expl":"Pour les checkboxes."}],"code":"function FormContact() {\n  const [fields, setFields] = useState({\n    nom: '', email: '', message: ''\n  });\n  const [sent, setSent] = useState(false);\n  \n  const handleChange = (e) => {\n    setFields(prev => ({\n      ...prev,\n      [e.target.name]: e.target.value\n    }));\n  };\n  \n  const handleSubmit = async (e) => {\n    e.preventDefault();\n    await fetch('/api/contact', {\n      method: 'POST',\n      body: JSON.stringify(fields)\n    });\n    setSent(true);\n  };\n  \n  if (sent) return <p>Envoye</p>;\n  \n  return (\n    <form onSubmit={handleSubmit}>\n      <input name=\"nom\" value={fields.nom} onChange={handleChange} />\n      <input name=\"email\" value={fields.email} onChange={handleChange} />\n      <button type=\"submit\">Envoyer</button>\n    </form>\n  );\n}","exercices":[{"type":"qcm","question":"Qu'est-ce qu'un formulaire controle ?","options":["Utilise useForm()","value={state} + onChange - React est source de verite","Valide les champs auto","HTML standard"],"bonne":1,"explication":"Controle = React controle la valeur via state. value lie au state, onChange met a jour."},{"type":"completion","question":"Input controle pour pseudo :","labels":["value","onChange"],"bonnes":["value={pseudo}","(e) => setPseudo(e.target.value)"],"template":"const [pseudo, setPseudo] = useState('');\n\nreturn (\n  <input\n    [A]\n    onChange={[B]}\n  />\n);"},{"type":"memo","question":"Handler generique pour objet form.","bonne":"const handleChange = (e) => {\n  setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));\n};","indice":"setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))","explication":"[e.target.name] = computed property. Si input.name='email' -> met a jour form.email."},{"type":"debug","question":"Input ne repond pas aux frappes :","codeFaux":"const [nom, setNom] = useState('');\nreturn <input value={nom} placeholder=\"Nom\" />;","codeCorrige":"const [nom, setNom] = useState('');\nreturn (\n  <input\n    value={nom}\n    onChange={(e) => setNom(e.target.value)}\n  />\n);","options":["value sans defaultValue","Sans onChange, React bloque les frappes","placeholder bloque","useState(null)"],"bonne":1,"explication":"value={state} sans onChange = React bloque les modifications."}],"resume":[{"icon":"&#127963;&#65039;","key":"Controle","val":"value={state} + onChange"},{"icon":"&#9999;&#65039;","key":"onChange","val":"Sync le state"},{"icon":"&#128203;","key":"e.target.name","val":"Handler generique multi-champs"},{"icon":"&#9989;","key":"Validation","val":"Dans handleSubmit"}]},{"id":"r-9","num":9,"tag":"React &middot; Le&ccedil;on 9","title":"Parent et Enfant","sub":"Props et callbacks","pourquoi":"Donn&eacute;es parent &rarr; enfant via props. Enfant &rarr; parent via callback. Sens unique.","exemple":"Feed poss&egrave;de les posts. Post appelle onLike que Feed lui a pass&eacute;.","exemples":[{"label":"Parent vers Enfant","code":"function App() {\n  const [tokens, setTokens] = useState(248);\n  return <TokenBadge montant={tokens} />;\n}\n\nfunction TokenBadge({ montant }) {\n  return <span>{montant} KRT</span>;\n}"},{"label":"Enfant vers Parent (callback)","code":"function Feed() {\n  const [posts, setPosts] = useState(data);\n  \n  const handleLike = (id) => {\n    setPosts(prev => prev.map(p =>\n      p.id === id ? { ...p, likes: p.likes + 1 } : p\n    ));\n  };\n  \n  return posts.map(p =>\n    <Post key={p.id} post={p} onLike={handleLike} />\n  );\n}\n\nfunction Post({ post, onLike }) {\n  return (\n    <button onClick={() => onLike(post.id)}>\n      Likes: {post.likes}\n    </button>\n  );\n}"}],"regles":[{"prop":"Parent &rarr; Enfant","expl":"Via props. Lecture seule."},{"prop":"Enfant &rarr; Parent","expl":"Via callback pass&eacute;e en prop."},{"prop":"Lifting state up","expl":"Remonter l&rsquo;&eacute;tat vers le parent commun."},{"prop":"props.children","expl":"Contenu entre les balises."}],"code":"function Catalogue() {\n  const [formations, setFormations] = useState(data);\n  const [selected, setSelected] = useState(null);\n  \n  const handleSelect = (id) => {\n    setSelected(formations.find(f => f.id === id));\n  };\n  \n  const handleComplete = (id) => {\n    setFormations(prev => prev.map(f =>\n      f.id === id ? { ...f, completee: true } : f\n    ));\n  };\n  \n  return (\n    <div>\n      {formations.map(f => (\n        <Carte key={f.id} f={f}\n          onSelect={handleSelect}\n          onComplete={handleComplete} />\n      ))}\n      {selected && <Detail f={selected} />}\n    </div>\n  );\n}","exercices":[{"type":"qcm","question":"Qu'est-ce que le lifting state up ?","options":["Optimiser les perfs","Remonter l'etat vers le parent commun quand plusieurs enfants en ont besoin","Supprimer le state","Utiliser Context"],"bonne":1,"explication":"Quand deux composants freres partagent l'etat, le remonter vers leur parent commun."},{"type":"completion","question":"Enfant appelle la callback avec l'id :","labels":["prop callback","appel"],"bonnes":["onSupprimer","onSupprimer(id)"],"template":"function Item({ id, texte, [A] }) {\n  return (\n    <div>\n      <span>{texte}</span>\n      <button onClick={() => [B]}>X</button>\n    </div>\n  );\n}"},{"type":"memo","question":"Composant Card qui accepte children.","bonne":"function Card({ children }) {\n  return <div className=\"card\">{children}</div>;\n}","indice":"function Nom({ children }) { return <div>{children}</div>; }","explication":"children = tout ce qui est entre les balises."},{"type":"debug","question":"Parent ne se met pas a jour au clic enfant :","codeFaux":"function Parent() {\n  const [count, setCount] = useState(0);\n  return <Enfant count={count} />;\n}\n\nfunction Enfant({ count }) {\n  return <button onClick={() => count + 1}>{count}</button>;\n}","codeCorrige":"function Parent() {\n  const [count, setCount] = useState(0);\n  return <Enfant count={count}\n    onInc={() => setCount(c => c+1)} />;\n}\n\nfunction Enfant({ count, onInc }) {\n  return <button onClick={onInc}>{count}</button>;\n}","options":["useState dans enfant","Passer callback - l'enfant ne peut pas modifier le state du parent","count + 1 incorrect","Props incompatibles"],"bonne":1,"explication":"count + 1 = expression sans effet. Passer une callback pour modifier le state du parent."}],"resume":[{"icon":"&#11015;&#65039;","key":"Parent &rarr; Enfant","val":"Via props &mdash; lecture seule"},{"icon":"&#11014;&#65039;","key":"Enfant &rarr; Parent","val":"Via callback en prop"},{"icon":"&#127959;&#65039;","key":"Lifting state up","val":"Etat vers le parent commun"},{"icon":"&#128118;","key":"children","val":"Contenu entre les balises"}]},{"id":"r-10","num":10,"tag":"React &middot; Le&ccedil;on 10","title":"Fetch et React","sub":"Donn&eacute;es dynamiques","pourquoi":"useState + useEffect + fetch = pattern fondamental pour afficher des donn&eacute;es d&rsquo;API.","exemple":"Catalogue Kora : useEffect fetche les formations au montage, stocke dans state, React affiche.","exemples":[{"label":"Pattern complet","code":"function ListePosts() {\n  const [posts, setPosts] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n  \n  useEffect(() => {\n    async function charger() {\n      try {\n        const res = await fetch('/api/posts');\n        const data = await res.json();\n        setPosts(data);\n      } catch(e) {\n        setErreur(e.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n    charger();\n  }, []);\n  \n  if (loading) return <div>Chargement...</div>;\n  if (erreur) return <div>Erreur : {erreur}</div>;\n  return posts.map(p => <Post key={p.id} {...p} />);\n}"},{"label":"Custom hook","code":"function useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n  \n  useEffect(() => {\n    fetch(url)\n      .then(r => r.json())\n      .then(d => { setData(d); setLoading(false); })\n      .catch(e => { setErreur(e.message); setLoading(false); });\n  }, [url]);\n  \n  return { data, loading, erreur };\n}\n\nconst { data: formations, loading } = useFetch('/api/formations');"}],"regles":[{"prop":"useState + useEffect + fetch","expl":"Le trio fondamental."},{"prop":"loading + erreur","expl":"Toujours g&eacute;rer les &eacute;tats interm&eacute;diaires."},{"prop":"finally {}","expl":"D&eacute;sactive le loading."},{"prop":"Custom hook","expl":"useFetch() pour r&eacute;utiliser la logique."}],"code":"function Formations() {\n  const [formations, setFormations] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n  \n  useEffect(() => {\n    async function charger() {\n      try {\n        const res = await fetch('https://api.kora.io/formations');\n        if (!res.ok) throw new Error(`HTTP ${res.status}`);\n        setFormations(await res.json());\n      } catch(e) {\n        setErreur(e.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n    charger();\n  }, []);\n  \n  if (loading) return <div>Chargement...</div>;\n  if (erreur) return <div>Erreur : {erreur}</div>;\n  \n  return (\n    <div className=\"grille\">\n      {formations.map(f => <Carte key={f.id} {...f} />)}\n    </div>\n  );\n}","exercices":[{"type":"qcm","question":"Pourquoi async DANS useEffect et pas useEffect async ?","options":["Convention","useEffect doit retourner undefined ou cleanup - pas une Promise","Performance","useEffect async inexistant"],"bonne":1,"explication":"useEffect retourne undefined ou cleanup. Async retourne une Promise. React ne sait pas quoi faire."},{"type":"completion","question":"Pattern data-fetching :","labels":["loading init","erreur"],"bonnes":["useState(true)","setErreur(e.message)"],"template":"const [data, setData] = useState(null);\nconst [loading, setLoading] = [A];\nconst [erreur, setErreur] = useState(null);\n\nuseEffect(() => {\n  fetch('/api/data')\n    .then(r => r.json())\n    .then(d => { setData(d); setLoading(false); })\n    .catch(e => { [B]; setLoading(false); });\n}, []);"},{"type":"memo","question":"Les 3 etats pour un fetch (data, loading, erreur).","bonne":"const [data, setData] = useState(null);\nconst [loading, setLoading] = useState(true);\nconst [erreur, setErreur] = useState(null);","indice":"data(null) + loading(true) + erreur(null)","explication":"Trio standard. loading=true pour afficher le spinner immediatement."},{"type":"debug","question":"Ne recharge pas quand userId change :","codeFaux":"function Profil({ userId }) {\n  const [user, setUser] = useState(null);\n  \n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(r => r.json())\n      .then(setUser);\n  }, []); // probleme\n}","codeCorrige":"useEffect(() => {\n  fetch(`/api/users/${userId}`)\n    .then(r => r.json())\n    .then(setUser);\n}, [userId]); // recharge si change","options":["fetch + template literal invalide","[] ne recharge pas quand userId change - ajouter [userId]","setUser incorrect","useEffect sans fetch"],"bonne":1,"explication":"[] = une seule fois. [userId] = re-executer si userId change."}],"resume":[{"icon":"&#128260;","key":"useState+useEffect+fetch","val":"Le trio fondamental"},{"icon":"&#9203;","key":"loading + erreur","val":"Toujours gerer"},{"icon":"&#129529;","key":"finally","val":"Desactive loading"},{"icon":"&#129437;","key":"Custom hook","val":"useFetch() &mdash; reutilisable"}]}]}];
+// ─── DATA ────────────────────────────────────────────────────────────
+const LECONS = [
+  {
+    id: "r1",
+    num: 1,
+    tag: "React &middot; Le&ccedil;on 1",
+    title: "Pourquoi React",
+    sub: "Le probl&egrave;me qu&rsquo;il r&eacute;sout",
+    pourquoi: "JS vanilla devient chaotique d&egrave;s que l&rsquo;interface devient complexe. React change de paradigme : tu d&eacute;cris &agrave; quoi l&rsquo;UI doit ressembler selon l&rsquo;&eacute;tat, et React se charge de mettre &agrave; jour le DOM.",
+    exemple: "Dashboard Kora en temps r&eacute;el &mdash; tokens, posts, notifications. Avec vanilla JS ce serait des centaines de querySelector. Avec React, chaque partie est un composant autonome.",
+    exemples: [
+      { label: "Vanilla vs React", code: "// Vanilla — imperatif : COMMENT faire\ndocument.querySelector('#score').textContent = score;\nif (score > 100) badge.classList.add('gold');\n\n// React — declaratif : QUOI afficher\nfunction Score({ score }) {\n  return (\n    <div>\n      <span>{score}</span>\n      {score > 100 && <span className=\"gold\">TOP</span>}\n    </div>\n  );\n}" }
+    ],
+    regles: [
+      { prop: "Virtual DOM", expl: "Copie legere du DOM. Diffing puis patch minimal sur le vrai DOM." },
+      { prop: "Composant", expl: "Fonction JS qui retourne du JSX. Brique reutilisable." },
+      { prop: "State", expl: "Donnees qui declenchent un re-render quand elles changent." },
+      { prop: "Declaratif", expl: "On decrit QUOI afficher, React gere COMMENT mettre a jour." }
+    ],
+    code: "// Probleme vanilla\nfunction updateLikes(id, val) {\n  document.querySelector('#post-' + id + ' .likes')\n    .textContent = val;\n  // Et si le post a ete supprime ? Bug silencieux.\n}\n\n// Solution React\nfunction Post({ id, texte, likes }) {\n  return (\n    <article id={'post-' + id}>\n      <p>{texte}</p>\n      <span className=\"likes\">{likes}</span>\n    </article>\n  );\n  // Si le post disparait, React le retire du DOM automatiquement.",
+    exercices: [
+      {
+        type: "qcm",
+        question: "Quel est l'avantage principal du Virtual DOM ?",
+        options: ["Il remplace completement le DOM HTML", "Il calcule les changements minimaux plutot que de tout re-rendre", "Il rend les animations automatiques", "Il permet d'ecrire du CSS en JS"],
+        bonne: 1,
+        explication: "Le Virtual DOM fait du diffing : compare l'ancien et le nouveau, applique uniquement les differences sur le vrai DOM. Moins d'operations = plus rapide."
+      },
+      {
+        type: "completion",
+        question: "Complete : approche imperative vs declarative",
+        labels: ["vanilla JS", "JSX React"],
+        bonnes: ["document.querySelector('#titre').textContent = texte", "<h1>{texte}</h1>"],
+        template: "// Imperatif\n[A];\n\n// Declaratif\nreturn [B];"
+      },
+      {
+        type: "memo",
+        question: "Definir le Virtual DOM en une phrase.",
+        bonne: "Le Virtual DOM est une copie legere du DOM reel que React utilise pour calculer les changements minimaux.",
+        indice: "copie legere → diffing → patch minimal",
+        explication: "React compare l'ancien et le nouveau Virtual DOM, puis applique seulement les differences sur le vrai DOM."
+      },
+      {
+        type: "debug",
+        question: "Erreur conceptuelle. Trouve :",
+        codeFaux: "function Page() {\n  document.querySelector('h1').textContent = 'Nouveau';\n  return <h1>Titre</h1>;\n}",
+        codeCorrige: "function Page() {\n  return <h1>Nouveau</h1>;\n}",
+        options: ["return est interdit ici", "Ne jamais manipuler le DOM directement dans React — laisser React gerer", "h1 est invalide en JSX", "querySelector ne fonctionne pas en React"],
+        bonne: 1,
+        explication: "Dans React, on ne touche JAMAIS au DOM avec querySelector. On decrit via JSX et React s'en charge."
+      }
+    ],
+    resume: [
+      { icon: "🧠", key: "Declaratif", val: "QUOI afficher, pas COMMENT" },
+      { icon: "🔄", key: "Virtual DOM", val: "Copie → diffing → patch minimal" },
+      { icon: "🧩", key: "Composants", val: "Fonctions JSX reutilisables" },
+      { icon: "⚡", key: "Re-render", val: "Auto quand state/props changent" }
+    ]
+  },
+  {
+    id: "r2",
+    num: 2,
+    tag: "React &middot; Le&ccedil;on 2",
+    title: "Les composants",
+    sub: "Blocs r&eacute;utilisables",
+    pourquoi: "Un composant = une fonction qui retourne du JSX. L&rsquo;id&eacute;e est de d&eacute;couper l&rsquo;interface en blocs autonomes et r&eacute;utilisables. Bouton, carte, nav &mdash; chacun est un composant.",
+    exemple: "Kora : &lt;Post&gt;, &lt;TokenBadge&gt;, &lt;NavBar&gt;. Chacun g&egrave;re sa propre logique et peut &ecirc;tre r&eacute;utilis&eacute; partout.",
+    exemples: [
+      { label: "Composant de base", code: "function Bouton({ texte, onClick }) {\n  return (\n    <button\n      onClick={onClick}\n      style={{ background: '#C4622D', color: 'white' }}>\n      {texte}\n    </button>\n  );\n}\n\n// Utilisation\n<Bouton texte=\"Commencer\" onClick={demarrer} />" },
+      { label: "Composer des composants", code: "function App() {\n  return (\n    <div>\n      <NavBar />\n      <main>\n        <CarteFormation titre=\"JS\" lecons={15} />\n        <CarteFormation titre=\"React\" lecons={10} />\n      </main>\n    </div>\n  );\n}" }
+    ],
+    regles: [
+      { prop: "function Nom()", expl: "PascalCase obligatoire. <div> = HTML, <Div> = composant React." },
+      { prop: "props", expl: "Donnees passees au composant. Lecture seule — jamais modifier directement." },
+      { prop: "{valeur}", expl: "Accolades = expression JS dans le JSX." },
+      { prop: "<Composant />", expl: "Utiliser comme une balise HTML. Auto-fermant si pas d'enfants." }
+    ],
+    code: "function Post({ auteur, texte, likes, verifie }) {\n  return (\n    <article className=\"post\">\n      <div className=\"header\">\n        <span>{auteur}</span>\n        {verifie && <span className=\"check\">OK</span>}\n      </div>\n      <p>{texte}</p>\n      <button>Likes : {likes}</button>\n    </article>\n  );\n}\n\nfunction Feed({ posts }) {\n  return (\n    <div className=\"feed\">\n      {posts.map(p => (\n        <Post\n          key={p.id}\n          auteur={p.auteur}\n          texte={p.texte}\n          likes={p.likes}\n          verifie={p.verifie}\n        />\n      ))}\n    </div>\n  );\n}",
+    exercices: [
+      {
+        type: "qcm",
+        question: "Pourquoi les noms de composants commencent-ils par une majuscule ?",
+        options: ["Convention optionnelle sans raison technique", "JSX distingue <Composant> (React) de <div> (HTML) par la casse", "Pour la lisibilite uniquement", "React l'impose pour les performances"],
+        bonne: 1,
+        explication: "<div> = balise HTML. <MonComposant> = composant React. Minuscule = traite comme balise HTML inconnue."
+      },
+      {
+        type: "completion",
+        question: "Complete le composant Badge :",
+        labels: ["destructuration props", "contenu"],
+        bonnes: ["{ texte }", "<strong>{texte}</strong>"],
+        template: "function Badge([A]) {\n  return (\n    <span className=\"badge\">[B]</span>\n  );\n}"
+      },
+      {
+        type: "memo",
+        question: "Ecrire un composant Titre qui recoit une prop 'texte' et l'affiche dans un h1.",
+        bonne: "function Titre({ texte }) {\n  return <h1>{texte}</h1>;\n}",
+        indice: "function Nom({ prop }) { return <balise>{prop}</balise>; }",
+        explication: "Destructuration {texte} dans les params extrait la prop. {texte} dans JSX insere sa valeur."
+      },
+      {
+        type: "debug",
+        question: "Le composant ne s'affiche pas. Trouve :",
+        codeFaux: "function carte({ titre }) {\n  return <div className=\"carte\">{titre}</div>;\n}\n\n<carte titre=\"JavaScript\" />",
+        codeCorrige: "function Carte({ titre }) {\n  return <div className=\"carte\">{titre}</div>;\n}\n\n<Carte titre=\"JavaScript\" />",
+        options: ["className doit etre class", "PascalCase obligatoire — carte doit s'appeler Carte", "Les props doivent etre entre guillemets", "Il manque un return"],
+        bonne: 1,
+        explication: "carte avec c minuscule = balise HTML inconnue. Carte avec C majuscule = composant React."
+      }
+    ],
+    resume: [
+      { icon: "🏗️", key: "function Nom()", val: "PascalCase — retourne du JSX" },
+      { icon: "📫", key: "props", val: "Donnees du parent — lecture seule" },
+      { icon: "🔤", key: "PascalCase", val: "Majuscule = composant React" },
+      { icon: "📝", key: "{}", val: "Expressions JS dans le JSX" }
+    ]
+  },
+  {
+    id: "r3",
+    num: 3,
+    tag: "React &middot; Le&ccedil;on 3",
+    title: "Le JSX",
+    sub: "La syntaxe de React",
+    pourquoi: "JSX ressemble &agrave; du HTML mais n&rsquo;en est pas. Babel le transforme en appels React.createElement(). Comprendre JSX &eacute;vite des heures de debugging.",
+    exemple: "&lt;div className=&quot;post&quot;&gt; devient React.createElement(&quot;div&quot;, {className:&quot;post&quot;}). Le HTML, c&rsquo;est du sucre syntaxique.",
+    exemples: [
+      { label: "JSX vs HTML — les differences", code: "// HTML\n<div class=\"box\">\n  <label for=\"email\">Email</label>\n</div>\n\n// JSX — attributs differents !\n<div className=\"box\">\n  <label htmlFor=\"email\">Email</label>\n</div>\n// class → className / for → htmlFor" },
+      { label: "Expressions et conditions", code: "const nom = 'Val';\nconst premium = true;\n\nreturn (\n  <div>\n    <h1>Bonjour {nom}</h1>\n    {premium && <span>Premium</span>}\n    <span>{premium ? 'Gold' : 'Free'}</span>\n  </div>\n);" },
+      { label: "Fragment — pas de div inutile", code: "// MAUVAIS — div inutile dans le DOM\nreturn (\n  <div>\n    <h1>Titre</h1>\n    <p>Texte</p>\n  </div>\n);\n\n// BON — Fragment invisible\nreturn (\n  <>\n    <h1>Titre</h1>\n    <p>Texte</p>\n  </>\n);" }
+    ],
+    regles: [
+      { prop: "className", expl: "class est un mot-cle JS reserve. JSX utilise className." },
+      { prop: "htmlFor", expl: "for est reserve. JSX utilise htmlFor pour les labels." },
+      { prop: "{expression}", expl: "N'importe quelle expression JS valide entre accolades." },
+      { prop: "{cond && JSX}", expl: "Afficher conditionnellement. Si cond est false, rien n'est rendu." },
+      { prop: "<></>", expl: "Fragment React. Wrapper sans ajouter de div dans le DOM." }
+    ],
+    code: "function ProfilKora({ user }) {\n  const { nom, tokens, premium } = user;\n\n  return (\n    <div className=\"profil\">\n      <h2>\n        {nom}\n        {premium && <span className=\"badge\">Premium</span>}\n      </h2>\n\n      <p className=\"tokens\">{tokens} KRT</p>\n\n      {!premium && (\n        <button className=\"upgrade\">Passer Premium</button>\n      )}\n    </div>\n  );\n}",
+    exercices: [
+      {
+        type: "qcm",
+        question: "Pourquoi className et non class en JSX ?",
+        options: ["Convention optionnelle", "class est un mot-cle JavaScript reserve — className evite le conflit", "className est plus rapide a ecrire", "class n'existe pas en HTML5"],
+        bonne: 1,
+        explication: "class est reserve pour les classes ES6. En JSX qui est du JS, utiliser class causerait des conflits. className est l'equivalent JSX de l'attribut HTML class."
+      },
+      {
+        type: "completion",
+        question: "Affiche le badge Premium seulement si estPremium est true :",
+        labels: ["operateur conditionnel", "contenu badge"],
+        bonnes: ["estPremium &&", "<span className=\"badge\">Premium</span>"],
+        template: "function Header({ nom, estPremium }) {\n  return (\n    <header>\n      <h1>{nom}</h1>\n      {[A] (\n        [B]\n      )}\n    </header>\n  );\n}"
+      },
+      {
+        type: "memo",
+        question: "Ecrire un Fragment React contenant un h1 et un paragraphe.",
+        bonne: "return (\n  <>\n    <h1>Titre</h1>\n    <p>Texte</p>\n  </>\n);",
+        indice: "<> elements </> — wrapper invisible",
+        explication: "<> </> est un Fragment React. Il permet de retourner plusieurs elements sans ajouter de div inutile dans le DOM."
+      },
+      {
+        type: "debug",
+        question: "Ce JSX ne compile pas. Trouve :",
+        codeFaux: "function App() {\n  return (\n    <h1>Bonjour</h1>\n    <p>Bienvenue sur Kora</p>\n  );\n}",
+        codeCorrige: "function App() {\n  return (\n    <>\n      <h1>Bonjour</h1>\n      <p>Bienvenue sur Kora</p>\n    </>\n  );\n}",
+        options: ["h1 et p ne peuvent pas coexister", "JSX doit avoir un seul element racine — utiliser un Fragment <>", "Il manque des virgules entre les elements", "return ne peut pas avoir de parentheses"],
+        bonne: 1,
+        explication: "JSX ne peut retourner qu'un seul element racine. Wrapper dans <> </> ou une div."
+      }
+    ],
+    resume: [
+      { icon: "🏷️", key: "className", val: "class → className en JSX" },
+      { icon: "📝", key: "{}", val: "Expressions JS" },
+      { icon: "🔀", key: "&& / ternaire", val: "Rendu conditionnel" },
+      { icon: "📦", key: "Fragment <>", val: "Wrapper sans div inutile" }
+    ]
+  },
+  {
+    id: "r4",
+    num: 4,
+    tag: "React &middot; Le&ccedil;on 4",
+    title: "useState",
+    sub: "G&eacute;rer l&rsquo;&eacute;tat local",
+    pourquoi: "useState est le hook fondamental. Il permet &agrave; un composant de m&eacute;moriser des donn&eacute;es et de d&eacute;clencher un re-render &agrave; chaque modification.",
+    exemple: "Like Kora : setLikes(likes + 1) → React re-rend le composant → nouveau nombre affich&eacute; automatiquement.",
+    exemples: [
+      { label: "La syntaxe", code: "import { useState } from 'react';\n\nfunction Compteur() {\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>{count}</p>\n      <button onClick={() => setCount(count + 1)}>+1</button>\n    </div>\n  );\n}" },
+      { label: "Ne jamais muter directement", code: "const [posts, setPosts] = useState([]);\n\n// MAUVAIS — React ne re-rend pas\nposts.push('Post 2');\n\n// BON — nouvelle reference\nsetPosts([...posts, 'Post 2']);\n\n// MAUVAIS objet\nuser.nom = 'Val';\n\n// BON\nsetUser({ ...user, nom: 'Val' });" }
+    ],
+    regles: [
+      { prop: "const [val, setVal] = useState(init)", expl: "Declarer un etat avec valeur initiale et setter." },
+      { prop: "setVal(nouvelleValeur)", expl: "Mettre a jour l'etat et declencher un re-render." },
+      { prop: "setVal(prev => ...)", expl: "Mise a jour basee sur la valeur precedente. Recommandee." },
+      { prop: "Jamais muter", expl: "Toujours creer une nouvelle valeur — jamais modifier directement." }
+    ],
+    code: "function PostKora({ initialLikes, texte, auteur }) {\n  const [likes, setLikes] = useState(initialLikes);\n  const [likee, setLikee] = useState(false);\n\n  const toggle = () => {\n    setLikes(prev => likee ? prev - 1 : prev + 1);\n    setLikee(prev => !prev);\n  };\n\n  return (\n    <article>\n      <p><strong>{auteur}</strong></p>\n      <p>{texte}</p>\n      <button\n        onClick={toggle}\n        className={likee ? 'liked' : ''}>\n        Likes : {likes}\n      </button>\n    </article>\n  );\n}",
+    exercices: [
+      {
+        type: "qcm",
+        question: "Pourquoi utiliser setVal() plutot que modifier la variable directement ?",
+        options: ["setVal est plus rapide", "React ne detecte les changements que via set — modifier directement ne declenche pas de re-render", "Pour eviter les erreurs de syntaxe", "setVal fait une copie automatique"],
+        bonne: 1,
+        explication: "Modifier directement = meme reference memoire. React ne voit pas la difference et ne re-rend pas. setVal() cree une nouvelle valeur et signale React."
+      },
+      {
+        type: "completion",
+        question: "Complete le composant toggle (ouvert/ferme) :",
+        labels: ["valeur initiale", "mise a jour"],
+        bonnes: ["false", "!ouvert"],
+        template: "function Toggle() {\n  const [ouvert, setOuvert] = useState([A]);\n\n  return (\n    <button onClick={() => setOuvert([B])}>\n      {ouvert ? 'Fermer' : 'Ouvrir'}\n    </button>\n  );\n}"
+      },
+      {
+        type: "memo",
+        question: "Declarer un etat 'posts' (tableau vide) avec useState.",
+        bonne: "const [posts, setPosts] = useState([]);",
+        indice: "const [valeur, setValeur] = useState( valeur_initiale )",
+        explication: "useState([]) initialise avec un tableau vide. Convention : posts / setPosts (set + nom avec majuscule)."
+      },
+      {
+        type: "debug",
+        question: "Le compteur ne se met pas a jour au clic :",
+        codeFaux: "function Compteur() {\n  const [count, setCount] = useState(0);\n\n  function incrementer() {\n    count = count + 1; // erreur\n  }\n\n  return <button onClick={incrementer}>{count}</button>;\n}",
+        codeCorrige: "function Compteur() {\n  const [count, setCount] = useState(0);\n\n  function incrementer() {\n    setCount(count + 1);\n  }\n\n  return <button onClick={incrementer}>{count}</button>;\n}",
+        options: ["onClick doit etre une arrow function", "Mutation directe de count non detectee — utiliser setCount()", "useState(0) devrait etre useState(null)", "incrementer doit etre async"],
+        bonne: 1,
+        explication: "count est const — impossible de le reecrire. Mais meme en let, React ne detecterait pas le changement. Il faut appeler setCount()."
+      }
+    ],
+    resume: [
+      { icon: "💾", key: "useState(init)", val: "Etat avec valeur initiale" },
+      { icon: "🔄", key: "setVal()", val: "Met a jour et declenche re-render" },
+      { icon: "⚠️", key: "Jamais muter", val: "Toujours nouvelle valeur" },
+      { icon: "📐", key: "prev =>", val: "Mise a jour basee sur l'etat precedent" }
+    ]
+  },
+  {
+    id: "r5",
+    num: 5,
+    tag: "React &middot; Le&ccedil;on 5",
+    title: "useEffect",
+    sub: "Les effets de bord",
+    pourquoi: "useEffect permet d&rsquo;ex&eacute;cuter du code apr&egrave;s le rendu : charger des donn&eacute;es, s&rsquo;abonner &agrave; un &eacute;v&eacute;nement, modifier le titre. Tout ce qui est ext&eacute;rieur &agrave; React.",
+    exemple: "Quand le Feed monte, useEffect charge les posts. Quand l&rsquo;userId change, useEffect recharge le profil.",
+    exemples: [
+      { label: "Les 3 formes", code: "// 1. Une seule fois au montage\nuseEffect(() => { chargerPosts(); }, []);\n\n// 2. Quand dep change\nuseEffect(() => {\n  chargerProfil(userId);\n}, [userId]);\n\n// 3. Sans tableau — apres CHAQUE render (danger)\nuseEffect(() => { console.log('render'); });" },
+      { label: "Fetch au montage", code: "function ProfilPage({ userId }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    async function charger() {\n      const res = await fetch('/api/users/' + userId);\n      setUser(await res.json());\n      setLoading(false);\n    }\n    charger();\n  }, [userId]);\n\n  if (loading) return <p>Chargement...</p>;\n  return <div>{user.nom}</div>;\n}" }
+    ],
+    regles: [
+      { prop: "useEffect(fn, [])", expl: "Execute fn une seule fois au montage du composant." },
+      { prop: "useEffect(fn, [dep])", expl: "Execute fn a chaque fois que dep change." },
+      { prop: "useEffect(fn)", expl: "Execute fn apres chaque render — rarement souhaite." },
+      { prop: "return () => {}", expl: "Cleanup : execute au demontage ou avant le prochain effet." }
+    ],
+    code: "function Formation({ formationId }) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    setLoading(true);\n\n    fetch('/api/formations/' + formationId)\n      .then(res => res.json())\n      .then(d => {\n        setData(d);\n        setLoading(false);\n      })\n      .catch(err => {\n        console.error(err);\n        setLoading(false);\n      });\n\n  }, [formationId]); // se relance si formationId change\n\n  if (loading) return <div>Chargement...</div>;\n  return <h1>{data.titre}</h1>;\n}",
+    exercices: [
+      {
+        type: "qcm",
+        question: "Que se passe-t-il si on omet le tableau de dependances dans useEffect ?",
+        options: ["useEffect ne s'execute jamais", "useEffect s'execute une seule fois", "useEffect s'execute apres chaque re-render — cause souvent des boucles infinies", "Une erreur est levee"],
+        bonne: 2,
+        explication: "Sans [], useEffect s'execute apres chaque render. Si l'effet met a jour le state → re-render → useEffect → boucle infinie."
+      },
+      {
+        type: "completion",
+        question: "Complete ce useEffect pour charger des posts au montage :",
+        labels: ["fonction async interne", "tableau dependances"],
+        bonnes: ["async function charger()", "[]"],
+        template: "useEffect(() => {\n  [A] {\n    const data = await fetch('/api/posts').then(r => r.json());\n    setPosts(data);\n  }\n  charger();\n}, [B]);"
+      },
+      {
+        type: "memo",
+        question: "Ecrire un useEffect qui met a jour document.title quand 'titre' change.",
+        bonne: "useEffect(() => {\n  document.title = titre;\n}, [titre]);",
+        indice: "useEffect( () => { effet }, [dependance] )",
+        explication: "[titre] en dependance = l'effet se re-execute quand titre change. document.title = effet de bord externe a React."
+      },
+      {
+        type: "debug",
+        question: "Ce useEffect cree une boucle infinie. Trouve :",
+        codeFaux: "function Posts() {\n  const [posts, setPosts] = useState([]);\n\n  useEffect(() => {\n    fetch('/api/posts')\n      .then(r => r.json())\n      .then(data => setPosts(data));\n  }); // probleme ici\n}",
+        codeCorrige: "useEffect(() => {\n  fetch('/api/posts')\n    .then(r => r.json())\n    .then(data => setPosts(data));\n}, []); // [] = une seule fois",
+        options: ["fetch ne fonctionne pas dans useEffect", "Il manque [] — sans lui l'effet tourne en boucle", "setPosts ne peut pas etre appele dans useEffect", "then doit etre remplace par await"],
+        bonne: 1,
+        explication: "Sans [], useEffect apres chaque render. setPosts declenche un re-render... boucle infinie."
+      }
+    ],
+    resume: [
+      { icon: "🚀", key: "useEffect(fn, [])", val: "Une fois au montage" },
+      { icon: "🔄", key: "useEffect(fn, [dep])", val: "Quand dep change" },
+      { icon: "🧹", key: "return () => {}", val: "Cleanup au demontage" },
+      { icon: "⚠️", key: "Sans []", val: "Boucle infinie — toujours specifier" }
+    ]
+  },
+  {
+    id: "r6",
+    num: 6,
+    tag: "React &middot; Le&ccedil;on 6",
+    title: "Ev&eacute;nements React",
+    sub: "G&eacute;rer les interactions",
+    pourquoi: "React g&egrave;re les &eacute;v&eacute;nements en camelCase avec des fonctions JS. onClick, onChange, onSubmit &mdash; logique identique au DOM vanilla mais int&eacute;gr&eacute;e dans JSX.",
+    exemple: "Bouton Like, formulaire de contact DB Studio, barre de recherche Kora &mdash; tout via des handlers React.",
+    exemples: [
+      { label: "Handlers et arguments", code: "function PostCard({ post, onLike }) {\n  return (\n    <div>\n      <button onClick={() => onLike(post.id)}>\n        Likes : {post.likes}\n      </button>\n    </div>\n  );\n}" },
+      { label: "Formulaire controle", code: "function Form() {\n  const [nom, setNom] = useState('');\n\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    console.log(nom);\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <input\n        value={nom}\n        onChange={(e) => setNom(e.target.value)}\n      />\n      <button type=\"submit\">Envoyer</button>\n    </form>\n  );\n}" }
+    ],
+    regles: [
+      { prop: "onClick={fn}", expl: "Passer la reference, pas l'appel. Pas de () a la fin." },
+      { prop: "onChange={(e) =>}", expl: "Declenche a chaque frappe. e.target.value = valeur actuelle." },
+      { prop: "onSubmit={(e) =>}", expl: "Toujours appeler e.preventDefault() en premier." },
+      { prop: "camelCase", expl: "onclick → onClick, onchange → onChange, onsubmit → onSubmit." }
+    ],
+    code: "function RechercheKora() {\n  const [query, setQuery] = useState('');\n\n  const handleChange = (e) => {\n    setQuery(e.target.value);\n  };\n\n  const handleKeyDown = (e) => {\n    if (e.key === 'Escape') setQuery('');\n  };\n\n  return (\n    <input\n      value={query}\n      onChange={handleChange}\n      onKeyDown={handleKeyDown}\n      placeholder=\"Rechercher...\"\n    />\n  );\n}",
+    exercices: [
+      {
+        type: "qcm",
+        question: "Quelle est l'erreur dans onClick={handleClick()} ?",
+        options: ["handleClick n'existe pas", "Les () appellent la fonction au rendu — il faut onClick={handleClick}", "onClick s'ecrit en minuscules", "Les accolades sont incorrectes"],
+        bonne: 1,
+        explication: "onClick={handleClick()} appelle handleClick() immediatement pendant le rendu. Il faut passer la reference : onClick={handleClick} ou onClick={() => handleClick()}."
+      },
+      {
+        type: "completion",
+        question: "Complete l'input controle pour le pseudo :",
+        labels: ["prop value", "handler onChange"],
+        bonnes: ["value={pseudo}", "(e) => setPseudo(e.target.value)"],
+        template: "const [pseudo, setPseudo] = useState('');\n\nreturn (\n  <input\n    [A]\n    onChange={[B]}\n    placeholder=\"Ton pseudo Kora\"\n  />\n);"
+      },
+      {
+        type: "memo",
+        question: "Ecrire un button qui appelle la fonction supprimer() avec l'id 42.",
+        bonne: "<button onClick={() => supprimer(42)}>Supprimer</button>",
+        indice: "onClick={ () => fn(arg) }",
+        explication: "Arrow function necessaire pour passer des arguments. onClick={supprimer(42)} appellerait immediatement au rendu."
+      },
+      {
+        type: "debug",
+        question: "Le formulaire recharge la page. Trouve :",
+        codeFaux: "function Form() {\n  const handleSubmit = () => {\n    console.log('Envoye');\n  };\n  return <form onSubmit={handleSubmit}>...</form>;\n}",
+        codeCorrige: "function Form() {\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    console.log('Envoye');\n  };\n  return <form onSubmit={handleSubmit}>...</form>;\n}",
+        options: ["onSubmit doit etre onClick", "Il manque (e) et e.preventDefault()", "form n'est pas supporte en React", "handleSubmit doit etre async"],
+        bonne: 1,
+        explication: "Sans e.preventDefault(), le comportement natif du formulaire s'execute : rechargement de page."
+      }
+    ],
+    resume: [
+      { icon: "👆", key: "onClick={fn}", val: "Reference — pas d'appel ()" },
+      { icon: "✏️", key: "onChange", val: "e.target.value a chaque frappe" },
+      { icon: "📨", key: "onSubmit", val: "Toujours e.preventDefault()" },
+      { icon: "🐪", key: "camelCase", val: "onClick, onChange, onSubmit..." }
+    ]
+  },
+  {
+    id: "r7",
+    num: 7,
+    tag: "React &middot; Le&ccedil;on 7",
+    title: "Listes et cl&eacute;s",
+    sub: "Afficher des tableaux de donn&eacute;es",
+    pourquoi: "Afficher une liste de posts, formations, users se fait avec .map(). Chaque &eacute;l&eacute;ment doit avoir une prop key unique &mdash; sans elle, React ne peut pas optimiser les mises &agrave; jour.",
+    exemple: "posts.map(p =&gt; &lt;Post key={p.id} {...p} /&gt;) &mdash; la key permet &agrave; React de savoir lequel mettre &agrave; jour.",
+    exemples: [
+      { label: "map dans JSX", code: "function Catalogue({ formations }) {\n  return (\n    <div>\n      {formations.map((f) => (\n        <div key={f.id} className=\"carte\">\n          <h3>{f.titre}</h3>\n          <p>{f.lecons} lecons</p>\n        </div>\n      ))}\n    </div>\n  );\n}" },
+      { label: "Pourquoi pas l'index comme key", code: "// EVITER — index instable si trie/filtre\nposts.map((p, index) => <Post key={index} />)\n\n// TOUJOURS — ID unique et stable\nposts.map(p => <Post key={p.id} />) " }
+    ],
+    regles: [
+      { prop: ".map(item => JSX)", expl: "Transformer un tableau en liste de composants JSX." },
+      { prop: "key={id}", expl: "Prop unique et stable. Obligatoire sur l'element racine de .map()." },
+      { prop: "{liste.length === 0 &&}", expl: "Afficher un message si la liste est vide." },
+      { prop: "{...item}", expl: "Spread — passer toutes les proprietes comme props." }
+    ],
+    code: "function Feed({ posts, filtre }) {\n  const affiches = filtre\n    ? posts.filter(p => p.cat === filtre)\n    : posts;\n\n  return (\n    <div className=\"feed\">\n      {affiches.length === 0\n        ? <p>Aucun post</p>\n        : affiches.map(p => (\n            <Post\n              key={p.id}\n              auteur={p.auteur}\n              texte={p.texte}\n              likes={p.likes}\n            />\n          ))\n      }\n    </div>\n  );\n}",
+    exercices: [
+      {
+        type: "qcm",
+        question: "Pourquoi eviter l'index du tableau comme key ?",
+        options: ["C'est interdit en React", "Si la liste est reordonnee, les index changent et React fait de mauvaises mises a jour", "Les index sont trop lents", "React n'accepte que des strings"],
+        bonne: 1,
+        explication: "Supprimer le 2eme element change tous les index apres lui. React voit des keys differentes et peut causer des bugs visuels ou resets d'etat."
+      },
+      {
+        type: "completion",
+        question: "Complete pour afficher une liste de posts :",
+        labels: ["methode tableau", "prop key"],
+        bonnes: ["map", "key={post.id}"],
+        template: "function Feed({ posts }) {\n  return (\n    <div>\n      {posts.[A](post => (\n        <Post\n          [B]\n          auteur={post.auteur}\n        />\n      ))}\n    </div>\n  );\n}"
+      },
+      {
+        type: "memo",
+        question: "Afficher une liste de noms dans des li avec key.",
+        bonne: "const noms = ['Val', 'Marc'];\nreturn (\n  <ul>\n    {noms.map((nom, i) => (\n      <li key={i}>{nom}</li>\n    ))}\n  </ul>\n);",
+        indice: ".map((item, index) => <li key={index}>{item}</li>)",
+        explication: "Index acceptable pour listes purement statiques. Pour listes dynamiques, toujours utiliser un ID."
+      },
+      {
+        type: "debug",
+        question: "Warning: Each child needs a unique key. Trouve :",
+        codeFaux: "function List({ users }) {\n  return (\n    <ul>\n      {users.map(u => (\n        <li>{u.nom}</li>\n      ))}\n    </ul>\n  );\n}",
+        codeCorrige: "function List({ users }) {\n  return (\n    <ul>\n      {users.map(u => (\n        <li key={u.id}>{u.nom}</li>\n      ))}\n    </ul>\n  );\n}",
+        options: ["ul n'est pas supporte", "Il manque la prop key sur chaque li", "u.nom doit etre entre guillemets", "map ne fonctionne pas dans le JSX"],
+        bonne: 1,
+        explication: "Chaque element de .map() doit avoir une key unique. Sans key, React affiche un warning et peut faire des re-renders incorrects."
+      }
+    ],
+    resume: [
+      { icon: "🗂️", key: ".map()", val: "Tableau → liste JSX" },
+      { icon: "🔑", key: "key={id}", val: "Obligatoire — ID stable" },
+      { icon: "⚠️", key: "Pas d'index", val: "Eviter pour listes dynamiques" },
+      { icon: "📤", key: "{...item}", val: "Spread toutes les props" }
+    ]
+  },
+  {
+    id: "r8",
+    num: 8,
+    tag: "React &middot; Le&ccedil;on 8",
+    title: "Formulaires contr&ocirc;l&eacute;s",
+    sub: "Inputs li&eacute;s au state",
+    pourquoi: "Un formulaire contr&ocirc;l&eacute; : chaque input est synchronis&eacute; avec le state React. React est la source de v&eacute;rit&eacute;. Validation, reset, soumission deviennent trivials.",
+    exemple: "Inscription Kora : chaque champ est un &eacute;tat React. &Agrave; la soumission, toutes les valeurs sont imm&eacute;diatement accessibles.",
+    exemples: [
+      { label: "Input controle basique", code: "const [email, setEmail] = useState('');\n\n<input\n  type=\"email\"\n  value={email}\n  onChange={(e) => setEmail(e.target.value)}\n  placeholder=\"ton@email.fr\"\n/>" },
+      { label: "Handler generique multi-champs", code: "const [form, setForm] = useState({ nom: '', email: '' });\n\nconst handleChange = (e) => {\n  setForm(prev => ({\n    ...prev,\n    [e.target.name]: e.target.value\n  }));\n};\n\n<input name=\"nom\" value={form.nom} onChange={handleChange} />\n<input name=\"email\" value={form.email} onChange={handleChange} />" }
+    ],
+    regles: [
+      { prop: "value={state}", expl: "L'input affiche la valeur du state — React controle." },
+      { prop: "onChange → setState", expl: "Met a jour le state a chaque frappe." },
+      { prop: "e.target.name", expl: "Handler generique — met a jour la propriete par nom." },
+      { prop: "e.target.checked", expl: "Pour les checkboxes — boolean." }
+    ],
+    code: "function FormContact() {\n  const [champs, setChamps] = useState({\n    nom: '', email: '', message: ''\n  });\n  const [envoye, setEnvoye] = useState(false);\n\n  const handleChange = (e) => {\n    setChamps(prev => ({\n      ...prev,\n      [e.target.name]: e.target.value\n    }));\n  };\n\n  const handleSubmit = async (e) => {\n    e.preventDefault();\n    await fetch('/api/contact', {\n      method: 'POST',\n      body: JSON.stringify(champs)\n    });\n    setEnvoye(true);\n  };\n\n  if (envoye) return <p>Message envoye !</p>;\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <input name=\"nom\" value={champs.nom} onChange={handleChange} />\n      <input name=\"email\" value={champs.email} onChange={handleChange} />\n      <button type=\"submit\">Envoyer</button>\n    </form>\n  );\n}",
+    exercices: [
+      {
+        type: "qcm",
+        question: "Qu'est-ce qui rend un formulaire controle en React ?",
+        options: ["L'utilisation de useForm()", "Chaque input a value lie au state et met a jour ce state via onChange", "La validation des champs", "L'utilisation d'un formulaire HTML standard"],
+        bonne: 1,
+        explication: "Controle = React est la source de verite. value={state} lie l'input au state. onChange met a jour le state a chaque frappe."
+      },
+      {
+        type: "completion",
+        question: "Complete cet input controle pour le champ pseudo :",
+        labels: ["prop value", "prop onChange"],
+        bonnes: ["value={pseudo}", "(e) => setPseudo(e.target.value)"],
+        template: "const [pseudo, setPseudo] = useState('');\n\nreturn (\n  <input\n    [A]\n    onChange={[B]}\n    placeholder=\"Ton pseudo Kora\"\n  />\n);"
+      },
+      {
+        type: "memo",
+        question: "Ecrire le handler generique qui met a jour l'objet form depuis e.target.name.",
+        bonne: "const handleChange = (e) => {\n  setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));\n};",
+        indice: "setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))",
+        explication: "[e.target.name] = computed property. Si l'input s'appelle email, ca met a jour form.email."
+      },
+      {
+        type: "debug",
+        question: "L'input ne repond pas aux frappes. Trouve :",
+        codeFaux: "const [nom, setNom] = useState('');\n\nreturn (\n  <input\n    value={nom}\n    placeholder=\"Ton nom\"\n  />\n);",
+        codeCorrige: "const [nom, setNom] = useState('');\n\nreturn (\n  <input\n    value={nom}\n    onChange={(e) => setNom(e.target.value)}\n    placeholder=\"Ton nom\"\n  />\n);",
+        options: ["value ne fonctionne pas sans defaultValue", "Sans onChange, React bloque les frappes — value + onChange sont inseparables", "placeholder empeche la saisie", "useState('') devrait etre useState(null)"],
+        bonne: 1,
+        explication: "value={state} sans onChange = React bloque toute modification. Les deux sont indissociables dans un composant controle."
+      }
+    ],
+    resume: [
+      { icon: "🎛️", key: "Controle", val: "value={state} + onChange" },
+      { icon: "✏️", key: "onChange", val: "Sync le state avec l'input" },
+      { icon: "📋", key: "e.target.name", val: "Handler generique multi-champs" },
+      { icon: "✅", key: "Validation", val: "Verifier dans handleSubmit" }
+    ]
+  },
+  {
+    id: "r9",
+    num: 9,
+    tag: "React &middot; Le&ccedil;on 9",
+    title: "Parent &harr; Enfant",
+    sub: "Props et callbacks",
+    pourquoi: "Les donn&eacute;es circulent dans un seul sens en React : parent vers enfant via props. Pour l&rsquo;inverse, on passe une fonction callback comme prop.",
+    exemple: "Feed (parent) poss&egrave;de les posts. Quand on like dans Post (enfant), Post appelle la callback handleLike pass&eacute;e par Feed.",
+    exemples: [
+      { label: "Parent vers Enfant", code: "function App() {\n  const [tokens, setTokens] = useState(248);\n  return <TokenBadge montant={tokens} />;\n}\n\nfunction TokenBadge({ montant }) {\n  return <span>{montant} KRT</span>;\n}" },
+      { label: "Enfant vers Parent — callback", code: "function Feed() {\n  const [posts, setPosts] = useState(data);\n\n  const handleLike = (id) => {\n    setPosts(prev => prev.map(p =>\n      p.id === id ? { ...p, likes: p.likes + 1 } : p\n    ));\n  };\n\n  return posts.map(p =>\n    <Post key={p.id} post={p} onLike={handleLike} />\n  );\n}\n\nfunction Post({ post, onLike }) {\n  return (\n    <button onClick={() => onLike(post.id)}>\n      Likes : {post.likes}\n    </button>\n  );\n}" }
+    ],
+    regles: [
+      { prop: "Parent vers Enfant", expl: "Via les props. Les donnees descendent dans l'arbre." },
+      { prop: "Enfant vers Parent", expl: "Via une fonction callback passee en prop." },
+      { prop: "Lifting state up", expl: "Remonter l'etat vers le parent commun quand plusieurs enfants en ont besoin." },
+      { prop: "props.children", expl: "Contenu JSX entre les balises d'un composant." }
+    ],
+    code: "function Catalogue() {\n  const [formations, setFormations] = useState(data);\n  const [selected, setSelected] = useState(null);\n\n  const handleSelect = (id) => {\n    setSelected(formations.find(f => f.id === id));\n  };\n\n  const handleComplete = (id) => {\n    setFormations(prev => prev.map(f =>\n      f.id === id ? { ...f, completee: true } : f\n    ));\n  };\n\n  return (\n    <div>\n      {formations.map(f => (\n        <Carte\n          key={f.id}\n          formation={f}\n          onSelect={handleSelect}\n          onComplete={handleComplete}\n        />\n      ))}\n      {selected && <Detail formation={selected} />}\n    </div>\n  );\n}",
+    exercices: [
+      {
+        type: "qcm",
+        question: "Qu'est-ce que le lifting state up ?",
+        options: ["Optimiser les performances", "Remonter l'etat vers le parent commun quand plusieurs enfants en ont besoin", "Supprimer le state d'un composant", "Utiliser le context React"],
+        bonne: 1,
+        explication: "Quand deux composants freres partagent le meme etat, on le remonte vers leur parent commun. Ce parent distribue via props et recoit les mises a jour via callbacks."
+      },
+      {
+        type: "completion",
+        question: "Complete l'enfant pour appeler la callback avec l'id :",
+        labels: ["prop callback", "appel avec argument"],
+        bonnes: ["onSupprimer", "onSupprimer(id)"],
+        template: "function Item({ id, texte, [A] }) {\n  return (\n    <div>\n      <span>{texte}</span>\n      <button onClick={() => [B]}>X</button>\n    </div>\n  );\n}"
+      },
+      {
+        type: "memo",
+        question: "Ecrire un composant Card qui accepte du contenu via props.children.",
+        bonne: "function Card({ children }) {\n  return <div className=\"card\">{children}</div>;\n}",
+        indice: "function Nom({ children }) { return <div>{children}</div>; }",
+        explication: "props.children contient tout ce qui est entre les balises : <Card><h2>Titre</h2></Card>."
+      },
+      {
+        type: "debug",
+        question: "Le parent ne se met pas a jour au clic. Trouve :",
+        codeFaux: "function Parent() {\n  const [count, setCount] = useState(0);\n  return <Enfant count={count} />;\n}\n\nfunction Enfant({ count }) {\n  return <button onClick={() => count + 1}>{count}</button>;\n}",
+        codeCorrige: "function Parent() {\n  const [count, setCount] = useState(0);\n  return <Enfant count={count} onInc={() => setCount(c => c + 1)} />;\n}\n\nfunction Enfant({ count, onInc }) {\n  return <button onClick={onInc}>{count}</button>;\n}",
+        options: ["useState doit etre dans l'enfant", "Il faut passer une callback onInc — l'enfant ne peut pas modifier le state du parent", "count + 1 est syntaxiquement invalide", "Les props ne fonctionnent pas dans ce cas"],
+        bonne: 1,
+        explication: "count + 1 est une expression sans effet. L'enfant ne peut pas modifier directement le state du parent — il faut une callback."
+      }
+    ],
+    resume: [
+      { icon: "⬇️", key: "Parent → Enfant", val: "Via props — lecture seule" },
+      { icon: "⬆️", key: "Enfant → Parent", val: "Via callback passee en prop" },
+      { icon: "🏗️", key: "Lifting state up", val: "Etat vers le parent commun" },
+      { icon: "👶", key: "children", val: "Contenu entre les balises" }
+    ]
+  },
+  {
+    id: "r10",
+    num: 10,
+    tag: "React &middot; Le&ccedil;on 10",
+    title: "Fetch + React",
+    sub: "Donn&eacute;es dynamiques",
+    pourquoi: "La combo useState + useEffect + fetch est le pattern fondamental pour afficher des donn&eacute;es d&rsquo;API en React. 90% des composants de Kora utilisent ce pattern.",
+    exemple: "Catalogue Kora : useEffect fetche les formations au montage, les stocke dans le state, React affiche automatiquement.",
+    exemples: [
+      { label: "Le pattern complet", code: "function ListePosts() {\n  const [posts, setPosts] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n\n  useEffect(() => {\n    async function charger() {\n      try {\n        const res = await fetch('/api/posts');\n        const data = await res.json();\n        setPosts(data);\n      } catch(e) {\n        setErreur(e.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n    charger();\n  }, []);\n\n  if (loading) return <div>Chargement...</div>;\n  if (erreur) return <div>Erreur : {erreur}</div>;\n  return posts.map(p => <Post key={p.id} {...p} />);\n}" },
+      { label: "Custom hook reutilisable", code: "function useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n\n  useEffect(() => {\n    fetch(url)\n      .then(r => r.json())\n      .then(d => { setData(d); setLoading(false); })\n      .catch(e => { setErreur(e.message); setLoading(false); });\n  }, [url]);\n\n  return { data, loading, erreur };\n}\n\n// Utilisation\nconst { data: formations, loading } = useFetch('/api/formations');" }
+    ],
+    regles: [
+      { prop: "useState + useEffect + fetch", expl: "Le trio fondamental pour les composants avec donnees." },
+      { prop: "loading + erreur", expl: "Toujours gerer les etats intermediaires." },
+      { prop: "finally {}", expl: "Desactive le loading dans tous les cas, succes ou echec." },
+      { prop: "Custom hook", expl: "Extraire la logique fetch en useFetch() pour la reutiliser." }
+    ],
+    code: "function Formations() {\n  const [formations, setFormations] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [erreur, setErreur] = useState(null);\n\n  useEffect(() => {\n    async function charger() {\n      try {\n        const res = await fetch('https://api.kora.io/formations');\n        if (!res.ok) throw new Error('HTTP ' + res.status);\n        setFormations(await res.json());\n      } catch(e) {\n        setErreur(e.message);\n      } finally {\n        setLoading(false);\n      }\n    }\n    charger();\n  }, []);\n\n  if (loading) return <div>Chargement...</div>;\n  if (erreur) return <div>Erreur : {erreur}</div>;\n\n  return (\n    <div className=\"grille\">\n      {formations.map(f => (\n        <CarteFormation key={f.id} {...f} />\n      ))}\n    </div>\n  );\n}",
+    exercices: [
+      {
+        type: "qcm",
+        question: "Pourquoi definir une fonction async DANS useEffect plutot que rendre useEffect async ?",
+        options: ["Convention sans raison", "useEffect doit retourner une fonction de cleanup ou undefined — pas une Promise", "Pour la performance", "useEffect async n'existe pas"],
+        bonne: 1,
+        explication: "useEffect retourne soit undefined, soit une fonction de cleanup. Une fonction async retourne une Promise. React ne sait pas quoi faire d'une Promise en retour."
+      },
+      {
+        type: "completion",
+        question: "Complete le pattern de data-fetching :",
+        labels: ["initialisation loading", "gestion erreur"],
+        bonnes: ["useState(true)", "setErreur(e.message)"],
+        template: "const [data, setData] = useState(null);\nconst [loading, setLoading] = [A];\nconst [erreur, setErreur] = useState(null);\n\nuseEffect(() => {\n  fetch('/api/data')\n    .then(r => r.json())\n    .then(d => { setData(d); setLoading(false); })\n    .catch(e => { [B]; setLoading(false); });\n}, []);"
+      },
+      {
+        type: "memo",
+        question: "Ecrire les 3 etats necessaires pour un fetch : data, loading, erreur.",
+        bonne: "const [data, setData] = useState(null);\nconst [loading, setLoading] = useState(true);\nconst [erreur, setErreur] = useState(null);",
+        indice: "data(null) + loading(true) + erreur(null) — 3 useState",
+        explication: "Trio standard. loading=true au depart pour afficher le spinner immediatement."
+      },
+      {
+        type: "debug",
+        question: "Le composant ne recharge pas quand userId change. Trouve :",
+        codeFaux: "function Profil({ userId }) {\n  const [user, setUser] = useState(null);\n\n  useEffect(() => {\n    fetch('/api/users/' + userId)\n      .then(r => r.json())\n      .then(setUser);\n  }, []); // probleme ici\n}",
+        codeCorrige: "useEffect(() => {\n  fetch('/api/users/' + userId)\n    .then(r => r.json())\n    .then(setUser);\n}, [userId]); // recharge si userId change",
+        options: ["fetch ne fonctionne pas avec + userId", "[] ne recharge pas quand userId change — ajouter userId dans les dependances", "setUser est incorrect", "useEffect ne supporte pas fetch"],
+        bonne: 1,
+        explication: "[] = execute une seule fois au montage. [userId] = re-execute si userId change."
+      }
+    ],
+    resume: [
+      { icon: "🔄", key: "useState+useEffect+fetch", val: "Le trio fondamental" },
+      { icon: "⏳", key: "loading + erreur", val: "Toujours gerer" },
+      { icon: "🧹", key: "finally", val: "Desactive loading dans tous les cas" },
+      { icon: "🪝", key: "Custom hook", val: "useFetch() — reutilisable" }
+    ]
+  }
+];
 
-let currentBloc=null,currentLecon=null;
-const leconDone={},stepDone={},stepCurrent={},stepSel={};
+// ─── STORAGE ─────────────────────────────────────────────────────────
+const STORAGE_KEY = 'kora_academy_react';
 
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  window.scrollTo(0,0);
+function saveData(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
 }
 
-function showHome(){
-  document.getElementById('navEtapes').style.display='none';
-  document.getElementById('progWrap').style.display='none';
-  document.getElementById('headerTitle').textContent='Kora Academy';
-  document.getElementById('breadcrumb').innerHTML='<span class="bcactive">Formations</span>';
-  renderGrid();showPage('home');
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
 }
 
-function showBloc(blocId){
-  currentBloc=BLOCS.find(b=>b.id===blocId);
-  document.getElementById('navEtapes').style.display='none';
-  document.getElementById('progWrap').style.display='none';
-  document.getElementById('headerTitle').textContent=currentBloc.name;
-  document.getElementById('breadcrumb').innerHTML='<span class="bc-link" onclick="showHome()">Formations</span><span class="bcsep"> &rsaquo; </span><span class="bcactive">'+currentBloc.name+'</span>';
-  document.getElementById('blocTitle').innerHTML=currentBloc.icon+' '+currentBloc.name;
-  document.getElementById('blocDesc').innerHTML=currentBloc.desc;
-  const done=currentBloc.lecons.filter(l=>leconDone[l.id]).length;
-  const total=currentBloc.lecons.length;
-  document.getElementById('leconsList').innerHTML=currentBloc.lecons.map((l,i)=>{
-    const d=leconDone[l.id];
-    return '<div class="lecon-item'+(d?' done':'')+'" onclick="showLecon(\x27'+l.id+'\x27)">'+
-      '<div class="lecon-num'+(d?' done-num':'')+'">'+(d?'✓':i+1)+'</div>'+
-      '<div class="lecon-info"><div class="lecon-title">'+l.title+'</div><div class="lecon-sub">'+l.sub+'</div></div>'+
-      '<span class="lecon-badge '+(d?'badge-done':'badge-new')+'">'+(d?'Terminée':'Nouveau')+'</span></div>';
+function getDefaultData() {
+  return {
+    leconsDone: {},      // { r1: true, r2: true, ... }
+    stepsData: {},       // { r1: { current: 'ex2', done: ['intro','cours','ex1'] } }
+    exScores: {},        // { 'r1-ex1': { sel: 2, ok: true } }
+    lastVisited: null,
+    totalTime: 0,
+    startedAt: Date.now()
+  };
+}
+
+let APP = loadData() || getDefaultData();
+
+function save() { saveData(APP); }
+
+// ─── STATE ────────────────────────────────────────────────────────────
+let currentLecon = null;
+
+// ─── UTILS ───────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function getORD(lecon) {
+  return ['intro','cours',...lecon.exercices.map((_,i) => 'ex'+(i+1)),'resume'];
+}
+
+// ─── PROGRESSION ─────────────────────────────────────────────────────
+function getDone() {
+  return LECONS.filter(l => APP.leconsDone[l.id]).length;
+}
+
+function getPct() {
+  return Math.round((getDone() / LECONS.length) * 100);
+}
+
+function updateStats() {
+  const done = getDone();
+  const pct = getPct();
+  const statDone = document.getElementById('statDone');
+  const statPct = document.getElementById('statPct');
+  if (statDone) statDone.textContent = done;
+  if (statPct) statPct.textContent = pct + '%';
+}
+
+// ─── LIST PAGE ───────────────────────────────────────────────────────
+function renderList() {
+  updateStats();
+  const done = getDone();
+  const total = LECONS.length;
+
+  // Update header
+  document.getElementById('htitle').textContent = 'Kora Academy';
+  document.getElementById('progWrap').style.display = 'none';
+  document.getElementById('etapes').style.display = 'none';
+  document.getElementById('bc').innerHTML = '<span class="bca">React &amp; JSX</span>';
+
+  // Lecons list
+  const list = document.getElementById('llist');
+  list.innerHTML = LECONS.map((l, i) => {
+    const d = APP.leconsDone[l.id];
+    return `<div class="litem${d ? ' done' : ''}" data-lecon="${l.id}">
+      <div class="lnum${d ? ' done-n' : ''}">${d ? '&#10003;' : i+1}</div>
+      <div class="linfo">
+        <div class="ltitle">${l.title}</div>
+        <div class="lsub">${l.sub}</div>
+      </div>
+      <span class="lbadge ${d ? 'badge-done' : 'badge-new'}">${d ? 'Termin&#233;e' : 'Nouveau'}</span>
+    </div>`;
   }).join('');
-  const allDone=done===total&&total>0;
-  document.getElementById('evalZone').innerHTML='<div class="eval-card"><h3>&#127919; Évaluation '+currentBloc.name+'</h3>'+
-    '<p>Compl&egrave;te toutes les le&ccedil;ons pour d&eacute;bloquer l&#39;&eacute;valuation et gagner tes tokens KRT.</p>'+
-    (allDone?'<button class="btn btn-p" onclick="alert(\x27Evaluation a venir !\x27)">Commencer l&#39;&eacute;valuation &rarr;</button>':
-    '<button class="btn btn-g" disabled>Commencer l&#39;&eacute;valuation &rarr;</button><p class="eval-lock">'+done+'/'+total+' leçons terminées</p>')+'</div>';
-  showPage('bloc');
+
+  // Eval zone
+  const allDone = done === total && total > 0;
+  document.getElementById('evalZone').innerHTML = `
+    <div class="eval-card">
+      <h3>&#127919; &#201;valuation React &amp; JSX</h3>
+      <p>Compl&#232;te toutes les le&#231;ons pour d&#233;bloquer l&#8217;&#233;valuation et gagner tes tokens KRT.</p>
+      ${allDone
+        ? '<button class="btn btn-p" id="startEval">Commencer l&#8217;&#233;valuation &rarr;</button>'
+        : `<button class="btn btn-g" disabled>Commencer l&#8217;&#233;valuation &rarr;</button>
+           <p class="eval-lock">${done}/${total} le&#231;ons termin&#233;es</p>`
+      }
+    </div>`;
+
+  // Event delegation for list items
+  list.onclick = (e) => {
+    const item = e.target.closest('.litem');
+    if (item) showLecon(item.dataset.lecon);
+  };
+
+  if (allDone) {
+    document.getElementById('startEval').onclick = () => {
+      alert('Evaluation a venir !');
+    };
+  }
+
+  showPage('list');
 }
 
-function showLecon(leconId){
-  let found=null;
-  for(const b of BLOCS){found=b.lecons.find(l=>l.id===leconId);if(found){currentBloc=b;break;}}
-  if(!found)return;
-  currentLecon=found;
-  if(!stepDone[leconId])stepDone[leconId]=new Set();
-  if(!stepCurrent[leconId])stepCurrent[leconId]='intro';
-  document.getElementById('leconTag').innerHTML=currentLecon.tag||'';
-  document.getElementById('leconH1').innerHTML=currentLecon.title+' &mdash; <span class="grad">'+currentLecon.sub+'</span>';
-  document.getElementById('headerTitle').textContent=currentLecon.title;
-  document.getElementById('breadcrumb').innerHTML='<span class="bc-link" onclick="showHome()">Formations</span><span class="bcsep"> &rsaquo; </span>'+
-    '<span class="bc-link" onclick="showBloc(\x27'+currentBloc.id+'\x27)">'+currentBloc.name+'</span><span class="bcsep"> &rsaquo; </span>'+
-    '<span class="bcactive">'+currentLecon.title+'</span>';
-  document.getElementById('progWrap').style.display='flex';
-  renderLecon();showPage('lecon');
+// ─── LECON PAGE ──────────────────────────────────────────────────────
+function showLecon(leconId) {
+  currentLecon = LECONS.find(l => l.id === leconId);
+  if (!currentLecon) return;
+
+  // Init lecon data if needed
+  if (!APP.stepsData[leconId]) {
+    APP.stepsData[leconId] = { current: 'intro', done: [] };
+    save();
+  }
+
+  APP.lastVisited = leconId;
+  save();
+
+  // Header
+  document.getElementById('htitle').textContent = currentLecon.title;
+  document.getElementById('progWrap').style.display = 'flex';
+  document.getElementById('bc').innerHTML = `
+    <span class="bcl" id="bcHome">React &amp; JSX</span>
+    <span class="bcs"> &rsaquo; </span>
+    <span class="bca">${currentLecon.title}</span>`;
+
+  document.getElementById('bcHome').onclick = () => renderList();
+  document.getElementById('ltag').innerHTML = currentLecon.tag;
+  document.getElementById('lh').innerHTML = currentLecon.title + ' &mdash; <span class="grad">' + currentLecon.sub + '</span>';
+
+  renderLecon();
+  showPage('lecon');
 }
 
-function getORD(lecon){return['intro','cours',...lecon.exercices.map((_,i)=>'ex'+(i+1)),'resume'];}
+function renderLecon() {
+  if (!currentLecon) return;
+  const lid = currentLecon.id;
+  const sd = APP.stepsData[lid];
+  const ORD = getORD(currentLecon);
+  const cur = sd.current;
+  const labels = ['Intro','Cours',...currentLecon.exercices.map((_,i) => 'Ex.'+(i+1)),'R&#233;sum&#233;'];
 
-function renderLecon(){
-  if(!currentLecon)return;
-  const lid=currentLecon.id,ORD=getORD(currentLecon),cur=stepCurrent[lid];
-  const labels=['Intro','Cours',...currentLecon.exercices.map((_,i)=>'Ex.'+(i+1)),'Résumé'];
-  document.getElementById('navEtapes').style.display='flex';
-  document.getElementById('navEtapes').innerHTML=ORD.map((sid,i)=>{
-    const d=stepDone[lid].has(sid),a=sid===cur;
-    return '<button class="etape-btn '+(d?'done':a?'active':'')+'" onclick="goStep(\x27'+sid+'\x27)">'+
-      '<span class="etape-dot '+(d?'done':a?'active':'lock')+'">'+(d?'✓':i+1)+'</span>'+labels[i]+'</button>';
+  // Etapes nav
+  const etapes = document.getElementById('etapes');
+  etapes.style.display = 'flex';
+  etapes.innerHTML = ORD.map((sid, i) => {
+    const done = sd.done.includes(sid);
+    const active = sid === cur;
+    const cls = done ? 'done' : active ? 'active' : '';
+    const dcls = done ? 'done' : active ? 'active' : 'idle';
+    return `<button class="etape ${cls}" data-step="${sid}">
+      <span class="edot ${dcls}">${done ? '&#10003;' : i+1}</span>${labels[i]}
+    </button>`;
   }).join('');
-  const pct=Math.round((ORD.indexOf(cur)/(ORD.length-1))*100);
-  document.getElementById('progFill').style.width=pct+'%';
-  document.getElementById('progPct').textContent=pct+'%';
-  document.getElementById('leconScreens').innerHTML=renderScreen(cur,currentLecon,ORD);
+
+  // Progress bar
+  const idx = ORD.indexOf(cur);
+  const pct = Math.round((idx / (ORD.length - 1)) * 100);
+  document.getElementById('pfill').style.width = pct + '%';
+  document.getElementById('ppct').textContent = pct + '%';
+
+  // Event delegation for etapes
+  etapes.onclick = (e) => {
+    const btn = e.target.closest('.etape');
+    if (btn) goStep(btn.dataset.step);
+  };
+
+  // Render screen
+  document.getElementById('screens').innerHTML = renderScreen(cur);
+  bindScreenEvents();
 }
 
-function renderScreen(cur,lecon,ORD){
-  const lid=lecon.id,next=ORD[ORD.indexOf(cur)+1];
-  if(cur==='intro'){
-    const exs=(lecon.exemples||[]).map(ex=>'<div class="exbl"><div class="exbl-lbl">'+ex.label+'</div><pre>'+esc(ex.code)+'</pre></div>').join('');
-    return '<div class="screen active"><div class="card card-warm"><p class="slabel">Pourquoi tu as besoin de ça</p><p class="btext">'+lecon.pourquoi+'</p>'+
-      (lecon.exemple?'<div class="hint"><span style="color:var(--b3);flex-shrink:0;margin-top:2px">&#9672;</span><span class="hint-text">'+lecon.exemple+'</span></div>':'')+'</div>'+
-      (exs?'<div class="card"><p class="slabel">Exemples dans ce cours</p>'+exs+'</div>':'')+
-      '<button class="btn btn-p" onclick="goStep(\x27cours\x27)">Commencer &rarr;</button></div>';
+function renderScreen(cur) {
+  const lecon = currentLecon;
+  const lid = lecon.id;
+  const ORD = getORD(lecon);
+  const next = ORD[ORD.indexOf(cur) + 1];
+
+  if (cur === 'intro') {
+    const exs = (lecon.exemples || []).map(ex =>
+      `<div class="exbl"><span class="exbl-lbl">${ex.label}</span><pre>${esc(ex.code)}</pre></div>`
+    ).join('');
+    return `<div class="screen active">
+      <div class="card card-warm">
+        <span class="slabel">Pourquoi tu as besoin de &#231;a</span>
+        <p class="btext">${lecon.pourquoi}</p>
+        ${lecon.exemple ? `<div class="hint"><span style="color:var(--b3);flex-shrink:0;margin-top:2px">&#9672;</span><span class="htx">${lecon.exemple}</span></div>` : ''}
+      </div>
+      ${exs ? `<div class="card"><span class="slabel">Exemples dans ce cours</span>${exs}</div>` : ''}
+      <button class="btn btn-p" data-goto="cours">Commencer &rarr;</button>
+    </div>`;
   }
-  if(cur==='cours'){
-    const reg=lecon.regles.map((r,i)=>'<div class="regle"><span class="rprop">'+r.prop+'</span><span class="reff">'+r.expl+'</span></div>').join('');
-    return '<div class="screen active"><div class="card"><p class="slabel">Les règles à retenir</p><div class="regles">'+reg+'</div></div>'+
-      '<div class="card"><p class="slabel">Exemple — lis chaque ligne</p><pre>'+esc(lecon.code)+'</pre></div>'+
-      '<button class="btn btn-p" onclick="goStep(\x27ex1\x27)">Je comprends — exercice &rarr;</button></div>';
+
+  if (cur === 'cours') {
+    const regs = lecon.regles.map(r =>
+      `<div class="regle"><span class="rprop">${r.prop}</span><span class="reff">${r.expl}</span></div>`
+    ).join('');
+    return `<div class="screen active">
+      <div class="card">
+        <span class="slabel">Les r&#232;gles &#224; retenir</span>
+        <div class="regles">${regs}</div>
+      </div>
+      <div class="card">
+        <span class="slabel">Exemple &mdash; lis chaque ligne</span>
+        <pre>${esc(lecon.code)}</pre>
+      </div>
+      <button class="btn btn-p" data-goto="ex1">Je comprends &mdash; exercice &rarr;</button>
+    </div>`;
   }
-  if(cur==='resume'){
-    const items=lecon.resume.map(r=>'<div class="resume-item"><div class="resume-icon">'+r.icon+'</div><div class="resume-key">'+r.key+'</div><div class="resume-val">'+r.val+'</div></div>').join('');
-    return '<div class="screen active"><div class="card card-warm"><p class="slabel">&#10022; Ce que tu retiens</p><div class="resume-grid">'+items+'</div>'+
-      '<div class="rfooter"><p>Les tokens KRT sont accordés à la fin de l&#39;&eacute;valuation du bloc selon ta note.</p></div></div>'+
-      '<div class="brow"><button class="btn btn-g" onclick="goStep(\x27intro\x27)">&#8592; Revoir</button>'+
-      '<button class="btn btn-p" onclick="finirLecon()">Leçon suivante &rarr;</button></div></div>';
+
+  if (cur === 'resume') {
+    const items = lecon.resume.map(r =>
+      `<div class="ri"><div class="ric">${r.icon}</div><div class="rik">${r.key}</div><div class="riv">${r.val}</div></div>`
+    ).join('');
+    return `<div class="screen active">
+      <div class="card card-warm">
+        <span class="slabel">&#10022; Ce que tu retiens</span>
+        <div class="rgrid">${items}</div>
+        <div class="rfooter"><p>Les tokens KRT sont accord&#233;s &agrave; la fin de l&#8217;&#233;valuation selon ta note.</p></div>
+      </div>
+      <div class="brow">
+        <button class="btn btn-g" data-goto="intro">&#8592; Revoir</button>
+        <button class="btn btn-p" id="finBtn">Le&#231;on suivante &rarr;</button>
+      </div>
+    </div>`;
   }
-  const exIdx=parseInt(cur.replace('ex',''))-1;
-  const ex=lecon.exercices[exIdx];
-  const sk=lid+'-'+cur;
-  const typeLbl={qcm:'QCM',completion:'Compléter',memo:'Mémo',debug:'Déboguer'}[ex.type];
-  const tagC={qcm:'tag-b',completion:'tag-a',memo:'tag-memo',debug:'tag-debug'}[ex.type];
-  let inner='';
-  if(ex.type==='qcm'||ex.type==='debug'){
-    const opts=ex.options.map((o,i)=>'<button class="opt" id="opt-'+sk+'-'+i+'" onclick="selOpt(\x27'+sk+'\x27,'+i+')"><span class="oltr">'+['A','B','C','D'][i]+'.</span>'+o+'</button>').join('');
-    const codeF=ex.type==='debug'?'<p class="slabel" style="margin-top:.5rem">Code avec erreur</p><pre>'+esc(ex.codeFaux)+'</pre>':'';
-    const vFn=ex.type==='debug'?
-      'valDebug(\x27'+sk+'\x27,'+ex.bonne+',\x27'+next+'\x27,\x27'+escQ(ex.explication)+'\x27,\x27'+escQ(ex.codeCorrige)+'\x27)':
-      'valQCM(\x27'+sk+'\x27,'+ex.bonne+',\x27'+next+'\x27,\x27'+escQ(ex.explication)+'\x27)';
-    inner='<p class="btext">'+ex.question+'</p>'+codeF+'<div class="opts" id="opts-'+sk+'">'+opts+'</div><div id="fb-'+sk+'"></div><div class="brow"><button class="btn btn-p" id="val-'+sk+'" onclick="'+vFn+'" disabled>Valider &rarr;</button></div>';
+
+  // Exercice
+  const exIdx = parseInt(cur.replace('ex','')) - 1;
+  const ex = lecon.exercices[exIdx];
+  const sk = lid + '-' + cur;
+  const saved = APP.exScores[sk];
+  const typeLbl = { qcm:'QCM', completion:'Compl&#233;ter', memo:'M&#233;mo', debug:'D&#233;boguer' }[ex.type];
+  const tagCls = { qcm:'tag-b', completion:'tag-a', memo:'tag-memo', debug:'tag-debug' }[ex.type];
+
+  let inner = '';
+
+  if (ex.type === 'qcm' || ex.type === 'debug') {
+    const opts = ex.options.map((o, i) => {
+      let cls = '';
+      if (saved) {
+        if (i === ex.bonne) cls = 'ok';
+        else if (i === saved.sel && saved.sel !== ex.bonne) cls = 'ko';
+      }
+      return `<button class="opt${cls ? ' '+cls : ''}" data-idx="${i}" ${saved?'disabled':''}><span class="oltr">${['A','B','C','D'][i]}.</span>${o}</button>`;
+    }).join('');
+    const codeF = ex.type === 'debug' ? `<span class="slabel" style="margin-top:.5rem">Code avec erreur</span><pre>${esc(ex.codeFaux)}</pre>` : '';
+    const fb = saved ? `<div class="fb ${saved.ok?'ok':'ko'}"><p class="fbt">${saved.ok?'&#10003; Correct':'&#10007; Pas tout &#224; fait'}</p><p class="fbx">${ex.explication}</p>
+      ${ex.type==='debug' ? `<span class="slabel" style="margin-top:.8rem">Code corrig&#233;</span><pre style="margin-top:.4rem">${esc(ex.codeCorrige)}</pre>` : ''}
+      ${saved.ok ? `<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>` : `<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
+    </div>` : '';
+    inner = `<p class="btext">${ex.question}</p>${codeF}<div class="opts" id="opts-${sk}">${opts}</div><div id="fb-${sk}">${fb}</div>
+      ${!saved ? `<div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>Valider &rarr;</button></div>` : ''}`;
   }
-  if(ex.type==='completion'){
-    const inputs=ex.labels.map((lbl,i)=>'<div class="igrp"><label>'+['A','B','C'][i]+' &mdash; '+lbl+'</label><input id="inp-'+sk+'-'+i+'" placeholder="ta réponse…" oninput="upComp(\x27'+sk+'\x27,'+ex.labels.length+','+JSON.stringify(ex.bonnes)+','+JSON.stringify(ex.template)+')"></div>').join('');
-    const initPrev=ex.template.replace(/\[A\]/g,'[?]').replace(/\[B\]/g,'[?]').replace(/\[C\]/g,'[?]');
-    inner='<p class="btext">'+ex.question+'</p><div class="irow">'+inputs+'</div><pre id="prev-'+sk+'">'+esc(initPrev)+'</pre><div id="fb-'+sk+'"></div><div class="brow"><button class="btn btn-p" id="val-'+sk+'" onclick="valComp(\x27'+sk+'\x27,'+ex.labels.length+','+JSON.stringify(ex.bonnes)+',\x27'+next+'\x27)" disabled>Valider &rarr;</button></div>';
+
+  if (ex.type === 'completion') {
+    const inputs = ex.labels.map((lbl, i) => {
+      const v = saved ? saved.vals[i] || '' : '';
+      const cls = saved ? (saved.valOk[i] ? ' ok' : ' ko') : '';
+      return `<div class="igrp"><label>${['A','B','C'][i]} &mdash; ${lbl}</label><input data-comp="${sk}" data-ci="${i}" value="${v}" ${saved?'disabled':''} placeholder="ta r&#233;ponse&hellip;" class="${cls.trim()}"></div>`;
+    }).join('');
+    const prev = saved ? ex.template.replace(/\[A\]/g, saved.vals[0]||'?').replace(/\[B\]/g, saved.vals[1]||'?').replace(/\[C\]/g, saved.vals[2]||'?') : ex.template.replace(/\[A\]/g,'[?]').replace(/\[B\]/g,'[?]').replace(/\[C\]/g,'[?]');
+    const fb = saved ? `<div class="fb ${saved.ok?'ok':'ko'}"><p class="fbt">${saved.ok?'&#10003; Correct':'&#10007; Attendu : '+ex.bonnes.join(' &middot; ')}</p>
+      ${saved.ok ? `<div class="brow"><button class="btn btn-o" data-goto="${next}">Suivant &rarr;</button></div>` : `<div class="brow"><button class="btn btn-g" data-redo="${sk}">R&#233;essayer</button></div>`}
+    </div>` : '';
+    inner = `<p class="btext">${ex.question}</p><div class="irow">${inputs}</div><pre id="prev-${sk}">${esc(prev)}</pre><div id="fb-${sk}">${fb}</div>
+      ${!saved ? `<div class="brow"><button class="btn btn-p" id="val-${sk}" disabled>Valider &rarr;</button></div>` : ''}`;
   }
-  if(ex.type==='memo'){
-    inner='<p class="btext">'+ex.question+'</p><div class="card card-blue" style="text-align:center;padding:1.2rem;margin-bottom:1rem"><p style="font-size:.7rem;color:var(--arc);font-family:monospace;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem">INDICE</p><p style="font-family:Fraunces,serif;font-size:.95rem;color:var(--text)">'+ex.indice+'</p></div><textarea class="memo-input" id="memo-'+sk+'" placeholder="Écris ta réponse sans regarder le cours…" rows="3"></textarea><div id="fb-'+sk+'"></div><div class="brow"><button class="btn btn-p" onclick="valMemo(\x27'+sk+'\x27,\x27'+escQ(ex.bonne)+'\x27,\x27'+next+'\x27,\x27'+escQ(ex.explication)+'\x27)">Vérifier &rarr;</button><button class="btn btn-g" onclick="showMA(\x27'+sk+'\x27,\x27'+escQ(ex.bonne)+'\x27)">Voir la réponse</button></div>';
+
+  if (ex.type === 'memo') {
+    const fb = saved ? `<div class="card card-blue" style="margin-top:.8rem"><span class="slabel" style="color:var(--arc)">Ta r&#233;ponse</span><pre style="background:transparent;border:none;padding:0">${esc(saved.input)}</pre></div>
+      <div class="card card-warm" style="margin-top:.8rem"><span class="slabel">R&#233;ponse attendue</span><pre style="background:transparent;border:none;padding:0">${esc(ex.bonne)}</pre><p style="font-size:.82rem;color:var(--muted);margin-top:.6rem;line-height:1.6">${ex.explication}</p></div>` : '';
+    inner = `<p class="btext">${ex.question}</p>
+      <div class="card card-blue" style="text-align:center;padding:1.2rem;margin-bottom:1rem">
+        <p style="font-size:.68rem;color:var(--arc);font-family:monospace;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem">INDICE</p>
+        <p style="font-family:Fraunces,serif;font-size:.93rem;color:var(--text)">${ex.indice}</p>
+      </div>
+      ${!saved ? `<textarea class="memo" id="memo-${sk}" placeholder="&#201;cris ta r&#233;ponse sans regarder le cours&hellip;" rows="3"></textarea>` : ''}
+      <div id="fb-${sk}">${fb}</div>
+      ${!saved ? `<div class="brow">
+        <button class="btn btn-p" id="val-${sk}">V&#233;rifier &rarr;</button>
+        <button class="btn btn-g" data-show-answer="${sk}">Voir la r&#233;ponse</button>
+      </div>` : `<div class="brow">
+        <button class="btn btn-memo btn-ok" data-goto="${next}">&#10003; J&#8217;avais bon</button>
+        <button class="btn btn-memo btn-ko-m" data-goto="${next}">&#10007; &#192; retenir</button>
+      </div>`}`;
   }
-  return '<div class="screen active"><div class="card"><div class="trow"><span class="tag tag-a">Exercice '+(exIdx+1)+' / '+lecon.exercices.length+'</span><span class="tag '+tagC+'">'+typeLbl+'</span></div>'+inner+'</div></div>';
+
+  return `<div class="screen active">
+    <div class="card">
+      <div class="trow">
+        <span class="tag tag-a">Exercice ${exIdx+1} / ${lecon.exercices.length}</span>
+        <span class="tag ${tagCls}">${typeLbl}</span>
+      </div>
+      ${inner}
+    </div>
+  </div>`;
 }
 
-function goStep(sid){
-  if(!currentLecon)return;
-  const lid=currentLecon.id;
-  stepDone[lid].add(stepCurrent[lid]);
-  stepCurrent[lid]=sid;
-  renderLecon();window.scrollTo(0,0);
-}
+function bindScreenEvents() {
+  const lecon = currentLecon;
+  const lid = lecon.id;
+  const ORD = getORD(lecon);
+  const cur = APP.stepsData[lid].current;
+  const next = ORD[ORD.indexOf(cur) + 1];
 
-function finirLecon(){
-  if(!currentLecon)return;
-  leconDone[currentLecon.id]=true;
-  showBloc(currentBloc.id);
-}
-
-function selOpt(sk,idx){
-  stepSel[sk]=idx;
-  document.querySelectorAll('#opts-'+sk+' .opt').forEach(o=>o.classList.remove('sel'));
-  document.getElementById('opt-'+sk+'-'+idx)?.classList.add('sel');
-  const v=document.getElementById('val-'+sk);
-  if(v)v.disabled=false;
-}
-
-function valQCM(sk,bonne,next,expl){
-  const sel=stepSel[sk];if(sel===undefined)return;
-  const ok=sel===bonne;
-  document.querySelectorAll('#opts-'+sk+' .opt').forEach((o,i)=>{
-    o.onclick=null;o.style.cursor='default';
-    if(i===bonne)o.className='opt ok';
-    else if(i===sel&&!ok)o.className='opt ko';
+  // data-goto buttons
+  document.querySelectorAll('[data-goto]').forEach(btn => {
+    btn.onclick = () => goStep(btn.dataset.goto);
   });
-  showFb(sk,ok,expl,next);
-  document.getElementById('val-'+sk).style.display='none';
-}
 
-function valDebug(sk,bonne,next,expl,codeCorrige){
-  const sel=stepSel[sk];if(sel===undefined)return;
-  const ok=sel===bonne;
-  document.querySelectorAll('#opts-'+sk+' .opt').forEach((o,i)=>{
-    o.onclick=null;o.style.cursor='default';
-    if(i===bonne)o.className='opt ok';
-    else if(i===sel&&!ok)o.className='opt ko';
+  // fin button
+  const finBtn = document.getElementById('finBtn');
+  if (finBtn) finBtn.onclick = () => finirLecon();
+
+  // logo
+  document.getElementById('logoBtn').onclick = () => renderList();
+  document.getElementById('navList').onclick = () => renderList();
+
+  const exIdx = parseInt(cur.replace('ex','')) - 1;
+  if (isNaN(exIdx)) return;
+  const ex = lecon.exercices[exIdx];
+  const sk = lid + '-' + cur;
+
+  // QCM / Debug
+  if (ex.type === 'qcm' || ex.type === 'debug') {
+    const valBtn = document.getElementById('val-' + sk);
+    let sel = null;
+
+    document.querySelectorAll('.opt:not([disabled])').forEach(opt => {
+      opt.onclick = () => {
+        sel = parseInt(opt.dataset.idx);
+        document.querySelectorAll('.opt').forEach(o => o.classList.remove('sel'));
+        opt.classList.add('sel');
+        if (valBtn) valBtn.disabled = false;
+      };
+    });
+
+    if (valBtn) {
+      valBtn.onclick = () => {
+        if (sel === null) return;
+        const ok = sel === ex.bonne;
+        APP.exScores[sk] = { sel, ok };
+        save();
+        renderLecon();
+      };
+    }
+  }
+
+  // Completion
+  if (ex.type === 'completion') {
+    const valBtn = document.getElementById('val-' + sk);
+    const inputs = document.querySelectorAll('[data-comp="' + sk + '"]');
+    const prev = document.getElementById('prev-' + sk);
+
+    function updatePrev() {
+      let t = ex.template;
+      inputs.forEach((inp, i) => {
+        t = t.replace(['[A]','[B]','[C]'][i], inp.value || ['[?]','[?]','[?]'][i]);
+      });
+      if (prev) prev.textContent = t;
+      if (valBtn) valBtn.disabled = !Array.from(inputs).every(inp => inp.value.trim());
+    }
+
+    inputs.forEach(inp => { inp.oninput = updatePrev; });
+
+    if (valBtn) {
+      valBtn.onclick = () => {
+        const vals = Array.from(inputs).map(inp => inp.value.trim());
+        const valOk = vals.map((v, i) => v.toLowerCase() === ex.bonnes[i].toLowerCase());
+        const ok = valOk.every(Boolean);
+        APP.exScores[sk] = { vals, valOk, ok };
+        save();
+        renderLecon();
+      };
+    }
+  }
+
+  // Memo
+  if (ex.type === 'memo') {
+    const valBtn = document.getElementById('val-' + sk);
+    const showAns = document.querySelector('[data-show-answer="' + sk + '"]');
+
+    if (valBtn) {
+      valBtn.onclick = () => {
+        const input = document.getElementById('memo-' + sk);
+        if (!input || !input.value.trim()) return;
+        APP.exScores[sk] = { input: input.value.trim(), shown: false };
+        save();
+        renderLecon();
+      };
+    }
+
+    if (showAns) {
+      showAns.onclick = () => {
+        const fb = document.getElementById('fb-' + sk);
+        if (fb) fb.innerHTML = `<div class="card card-warm"><span class="slabel">R&#233;ponse</span><pre style="background:transparent;border:none;padding:0">${esc(ex.bonne)}</pre></div>`;
+      };
+    }
+  }
+
+  // data-redo
+  document.querySelectorAll('[data-redo]').forEach(btn => {
+    btn.onclick = () => {
+      delete APP.exScores[btn.dataset.redo];
+      save();
+      renderLecon();
+    };
   });
-  const extra='<div style="margin-top:1rem"><p class="slabel">Code corrigé</p><pre>'+esc(codeCorrige)+'</pre></div>';
-  showFb(sk,ok,expl,next,extra);
-  document.getElementById('val-'+sk).style.display='none';
 }
 
-function upComp(sk,n,bonnes,template){
-  let t=template;
-  for(let i=0;i<n;i++){const v=document.getElementById('inp-'+sk+'-'+i)?.value||['[?]','[?]','[?]'][i];t=t.replace(['[A]','[B]','[C]'][i],v);}
-  document.getElementById('prev-'+sk).textContent=t;
-  const filled=Array.from({length:n},(_,i)=>document.getElementById('inp-'+sk+'-'+i)?.value).every(Boolean);
-  const v=document.getElementById('val-'+sk);if(v)v.disabled=!filled;
+// ─── NAVIGATION ──────────────────────────────────────────────────────
+function goStep(sid) {
+  if (!currentLecon) return;
+  const lid = currentLecon.id;
+  const sd = APP.stepsData[lid];
+  if (!sd.done.includes(sd.current)) sd.done.push(sd.current);
+  sd.current = sid;
+  save();
+  renderLecon();
+  window.scrollTo(0, 0);
 }
 
-function valComp(sk,n,bonnes,next){
-  const vals=Array.from({length:n},(_,i)=>document.getElementById('inp-'+sk+'-'+i)?.value?.trim()?.toLowerCase());
-  const ok=vals.every((v,i)=>v===bonnes[i].toLowerCase());
-  Array.from({length:n},(_,i)=>{const e=document.getElementById('inp-'+sk+'-'+i);if(e){e.className=ok?'ok':'ko';e.disabled=true;}});
-  showFb(sk,ok,ok?'':'Réponses attendues : '+bonnes.join(' · '),next);
-  document.getElementById('val-'+sk).style.display='none';
+function finirLecon() {
+  if (!currentLecon) return;
+  APP.leconsDone[currentLecon.id] = true;
+  save();
+  renderList();
 }
 
-function valMemo(sk,bonne,next,expl){
-  const input=document.getElementById('memo-'+sk)?.value?.trim();if(!input)return;
-  const fb=document.getElementById('fb-'+sk);
-  fb.innerHTML='<div class="card card-blue" style="margin-top:.8rem"><p class="slabel" style="color:var(--arc)">Ta réponse</p><pre style="background:transparent;border:none;padding:0">'+esc(input)+'</pre></div>'+
-    '<div class="card card-warm" style="margin-top:.8rem"><p class="slabel">Réponse attendue</p><pre style="background:transparent;border:none;padding:0">'+esc(bonne)+'</pre>'+
-    '<p style="font-size:.82rem;color:var(--muted);margin-top:.6rem;line-height:1.6">'+expl+'</p></div>'+
-    '<div class="brow" style="margin-top:1rem"><button class="btn-memo btn-memo-ok" onclick="goStep(\x27'+next+'\x27)">✓ J&#39;avais bon</button>'+
-    '<button class="btn-memo btn-memo-ko" onclick="goStep(\x27'+next+'\x27)">✗ À retenir</button></div>';
-  document.getElementById('memo-'+sk).style.display='none';
+// ─── INIT ─────────────────────────────────────────────────────────────
+document.getElementById('logoBtn').onclick = () => renderList();
+document.getElementById('navList').onclick = () => renderList();
+
+// Resume last visited lecon or show list
+if (APP.lastVisited && !APP.leconsDone[APP.lastVisited]) {
+  showLecon(APP.lastVisited);
+} else {
+  renderList();
 }
-
-function showMA(sk,bonne){
-  document.getElementById('fb-'+sk).innerHTML='<div class="card card-warm" style="margin-top:.8rem"><p class="slabel">Réponse</p><pre style="background:transparent;border:none;padding:0">'+esc(bonne)+'</pre></div>';
-}
-
-function showFb(sk,ok,expl,next,extra=''){
-  const nb=ok?'<div class="brow"><button class="btn btn-o" onclick="goStep(\x27'+next+'\x27)">Suivant &rarr;</button></div>':
-    '<div class="brow"><button class="btn btn-g" onclick="rstStep(\x27'+sk+'\x27)">Réessayer</button></div>';
-  document.getElementById('fb-'+sk).innerHTML='<div class="fb '+(ok?'ok':'ko')+'"><p class="fb-t">'+(ok?'&#10003; Correct':'&#10007; Pas tout à fait')+'</p><p class="fb-x">'+expl+'</p>'+nb+'</div>'+extra;
-}
-
-function rstStep(sk){
-  stepSel[sk]=undefined;
-  document.querySelectorAll('#opts-'+sk+' .opt').forEach((o,i)=>{o.className='opt';o.style.cursor='pointer';o.onclick=()=>selOpt(sk,i);});
-  let i=0;while(document.getElementById('inp-'+sk+'-'+i)){const e=document.getElementById('inp-'+sk+'-'+i);e.value='';e.className='';e.disabled=false;i++;}
-  const v=document.getElementById('val-'+sk);if(v){v.style.display='inline-flex';v.disabled=true;}
-  document.getElementById('fb-'+sk).innerHTML='';
-}
-
-function renderGrid(){
-  document.getElementById('blocsGrid').innerHTML=BLOCS.map(b=>{
-    const done=b.lecons.filter(l=>leconDone[l.id]).length;
-    const pct=b.lecons.length?Math.round((done/b.lecons.length)*100):0;
-    return '<div class="bloc-card" onclick="showBloc(\x27'+b.id+'\x27)">'+
-      '<div class="bloc-icon">'+b.icon+'</div>'+
-      '<div class="bloc-name">'+b.name+'</div>'+
-      '<div class="bloc-desc">'+b.desc+'</div>'+
-      '<div class="bloc-meta"><span class="bloc-count">'+b.lecons.length+' leçon'+(b.lecons.length>1?'s':'')+'</span>'+
-      '<div class="bloc-prog-bar"><div class="bloc-prog-fill" style="width:'+pct+'%"></div></div></div></div>';
-  }).join('');
-}
-
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function escQ(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
-
-renderGrid();
 </script>
 </body>
 </html>
